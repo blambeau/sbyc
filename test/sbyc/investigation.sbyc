@@ -1,0 +1,12 @@
+$LOAD_PATH.unshift(File.dirname(__FILE__), '..', '..', 'lib')
+require 'sbyc'
+
+c = variable(::SByC::Builtin::Integer, ::SByC::Builtin::Integer[12])
+valid_initializations = [
+  12, ::SByC::Builtin::Integer[12], c
+]
+valid_initializations.each do |i|
+  x = variable(::SByC::Builtin::Integer, i)
+  assert(::SByC::Builtin::Integer == x.type)
+  assert(::SByC::Builtin::Integer[12] == x.value)  
+end

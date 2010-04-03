@@ -1,0 +1,4 @@
+SByC::Builtin::Integer = SByC::System::BuiltinType(Integer)
+# operator(:+, [SByC::Builtin::Integer, SByC::Builtin::Integer], SByC::Builtin::Integer) {
+#   SByC::Builtin::Integer[$1 + $2]
+# }
