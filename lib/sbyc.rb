@@ -15,4 +15,3 @@ require 'sbyc/errors'
 require 'sbyc/variable'
 require 'sbyc/system'
 require 'sbyc/builtin'
-extend SByC::System

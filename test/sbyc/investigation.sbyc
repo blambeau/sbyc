@@ -1,12 +1,18 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__), '..', '..', 'lib')
-require 'sbyc'
+require 'sbyc/engine'
 
-c = variable(::SByC::Builtin::Integer, ::SByC::Builtin::Integer[12])
-valid_initializations = [
-  12, ::SByC::Builtin::Integer[12], c
-]
-valid_initializations.each do |i|
-  x = variable(::SByC::Builtin::Integer, i)
+assert_nothing_raised {
+  x = variable(::SByC::Builtin::Integer, 12)
   assert(::SByC::Builtin::Integer == x.type)
   assert(::SByC::Builtin::Integer[12] == x.value)  
-end
+
+  y = variable(::SByC::Builtin::Integer, x)
+  assert(::SByC::Builtin::Integer == y.type)
+  assert(::SByC::Builtin::Integer[12] == y.value)  
+}
+assert_raise(::SByC::TypeError) {
+  ::SByC::Builtin::Integer["blabla"]  
+}
+assert_raise(::SByC::TypeError) {
+  ::SByC::Builtin::Integer[nil]  
+}

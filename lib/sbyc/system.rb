@@ -14,11 +14,6 @@ module SByC
       clazz
     end
     
-    # Asserts something is true
-    def assert(something, msg = "Assertion failed: expected false to be true")
-      raise ::SByC::AssertionError, msg, caller unless something
-    end
-    
     extend(System)
   end # module System
 end # module SByC
