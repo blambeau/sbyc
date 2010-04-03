@@ -6,5 +6,6 @@ SByC::System::wrap_ruby_operator(:<, [SByC::Builtin::Integer, SByC::Builtin::Int
 SByC::System::wrap_ruby_operator(:>=, [SByC::Builtin::Integer, SByC::Builtin::Integer], SByC::Builtin::Boolean)
 SByC::System::wrap_ruby_operator(:<=, [SByC::Builtin::Integer, SByC::Builtin::Integer], SByC::Builtin::Boolean)
 
-SByC::Builtin::Natural = SByC::Builtin::Integer.such_that{|i| i > SByC::Builtin::Integer[0]}
-SByC::Builtin::NegInt = SByC::Builtin::Integer.such_that{|i| i <= SByC::Builtin::Integer[0]}
+SByC::Builtin::Natural = SByC::Builtin::Integer.such_that{|i| i  > SByC::Builtin::Integer[0]}
+SByC::Builtin::Byte    = SByC::Builtin::Natural.such_that{|i| i <= SByC::Builtin::Natural[255]}
+SByC::Builtin::NegInt  = SByC::Builtin::Integer.such_that{|i| i <= SByC::Builtin::Integer[0]}

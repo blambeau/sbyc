@@ -41,3 +41,9 @@ x = ::SByC::Builtin::Natural[12]
 assert_raise(::SByC::TypeError) {
   x = ::SByC::Builtin::Natural[-1]
 }
+
+assert_raise(::SByC::TypeError) {
+  x = ::SByC::Builtin::Byte[-1]
+}
+
+#assert(::SByC::Builtin::Byte === ::SByC::Builtin::Integer[12])
