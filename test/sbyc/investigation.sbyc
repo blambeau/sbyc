@@ -12,32 +12,32 @@ assert_raise(::SByC::TypeError) {
 }
 
 assert_nothing_raised {
-  x = ::SByC::Builtin::Int[12]
-  ::SByC::Builtin::Int === x
-  assert_equal ::SByC::Builtin::Int[12], x
+  x = ::SByC::Builtin::Integer[12]
+  ::SByC::Builtin::Integer === x
+  assert_equal ::SByC::Builtin::Integer[12], x
 }
 assert_raise(::SByC::TypeError) {
-  ::SByC::Builtin::Int["blabla"]  
+  ::SByC::Builtin::Integer["blabla"]  
 }
 assert_raise(::SByC::TypeError) {
-  ::SByC::Builtin::Int[nil]  
+  ::SByC::Builtin::Integer[nil]  
 }
 assert_nothing_raised {
-  x = ::SByC::Builtin::Int[12]
-  y = ::SByC::Builtin::Int[3]
+  x = ::SByC::Builtin::Integer[12]
+  y = ::SByC::Builtin::Integer[3]
   z = x + y
-  assert_equal(::SByC::Builtin::Int[15], z)
+  assert_equal(::SByC::Builtin::Integer[15], z)
   z = x - y
-  assert_equal(::SByC::Builtin::Int[9], z)
+  assert_equal(::SByC::Builtin::Integer[9], z)
 }
-assert_equal(t, ::SByC::Builtin::Int[12] > ::SByC::Builtin::Int[3])
-assert_equal(t, ::SByC::Builtin::Int[3] < ::SByC::Builtin::Int[12])
-assert_equal(t, ::SByC::Builtin::Int[12] >= ::SByC::Builtin::Int[12])
-assert_equal(f, ::SByC::Builtin::Int[-1] >= ::SByC::Builtin::Int[0])
+assert_equal(t, ::SByC::Builtin::Integer[12] > ::SByC::Builtin::Integer[3])
+assert_equal(t, ::SByC::Builtin::Integer[3] < ::SByC::Builtin::Integer[12])
+assert_equal(t, ::SByC::Builtin::Integer[12] >= ::SByC::Builtin::Integer[12])
+assert_equal(f, ::SByC::Builtin::Integer[-1] >= ::SByC::Builtin::Integer[0])
 
-assert_equal(Fixnum, ::SByC::Builtin::PosInt.get_ruby_type)
-x = ::SByC::Builtin::PosInt[12]
+assert_equal(Fixnum, ::SByC::Builtin::Natural.get_ruby_type)
+x = ::SByC::Builtin::Natural[12]
 
 assert_raise(::SByC::TypeError) {
-  x = ::SByC::Builtin::PosInt[-1]
+  x = ::SByC::Builtin::Natural[-1]
 }
