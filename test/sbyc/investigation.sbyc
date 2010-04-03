@@ -1,58 +1,58 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__), '..', '..', 'lib')
 require 'sbyc/engine'
 
-t = ::SByC::Builtin::Boolean::TRUE
-f = ::SByC::Builtin::Boolean::FALSE
+t = ::SByC::Boolean::TRUE
+f = ::SByC::Boolean::FALSE
 assert_nothing_raised {
-  x = ::SByC::Builtin::Boolean[true]
-  y = ::SByC::Builtin::Boolean[false]
+  x = ::SByC::Boolean[true]
+  y = ::SByC::Boolean[false]
 }
 assert_raise(::SByC::TypeError) {
-  ::SByC::Builtin::Boolean["blabla"]  
+  ::SByC::Boolean["blabla"]  
 }
 
 assert_nothing_raised {
-  x = ::SByC::Builtin::Integer[12]
-  ::SByC::Builtin::Integer === x
-  assert_equal ::SByC::Builtin::Integer[12], x
+  x = ::SByC::Integer[12]
+  ::SByC::Integer === x
+  assert_equal ::SByC::Integer[12], x
 }
 assert_raise(::SByC::TypeError) {
-  ::SByC::Builtin::Integer["blabla"]  
+  ::SByC::Integer["blabla"]  
 }
 assert_raise(::SByC::TypeError) {
-  ::SByC::Builtin::Integer[nil]  
+  ::SByC::Integer[nil]  
 }
 assert_nothing_raised {
-  x = ::SByC::Builtin::Integer[12]
-  y = ::SByC::Builtin::Integer[3]
+  x = ::SByC::Integer[12]
+  y = ::SByC::Integer[3]
   z = x + y
-  assert_equal(::SByC::Builtin::Integer[15], z)
+  assert_equal(::SByC::Integer[15], z)
   z = x - y
-  assert_equal(::SByC::Builtin::Integer[9], z)
+  assert_equal(::SByC::Integer[9], z)
 }
-assert_equal(t, ::SByC::Builtin::Integer[12] > ::SByC::Builtin::Integer[3])
-assert_equal(t, ::SByC::Builtin::Integer[3] < ::SByC::Builtin::Integer[12])
-assert_equal(t, ::SByC::Builtin::Integer[12] >= ::SByC::Builtin::Integer[12])
-assert_equal(f, ::SByC::Builtin::Integer[-1] >= ::SByC::Builtin::Integer[0])
+assert_equal(t, ::SByC::Integer[12] > ::SByC::Integer[3])
+assert_equal(t, ::SByC::Integer[3] < ::SByC::Integer[12])
+assert_equal(t, ::SByC::Integer[12] >= ::SByC::Integer[12])
+assert_equal(f, ::SByC::Integer[-1] >= ::SByC::Integer[0])
 
-assert_equal(Fixnum, ::SByC::Builtin::Natural.get_ruby_type)
-x = ::SByC::Builtin::Natural[12]
+assert_equal(Fixnum, ::SByC::Natural.get_ruby_type)
+x = ::SByC::Natural[12]
 
 assert_raise(::SByC::TypeError) {
-  x = ::SByC::Builtin::Natural[-1]
+  x = ::SByC::Natural[-1]
 }
 
 assert_raise(::SByC::TypeError) {
-  x = ::SByC::Builtin::Byte[-1]
+  x = ::SByC::Byte[-1]
 }
 
-x = ::SByC::Builtin::Integer[12]
-assert(::SByC::Builtin::Integer === x)
-assert(::SByC::Builtin::Natural === x)
-assert(::SByC::Builtin::Byte === x)
-assert(!(::SByC::Builtin::Integer === "blabla"))
+x = ::SByC::Integer[12]
+assert(::SByC::Integer === x)
+assert(::SByC::Natural === x)
+assert(::SByC::Byte === x)
+assert(!(::SByC::Integer === "blabla"))
 
-x = ::SByC::Builtin::Integer[1000]
-assert(::SByC::Builtin::Integer === x)
-assert(::SByC::Builtin::Natural === x)
-assert(!(::SByC::Builtin::Byte === x))
+x = ::SByC::Integer[1000]
+assert(::SByC::Integer === x)
+assert(::SByC::Natural === x)
+assert(!(::SByC::Byte === x))

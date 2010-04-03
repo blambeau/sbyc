@@ -14,4 +14,6 @@ end # module SByC
 require 'sbyc/errors'
 require 'sbyc/system'
 require 'sbyc/type'
-require 'sbyc/builtin'
+require 'sbyc/typeimpl/boolean'
+require 'sbyc/typeimpl/scalar_type'
+::SByC::execute("sbyc/typeimpl/integer")

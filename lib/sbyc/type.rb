@@ -17,7 +17,7 @@ module SByC
       # is true
       def check_type_constraint(c, value, raise_on_error = false)
         check = c.call(value)
-        check = check.ruby_value if ::SByC::Builtin::Boolean == check.class
+        check = check.ruby_value if ::SByC::Boolean == check.class
         raise ::SByC::TypeImplementationError, "Constraint should return a Boolean"\
           unless true == check or false == check
         raise TypeError if (raise_on_error and not(check))

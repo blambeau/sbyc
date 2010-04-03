@@ -2,9 +2,9 @@ module SByC
   module System
     
     # Creates a builtin type instance
-    def BuiltinType(ruby_type)
-      clazz = Class.new(SByC::Builtin::BuiltinType)
-      clazz.extend(SByC::Builtin::BuiltinType::ClassMethods)
+    def ScalarType(ruby_type)
+      clazz = Class.new(SByC::ScalarType)
+      clazz.extend(SByC::ScalarType::ClassMethods)
       clazz.set_ruby_type(ruby_type)
       clazz.add_type_constraint(Kernel.lambda{|value| 
         value.respond_to?(:ruby_value) and (ruby_type === value.ruby_value)

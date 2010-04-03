@@ -1,0 +1,11 @@
+SByC::Integer = SByC::System::ScalarType(::Fixnum)
+SByC::System::wrap_ruby_operator(:+, [SByC::Integer, SByC::Integer], SByC::Integer)
+SByC::System::wrap_ruby_operator(:-, [SByC::Integer, SByC::Integer], SByC::Integer)
+SByC::System::wrap_ruby_operator(:>, [SByC::Integer, SByC::Integer], SByC::Boolean)
+SByC::System::wrap_ruby_operator(:<, [SByC::Integer, SByC::Integer], SByC::Boolean)
+SByC::System::wrap_ruby_operator(:>=, [SByC::Integer, SByC::Integer], SByC::Boolean)
+SByC::System::wrap_ruby_operator(:<=, [SByC::Integer, SByC::Integer], SByC::Boolean)
+
+SByC::Natural = SByC::Integer.such_that{|i| i  > SByC::Integer[0]}
+SByC::Byte    = SByC::Natural.such_that{|i| i <= SByC::Natural[255]}
+SByC::NegInt  = SByC::Integer.such_that{|i| i <= SByC::Integer[0]}

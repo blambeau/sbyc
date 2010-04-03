@@ -1,4 +1,4 @@
-class SByC::Builtin::Boolean
+class SByC::Boolean
   
   # Type selector
   def self.[](ruby_value)
@@ -21,9 +21,9 @@ class SByC::Builtin::Boolean
   end
   
   # True value
-  TRUE  = SByC::Builtin::Boolean.new(true)
+  TRUE  = SByC::Boolean.new(true)
   
   # False value
-  FALSE = SByC::Builtin::Boolean.new(false)
+  FALSE = SByC::Boolean.new(false)
   
 end
