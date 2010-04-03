@@ -5,7 +5,7 @@ t = ::SByC::Builtin::Boolean::TRUE
 f = ::SByC::Builtin::Boolean::FALSE
 assert_nothing_raised {
   x = ::SByC::Builtin::Boolean[true]
-  y = ::SByC::Builtin::Boolean[true]
+  y = ::SByC::Builtin::Boolean[false]
 }
 assert_raise(::SByC::TypeError) {
   ::SByC::Builtin::Boolean["blabla"]  
@@ -46,4 +46,8 @@ assert_raise(::SByC::TypeError) {
   x = ::SByC::Builtin::Byte[-1]
 }
 
-#assert(::SByC::Builtin::Byte === ::SByC::Builtin::Integer[12])
+x = ::SByC::Builtin::Integer[12]
+assert(::SByC::Builtin::Integer === x)
+assert(::SByC::Builtin::Natural === x)
+assert(::SByC::Builtin::Byte === x)
+assert(!(::SByC::Builtin::Integer === "blabla"))

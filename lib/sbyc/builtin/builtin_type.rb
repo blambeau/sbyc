@@ -18,13 +18,10 @@ module SByC
         
         # Selects a type instance 
         def [](literal)
-          case literal 
-            when get_ruby_type
-              self.new(literal)
-            when self
-              self.new(literal.ruby_value)
-            else 
-              raise ::SByC::TypeError, "Invalid selector invocation #{self}[#{literal}]", caller
+          if get_ruby_type === literal
+            self.new(literal)
+          else 
+            raise ::SByC::TypeError, "Invalid selector invocation #{self}[#{literal}]", caller
           end
         end
         

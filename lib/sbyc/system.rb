@@ -6,6 +6,9 @@ module SByC
       clazz = Class.new(SByC::Builtin::BuiltinType)
       clazz.extend(SByC::Builtin::BuiltinType::ClassMethods)
       clazz.set_ruby_type(ruby_type)
+      clazz.add_type_constraint(Kernel.lambda{|value| 
+        value.respond_to?(:ruby_value) and (ruby_type === value.ruby_value)
+      })
       clazz
     end
     
