@@ -4,6 +4,7 @@ module SByC
       
       # Class methods
       module ClassMethods
+        include ::SByC::Type::ClassMethods
         
         # Returns the underlying ruby type
         def get_ruby_type
@@ -23,7 +24,7 @@ module SByC
             when self
               self.new(literal.ruby_value)
             else 
-              raise ::SByC::TypeError, "Invalid selector invocation #{self}[#{literal}]"
+              raise ::SByC::TypeError, "Invalid selector invocation #{self}[#{literal}]", caller
           end
         end
         
@@ -35,6 +36,7 @@ module SByC
       # Creates a builtin type instance
       def initialize(ruby_value)
         @ruby_value = ruby_value
+        self.class.check_type_constraints(self)
       end
       
       # Checks equality with another value
@@ -44,7 +46,7 @@ module SByC
       
       # Returns a string representation
       def to_s
-        @ruby_value.to_s
+        "#{self.class}[#{@ruby_value}]" #@ruby_value.to_s
       end
       
       # Returns a SByC representation

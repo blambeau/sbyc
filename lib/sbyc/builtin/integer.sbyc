@@ -1,2 +1,9 @@
 SByC::Builtin::Int = SByC::System::BuiltinType(::Fixnum)
 SByC::System::wrap_ruby_operator(:+, [SByC::Builtin::Int, SByC::Builtin::Int], SByC::Builtin::Int)
+SByC::System::wrap_ruby_operator(:-, [SByC::Builtin::Int, SByC::Builtin::Int], SByC::Builtin::Int)
+SByC::System::wrap_ruby_operator(:>, [SByC::Builtin::Int, SByC::Builtin::Int], SByC::Builtin::Boolean)
+SByC::System::wrap_ruby_operator(:<, [SByC::Builtin::Int, SByC::Builtin::Int], SByC::Builtin::Boolean)
+SByC::System::wrap_ruby_operator(:>=, [SByC::Builtin::Int, SByC::Builtin::Int], SByC::Builtin::Boolean)
+SByC::System::wrap_ruby_operator(:<=, [SByC::Builtin::Int, SByC::Builtin::Int], SByC::Builtin::Boolean)
+
+SByC::Builtin::PosInt = SByC::Builtin::Int.such_that{|i| i >= SByC::Builtin::Int[0]}
