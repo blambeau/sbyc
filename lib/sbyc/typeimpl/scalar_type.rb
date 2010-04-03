@@ -16,13 +16,6 @@ module SByC
         @ruby_type = ruby_type
       end
       
-      # Checks if a value belongs to this type
-      def belongs_to?(value)
-        return false if (superclass.respond_to?(:check_type_constraints) and not(superclass.belongs_to?(value)))
-        type_constraints.all?{|c| check_type_constraint(c, value, false)}
-      end
-      alias :=== :belongs_to?
-    
       # Implements ::SByC::Type::sbyc
       def sbyc(&constraint)
         clazz = Class.new(self)
@@ -49,7 +42,7 @@ module SByC
     # Creates a builtin type instance
     def initialize(ruby_value)
       @ruby_value = ruby_value
-      self.class.check_type_constraints(self)
+      raise ::SByC::TypeError, "Selector invocation error #{self.class}[#{ruby_value}]" unless self.class.belongs_to?(self)
     end
     
     # Checks equality with another value

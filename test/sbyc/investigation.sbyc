@@ -66,3 +66,6 @@ assert(::SByC::Natural === x)
 assert(!(::SByC::Byte === x))
 
 posint = Fixnum.sbyc{|i| i > 0}
+assert posint.belongs_to?(12)
+assert !(posint === 0)
+assert !(posint === -1)

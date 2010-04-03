@@ -12,11 +12,6 @@ module SByC
       value
     end
     
-    # Checks if a value belongs to this type
-    def belongs_to?(value)
-      self === value
-    end
-    
     # Implements ::SByC::Type::sbyc
     def sbyc(&constraint)
       clazz = Class.new(self)

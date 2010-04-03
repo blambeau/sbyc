@@ -24,9 +24,8 @@ module SByC
     end
     
     # Checks type constraints, raising a TypeError if some fails
-    def check_type_constraints(value)
-      superclass.check_type_constraints(value) if superclass.respond_to?(:check_type_constraints)
-      type_constraints.all?{|c| check_type_constraint(c, value, true)}
+    def check_type_constraints(value, raise_on_error = false)
+      type_constraints.all?{|c| check_type_constraint(c, value, raise_on_error)}
     end
       
   end # module SByC
