@@ -2,17 +2,20 @@ $LOAD_PATH.unshift(File.dirname(__FILE__), '..', '..', 'lib')
 require 'sbyc/engine'
 
 assert_nothing_raised {
-  x = variable(::SByC::Builtin::Integer, 12)
-  assert(::SByC::Builtin::Integer == x.type)
-  assert(::SByC::Builtin::Integer[12] == x.value)  
+  x = ::SByC::Builtin::Int[12]
+  ::SByC::Builtin::Int === x
+  assert_equal ::SByC::Builtin::Int[12], x
+}
+assert_raise(::SByC::TypeError) {
+  ::SByC::Builtin::Int["blabla"]  
+}
+assert_raise(::SByC::TypeError) {
+  ::SByC::Builtin::Int[nil]  
+}
 
-  y = variable(::SByC::Builtin::Integer, x)
-  assert(::SByC::Builtin::Integer == y.type)
-  assert(::SByC::Builtin::Integer[12] == y.value)  
-}
-assert_raise(::SByC::TypeError) {
-  ::SByC::Builtin::Integer["blabla"]  
-}
-assert_raise(::SByC::TypeError) {
-  ::SByC::Builtin::Integer[nil]  
+assert_nothing_raised {
+  x = ::SByC::Builtin::Int[12]
+  y = ::SByC::Builtin::Int[3]
+  z = x + y
+  assert_equal(::SByC::Builtin::Int[15], z)
 }

@@ -5,6 +5,11 @@ module SByC
       # Class methods
       module ClassMethods
         
+        # Returns the underlying ruby type
+        def get_ruby_type
+          @ruby_type
+        end
+        
         # Sets the underlying ruby type
         def set_ruby_type(ruby_type)
           @ruby_type = ruby_type
@@ -13,12 +18,10 @@ module SByC
         # Selects a type instance 
         def [](literal)
           case literal 
-            when @ruby_type
+            when get_ruby_type
               self.new(literal)
             when self
               self.new(literal.ruby_value)
-            when ::SByC::Variable
-              self.[](literal.value.ruby_value)
             else 
               raise ::SByC::TypeError, "Invalid selector invocation #{self}[#{literal}]"
           end

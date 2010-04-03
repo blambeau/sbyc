@@ -1,4 +1,2 @@
-SByC::Builtin::Integer = SByC::System::BuiltinType(Integer)
-# operator(:+, [SByC::Builtin::Integer, SByC::Builtin::Integer], SByC::Builtin::Integer) {
-#   SByC::Builtin::Integer[$1 + $2]
-# }
+SByC::Builtin::Int = SByC::System::BuiltinType(::Fixnum)
+SByC::System::wrap_ruby_operator(:+, [SByC::Builtin::Int, SByC::Builtin::Int], SByC::Builtin::Int)

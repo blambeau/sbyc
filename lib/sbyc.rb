@@ -12,6 +12,5 @@ module SByC
 end # module SByC
 
 require 'sbyc/errors'
-require 'sbyc/variable'
 require 'sbyc/system'
 require 'sbyc/builtin'
