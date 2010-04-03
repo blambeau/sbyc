@@ -51,3 +51,8 @@ assert(::SByC::Builtin::Integer === x)
 assert(::SByC::Builtin::Natural === x)
 assert(::SByC::Builtin::Byte === x)
 assert(!(::SByC::Builtin::Integer === "blabla"))
+
+x = ::SByC::Builtin::Integer[1000]
+assert(::SByC::Builtin::Integer === x)
+assert(::SByC::Builtin::Natural === x)
+assert(!(::SByC::Builtin::Byte === x))
