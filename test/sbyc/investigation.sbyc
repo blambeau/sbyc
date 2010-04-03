@@ -13,7 +13,8 @@ assert_raise(::SByC::TypeError) {
 
 assert_nothing_raised {
   x = ::SByC::Integer[12]
-  ::SByC::Integer === x
+  assert(::SByC::Integer === x)
+  assert(!(::Integer === x))
   assert_equal ::SByC::Integer[12], x
 }
 assert_raise(::SByC::TypeError) {

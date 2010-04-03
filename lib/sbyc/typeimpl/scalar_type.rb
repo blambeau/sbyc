@@ -3,7 +3,8 @@ module SByC
     
     # Class methods
     module ClassMethods
-      include ::SByC::Type::ClassMethods
+      include ::SByC::Type
+      include ::SByC::ConstraintAble
       
       # Returns the underlying ruby type
       def get_ruby_type
@@ -14,6 +15,13 @@ module SByC
       def set_ruby_type(ruby_type)
         @ruby_type = ruby_type
       end
+      
+      # Checks if a value belongs to this type
+      def belongs_to?(value)
+        return false if (superclass.respond_to?(:check_type_constraints) and not(superclass.belongs_to?(value)))
+        type_constraints.all?{|c| check_type_constraint(c, value, false)}
+      end
+      alias :=== :belongs_to?
       
       # Selects a type instance 
       def [](literal)
