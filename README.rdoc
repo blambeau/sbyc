@@ -1,0 +1,3 @@
+= SByC
+
+Proof of concept of a typing system relying on Specialization By Constraint.
