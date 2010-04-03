@@ -1,6 +1,13 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__), '..', '..', 'lib')
 require 'sbyc/engine'
 
+assert Fixnum.belongs_to?(12)
+assert !Fixnum.belongs_to?("aaa")
+assert Float.belongs_to?(12.0)
+assert !Float.belongs_to?(12)
+assert String.belongs_to?("aaa")
+assert !String.belongs_to?(true)
+
 t = ::SByC::Boolean::TRUE
 f = ::SByC::Boolean::FALSE
 assert_nothing_raised {
@@ -57,3 +64,5 @@ x = ::SByC::Integer[1000]
 assert(::SByC::Integer === x)
 assert(::SByC::Natural === x)
 assert(!(::SByC::Byte === x))
+
+posint = Fixnum.sbyc{|i| i > 0}

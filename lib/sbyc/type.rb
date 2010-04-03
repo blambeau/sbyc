@@ -1,9 +1,8 @@
 module SByC
   module Type
       
-    # Define a new sub type by constraint
-    def such_that(&constraint)
-      ::SByC::System::ConstraintType(self, constraint)
+    def sbyc(&constraint)
+      raise ::SByC::TypeSystemError, "#{self} should impement sbyc"
     end
 
   end # module Type

@@ -22,7 +22,16 @@ module SByC
         type_constraints.all?{|c| check_type_constraint(c, value, false)}
       end
       alias :=== :belongs_to?
-      
+    
+      # Implements ::SByC::Type::sbyc
+      def sbyc(&constraint)
+        clazz = Class.new(self)
+        clazz.extend(::SByC::ConstraintAble)
+        clazz.set_ruby_type(get_ruby_type)
+        clazz.add_type_constraint(constraint)
+        clazz
+      end
+    
       # Selects a type instance 
       def [](literal)
         if get_ruby_type === literal

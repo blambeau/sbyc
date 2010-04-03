@@ -12,14 +12,6 @@ module SByC
       clazz
     end
     
-    # Creates a constrained type
-    def ConstraintType(base, constraint)
-      clazz = Class.new(base)
-      clazz.set_ruby_type(base.get_ruby_type)
-      clazz.add_type_constraint(constraint)
-      clazz
-    end
-    
     # Wraps a ruby operator
     def wrap_ruby_operator(name, signature, returned_type)
       method = signature[0].get_ruby_type.instance_method(name)

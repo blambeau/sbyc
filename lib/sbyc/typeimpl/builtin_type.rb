@@ -17,6 +17,14 @@ module SByC
       self === value
     end
     
+    # Implements ::SByC::Type::sbyc
+    def sbyc(&constraint)
+      clazz = Class.new(self)
+      clazz.extend(::SByC::ConstraintAble)
+      clazz.add_type_constraint(constraint)
+      clazz
+    end
+    
   end # module BuiltinType
 end # module SByC
 [::String, ::Fixnum, ::Float, ::Time].each{|t| t.extend(SByC::BuiltinType)}
