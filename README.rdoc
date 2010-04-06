@@ -1,3 +1,9 @@
 = SByC
 
-Proof of concept of a typing system relying on Specialization By Constraint.
+This project is a Proof of Concept of a typing system relying on Specialization By Constraint. It allows developers to create new types and subtypes somewhat declaratively, that is, without having to create classes manually:
+
+  PosInt = Integer.such_that{|i| i > 0}
+  puts PosInt === 12   # -> true 
+  puts PosInt === -1   # -> false
+  
+More examples and demos a bit later.
