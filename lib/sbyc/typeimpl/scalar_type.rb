@@ -42,7 +42,7 @@ module SByC
     # Creates a builtin type instance
     def initialize(ruby_value)
       @ruby_value = ruby_value
-      raise ::SByC::TypeError, "Selector invocation error #{self.class}[#{ruby_value}]" unless self.class.belongs_to?(self)
+      raise ::SByC::TypeError, "Selector invocation error #{self.class}[#{ruby_value}]" unless self.class.include_value?(self)
     end
     
     # Checks equality with another value

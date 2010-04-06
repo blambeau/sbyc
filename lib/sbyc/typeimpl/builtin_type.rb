@@ -8,7 +8,7 @@ module SByC
     
     # Type selector.
     def [](value)
-      raise selector_invocation_error(self, value) unless belongs_to?(value)
+      raise selector_invocation_error(self, value) unless include_value?(value)
       value
     end
     
@@ -22,4 +22,3 @@ module SByC
     
   end # module BuiltinType
 end # module SByC
-[::String, ::Fixnum, ::Float, ::Time].each{|t| t.extend(SByC::BuiltinType)}

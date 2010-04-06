@@ -15,4 +15,19 @@ describe ::SByC::BuiltinType do
     lambda{ posint[-1] }.should raise_error(::SByC::TypeError)
   end
   
+  it "should provide a way to check values belonging to the type" do
+    Fixnum.include_value?(12).should be_true
+    Fixnum.include_value?("blabla").should be_false
+    posint = Fixnum.such_that{|i| i > 10}
+    posint.include_value?(-12).should be_false
+  end
+  
+  it "should provide a reversed way to check values belonging to the type" do
+    posint = Fixnum.such_that{|i| i > 10}
+    12.belongs_to?(Fixnum).should be_true
+    12.belongs_to?(posint).should be_true
+    -12.belongs_to?(posint).should be_false
+    "blabla".belongs_to?(posint).should be_false
+  end
+
 end

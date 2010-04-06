@@ -1,12 +1,12 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__), '..', '..', 'lib')
 require 'sbyc/engine'
 
-assert Fixnum.belongs_to?(12)
-assert !Fixnum.belongs_to?("aaa")
-assert Float.belongs_to?(12.0)
-assert !Float.belongs_to?(12)
-assert String.belongs_to?("aaa")
-assert !String.belongs_to?(true)
+assert Fixnum.include_value?(12)
+assert !Fixnum.include_value?("aaa")
+assert Float.include_value?(12.0)
+assert !Float.include_value?(12)
+assert String.include_value?("aaa")
+assert !String.include_value?(true)
 
 t = ::SByC::Boolean::TRUE
 f = ::SByC::Boolean::FALSE
@@ -66,6 +66,6 @@ assert(::SByC::Natural === x)
 assert(!(::SByC::Byte === x))
 
 posint = Fixnum.sbyc{|i| i > 0}
-assert posint.belongs_to?(12)
+assert posint.include_value?(12)
 assert !(posint === 0)
 assert !(posint === -1)
