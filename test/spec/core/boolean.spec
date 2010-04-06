@@ -10,7 +10,7 @@ describe ::Boolean do
     (::Boolean === true).should be_true
     (::Boolean === false).should be_true
   end
-
+  
   it "should reject other values" do
     (::Boolean === "bla").should be_false
     (::Boolean === nil).should be_false
@@ -22,5 +22,15 @@ describe ::Boolean do
     nil.belongs_to?(::Boolean).should be_false
     "blabla".belongs_to?(::Boolean).should be_false
   end  
+  
+  it "should be constrainable" do
+    true_type = ::Boolean.such_that{|t| t == true }
+    true_type[true].should == true
+    lambda{ true_type[false] }.should raise_error(::SByC::TypeError)
+    true.belongs_to?(::Boolean).should be_true
+    true.belongs_to?(true_type).should be_true
+    false.belongs_to?(true_type).should be_false
+    "blabla".belongs_to?(true_type).should be_false
+  end
   
 end

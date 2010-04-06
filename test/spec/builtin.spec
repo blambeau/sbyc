@@ -9,12 +9,13 @@ describe ::SByC::BuiltinType do
   it "should allow subtyping by constraint" do
     posint = Fixnum.such_that{|i| i > 10}
     posint.is_a?(Class).should be_true
+    posint.supertype.should == Fixnum
     (posint === 12).should be_true
     (posint === -1).should be_false
     posint[12].should == 12
     lambda{ posint[-1] }.should raise_error(::SByC::TypeError)
   end
-  
+
   it "should provide a way to check values belonging to the type" do
     Fixnum.include_value?(12).should be_true
     Fixnum.include_value?("blabla").should be_false

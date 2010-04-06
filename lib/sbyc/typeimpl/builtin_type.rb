@@ -14,7 +14,15 @@ module SByC
     
     # Implements ::SByC::Type::sbyc
     def sbyc(&constraint)
-      clazz = Class.new(self)
+      if self.is_a?(Class)
+        clazz = Class.new(self)
+      else
+        clazz = Class.new
+        clazz.extend(self.const_get('ClassMethods')) if self.const_defined?('ClassMethods')
+        clazz.instance_eval{ include(::SByC::Value) }
+      end
+      me = self
+      clazz.instance_eval{ @supertype = me }
       clazz.extend(::SByC::ConstraintAble)
       clazz.add_type_constraint(constraint)
       clazz
