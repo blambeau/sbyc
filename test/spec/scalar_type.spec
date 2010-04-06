@@ -29,6 +29,14 @@ describe ::SByC::ScalarType do
     r.length.should == 20
   end
   
+  it "should allow creating new values by copy-and-modify" do
+    natural = Fixnum.such_that{|i| i > 0}
+    rectangle = ::SByC::System::ScalarType(:width => natural, :length => natural)
+    r = rectangle[:width => 10, :length => 20]
+    r2 = r.update(:length => 30)
+    r2.length.should == 30
+  end
+  
   it "should allow constraining complex types" do
     natural = Fixnum.such_that{|i| i > 0}
     rectangle = ::SByC::System::ScalarType(:width => natural, :length => natural)

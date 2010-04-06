@@ -41,8 +41,14 @@ module SByC
     
     # Creates a builtin type instance
     def initialize(physrep)
-      @physrep = physrep
+      @physrep = physrep.freeze
       raise ::SByC::TypeError, "Selector invocation error #{self.class}[#{physrep.inspect}]" unless self.class.include_value?(self)
+    end
+    
+    # Creates a new value by copy-and-modify 
+    def update(updating)
+      raise ArgumentError, "Hash expected" unless Hash===updating 
+      self.class[physrep.dup.merge(updating)]
     end
     
     # Checks equality with another value
