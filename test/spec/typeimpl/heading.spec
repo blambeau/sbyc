@@ -29,4 +29,11 @@ describe ::SByC::Heading do
     h.is_valid_tuple?(:width => "blabla", :name => "blabla").should be_false
   end
   
+  it "should provide a selection helper" do
+    natural = Fixnum.such_that{|i| i > 0}
+    h = ::SByC::Heading.new(:width => natural, :name => String)
+    h.selector_helper(:width => 10, :name => "blabla").should == {:width => 10, :name => "blabla"}
+    lambda { h.selector_helper(:width => -1, :name => "blabla") }.should raise_error(::SByC::TypeError)
+  end
+  
 end
