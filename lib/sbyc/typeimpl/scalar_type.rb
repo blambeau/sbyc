@@ -6,58 +6,58 @@ module SByC
       include ::SByC::Type
       include ::SByC::ConstraintAble
       
-      # Returns the underlying ruby type
-      def get_ruby_type
-        @ruby_type
+      # Returns the underlying heading
+      def heading
+        @heading
       end
       
       # Sets the underlying ruby type
-      def set_ruby_type(ruby_type)
-        @ruby_type = ruby_type
+      def set_heading(heading)
+        @heading = heading
+        heading.each_pair do |name, type|
+          define_method(name) {
+            self.physrep[name]
+          }
+        end
       end
       
       # Implements ::SByC::Type::sbyc
       def sbyc(&constraint)
         clazz = Class.new(self)
-        clazz.extend(::SByC::ConstraintAble)
-        clazz.set_ruby_type(get_ruby_type)
+        clazz.set_heading(heading)
         clazz.add_type_constraint(constraint)
         clazz
       end
     
       # Selects a type instance 
       def [](literal)
-        if get_ruby_type === literal
-          self.new(literal)
-        else 
-          raise ::SByC::TypeError, "Invalid selector invocation #{self}[#{literal}]", caller
-        end
+        self.new(heading.selector_helper(literal))
       end
       
     end # module ClassMethods
     
     # Underlying ruby value
-    attr_reader :ruby_value
+    attr_reader :physrep
     
     # Creates a builtin type instance
-    def initialize(ruby_value)
-      @ruby_value = ruby_value
+    def initialize(physrep)
+      @physrep = physrep
       raise ::SByC::TypeError, "Selector invocation error #{self.class}[#{ruby_value}]" unless self.class.include_value?(self)
     end
     
     # Checks equality with another value
     def ==(value)
-      (value.class == self.class) and (@ruby_value == value.ruby_value)
+      (value.class == self.class) and (@physrep == value.physrep)
     end
     
     # Returns a string representation
     def to_s
-      "#{self.class}[#{@ruby_value}]" #@ruby_value.to_s
+      "#{self.class}[#{@physrep.inspect}]"
     end
     
     # Returns a SByC representation
     def inspect
-      "#{self.class}[#{@ruby_value}]"
+      "#{self.class}[#{@physrep.inspect}]"
     end
     
   end # class ScalarType

@@ -29,6 +29,14 @@ describe ::SByC::Heading do
     h.is_valid_tuple?(:width => "blabla", :name => "blabla").should be_false
   end
   
+  it "should provide an enumerator on pairs" do
+    h = ::SByC::Heading.new(:width => Fixnum, :name => String)
+    h.should respond_to(:each_pair)
+    h.each_pair do |name, type|
+      type.should == (name == :width ? Fixnum : String)
+    end
+  end
+  
   it "should provide a selection helper" do
     natural = Fixnum.such_that{|i| i > 0}
     h = ::SByC::Heading.new(:width => natural, :name => String)
