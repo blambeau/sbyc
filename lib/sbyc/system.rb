@@ -16,10 +16,11 @@ module SByC
     end # class << self
     
     # Creates a builtin type instance
-    def ScalarType(heading)
+    def ScalarType(supertype, heading = nil)
+      supertype, heading = nil, supertype if Hash===supertype and heading.nil? 
       raise ArgumentError, "Hash or Heading expected, #{heading.class} received" unless Hash===heading or ::SByC::Heading===heading
       heading = ::SByC::Heading.new(heading) if Hash===heading
-      clazz = Class.new(SByC::ScalarType)
+      clazz = Class.new(supertype.nil? ? SByC::ScalarType : supertype)
       clazz.extend(SByC::ScalarType::ClassMethods)
       clazz.set_heading(heading)
       clazz

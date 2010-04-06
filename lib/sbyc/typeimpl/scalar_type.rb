@@ -53,7 +53,7 @@ module SByC
     
     # Checks equality with another value
     def ==(value)
-      (value.class == self.class) and (@physrep == value.physrep)
+      @physrep == value.physrep
     end
     
     # Returns a string representation
