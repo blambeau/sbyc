@@ -2,8 +2,16 @@
 
 This project is a Proof of Concept of a typing system relying on Specialization By Constraint. It allows developers to create new types and subtypes somewhat declaratively, that is, without having to create classes manually:
 
-  PosInt = Integer.such_that{|i| i > 0}
-  puts PosInt === 12   # -> true 
-  puts PosInt === -1   # -> false
+  Natural = Fixnum.such_that{|i| i > 0}
+  puts Natural === 12   # -> true 
+  puts Natural === -1   # -> false
   
-More examples and demos a bit later.
+Another example?
+
+  # Create Square as a sub type of Rectangle, by constraints
+  Rectangle = ScalarType(:width => Natural, :height => Natural)
+  Square    = Rectangle.such_that{|r| r.width == r.height}
+  
+  # A rectangle with same height and width is a Square !
+  r = Rectangle[:width => 10, :height => 10]
+  puts Square === r     # -> true
