@@ -1,5 +1,9 @@
 module SByC
   module Type
+
+    def selector_invocation_error(clazz, value)
+      raise TypeError, "Invalid selector invocation #{clazz}[#{value}]", caller
+    end
       
     # Checks if a value belongs to this type
     def belongs_to?(value)
