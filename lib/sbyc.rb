@@ -12,10 +12,6 @@ module SByC
   end
   module_function :execute
   
-  def Integer(i)
-    ::SByC::Integer[i]
-  end
-  
 end # module SByC
 
 require 'sbyc/errors'
@@ -25,6 +21,8 @@ require 'sbyc/value'
 require 'sbyc/typeimpl/constraint_able'
 require 'sbyc/typeimpl/builtin_type'
 require 'sbyc/typeimpl/scalar_type'
-require 'sbyc/typeimpl/boolean'
-require 'sbyc/ext/core'
-::SByC::execute("sbyc/typeimpl/integer")
+
+require 'sbyc/ext/object'
+
+require 'sbyc/core/boolean'
+require 'sbyc/core/wrappers'
