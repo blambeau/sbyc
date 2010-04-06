@@ -32,3 +32,4 @@ module Boolean
   
 end # class Boolean
 [TrueClass, FalseClass].each{|t| t.instance_eval{ include(::SByC::Value) }}
+::SByC::System.add_type(::Boolean)

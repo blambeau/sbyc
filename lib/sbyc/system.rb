@@ -1,6 +1,20 @@
 module SByC
   module System
     
+    ###########################################################################
+    ### Class methods
+    ###########################################################################
+    class << self
+      
+      # Let the system know that a type has been added
+      def add_type(type)
+        ::SByC::System.send(:define_method, type.name) {|*args|
+          type.send(:[], *args)
+        } 
+      end
+    
+    end # class << self
+    
     # Creates a builtin type instance
     def ScalarType(ruby_type)
       clazz = Class.new(SByC::ScalarType)
