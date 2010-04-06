@@ -23,11 +23,10 @@ describe ::SByC::ScalarType do
   it "should allow creating complex types" do
     natural = Fixnum.such_that{|i| i > 0}
     rectangle = ::SByC::System::ScalarType(:width => natural, :length => natural)
-    r = rectangle[:width => 10, :length => 10]
+    r = rectangle[:width => 10, :length => 20]
     (rectangle === r).should be_true
-    # Square = Rectangle.such_that{|r| r.width == r.length}
-    # r = Rectangle[:width => 10, :length => 10]
-    # (Square === r).should be_true
+    r.width.should == 10
+    r.length.should == 20
   end
   
   it "should allow constraining complex types" do
@@ -35,7 +34,9 @@ describe ::SByC::ScalarType do
     rectangle = ::SByC::System::ScalarType(:width => natural, :length => natural)
     square = rectangle.such_that{|r| r.width == r.length}
     lambda {square[:width => 10, :length => 10]}.should_not raise_error
+    lambda {square[:width => 10, :length => 20]}.should raise_error(::SByC::TypeError)
     lambda {square[:width => 10, :length => 0]}.should raise_error(::SByC::TypeError)
+    rectangle[:width => 10, :length => 10].belongs_to?(square).should be_true
   end
   
 end

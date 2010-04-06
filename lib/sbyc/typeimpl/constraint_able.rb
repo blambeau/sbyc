@@ -15,12 +15,12 @@ module SByC
     # Raises a TypeError if the constraint is violated and raise_on_error
     # is true
     def check_type_constraint(c, value, raise_on_error = false)
-      check = c.call(value)
-      check = check.ruby_value if ::Boolean == check.class
-      raise ::SByC::TypeImplementationError, "Constraint should return a Boolean"\
-        unless true == check or false == check
-      raise ::SByC::TypeError if (raise_on_error and not(check))
-      check
+      unless c.call(value)
+        raise ::SByC::TypeError if raise_on_error
+        false
+      else
+        true
+      end
     end
     
     # Checks type constraints, raising a TypeError if some fails

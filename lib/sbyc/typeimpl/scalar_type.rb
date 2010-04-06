@@ -42,7 +42,7 @@ module SByC
     # Creates a builtin type instance
     def initialize(physrep)
       @physrep = physrep
-      raise ::SByC::TypeError, "Selector invocation error #{self.class}[#{ruby_value}]" unless self.class.include_value?(self)
+      raise ::SByC::TypeError, "Selector invocation error #{self.class}[#{physrep.inspect}]" unless self.class.include_value?(self)
     end
     
     # Checks equality with another value
