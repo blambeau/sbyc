@@ -2,6 +2,11 @@ module SByC
   # A heading as a collection of (attribute => type) pairs.
   class Heading
     
+    # Alias for Heading.new
+    def self.[](pairs)
+      Heading === pairs ? pairs : Heading.new(pairs)
+    end
+    
     # Creates a heading instance
     def initialize(pairs)
       raise ArgumentError, "Invalid heading pairs #{pairs.inspect}, not a hash #{pairs.class}" unless Hash===pairs
@@ -25,6 +30,11 @@ module SByC
       @pairs[attribute_name]
     end
     
+    # Returns an array of attribute names
+    def attribute_names(sorted = false)
+      sorted ? @pairs.keys.sort{|a1, a2| a1.to_s <=> a2.to_s} : @pairs.keys
+    end
+    
     # Yields the block on each (attribute, type) pair
     def each_pair
       @pairs.each_pair{|a,t| yield(a,t)}
@@ -38,10 +48,16 @@ module SByC
     
     # Converts a hash by applying type selectors to its different elements
     def selector_helper(tuple = {})
-      raise ::SByC::TypeError unless Hash===tuple and tuple.size == degree
-      result = {}
-      @pairs.keys.all?{|k| result[k] = type_of(k)[tuple[k]]}
-      result
+      if Hash===tuple
+        raise ::SByC::TypeError unless tuple.size == degree
+        result = {}
+        @pairs.keys.all?{|k| result[k] = type_of(k)[tuple[k]]}
+        result
+      elsif degree==1
+        selector_helper(attribute_names[0] => tuple)
+      else
+        raise ::SByC::TypeError, "Invalid selector invocation #{self.inspect} with #{tuple.inspect}"
+      end
     end
     
   end # class Heading

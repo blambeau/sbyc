@@ -6,24 +6,53 @@ module SByC
     ###########################################################################
     class << self
       
+      # Returns defined types
+      def defined_types
+        @defined_types ||= []
+      end
+      
       # Let the system know that a type has been added
       def add_type(type)
-        ::SByC::System.send(:define_method, type.name) {|*args|
-          type.send(:[], *args)
-        } 
+        defined_types << type
+        type
+      end
+      
+      # Installs the shortcuts
+      def install_shortcuts
+        defined_types.each do |type|
+          next if type.name.nil? or type.name.empty?
+          if type.respond_to?(:superclass) and (type.superclass == ::SByC::ScalarType)
+            if type.__main_representation.name == :Main
+              ::SByC::System.send(:define_method, type.name) {|*args|
+                type.__main_representation.send(:[], *args)
+              }
+            end
+          else
+            ::SByC::System.send(:define_method, type.name) {|*args|
+              type.send(:[], *args)
+            }
+          end
+        end
+      end
+      
+      # Make some type definitions
+      def typedef
+        yield
+        install_shortcuts
       end
     
     end # class << self
     
     # Creates a builtin type instance
-    def ScalarType(supertype, heading = nil)
-      supertype, heading = nil, supertype if Hash===supertype and heading.nil? 
-      raise ArgumentError, "Hash or Heading expected, #{heading.class} received" unless Hash===heading or ::SByC::Heading===heading
-      heading = ::SByC::Heading.new(heading) if Hash===heading
-      clazz = Class.new(supertype.nil? ? SByC::ScalarType : supertype)
-      clazz.extend(SByC::ScalarType::ClassMethods)
-      clazz.set_heading(heading)
-      clazz
+    def ScalarType(heading = nil, &block)
+      if heading.nil? and block
+        type = ::SByC::ScalarType::DSL::execute(&block)
+      elsif heading and block.nil?
+        type = ::SByC::ScalarType::DSL::execute{
+          representation :Main, heading
+        }
+      end
+      ::SByC::System::add_type(type)
     end
     
     # # Wraps a ruby operator

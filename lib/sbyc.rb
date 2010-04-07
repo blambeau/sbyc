@@ -25,5 +25,4 @@ require 'sbyc/typeimpl/scalar_type'
 
 require 'sbyc/ext/object'
 
-require 'sbyc/core/boolean'
-require 'sbyc/core/wrappers'
+require 'sbyc/core'
