@@ -11,11 +11,15 @@ module SByC
       # Creates a type system instance
       def initialize
         @operators = Hash.new{|h,k| h[k] = []}
+        yield(self) if block_given?
       end
   
       # Adds an operator
       def add_operator(name, signature, return_type, code)
-        operators[name] << Operator.new(name, Signature.coerce(signature), return_type, code)
+        signature = Signature.coerce(signature)
+        [name].flatten.each do |n|
+          operators[n] << Operator.new(n, signature, return_type, code)
+        end
       end
       alias :<< :add_operator
   
@@ -31,7 +35,8 @@ module SByC
     
       # Applies type checking to a code tree
       def type_check(code = nil, &block)
-        ::SByC::CodeTree.coerce(code || block).type_check(self)
+        op = ::SByC::CodeTree.coerce(code || block).type_check(self)
+        op.return_type
       end
     
       # Converts a code tree to some ruby code
@@ -46,6 +51,7 @@ module SByC
         code = to_ruby_code(code, do_type_check, &block)
         Kernel.eval "Kernel::lambda {|*args| #{code}}"
       end
+      
     end # module InstanceMethods
     include InstanceMethods
   end # class System

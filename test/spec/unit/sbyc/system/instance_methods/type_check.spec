@@ -13,21 +13,21 @@ describe "SByC::System#type_check" do
     let(:expr) { proc{ (plus "a", "b") } }
     let(:tree) { ::SByC::CodeTree::parse(expr) }
     subject { system.type_check(tree) }
-    specify { subject.return_type.should == String }
+    specify { subject.should == String }
   }
   
   describe("with Integer arguments") {
     let(:expr) { proc{ (plus 1, 15) } }
     let(:tree) { ::SByC::CodeTree::parse(expr) }
     subject { system.type_check(tree) }
-    specify { subject.return_type.should == Integer }
+    specify { subject.should == Integer }
   }
   
   describe("with a mix of Integer and String") {
     let(:expr) { proc{ (plus (tos 1), "15") } }
     let(:tree) { ::SByC::CodeTree::parse(expr) }
     subject { system.type_check(tree) }
-    specify { subject.return_type.should == String }
+    specify { subject.should == String }
   }
   
   describe("with a something invalid") {
@@ -45,7 +45,7 @@ describe "SByC::System#type_check" do
   }
   
   it("should support shorthands") {
-    system.type_check{ (plus (tos 1), "15") }.return_type.should == String
+    system.type_check{ (plus (tos 1), "15") }.should == String
   }
   
 end
