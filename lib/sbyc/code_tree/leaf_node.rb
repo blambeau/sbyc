@@ -37,7 +37,7 @@ module SByC
       
       # Applies type checking
       def type_check(system)
-        @operator = Operator.new(:__literal__, [], literal.class, literal.inspect)
+        @operator = ::SByC::System::Operator.new(:__literal__, [], literal.class, literal.inspect)
       end
       
       # Converts to ruby code
