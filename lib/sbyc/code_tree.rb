@@ -15,7 +15,7 @@ module SByC
       case arg
         when ::SByC::CodeTree::AstNode
           arg
-        when Proc
+        when Proc, String
           ::SByC::CodeTree::parse(arg)
       end
     end

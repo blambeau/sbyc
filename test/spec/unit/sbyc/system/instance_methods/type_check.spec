@@ -48,4 +48,8 @@ describe "SByC::System#type_check" do
     system.type_check{ (plus (tos 1), "15") }.should == String
   }
   
+  it("should support code given as a string") {
+    system.type_check('(plus (tos 1), "15")').should == String
+  }
+  
 end

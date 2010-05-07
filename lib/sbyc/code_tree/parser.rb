@@ -32,7 +32,14 @@ module SByC
       # Parses a block
       def self.parse(code = nil, &block)
         block = code || block
-        Parser.new.instance_eval(&block)
+        case block
+          when Proc
+            Parser.new.instance_eval(&block)
+          when String
+            Parser.new.instance_eval(block)
+          else
+            raise ArgumentError, "Unable to parse #{block}"
+        end
       end
       
     end # class Parser

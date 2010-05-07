@@ -14,4 +14,10 @@ describe "::SByC::CodeTree::Parser#parse" do
     it { should == [ :plus, [ [ :minus, [ 12, 16 ] ], 15 ] ] }
   end
   
+  context("with a simple method call given by a string") do
+    let(:code) { "(plus 12, 15)" }
+    subject { ::SByC::CodeTree::Parser::parse(code).to_a }
+    it { should == [ :plus, [ 12, 15 ] ] }
+  end
+  
 end

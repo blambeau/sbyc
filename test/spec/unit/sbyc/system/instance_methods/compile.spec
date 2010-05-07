@@ -34,4 +34,10 @@ describe "SByC::System#compile" do
     specify { subject.call.should == 16 }
   }
 
+  describe("with code given as a string") {
+    let(:expr) { "(plus 'a', 'b')" }
+    subject { system.compile(expr) }
+    specify { subject.call.should == "ab" }
+  }
+  
 end

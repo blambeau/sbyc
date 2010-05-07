@@ -11,27 +11,28 @@ describe "SByC::System#to_ruby_code" do
   
   describe("with String arguments") {
     let(:expr) { proc{ (plus "a", "b") } }
-    let(:tree) { ::SByC::CodeTree::parse(expr) }
-    subject { system.to_ruby_code(tree) }
+    subject { system.to_ruby_code(expr) }
     specify { subject.should == '"a".+("b")' }
   }
   
   describe("with Integer arguments") {
     let(:expr) { proc{ (plus 1, 15) } }
-    let(:tree) { ::SByC::CodeTree::parse(expr) }
-    subject { system.to_ruby_code(tree) }
+    subject { system.to_ruby_code(expr) }
     specify { subject.should == '1.+(15)' }
   }
   
   describe("with a mix of Integer and String") {
     let(:expr) { proc{ (plus (tos 1), "15") } }
-    let(:tree) { ::SByC::CodeTree::parse(expr) }
-    subject { system.to_ruby_code(tree) }
+    subject { system.to_ruby_code(expr) }
     specify { subject.should == '1.to_s().+("15")' }
   }
   
   it("should support shorthands") {
     system.to_ruby_code{ (plus (tos 1), "15") }.should == '1.to_s().+("15")'
+  }
+
+  it("should support code given as a string") {
+    system.to_ruby_code('(plus (tos 1), "15")').should == '1.to_s().+("15")'
   }
 
 end
