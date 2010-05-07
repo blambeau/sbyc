@@ -1,6 +1,6 @@
 module SByC
   module CodeTree
-    class Parser
+    class FunctionalParser
       
       # Methods that we keep
       KEPT_METHODS = [ "__send__", "__id__", "instance_eval", "initialize", "object_id", 
@@ -34,14 +34,14 @@ module SByC
         block = code || block
         case block
           when Proc
-            Parser.new.instance_eval(&block)
+            FunctionalParser.new.instance_eval(&block)
           when String
-            Parser.new.instance_eval(block)
+            FunctionalParser.new.instance_eval(block)
           else
             raise ArgumentError, "Unable to parse #{block}"
         end
       end
       
-    end # class Parser
+    end # class FunctionalParser
   end # module CodeTree
 end # module SByC
