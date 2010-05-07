@@ -15,10 +15,10 @@ module SByC
       end
   
       # Adds an operator
-      def add_operator(name, signature, return_type, code)
-        signature = Signature.coerce([signature, return_type])
+      def add_operator(name, signature, code)
+        signature = Signature.coerce(signature)
         [name].flatten.each do |n|
-          operators[n] << Operator.new(n, signature, return_type, code)
+          operators[n] << Operator.new(n, signature, code)
         end
       end
       alias :<< :add_operator

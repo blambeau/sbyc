@@ -11,15 +11,13 @@ module SByC
       # Operator's signature
       attr_reader :signature
   
-      # Type returned by the operators
-      attr_reader :return_type
-  
       # Ruby code to execute
       attr_reader :code
   
       # Creates an operator instance
-      def initialize(name, signature, return_type, code)
-        @name, @signature, @return_type, @code = name, signature, return_type, code
+      def initialize(name, signature, code)
+        raise ArgumentError unless signature.kind_of?(::SByC::System::Signature) 
+        @name, @signature, @code = name, signature, code
       end
     
       # Compiles this operator call to ruby code
@@ -35,10 +33,15 @@ module SByC
             the_code
         end
       end
+      
+      # Returns the type returned by this operator
+      def return_type(*args)
+        signature.return_type(*args)
+      end
   
       # Inspection
       def inspect
-        [name, signature, return_type].inspect
+        [name, signature].inspect
       end
   
     end # class Operator

@@ -4,10 +4,10 @@ describe "SByC::System#compile" do
   
   let(:system) { ::SByC::System.new }
   before(:all) do
-    system.add_operator(:plus, [String,  String],  String, "$0.+($1)")
-    system.add_operator(:plus, [Integer, Integer], Integer, "$0.+($1)")
-    system.add_operator(:tos,  [Object], String, "$0.to_s()")
-    system.add_operator(:toi,  [String], Integer, "$0.to_i()")
+    system.add_operator(:plus, [[String,  String],  String], "$0.+($1)")
+    system.add_operator(:plus, [[Integer, Integer], Integer], "$0.+($1)")
+    system.add_operator(:tos,  [[Object], String], "$0.to_s()")
+    system.add_operator(:toi,  [[String], Integer], "$0.to_i()")
   end
   
   describe("with String arguments") {

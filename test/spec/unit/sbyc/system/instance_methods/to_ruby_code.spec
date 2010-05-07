@@ -4,9 +4,9 @@ describe "SByC::System#to_ruby_code" do
   
   let(:system) { ::SByC::System.new }
   before(:all) do
-    system.add_operator(:plus, [String,  String],  String, "$0.+($1)")
-    system.add_operator(:plus, [Integer, Integer], Integer, "$0.+($1)")
-    system.add_operator(:tos,  [Object], String, "$0.to_s()")
+    system.add_operator(:plus, [[String,  String],  String], "$0.+($1)")
+    system.add_operator(:plus, [[Integer, Integer], Integer], "$0.+($1)")
+    system.add_operator(:tos,  [[Object], String], "$0.to_s()")
   end
   
   describe("with String arguments") {

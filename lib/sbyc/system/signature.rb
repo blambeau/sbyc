@@ -8,9 +8,6 @@ module SByC
       # Types of the arguments, in order
       attr_reader :arg_types
       
-      # Returned type
-      attr_reader :return_type
-  
       # Creates a signature instance
       def initialize(arg_types, return_type)
         @arg_types, @return_type = arg_types, return_type
@@ -47,10 +44,15 @@ module SByC
         return false unless (arguments.size == arg_types.size)
         matches?(arguments.collect{|c| c.class})
       end
+      
+      # Returns the return type of this signature
+      def return_type(*args)
+        @return_type
+      end
   
       # Inspection
       def inspect
-        "Signature(#{arg_types.inspect})"
+        "Signature(#{arg_types.inspect}, #{return_type.inspect})"
       end
     
       # Coercion

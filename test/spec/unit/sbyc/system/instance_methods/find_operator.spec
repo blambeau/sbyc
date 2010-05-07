@@ -4,8 +4,8 @@ describe "SByC::System#find_operator" do
   
   let(:system) { ::SByC::System.new }
   before(:all) do
-    system.add_operator(:plus, [String,  String],  String, "a1.+(a2)")
-    system.add_operator(:plus, [Integer, Integer], Integer, "a1.+(a2)")
+    system.add_operator(:plus, [[String,  String],  String], "a1.+(a2)")
+    system.add_operator(:plus, [[Integer, Integer], Integer], "a1.+(a2)")
   end
   
   describe("with String arguments") {
