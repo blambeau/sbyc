@@ -28,8 +28,16 @@
   t.add_operator(:sub,        [String, Regexp, String], String,  "$0.sub($1, $2)")
   t.add_operator(:gsub,       [String, Regexp, String], String,  "$0.gsub($1, $2)")
 
-
   # Comparisons
-  #t.add_operator(:eq, ::SByC::Signature::binary_signature(), )
+  [Numeric, String].each do |type|
+    signature = ::SByC::System::Signature.coerce([type, type])
+    t.add_operator(:eq,   signature, Boolean, "$0.==($1)")
+    t.add_operator(:lt,   signature, Boolean, "$0.<($1)")
+    t.add_operator(:lte,  signature, Boolean, "$0.<=($1)")
+    t.add_operator(:gt,   signature, Boolean, "$0.>($1)")
+    t.add_operator(:gte,  signature, Boolean, "$0.>=($1)")
+  end
+
+  # Arithmetic operators on numerics
 
 }
