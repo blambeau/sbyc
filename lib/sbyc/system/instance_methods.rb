@@ -16,7 +16,7 @@ module SByC
   
       # Adds an operator
       def add_operator(name, signature, return_type, code)
-        signature = Signature.coerce(signature)
+        signature = Signature.coerce([signature, return_type])
         [name].flatten.each do |n|
           operators[n] << Operator.new(n, signature, return_type, code)
         end

@@ -3,7 +3,7 @@ require File.expand_path('../../../../../spec_helper', __FILE__)
 describe "::SByC::System::Signature#===" do
   
   context 'with a single class' do
-    subject { ::SByC::System::Signature.coerce(Integer) }
+    subject { ::SByC::System::Signature.coerce([[Integer], Integer]) }
 
     it { should be_kind_of(::SByC::System::Signature) }
     

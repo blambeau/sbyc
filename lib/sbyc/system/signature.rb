@@ -7,10 +7,13 @@ module SByC
   
       # Types of the arguments, in order
       attr_reader :arg_types
+      
+      # Returned type
+      attr_reader :return_type
   
       # Creates a signature instance
-      def initialize(arg_types)
-        @arg_types = arg_types
+      def initialize(arg_types, return_type)
+        @arg_types, @return_type = arg_types, return_type
       end
   
       #
@@ -55,12 +58,11 @@ module SByC
         case arg
           when Signature
             arg
-          when Module
-            coerce([arg])
           when Array
-            Signature.new(arg)
+            arg_types, return_type = arg
+            Signature.new(arg_types, return_type)
           else
-            nil
+            raise ArgumentError, "Unable to coerce #{arg} to a signature"
         end
       end
   

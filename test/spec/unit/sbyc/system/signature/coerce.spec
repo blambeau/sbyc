@@ -3,7 +3,7 @@ require File.expand_path('../../../../../spec_helper', __FILE__)
 describe "::SByC::System::Signature#coerce" do
   
   context 'with a single class' do
-    subject { ::SByC::System::Signature.coerce(Integer) }
+    subject { ::SByC::System::Signature.coerce([[Integer], NilClass]) }
 
     it { should be_kind_of(::SByC::System::Signature) }
 
@@ -11,7 +11,7 @@ describe "::SByC::System::Signature#coerce" do
   end
   
   context 'with an array of classes' do
-    subject { ::SByC::System::Signature.coerce([Integer, String]) }
+    subject { ::SByC::System::Signature.coerce([[Integer, String], NilClass]) }
 
     it { should be_kind_of(::SByC::System::Signature) }
 
