@@ -66,4 +66,4 @@ module SByC
   
     end # class Signature
   end # class System
-end # module TypeSys
+end # module SByC

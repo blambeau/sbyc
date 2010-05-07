@@ -43,4 +43,4 @@ module SByC
   
     end # class Operator
   end # class System
-end # module TypeSys
+end # module SByC
