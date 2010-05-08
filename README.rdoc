@@ -19,7 +19,7 @@ SByC provides a reusable and extensible implementation of such DSL hacks... beca
 
   # Parsing stage
   code     = lambda{|t| (t[:x] > 5) & (t[:y] <= 10)}
-  ast      = SByC::parse_imperative(code)       # => (bool_and (gt (ref :x), 5), (lte (ref :y), 10))
+  ast      = SByC::parse_imperative(code)       # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
 
   # Compilation stage
   compiled = SByC::RubySystem::compile(code)    # => <Proc:...@...>
