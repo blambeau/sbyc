@@ -28,6 +28,10 @@ module SByC
         def =~(*args, &block)  method_missing(:match, *args, &block);    end
         def ===(*args, &block) method_missing(:matches?, *args, &block); end
 
+        def coerce(other)
+          [self, other]
+        end
+
       end # class Expr
       
       # Parses a block
