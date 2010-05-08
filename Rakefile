@@ -1,8 +1,8 @@
+require "rubygems"
 require "rake/rdoctask"
 require "rake/testtask"
 require 'spec/rake/spectask'
 require "rake/gempackagetask"
-require "rubygems"
 
 dir     = File.dirname(__FILE__)
 lib     = File.join(dir, "lib", "sbyc.rb")
