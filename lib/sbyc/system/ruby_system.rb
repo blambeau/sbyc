@@ -1,4 +1,6 @@
 ::SByC::RubySystem = ::SByC::System.new {|t|
+  t.add_operator(:get, [[Object], Object],  "params.[]($1)")
+  t.add_operator(:set, [[Object], Object],  "params.[]=($1)")
 
   # Some standard unary operators on strings
   t.add_operator(:capitalize, [[String], String],  "$0.capitalize()")
@@ -42,6 +44,5 @@
   t.add_operator(:plus,  [[Integer, Integer], Integer], "$0+$1")
   t.add_operator(:minus, [[Integer, Integer], Integer], "$0-$1")
   t.add_operator(:times, [[Integer, Integer], Integer], "$0*$1")
-
 
 }
