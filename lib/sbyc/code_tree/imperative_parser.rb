@@ -27,6 +27,12 @@ module SByC
         def +(*args, &block)   method_missing(:plus, *args, &block);     end
         def =~(*args, &block)  method_missing(:match, *args, &block);    end
         def ===(*args, &block) method_missing(:matches?, *args, &block); end
+        def &(*args, &block)   method_missing(:bool_and, *args, &block); end
+        def |(*args, &block)   method_missing(:bool_or, *args, &block);  end
+        def >(*args, &block)   method_missing(:gt, *args, &block);       end
+        def >=(*args, &block)  method_missing(:gte, *args, &block);      end
+        def <=(*args, &block)  method_missing(:lte, *args, &block);      end
+        def <(*args, &block)   method_missing(:lt, *args, &block);       end
 
         def coerce(other)
           [self, other]

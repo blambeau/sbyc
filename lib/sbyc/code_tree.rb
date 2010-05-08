@@ -12,6 +12,12 @@ module SByC
     end
     module_function :parse
     
+    # Parses some code or block
+    def parse_imperative(code = nil, &block)
+      SByC::CodeTree::ImperativeParser::parse(code, &block)
+    end
+    module_function :parse_imperative
+    
     # Converts an argument to an parse tree (an ASTNode instance)
     def coerce(arg)
       case arg

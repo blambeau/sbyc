@@ -22,12 +22,12 @@ module SByC
       
       # Inspection
       def inspect
-        "(literal #{literal.inspect})"
+        "#{literal.inspect}"
       end
       
       # Returns a short string representation
       def to_s
-        "(literal #{literal.inspect})"
+        "#{literal.inspect}"
       end
       
       # Returns an array version of this ast
