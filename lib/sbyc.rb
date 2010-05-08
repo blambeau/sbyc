@@ -14,25 +14,25 @@ module SByC
   module_function :parse
   
   # Applies type checking to a code
-  def type_check(system = ::SByC::RubySystem, code = nil, &block)
+  def type_check(code = nil, system = ::SByC::RubySystem, &block)
     system.type_check(code, &block)
   end
   module_function :type_check
   
   # Parses some code and returns a code tree.
-  def to_ruby_code(system = ::SByC::RubySystem, code = nil, &block)
+  def to_ruby_code(code = nil, system = ::SByC::RubySystem, &block)
     system.to_ruby_code(code, &block)
   end
   module_function :to_ruby_code
   
   # Parses some code and returns a code tree.
-  def compile(system = ::SByC::RubySystem, code = nil, &block)
+  def compile(code = nil, system = ::SByC::RubySystem, &block)
     system.compile(code, &block)
   end
   module_function :compile
   
   # Parses some code and returns a code tree.
-  def execute(system = ::SByC::RubySystem, code = nil, &block)
+  def execute(code = nil, system = ::SByC::RubySystem, &block)
     compile(system, code, &block).call
   end
   module_function :execute

@@ -3,6 +3,7 @@ require "rake/rdoctask"
 require "rake/testtask"
 require 'spec/rake/spectask'
 require "rake/gempackagetask"
+require "yard"
 
 dir     = File.dirname(__FILE__)
 lib     = File.join(dir, "lib", "sbyc.rb")
@@ -15,8 +16,12 @@ Spec::Rake::SpecTask.new(:spec) do |t|
   t.spec_files = FileList['test/spec/test_all.rb']
 end
 
-desc "Lauches all tests"
+desc "Launches all tests"
 task :test => [:spec]
+
+YARD::Rake::YardocTask.new do |t|
+  t.files   = ['lib/**/*.rb']
+end
 
 gemspec = Gem::Specification.new do |s|
   s.name = 'sbyc'

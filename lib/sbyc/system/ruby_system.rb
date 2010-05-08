@@ -39,5 +39,9 @@
   end
 
   # Arithmetic operators on numerics
+  t.add_operator(:plus,  [[Integer, Integer], Integer], "$0+$1")
+  t.add_operator(:minus, [[Integer, Integer], Integer], "$0-$1")
+  t.add_operator(:times, [[Integer, Integer], Integer], "$0*$1")
+
 
 }

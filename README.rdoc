@@ -1,3 +1,49 @@
-= SByC
+= SByC - Code Tree and Type System (git branch)
 
-Proof of concept of a typing system relying on Specialization By Constraint.
+This is a particular branch of the SByC library which aims at investigating a type system relying on Specialization By Constraints. This branch implements a small functional engine (parser + ast rewriting + type checker).
+
+ATTENTION!!! This ruby library is under active development. Some of the examples may not work so far ;-)
+
+== Generic virtual blocks
+
+Many ruby gems implement specific DSLs to create predicates and/or logic expressions inside lambda functions. For instance, 
+
+  # Extracted from Sequel documentation
+  DB[:items].filter{|o| (o.x > 5) & (o.y <= 10)}.sql   # => "SELECT * FROM items WHERE ((x > 5) AND (y > 10))"
+
+  # Other examples in Sequel
+  dataset.filter{a & (b | ~c)}
+  dataset.select{a + b}
+
+SByC provides a reusable and extensible implementation of such DSL hacks... because it cleanly separates parsing from compilation mechanisms!
+
+  # Parsing stage
+  code     = lambda{|t| (t[:x] > 5) & (t[:y] <= 10)}
+  ast      = SByC::parse_imperative(code)       # => (bool_and (gt (ref :x), 5), (lte (ref :y), (literal 10)))
+
+  # Compilation stage
+  compiled = SByC::RubySystem::compile(code)    # => <Proc:...@...>
+  result   = compiled.call(:x => 7, :y => 15)   # => false
+
+  # Another compilation
+  sql_system = ::SByC::System.new {
+    operator(:bool_and) {|left, right| "(#{apply(left)} AND #{apply(right)})" }
+    operator(:gt)       {|left, right| "(#{apply(left)} > #{apply(right)})"   }
+    ...
+  }
+  compiled = sql_system.compile(code)           # => "((x > 5) AND (y > 10))"
+
+== How does it work?
+
+SByC is based on a functional engine that parses LISP inspired functional expressions:
+
+  code = lambda{ (concat "hello", (ref :who), (times "!", 3)) }
+
+Parse trees may be analyzed by user-defined systems. A default ruby system is provided for typical tasks:
+
+  SByC::RubySystem.type_check(code)              # => String
+  SByC::RubySystem.execute(code, :who => "SByC") # => "hello SByC !!!"
+
+== Roadmap
+
+To appear.
