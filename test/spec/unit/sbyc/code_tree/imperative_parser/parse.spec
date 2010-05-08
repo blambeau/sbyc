@@ -6,7 +6,7 @@ describe "::SByC::CodeTree::ImperativeParser#parse" do
     subject { ::SByC::CodeTree::ImperativeParser::parse(code).inspect }
 
     let(:code)        { proc {|t| t[:a] + 12       } }
-    let(:functional)  { proc { (plus (ref :a), 12) } }
+    let(:functional)  { proc { (plus (get :a), 12) } }
 
     it { should == ::SByC::CodeTree::FunctionalParser::parse(functional).inspect  }
   end
@@ -15,7 +15,7 @@ describe "::SByC::CodeTree::ImperativeParser#parse" do
     subject { ::SByC::CodeTree::ImperativeParser::parse(code).inspect }
 
     let(:code)        { proc {|t| 12 + t[:a]       } }
-    let(:functional)  { proc { (plus (ref :a), 12) } }
+    let(:functional)  { proc { (plus (get :a), 12) } }
 
     it { should == ::SByC::CodeTree::FunctionalParser::parse(functional).inspect  }
   end
