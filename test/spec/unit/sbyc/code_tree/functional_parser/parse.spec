@@ -1,6 +1,6 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe "::SByC::CodeTree::Parser#parse" do
+describe "::SByC::CodeTree::FunctionalParser#parse" do
   
   context("with a simple method call") do
     let(:code) { proc { (plus 12, 15) }}
