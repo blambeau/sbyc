@@ -1,6 +1,7 @@
 module SByC
   module CodeTree
     class AstNode
+      include Enumerable
       
       # Name of the method call
       attr_reader :name
@@ -17,6 +18,11 @@ module SByC
       # Creates an ASTNode instance
       def initialize(name, children, lambda)
         @name, @children, @lambda = name, children, lambda
+      end
+    
+      # Yields block with each child in turn  
+      def each(&block)
+        children.each(&block)
       end
       
       # Inspection

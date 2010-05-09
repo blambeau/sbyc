@@ -24,25 +24,42 @@ SByC provides a reusable and extensible implementation of such DSL hacks... beca
   # Compilation stage
   compiled = SByC::RubySystem::compile(code)    # => <Proc:...@...>
   result   = compiled.call(:x => 7, :y => 15)   # => false
+  
+  # And the RubySystem has a type checker ;-)
+  puts compiled.type_check(:x => 7, :y => 15)   # => Integer
 
-  # Another compilation
-  sql_system = ::SByC::System.new {
-    operator(:bool_and) {|left, right| "(#{apply(left)} AND #{apply(right)})" }
-    operator(:gt)       {|left, right| "(#{apply(left)} > #{apply(right)})"   }
-    ...
-  }
-  compiled = sql_system.compile(code)           # => "((x > 5) AND (y > 10))"
+The story does not stop here... You can of course provide your own compilation mechanisms!
 
-== How does it work?
+== Functional engine and rewriting
 
-SByC is based on a functional engine that parses LISP inspired functional expressions:
+The ability to parse imperative blocks is a small visible feature of SByC. More generally, SByC is based on a functional engine that parses LISP inspired functional expressions:
 
-  code = lambda{ (concat "hello", (ref :who), (times "!", 3)) }
+  code = lambda{ (concat "hello world", " ", (times "!", 3)) }
 
 Parse trees may be analyzed by user-defined systems. A default ruby system is provided for typical tasks:
 
   SByC::RubySystem.type_check(code)              # => String
-  SByC::RubySystem.execute(code, :who => "SByC") # => "hello SByC !!!"
+  SByC::RubySystem.execute(code)                 # => "hello world !!!"
+
+Creating such a system for your own needs starts with understanding the rewriter engine:
+
+  # Evaluate the code above:
+  rewriter = ::SByC::Rewriter.new {|r|
+    r.rule(:concat)    {|r, *args| args.collect{|c| r.apply(c)}.join("") }  
+    r.rule(:capitalize){|r, w|     r.apply(w).capitalize                 }
+    r.rule(:times)     {|r, w, n|  r.apply(w) * r.apply(n)               }
+    r.rule(:literal)   {|r, l|     l.literal                             }
+  }
+  puts rewriter.rewrite(ast)                     # => "hello world !!!"
+  
+  # Generate ruby code for the code above:
+  rewriter = ::SByC::Rewriter.new {|r|
+    r.rule(:concat)    {|r, *args| args.collect{|c| r.apply(c)}.join(" + ") }  
+    r.rule(:capitalize){|r, w|     "#{r.apply(w)}.capitalize()"             }
+    r.rule(:times)     {|r,w,n|    "(#{r.apply(w)} * #{r.apply(n)})"        }
+    r.rule(:literal)   {|r,l|      l.literal.inspect                        }
+  }
+  puts rewriter.rewrite(ast)                     # "hello world" + " " + ("!" * 3)
 
 == Roadmap
 

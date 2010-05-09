@@ -12,7 +12,7 @@ module SByC
       
       # Returns "literal"
       def name
-        "literal"
+        :literal
       end
       
       # Returns an empty array

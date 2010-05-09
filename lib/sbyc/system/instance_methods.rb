@@ -49,7 +49,7 @@ module SByC
       # Compile some code and returns a lambda object that can be called.
       def compile(code = nil, do_type_check = true, &block)
         code = to_ruby_code(code, do_type_check, &block)
-        Kernel.eval "Kernel::lambda {|params| #{code}}"
+        Kernel.eval "Kernel::lambda {#{code}}"
       end
       
     end # module InstanceMethods

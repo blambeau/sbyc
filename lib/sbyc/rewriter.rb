@@ -1,0 +1,1 @@
+require 'sbyc/rewriter/instance_methods'
