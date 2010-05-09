@@ -56,8 +56,8 @@ Creating such a system for your own needs starts with understanding the rewriter
   rewriter = ::SByC::Rewriter.new {|r|
     r.rule(:concat)    {|r, *args| args.collect{|c| r.apply(c)}.join(" + ") }  
     r.rule(:capitalize){|r, w|     "#{r.apply(w)}.capitalize()"             }
-    r.rule(:times)     {|r,w,n|    "(#{r.apply(w)} * #{r.apply(n)})"        }
-    r.rule(:literal)   {|r,l|      l.literal.inspect                        }
+    r.rule(:times)     {|r, w, n|  "(#{r.apply(w)} * #{r.apply(n)})"        }
+    r.rule(:literal)   {|r, l|     l.literal.inspect                        }
   }
   puts rewriter.rewrite(ast)                     # "hello world" + " " + ("!" * 3)
 
