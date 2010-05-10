@@ -20,6 +20,16 @@ module SByC
         @name, @children, @lambda = name, children, lambda
       end
     
+      # Returns false
+      def leaf?
+        false
+      end
+    
+      # Negation of leaf?
+      def branch?
+        not(leaf?)
+      end
+    
       # Yields block with each child in turn  
       def each(&block)
         children.each(&block)

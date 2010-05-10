@@ -6,7 +6,7 @@ describe "SByC::Rewriter::Match#matches?" do
   let(:literal) { ::SByC::CodeTree::LeafNode.new(12) }
   
   context "when built with a symbol" do
-    subject { ::SByC::Rewriter::Match.new(:literal, nil) }
+    subject { ::SByC::Rewriter::Match.coerce(:literal, nil) }
     specify { 
       (subject.matches? branch).should be_false
       (subject.matches? literal).should be_true
@@ -17,7 +17,7 @@ describe "SByC::Rewriter::Match#matches?" do
   
   context "when built with a proc" do
     let(:proc) { lambda {|node| node.name == :branch } }
-    subject { ::SByC::Rewriter::Match.new(proc, nil) }
+    subject { ::SByC::Rewriter::Match.coerce(proc, nil) }
     specify { 
       (subject.matches? branch).should be_true
       (subject.matches? literal).should be_false

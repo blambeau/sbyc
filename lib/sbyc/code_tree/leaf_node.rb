@@ -10,6 +10,11 @@ module SByC
         @literal = literal
       end
       
+      # Returns false
+      def leaf?
+        true
+      end
+    
       # Returns "literal"
       def name
         :literal

@@ -10,7 +10,7 @@ module SByC
       # Parses a block
       def self.parse(code = nil, &block)
         block = code || block
-        case block
+        res = case block
           when Proc
             self.new.instance_eval(&block)
           when String
@@ -18,6 +18,7 @@ module SByC
           else
             raise ArgumentError, "Unable to parse #{block} : #{block.class}"
         end
+        ::SByC::CodeTree::AstNode::coerce(res)
       end
       
     end # class FunctionalParser

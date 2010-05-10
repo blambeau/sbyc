@@ -50,7 +50,27 @@ describe "SByC::Rewriter" do
     context("when applied with a block") do
       specify { subject.rewrite(:hello => "world"){ (get :hello) }.should == "world" }
     end
+  end
+  
+  describe "when only an ANY match is installed" do
+    subject{ ::SByC::Rewriter.new{|r| 
+      r.rule(::SByC::Rewriter::Match::ANY){|r, arg| arg.respond_to?(:literal) ? arg.literal : r.apply(arg)} 
+    }}
     
+    it "should return inner-most argument" do
+      subject.rewrite{ (call (other (one :hello))) }.should == :hello
+    end
+  end
+  
+  describe "when only an LEAF/BRANCH are used" do
+    subject{ ::SByC::Rewriter.new{|r| 
+      r.rule(::SByC::Rewriter::Match::BRANCH){|r, child| r.apply(child)}
+      r.rule(::SByC::Rewriter::Match::LEAF){|r, node| node.literal}
+    }}
+    
+    it "should return inner-most argument" do
+      subject.rewrite{ (call (other (one :hello))) }.should == :hello
+    end
   end
   
 end

@@ -2,6 +2,12 @@ require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe "::SByC::CodeTree::FunctionalParser#parse" do
   
+  context("with a pure literal") do
+    let(:code) { proc { :hello } }
+    subject { ::SByC::CodeTree::FunctionalParser::parse(code) }
+    it { should be_kind_of(::SByC::CodeTree::LeafNode) }
+  end
+  
   context("with a simple method call") do
     let(:code) { proc { (plus 12, 15) }}
     subject { ::SByC::CodeTree::FunctionalParser::parse(code).to_a }

@@ -15,8 +15,8 @@ module SByC
       end
       
       # Adds a rule
-      def rule(method_name, &block)
-        @rules << ::SByC::Rewriter::Match.new(method_name, block)
+      def rule(match, &block)
+        @rules << ::SByC::Rewriter::Match.coerce(match, block)
       end
       
       # Rewrites some code
@@ -35,9 +35,5 @@ module SByC
       
     end # module InstanceMethods
     include InstanceMethods
-    
-    # Matches any node
-    ANY = lambda{|ast_node| true}
-    
   end # class Rewriter
 end # module SByC
