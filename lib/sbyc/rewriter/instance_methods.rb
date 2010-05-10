@@ -11,7 +11,6 @@ module SByC
       # Creates a Rewriter instance
       def initialize
         @rules = []
-        self.rule(:literal){|r, w| w.literal}
         yield(self) if block_given?
       end
       
