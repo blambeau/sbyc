@@ -5,7 +5,7 @@ describe "SByC::Rewriter" do
   describe "when called without scope" do 
     subject{
       ::SByC::Rewriter.new {|r|
-        r.rule(:concat)    {|r, *args| args.collect{|c| r.apply(c)}.join }
+        r.rule(:concat)    {|r, node, *args| args.collect{|c| r.apply(c)}.join }
         r.rule(:literal)   {|r, node| node.literal                       }
       }
     }
@@ -30,8 +30,8 @@ describe "SByC::Rewriter" do
   describe "when called with a scope object" do 
     subject{
       ::SByC::Rewriter.new {|r|
-        r.rule(:concat)    {|r, *args| args.collect{|c| r.apply(c)}.join }
-        r.rule(:get)       {|r, name|  r.scope[r.apply(name)]            }
+        r.rule(:concat)    {|r, node, *args| args.collect{|c| r.apply(c)}.join }
+        r.rule(:get)       {|r, node, name|  r.scope[r.apply(name)]            }
         r.rule(:literal)   {|r, node| node.literal                       }
       }
     }
@@ -54,7 +54,7 @@ describe "SByC::Rewriter" do
   
   describe "when only an ANY match is installed" do
     subject{ ::SByC::Rewriter.new{|r| 
-      r.rule(::SByC::Rewriter::Match::ANY){|r, arg| arg.respond_to?(:literal) ? arg.literal : r.apply(arg)} 
+      r.rule(::SByC::Rewriter::Match::ANY){|r, node, arg| arg.respond_to?(:literal) ? arg.literal : r.apply(arg)} 
     }}
     
     it "should return inner-most argument" do
@@ -64,7 +64,7 @@ describe "SByC::Rewriter" do
   
   describe "when only an LEAF/BRANCH are used" do
     subject{ ::SByC::Rewriter.new{|r| 
-      r.rule(::SByC::Rewriter::Match::BRANCH){|r, child| r.apply(child)}
+      r.rule(::SByC::Rewriter::Match::BRANCH){|r, node, child| r.apply(child)}
       r.rule(::SByC::Rewriter::Match::LEAF){|r, node| node.literal}
     }}
     

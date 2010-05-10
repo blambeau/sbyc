@@ -44,7 +44,7 @@ module SByC
           when ::SByC::CodeTree::LeafNode
             @block.call(rewriter, ast_node)
           when ::SByC::CodeTree::AstNode
-            @block.call(rewriter, *ast_node.children)
+            @block.call(rewriter, ast_node, *ast_node.children)
           else
             ast_node
         end
