@@ -10,44 +10,28 @@ module SByC
       
       # Creates a Rewriter instance
       def initialize
-        @rules = {}
+        @rules = []
         self.rule(:literal){|r, w| w.literal}
         yield(self) if block_given?
       end
       
       # Adds a rule
       def rule(method_name, &block)
-        @rules[method_name] = block
+        @rules << ::SByC::Rewriter::Match.new(method_name, block)
       end
       
       # Rewrites some code
       def rewrite(code = nil, scope = nil, &block)
-        if block
-          @scope = code
-          ast = ::SByC::CodeTree.coerce(block)
-        else
-          @scope = scope
-          ast = ::SByC::CodeTree.coerce(code || block)
-        end
-        apply(ast)
+        @scope = block ? code : scope
+        apply(::SByC::CodeTree.coerce(block || code))
       ensure 
         @scope = nil
       end
       
       # Applies rules on a node      
       def apply(node)
-        case node
-          when ::SByC::CodeTree::LeafNode
-            if rules.key?(node.name)
-              rules[node.name].call(self, node)
-            end
-          when ::SByC::CodeTree::AstNode
-            if rules.key?(node.name)
-              rules[node.name].call(self, *node.children)
-            end
-          else
-            node
-        end
+        rule = @rules.find{|r| r === node}
+        rule ? rule.apply(self, node) : nil
       end
       
     end # module InstanceMethods
