@@ -5,6 +5,9 @@ module SByC
       # Installed rules, by method name
       attr_reader :rules
       
+      # The scope
+      attr_reader :scope
+      
       # Creates a Rewriter instance
       def initialize
         @rules = {}
@@ -18,9 +21,17 @@ module SByC
       end
       
       # Rewrites some code
-      def rewrite(code = nil, &block)
-        ast = ::SByC::CodeTree.coerce(code || block)
+      def rewrite(code = nil, scope = nil, &block)
+        if block
+          @scope = code
+          ast = ::SByC::CodeTree.coerce(block)
+        else
+          @scope = scope
+          ast = ::SByC::CodeTree.coerce(code || block)
+        end
         apply(ast)
+      ensure 
+        @scope = nil
       end
       
       # Applies rules on a node      
