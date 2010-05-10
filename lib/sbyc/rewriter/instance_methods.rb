@@ -36,5 +36,9 @@ module SByC
       
     end # module InstanceMethods
     include InstanceMethods
+    
+    # Matches any node
+    ANY = lambda{|ast_node| true}
+    
   end # class Rewriter
 end # module SByC
