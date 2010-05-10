@@ -2,22 +2,26 @@ require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe "::SByC::CodeTree::ImperativeParser#parse" do
   
-  context("with a simple method call") do
-    subject { ::SByC::CodeTree::ImperativeParser::parse(code).inspect }
+  subject { ::SByC::CodeTree::ImperativeParser::parse(code).inspect }
+  let(:functional) { proc { (plus (get :a), 12) } }
+  let(:expected) { ::SByC::CodeTree::FunctionalParser::parse(functional).inspect }
 
+  context("with a simple operator call") do
     let(:code)        { proc {|t| t[:a] + 12       } }
-    let(:functional)  { proc { (plus (get :a), 12) } }
 
-    it { should == ::SByC::CodeTree::FunctionalParser::parse(functional).inspect  }
+    it { should == expected}
+  end
+  
+  context("with a simple method call") do
+    let(:code)        { proc {|t| t[:a].plus(12)   } }
+
+    it { should == expected}
   end
   
   context("with left literal at left") do
-    subject { ::SByC::CodeTree::ImperativeParser::parse(code).inspect }
-
     let(:code)        { proc {|t| 12 + t[:a]       } }
-    let(:functional)  { proc { (plus (get :a), 12) } }
 
-    it { should == ::SByC::CodeTree::FunctionalParser::parse(functional).inspect  }
+    it { should == expected}
   end
     
 end

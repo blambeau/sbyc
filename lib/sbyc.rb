@@ -36,6 +36,7 @@ module SByC
     :'^' => :exclusive,
     :<=> => :compare
   }
+  REVERSE_OPERATOR_NAMES = Hash[*OPERATOR_NAMES.to_a.collect{|c| c.reverse}]
 
   # Parses some code and returns a code tree.
   def parse(code = nil, &block)
