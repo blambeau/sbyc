@@ -10,4 +10,16 @@ describe "::SByC::CodeTree::BasicObject" do
     }
   end
   
+  describe "should not have a to_s method" do
+    specify {
+      proc { subject.respond_to?(:to_s).should be_false}
+    }
+  end
+  
+  describe "should not have an inspect method" do
+    specify {
+      proc { subject.respond_to?(:inspect).should be_false}
+    }
+  end
+  
 end

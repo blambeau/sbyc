@@ -18,14 +18,17 @@ module SByC
         alias :inspect :__to_functional_code
         
         def method_missing(name, *args)
-          if @name || args.length > 0
+          res = if @name || args.length > 0
             args.unshift(self) if @name
             Expr.new(name, args)
           else
             method_missing(:__scope_get__, name)
           end
+          res
         end
         
+        def to_s(*args, &block) method_missing(:to_s, *args, &block) end
+        def inspect(*args, &block) method_missing(:inspect, *args, &block) end
         def [](*args, &block)  
           if @name.nil?
             method_missing(:__scope_get__,  *args, &block);  

@@ -50,6 +50,23 @@ module SByC
         lambda ? [name, children.collect{|c| c.to_a}, lambda] : [name, children.collect{|c| c.to_a}]
       end
       
+      # Evaluates this AST inside a given scope and with a semantical style
+      def eval(scope = nil, style = :object)
+        self.send("#{style}_eval", scope)
+      end
+      
+      # Evaluates this AST with an object style.
+      def object_eval(scope = nil) 
+        cs = children.collect{|c| c.object_eval(scope)}
+        res = case name
+          when :__scope_get__
+            scope[*cs]
+          else
+            cs[0].send(name, *cs[1..-1])
+        end
+        res
+      end
+      
       # Coercion
       def self.coerce(arg)
         case arg

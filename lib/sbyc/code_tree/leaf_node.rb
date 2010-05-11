@@ -25,6 +25,11 @@ module SByC
         []
       end
       
+      # Evaluates this AST inside a given scope and with a semantical style
+      def object_eval(scope = nil)
+        literal
+      end
+      
       # Inspection
       def inspect
         "#{literal.inspect}"
