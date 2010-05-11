@@ -35,6 +35,7 @@ The story does not stop here... You can of course provide your own compilation m
 The ability to parse imperative blocks is a small visible feature of SByC. More generally, SByC is based on a functional engine that parses LISP inspired functional expressions:
 
   code = lambda{ (concat "hello world", " ", (times "!", 3)) }
+  ast  = ::SByC::parse(code)
 
 Parse trees may be analyzed by user-defined systems. A default ruby system is provided for typical tasks:
 
@@ -45,19 +46,19 @@ Creating such a system for your own needs starts with understanding the rewriter
 
   # Evaluate the code above:
   rewriter = ::SByC::Rewriter.new {|r|
-    r.rule(:concat)    {|r, *args| args.collect{|c| r.apply(c)}.join("") }  
-    r.rule(:capitalize){|r, w|     r.apply(w).capitalize                 }
-    r.rule(:times)     {|r, w, n|  r.apply(w) * r.apply(n)               }
-    r.rule(:literal)   {|r, l|     l.literal                             }
+    r.rule(:concat)    {|r, node, *children|   children.collect{|c| r.apply(c)}.join("") }  
+    r.rule(:capitalize){|r, node, who|         r.apply(who).capitalize                   }
+    r.rule(:times)     {|r, node, who, times|  r.apply(who) * r.apply(times)             }
+    r.rule(:literal)   {|r, node|              node.literal                              }
   }
   puts rewriter.rewrite(ast)                     # => "hello world !!!"
   
   # Generate ruby code for the code above:
   rewriter = ::SByC::Rewriter.new {|r|
-    r.rule(:concat)    {|r, *args| args.collect{|c| r.apply(c)}.join(" + ") }  
-    r.rule(:capitalize){|r, w|     "#{r.apply(w)}.capitalize()"             }
-    r.rule(:times)     {|r, w, n|  "(#{r.apply(w)} * #{r.apply(n)})"        }
-    r.rule(:literal)   {|r, l|     l.literal.inspect                        }
+    r.rule(:concat)    {|r, node, *children|   children.collect{|c| r.apply(c)}.join(" + ") }  
+    r.rule(:capitalize){|r, node, who|         "#{r.apply(who)}.capitalize()"               }
+    r.rule(:times)     {|r, node, who, times|  "(#{r.apply(who)} * #{r.apply(times)})"     }
+    r.rule(:literal)   {|r, node|              node.literal.inspect                         }
   }
   puts rewriter.rewrite(ast)                     # "hello world" + " " + ("!" * 3)
 
