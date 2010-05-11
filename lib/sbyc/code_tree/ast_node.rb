@@ -50,20 +50,6 @@ module SByC
         lambda ? [name, children.collect{|c| c.to_a}, lambda] : [name, children.collect{|c| c.to_a}]
       end
       
-      # Applies type checking
-      def type_check(system)
-        arg_types = children.collect{|c| c.type_check(system).return_type}
-        unless @operator = system.find_operator(name, arg_types)
-          raise ::SByC::TypeCheckingError, "Unable to find operator (#{name} #{arg_types.join(', ')})"
-        end
-        @operator
-      end
-      
-      # Converts to ruby code
-      def to_ruby_code(system)
-        operator.to_ruby_code(system, children.collect{|c| c.to_ruby_code(system)})
-      end
-      
       # Coercion
       def self.coerce(arg)
         case arg

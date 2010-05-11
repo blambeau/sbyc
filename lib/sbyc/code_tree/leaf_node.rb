@@ -40,17 +40,6 @@ module SByC
         literal
       end
       
-      # Applies type checking
-      def type_check(system)
-        signature = ::SByC::System::Signature.coerce([[], literal.class])
-        @operator = ::SByC::System::Operator.new(:__literal__, signature, literal.inspect)
-      end
-      
-      # Converts to ruby code
-      def to_ruby_code(system)
-        literal.inspect
-      end
-      
     end # class LeafNode
   end # module CodeTree
 end # module SByC
