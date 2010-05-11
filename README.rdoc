@@ -20,7 +20,21 @@ SByC provides a safe, reusable, extensible, and non-intrusive (no monkey patchin
   # Functional-style
   SByC::parse{ (both (gt x, 5), (lte y, 10))  }     # => (both (gt (__scope_get__ :x), 5), (lte (__scope_get__ :z), 10))
 
-The parsing stage returns a functional Abstract Syntax Tree, which can be passed to a next stage (rewriting, evaluation, compilation or whatever). 
+The parsing stage returns a functional Abstract Syntax Tree, which can be passed to a next stage (rewriting, evaluation, compilation or whatever). Shortcuts for common next-stages are already proposed:
+
+  #
+  # Re-evaluate the AST with an object semantics in mind: 
+  #   the method/operator is sent on its first argument
+  #
+  expr = SByC::parse{ x + y }                       # => (+ x, y)
+  expr.object_eval(:x => 12, :y => 28)              # => 40 (executed as '12.+(18)')
+
+  #
+  # Re-evaluate the AST with an functional semantics in mind: 
+  #   the method/operator is sent on a global object
+  #
+  expr = SByC::parse{ (puts x, y) }                 # => (puts x, " ", y)
+  expr.functional_eval(Kernel, :x => 12, :y => 28)  # => 12\n28 (executed as Kernel.puts(12, 28))
 
 == Assumptions & Limitations (examples that DO NOT work)
 

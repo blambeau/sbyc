@@ -29,6 +29,7 @@ module SByC
         
         def to_s(*args, &block) method_missing(:to_s, *args, &block) end
         def inspect(*args, &block) method_missing(:inspect, *args, &block) end
+        def puts(*args, &block) method_missing(:puts, *args, &block) end
         def [](*args, &block)  
           if @name.nil?
             method_missing(:__scope_get__,  *args, &block);  

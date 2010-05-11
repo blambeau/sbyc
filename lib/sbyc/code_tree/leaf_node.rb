@@ -25,8 +25,12 @@ module SByC
         []
       end
       
-      # Evaluates this AST inside a given scope and with a semantical style
+      # Evaluates this AST inside a given scope and with an object style
       def object_eval(scope = nil)
+        literal
+      end
+      # Evaluates this AST inside a given scope and with a functional style
+      def functional_eval(master_object, scope = nil)
         literal
       end
       
