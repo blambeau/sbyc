@@ -18,7 +18,7 @@ Many ruby gems implement specific DSLs to create predicates and/or logic express
 SByC provides a reusable and extensible implementation of such DSL hacks... because it cleanly separates parsing from compilation mechanisms!
 
   # Parsing stage
-  code     = lambda{|t| (t[:x] > 5) & (t[:y] <= 10)}
+  code     = lambda{|t| (t[:x] > 5) & (t[:y] <= 10) }
   ast      = SByC::parse_imperative(code)       # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
 
   # Compilation stage
@@ -29,6 +29,19 @@ SByC provides a reusable and extensible implementation of such DSL hacks... beca
   puts compiled.type_check(:x => 7, :y => 15)   # => Integer
 
 The story does not stop here... You can of course provide your own compilation mechanisms!
+
+=== Three imperative styles 
+
+Expressions below are parsed and converted to the the same functional code (see later), so they are considered equivalent.
+
+  # Hash-style
+  SByC::parse_imperative{|t| (t[:x] > 5) & (t[:y] <= 10) } # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
+  
+  # Object-style
+  SByC::parse_imperative{|t| (t.x > 5) & (t.y <= 10) }     # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
+  
+  # Context-style
+  SByC::parse_imperative{ (x > 5) & (y <= 10) }            # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
 
 == Functional engine and rewriting
 
