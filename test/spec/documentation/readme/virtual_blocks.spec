@@ -18,29 +18,12 @@ describe "README # virtual blocks section" do
     let(:object_style)     { lambda{|t| (t.x > 5) & (t.z <= 10)                      } }
     let(:context_style)    { lambda{ (x > 5) & (z <= 10)                             } }
     let(:functional_style) { lambda{ (bool_and (gt (get :x), 5), (lte (get :z), 10)) } }
-    let(:tested)           { [hash_style, object_style, context_style, functional_style] }
+    let(:functional_style_2) { lambda{ (bool_and (gt x, 5), (lte z, 10)) } }
+    let(:tested)           { [hash_style, object_style, context_style, functional_style, functional_style_2] }
     
     subject{ tested.collect{|t| ::SByC::parse(t) } }
     
     specify{ subject.collect{|c| c.inspect}.uniq.should == [ expected ] }
-  end
-  
-  describe "what is said about the ruby code generation" do
-    subject { SByC::RubySystem::to_ruby_code(code) }
-    
-    specify { pending("Ruby system should be rewritten entirely") { puts subject } }
-  end
-  
-  describe "what is said about the compilation stage" do
-    subject { compiled.call(:x => 7, :z => 15) }
-    
-    it { pending("Ruby system should be rewritten entirely") { should be_false } }
-  end
-  
-  describe "what is said about the type checker" do 
-    subject { compiled.type_check(:x => 7, :z => 15) }
-    
-    it { pending("Ruby system should be rewritten entirely") { should == Integer} }
   end
   
 end

@@ -4,44 +4,23 @@ This is a particular branch of the SByC library which aims at investigating a ty
 
 ATTENTION!!! This ruby library is under active development. Some of the examples may not work so far ;-)
 
-== Generic virtual blocks
+== Friendly block DSLs
 
-Many ruby gems implement specific DSLs to create predicates and/or logic expressions inside lambda functions. For instance, 
-
-  # Extracted from Sequel documentation
-  DB[:items].filter{|o| (o.x > 5) & (o.y <= 10)}.sql   # => "SELECT * FROM items WHERE ((x > 5) AND (y > 10))"
-
-  # Other examples in Sequel
-  dataset.filter{a & (b | ~c)}
-  dataset.select{a + b}
-
-SByC provides a reusable and extensible implementation of such DSL hacks... because it cleanly separates parsing from compilation mechanisms!
-
-  # Parsing stage
-  code     = lambda{|t| (t[:x] > 5) & (t[:y] <= 10) }
-  ast      = SByC::parse(code)       # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
-
-  # Compilation stage
-  compiled = SByC::RubySystem::compile(code)    # => <Proc:...@...>
-  result   = compiled.call(:x => 7, :y => 15)   # => false
-  
-  # And the RubySystem has a type checker ;-)
-  puts compiled.type_check(:x => 7, :y => 15)   # => Integer
-
-The story does not stop here... You can of course provide your own compilation mechanisms!
-
-=== Three imperative styles 
-
-Expressions below are parsed and converted to the the same functional code (see later), so they are considered equivalent.
+SByC provides a safe, reusable, extensible, and non-intrusive (no monkey patching of Ruby core classes) implementation of block DSLs. The following styles are recognized:
 
   # Hash-style
-  SByC::parse{|t| (t[:x] > 5) & (t[:y] <= 10) } # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
+  SByC::parse{|t| (t[:x] > 5) & (t[:y] <= 10) }     # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
   
   # Object-style
-  SByC::parse{|t| (t.x > 5) & (t.y <= 10) }     # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
+  SByC::parse{|t| (t.x > 5) & (t.y <= 10) }         # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
   
   # Context-style
-  SByC::parse{ (x > 5) & (y <= 10) }            # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
+  SByC::parse{ (x > 5) & (y <= 10) }                # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
+
+  # Functional-style
+  SByC::parse{ (bool_and (gt x, 5), (lte y, 10)) }  # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
+
+The parsing stage returns a functional Abstract Syntax Tree, which can be passed to a next stage (rewriting, evaluation, compilation or whatever). 
 
 == Functional engine and rewriting
 
