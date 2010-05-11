@@ -1,23 +1,26 @@
 module SByC
   module CodeTree
-    class ImperativeParser < BasicParser
-      class Expr < BasicParser
+    class ImperativeParser
+      class Expr < ::SByC::CodeTree::BasicObject
         
         # Creates an expression instance
-        def initialize(str = nil)
-          @str = str
+        def initialize(name = nil, children = nil)
+          @name, @children = name, children
         end
         
         # Returns the associated functional code
         def __to_functional_code
-          @str
+          children = @children.collect{|c|
+            c.kind_of?(Expr) ? c.__to_functional_code : AstNode.coerce(c)
+          }
+          ::SByC::CodeTree::AstNode.coerce([@name, children])
         end
         alias :inspect :__to_functional_code
         
         def method_missing(name, *args)
-          if @str || args.length > 0
-            args.unshift(self) if @str
-            Expr.new("(#{name} #{args.collect{|a| a.inspect}.join(', ')})")
+          if @name || args.length > 0
+            args.unshift(self) if @name
+            Expr.new(name, args)
           else
             method_missing(OPERATOR_NAMES[:[]], name)
           end
@@ -67,7 +70,7 @@ module SByC
         end
         case e
           when Expr
-            ::SByC::CodeTree::FunctionalParser::parse(e.__to_functional_code)
+            e.__to_functional_code
           else
             ::SByC::CodeTree::LeafNode.new(e)
         end

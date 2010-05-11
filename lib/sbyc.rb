@@ -43,12 +43,6 @@ module SByC
     ::SByC::CodeTree::parse(code, &block)
   end
   module_function :parse
-
-  # Parses some code and returns a code tree.
-  def parse_imperative(code = nil, &block)
-    ::SByC::CodeTree::parse_imperative(code, &block)
-  end
-  module_function :parse_imperative
   
   # Applies type checking to a code
   def type_check(code = nil, system = ::SByC::RubySystem, &block)

@@ -1,6 +1,6 @@
 module SByC
   module CodeTree
-    class BasicParser
+    class BasicObject
       
       # Methods that we keep
       KEPT_METHODS = [ "__send__", "__id__", "instance_eval", "initialize", "object_id", 
@@ -24,6 +24,6 @@ module SByC
         end
       end
       
-    end # class FunctionalParser
+    end # class BasicObject
   end # module CodeTree
 end # module SByC

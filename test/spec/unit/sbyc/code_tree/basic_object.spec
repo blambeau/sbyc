@@ -1,8 +1,8 @@
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe "::SByC::CodeTree::BasicParser" do
+describe "::SByC::CodeTree::BasicObject" do
 
-  subject { ::SByC::CodeTree::BasicParser.new }
+  subject { ::SByC::CodeTree::BasicObject.new }
 
   describe "should not have access to Kernel methods" do
     specify {

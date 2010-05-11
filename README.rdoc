@@ -19,7 +19,7 @@ SByC provides a reusable and extensible implementation of such DSL hacks... beca
 
   # Parsing stage
   code     = lambda{|t| (t[:x] > 5) & (t[:y] <= 10) }
-  ast      = SByC::parse_imperative(code)       # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
+  ast      = SByC::parse(code)       # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
 
   # Compilation stage
   compiled = SByC::RubySystem::compile(code)    # => <Proc:...@...>
@@ -35,13 +35,13 @@ The story does not stop here... You can of course provide your own compilation m
 Expressions below are parsed and converted to the the same functional code (see later), so they are considered equivalent.
 
   # Hash-style
-  SByC::parse_imperative{|t| (t[:x] > 5) & (t[:y] <= 10) } # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
+  SByC::parse{|t| (t[:x] > 5) & (t[:y] <= 10) } # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
   
   # Object-style
-  SByC::parse_imperative{|t| (t.x > 5) & (t.y <= 10) }     # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
+  SByC::parse{|t| (t.x > 5) & (t.y <= 10) }     # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
   
   # Context-style
-  SByC::parse_imperative{ (x > 5) & (y <= 10) }            # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
+  SByC::parse{ (x > 5) & (y <= 10) }            # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
 
 == Functional engine and rewriting
 
