@@ -14,10 +14,11 @@ describe "README # virtual blocks section" do
   end
 
   describe "what is said about styles" do
-    let(:hash_style)    { lambda{|t| (t[:x] > 5) & (t[:z] <= 10) } }
-    let(:object_style)  { lambda{|t| (t.x > 5) & (t.z <= 10)     } }
-    let(:context_style) { lambda{ (x > 5) & (z <= 10)            } }
-    let(:tested)        { [hash_style, object_style, context_style] }
+    let(:hash_style)       { lambda{|t| (t[:x] > 5) & (t[:z] <= 10)                  } }
+    let(:object_style)     { lambda{|t| (t.x > 5) & (t.z <= 10)                      } }
+    let(:context_style)    { lambda{ (x > 5) & (z <= 10)                             } }
+    let(:functional_style) { lambda{ (bool_and (gt (get :x), 5), (lte (get :z), 10)) } }
+    let(:tested)           { [hash_style, object_style, context_style, functional_style] }
     
     subject{ tested.collect{|t| ::SByC::parse_imperative(t) } }
     

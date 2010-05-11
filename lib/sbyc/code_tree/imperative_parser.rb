@@ -58,7 +58,7 @@ module SByC
       # Parses a Proc object
       def self.parse_proc(block)
         e = case block.arity
-          when -1
+          when -1, 0
             Expr.new.instance_eval(&block)
           when 1
             block.call(Expr.new)
