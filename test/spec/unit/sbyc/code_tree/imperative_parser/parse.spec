@@ -5,7 +5,7 @@ describe "::SByC::CodeTree::ImperativeParser#parse" do
   subject { ::SByC::CodeTree::ImperativeParser::parse(code) }
 
   context "when called with an argument" do 
-    let(:expected)   { "(plus (get :a), 12)" }
+    let(:expected)   { "(+ (__scope_get__ :a), 12)" }
   
     context("with a simple literal") do
       let(:code)  { proc {|t| 12 } }
@@ -23,16 +23,6 @@ describe "::SByC::CodeTree::ImperativeParser#parse" do
       specify { subject.inspect.should == expected }
     end
       
-    context("with a simple method call") do
-      let(:code)        { proc {|t| t[:a].plus(12)   } }
-      specify { subject.inspect.should == expected }
-    end
-      
-    context("with a simple method call and dot heuristic") do
-      let(:code)        { proc {|t| t.a.plus(12)   } }
-      specify { subject.inspect.should == expected }
-    end
-      
     context("with left literal at left") do
       let(:code)        { proc {|t| 12 + t[:a]       } }
       specify { subject.inspect.should == expected }
@@ -45,7 +35,7 @@ describe "::SByC::CodeTree::ImperativeParser#parse" do
   end
   
   context "when called without argument" do
-    let(:expected)   { "(plus (get :a), 12)" }
+    let(:expected)   { "(+ (__scope_get__ :a), 12)" }
   
     context("with a simple literal") do
       let(:code)        { proc { 12 } }
@@ -58,15 +48,24 @@ describe "::SByC::CodeTree::ImperativeParser#parse" do
       specify { subject.inspect.should == expected }
     end
   
-    context("with a simple method call") do
-      let(:code)        { proc { a.plus(12)   } }
-      specify { subject.inspect.should == expected }
-    end
-  
     context("with left literal at left") do
       let(:code)        { proc { 12 + a } }
       specify { subject.inspect.should == expected }
     end
   end
-    
+   
+  context "when called and used with method calls" do
+    let(:expected)   { "(plus (__scope_get__ :a), 12)" }
+   
+    context("with a simple method call") do
+      let(:code)        { proc {|t| t[:a].plus(12)   } }
+      specify { subject.inspect.should == expected }
+    end
+      
+    context("with a simple method call and dot heuristic") do
+      let(:code)        { proc {|t| t.a.plus(12)   } }
+      specify { subject.inspect.should == expected }
+    end
+  end
+  
 end

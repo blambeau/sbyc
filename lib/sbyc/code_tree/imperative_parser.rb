@@ -22,35 +22,41 @@ module SByC
             args.unshift(self) if @name
             Expr.new(name, args)
           else
-            method_missing(OPERATOR_NAMES[:[]], name)
+            method_missing(:__scope_get__, name)
           end
         end
         
-        def [](*args, &block)  method_missing(OPERATOR_NAMES[:[]],  *args, &block);  end
-        def []=(*args, &block) method_missing(OPERATOR_NAMES[:[]=], *args, &block);  end
-        def **(*args, &block)  method_missing(OPERATOR_NAMES[:**],  *args, &block);  end
-        def ~(*args, &block)   method_missing(OPERATOR_NAMES[:~],   *args, &block);  end
-        def ==(*args, &block)  method_missing(OPERATOR_NAMES[:==],  *args, &block);  end
-        #def !=(*args, &block)  method_missing(OPERATOR_NAMES[:!=],  *args, &block);  end
-        def -@(*args, &block)  method_missing(OPERATOR_NAMES[:-@],  *args, &block);  end
-        def +@(*args, &block)  method_missing(OPERATOR_NAMES[:+@],  *args, &block);  end
-        def -(*args, &block)   method_missing(OPERATOR_NAMES[:-],   *args, &block);  end
-        def +(*args, &block)   method_missing(OPERATOR_NAMES[:+],   *args, &block);  end
-        def *(*args, &block)   method_missing(OPERATOR_NAMES[:*],   *args, &block);  end
-        def /(*args, &block)   method_missing(OPERATOR_NAMES[:/],   *args, &block);  end
-        def %(*args, &block)   method_missing(OPERATOR_NAMES[:%],   *args, &block);  end
-        def =~(*args, &block)  method_missing(OPERATOR_NAMES[:=~],  *args, &block);  end
-        def ===(*args, &block) method_missing(OPERATOR_NAMES[:===], *args, &block);  end
-        def &(*args, &block)   method_missing(OPERATOR_NAMES[:&],   *args, &block);  end
-        def |(*args, &block)   method_missing(OPERATOR_NAMES[:|],   *args, &block);  end
-        def >(*args, &block)   method_missing(OPERATOR_NAMES[:>],   *args, &block);  end
-        def >=(*args, &block)  method_missing(OPERATOR_NAMES[:>=],  *args, &block);  end
-        def <=(*args, &block)  method_missing(OPERATOR_NAMES[:<=],  *args, &block);  end
-        def <(*args, &block)   method_missing(OPERATOR_NAMES[:<],   *args, &block);  end
-        def >>(*args, &block)  method_missing(OPERATOR_NAMES[:>>],  *args, &block);  end
-        def <<(*args, &block)  method_missing(OPERATOR_NAMES[:<<],  *args, &block);  end
-        def ^(*args, &block)   method_missing(OPERATOR_NAMES[:'^'], *args, &block);  end
-        def <=>(*args, &block) method_missing(OPERATOR_NAMES[:<=>], *args, &block);  end
+        def [](*args, &block)  
+          if @name.nil?
+            method_missing(:__scope_get__,  *args, &block);  
+          else            
+            method_missing(:[],  *args, &block);  
+          end
+        end
+        def []=(*args, &block) method_missing(:[]=, *args, &block);  end
+        def **(*args, &block)  method_missing(:**,  *args, &block);  end
+        def ~(*args, &block)   method_missing(:~,   *args, &block);  end
+        def ==(*args, &block)  method_missing(:==,  *args, &block);  end
+        #def !=(*args, &block)  method_missing(:!=,  *args, &block);  end
+        def -@(*args, &block)  method_missing(:-@,  *args, &block);  end
+        def +@(*args, &block)  method_missing(:+@,  *args, &block);  end
+        def -(*args, &block)   method_missing(:-,   *args, &block);  end
+        def +(*args, &block)   method_missing(:+,   *args, &block);  end
+        def *(*args, &block)   method_missing(:*,   *args, &block);  end
+        def /(*args, &block)   method_missing(:/,   *args, &block);  end
+        def %(*args, &block)   method_missing(:%,   *args, &block);  end
+        def =~(*args, &block)  method_missing(:=~,  *args, &block);  end
+        def ===(*args, &block) method_missing(:===, *args, &block);  end
+        def &(*args, &block)   method_missing(:&,   *args, &block);  end
+        def |(*args, &block)   method_missing(:|,   *args, &block);  end
+        def >(*args, &block)   method_missing(:>,   *args, &block);  end
+        def >=(*args, &block)  method_missing(:>=,  *args, &block);  end
+        def <=(*args, &block)  method_missing(:<=,  *args, &block);  end
+        def <(*args, &block)   method_missing(:<,   *args, &block);  end
+        def >>(*args, &block)  method_missing(:>>,  *args, &block);  end
+        def <<(*args, &block)  method_missing(:<<,  *args, &block);  end
+        def ^(*args, &block)   method_missing(:'^', *args, &block);  end
+        def <=>(*args, &block) method_missing(:<=>, *args, &block);  end
 
         def coerce(other)
           [self, other]

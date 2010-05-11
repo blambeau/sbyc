@@ -33,6 +33,12 @@ module SByC
         rule ? rule.apply(self, node) : nil
       end
       
+      # Applies rules on each child of the context node and returns
+      # an array collecting the result
+      def apply_all(node)
+        node.children.collect{|c| apply(c)}
+      end
+      
     end # module InstanceMethods
     include InstanceMethods
   end # class Rewriter

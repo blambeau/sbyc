@@ -9,27 +9,47 @@ ATTENTION!!! This ruby library is under active development. Some of the examples
 SByC provides a safe, reusable, extensible, and non-intrusive (no monkey patching of Ruby core classes) implementation of block DSLs. The following styles are recognized:
 
   # Hash-style
-  SByC::parse{|t| (t[:x] > 5) & (t[:y] <= 10) }     # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
+  SByC::parse{|t| (t[:x] > 5) & (t[:y] <= 10) }     # => (& (> (__scope_get__ :x), 5), (<= (__scope_get__ :y), 10))
   
   # Object-style
-  SByC::parse{|t| (t.x > 5) & (t.y <= 10) }         # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
+  SByC::parse{|t| (t.x > 5) & (t.y <= 10)     }     # => (& (> (__scope_get__ :x), 5), (<= (__scope_get__ :z), 10))
   
   # Context-style
-  SByC::parse{ (x > 5) & (y <= 10) }                # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
+  SByC::parse{ (x > 5) & (y <= 10)            }     # => (& (> (__scope_get__ :x), 5), (<= (__scope_get__ :z), 10))
 
   # Functional-style
-  SByC::parse{ (bool_and (gt x, 5), (lte y, 10)) }  # => (bool_and (gt (get :x), 5), (lte (get :y), 10))
+  SByC::parse{ (both (gt x, 5), (lte y, 10))  }     # => (both (gt (__scope_get__ :x), 5), (lte (__scope_get__ :z), 10))
 
 The parsing stage returns a functional Abstract Syntax Tree, which can be passed to a next stage (rewriting, evaluation, compilation or whatever). 
 
-== Functional engine and rewriting
+== Assumptions & Limitations (examples that DO NOT work)
 
-The ability to parse imperative blocks is a small visible feature of SByC. More generally, SByC is based on a functional engine that parses LISP inspired functional expressions:
+* SByC implicitly assumes that block's code can be interpreted functionally: no concept of variable, no sequence of code, no if/then/else, no loop. Said otherwise: your block code should always "compute a value", without any other (state) side effect. The following will NOT work:
 
-  code = lambda{ (concat "hello ", (get :who), (times "!", 3)) }
-  ast  = ::SByC::parse(code)                    # => (concat ...)
+    SByC::parse{ if x then 0 else 1 end }           # 0
 
-Parse trees may be analyzed by user-defined systems. Creating such a system for your own needs starts with understanding the rewriter engine:
+* SByC does not uses ruby2ruby or similar libraries to get an AST. It simply executes the block inside a specific DSL. Therefore, ruby expressions on literals will be evaluated at parsing time, according to operator precedence and ordering:
+  
+    SByC::parse{ x + 12 + 17     }                  # => (+ (+ (__scope_get__ :x), 12), 17)
+    SByC::parse{ x + (12 + 17)   }                  # => (+ (__scope_get__ :x), 29)
+    SByC::parse{ (x + 12) + 17   }                  # => (+ (+ (__scope_get__ :x), 12), 17)
+
+* For the same reason, only operators that rely on overridable methods are recognized. In particular, the following expressions will NOT work:
+
+    SByC::parse{ x and y }                          # => (__scope_get__ :y)
+    SByC::parse{ x && y  }                          # => (__scope_get__ :y)
+    SByC::parse{ x or y  }                          # => (__scope_get__ :x)
+    SByC::parse{ x || y  }                          # => (__scope_get__ :x)
+    SByC::parse{ not(x)  }                          # => false
+    SByC::parse{ !x      }                          # => false
+
+== Example of later stages, the Rewriter engine!
+
+Consider the following (functional) example. 
+
+  ast = SByC::parse{ (concat "hello ", (get :who), (times "!", 3)) }
+
+=== An evaluation stage
 
   # Evaluate the code above:
   rewriter = ::SByC::Rewriter.new {|r|
@@ -40,7 +60,9 @@ Parse trees may be analyzed by user-defined systems. Creating such a system for 
     r.rule(:literal)   {|r, node|              node.literal                              }
   }
   puts rewriter.rewrite(ast, :who => "SByC")      # => "hello SByC!!!"
-  
+
+=== A compilation stage  
+
   # Generate ruby code for the code above:
   rewriter = ::SByC::Rewriter.new {|r|
     r.rule(:concat)    {|r, node, *children|   children.collect{|c| r.apply(c)}.join(" + ") }  
@@ -50,7 +72,3 @@ Parse trees may be analyzed by user-defined systems. Creating such a system for 
     r.rule(:literal)   {|r, node|              node.literal.inspect                         }
   }
   puts rewriter.rewrite(ast)                     # "hello " + scope[:who] + ("!" * 3)
-
-== Roadmap
-
-To appear.
