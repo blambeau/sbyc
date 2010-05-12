@@ -11,11 +11,23 @@ describe "README # assumptions section" do
     [ proc{ x && z }, "(? :z)"],
     [ proc{ x or z }, "(? :x)"],
     [ proc{ x || z }, "(? :x)"],
-    [ proc{ not(x) }, "false"],
-    [ proc{ !(x) }, "false"]
   ].each{|test|
     specify { SByC::parse(test[0]).to_s.should == test[1] }  
   }
+  
+  if RUBY_VERSION < "1.9.0" 
+    [ [ proc{ !(x) }, "false"],
+      [ proc{ not(x) }, "false"]
+    ].each{|test|
+      specify { SByC::parse(test[0]).to_s.should == test[1] }  
+    }
+  else
+    [ [ proc{ !(x) }, "(! (? :x))"],
+      [ proc{ not(x) }, "(! (? :x))"]
+    ].each{|test|
+      specify { SByC::parse(test[0]).to_s.should == test[1] }  
+    }
+  end
   
 
 end

@@ -54,8 +54,8 @@ The parsing stage returns a functional Abstract Syntax Tree, which can be passed
     SByC::parse{ x && y  }                          # => (? :y)
     SByC::parse{ x or y  }                          # => (? :x)
     SByC::parse{ x || y  }                          # => (? :x)
-    SByC::parse{ not(x)  }                          # => false
-    SByC::parse{ !x      }                          # => false
+    SByC::parse{ not(x)  }                          # => false          # Works using Ruby >= 1.9.1
+    SByC::parse{ !x      }                          # => false          # Works using Ruby >= 1.9.1
 
 == Example of later stages, the Rewriter engine!
 
