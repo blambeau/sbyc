@@ -101,19 +101,23 @@ For instance,
 
 Consider the following example
 
-    ast = SByC::parse{ (concat "hello ", (get :who), (times "!", 3)) }
+    ast = SByC::parse{ (concat "hello ", who, (times "!", 3)) }
+    
+The complete code tree is as follows:
 
-The tree rewriting engine is inspired from XSLT and allows you to traverse the tree recursively, executing specific rules on each node. Let analyze two different productions on the foregoing example:
+    (concat (_ "hello "), (? (_ :who)), (times (_ "!"), (_ 3)))
+
+The tree rewriting engine is inspired from XSLT and allows you to traverse the tree recursively, executing specific rules on each node. Let analyze two different productions on the foregoing example.
 
 ### An evaluation production
 
     # Evaluate the code above:
     rewriter = ::SByC::Rewriter.new {|r|
-      r.rule(:concat)    {|r, node, *children|   children.collect{|c| r.apply(c)}.join("") }  
+      r.rule(:concat)    {|r, node, *children|   r.apply_all.join("")                      }  
       r.rule(:capitalize){|r, node, who|         r.apply(who).capitalize                   }
       r.rule(:times)     {|r, node, who, times|  r.apply(who) * r.apply(times)             }
-      r.rule(:get)       {|r, node, what|        scope[r.apply(what)]                      }
-      r.rule(:_)         {|r, node, literal|     literal                                   }
+      r.rule(:'?')       {|r, node, what|        r.scope[r.apply(what)]                    }
+      r.rule(:'_')       {|r, node, literal|     literal                                   }
     }
     puts rewriter.rewrite(ast, :who => "SByC")      # => "hello SByC!!!"
 
@@ -121,11 +125,11 @@ The tree rewriting engine is inspired from XSLT and allows you to traverse the t
 
     # Generate ruby code for the code above:
     rewriter = ::SByC::Rewriter.new {|r|
-      r.rule(:concat)    {|r, node, *children|   children.collect{|c| r.apply(c)}.join(" + ") }  
+      r.rule(:concat)    {|r, node, *children|   r.apply_all.join(" + ")                      }  
       r.rule(:capitalize){|r, node, who|         "#{r.apply(who)}.capitalize()"               }
       r.rule(:times)     {|r, node, who, times|  "(#{r.apply(who)} * #{r.apply(times)})"      }
-      r.rule(:get)       {|r, node, what|        "scope[#{r.apply(what)}]"                    }
-      r.rule(:_)         {|r, node, literal|     literal.inspect                              }
+      r.rule(:'?')       {|r, node, what|        "scope[#{r.apply(what)}]"                    }
+      r.rule(:'_')       {|r, node, literal|     literal.inspect                              }
     }
     puts rewriter.rewrite(ast)                     # "hello " + scope[:who] + ("!" * 3)
 
