@@ -20,7 +20,7 @@ desc "Launches all tests"
 task :test => [:spec]
 
 YARD::Rake::YardocTask.new do |t|
-  t.files   = ['lib/**/*.rb']
+  t.files   = ['lib/**/*.rb', "README.md", "LICENCE.md"]
 end
 
 gemspec = Gem::Specification.new do |s|
@@ -31,9 +31,9 @@ gemspec = Gem::Specification.new do |s|
   s.files = Dir['lib/**/*'] + Dir['test/**/*'] + Dir['bin/*']
   s.require_path = 'lib'
   s.has_rdoc = true
-  s.extra_rdoc_files = ["README.rdoc", "LICENCE.rdoc"]
+  s.extra_rdoc_files = ["README.md", "LICENCE.md"]
   s.rdoc_options << '--title' << 'SByC - A new Typing System through Specialization By Constraint' <<
-                    '--main' << 'README.rdoc' <<
+                    '--main' << 'README.md' <<
                     '--line-numbers'  
   s.bindir = "bin"
   s.executables = []

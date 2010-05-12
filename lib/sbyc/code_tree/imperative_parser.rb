@@ -64,6 +64,8 @@ module SByC
         case block
           when Proc
             parse_proc(block)
+          when AstNode
+            block
           when String
             parse(Kernel.eval("proc{ #{block} }"))
           else

@@ -1,5 +1,6 @@
 require 'sbyc/core_ext'
 require 'sbyc/code_tree'
+require 'sbyc/expr'
 require 'sbyc/system'
 require 'sbyc/rewriter'
 module SByC
@@ -43,6 +44,12 @@ module SByC
     ::SByC::CodeTree::parse(code, &block)
   end
   module_function :parse
+  
+  # Factors an Expr instance
+  def expr(code = nil, &block)
+    ::SByC::Expr::coerce(code, &block)
+  end
+  module_function :expr
   
   # Applies type checking to a code
   def type_check(code = nil, system = ::SByC::RubySystem, &block)
