@@ -56,7 +56,7 @@ module SByC
       def object_eval(scope = nil) 
         cs = children.collect{|c| c.object_eval(scope)}
         res = case name
-          when :__scope_get__
+          when :'?'
             scope[*cs]
           else
             cs[0].send(name, *cs[1..-1])
@@ -68,7 +68,7 @@ module SByC
       def functional_eval(master_object, scope = nil) 
         cs = children.collect{|c| c.functional_eval(master_object, scope)}
         res = case name
-          when :__scope_get__
+          when :'?'
             scope[*cs]
           else
             master_object.send(name, *cs)

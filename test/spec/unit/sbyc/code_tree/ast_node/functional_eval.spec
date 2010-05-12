@@ -14,8 +14,8 @@ describe "::SByC::CodeTree::AstNode#functional_eval" do
     it { should == 12 }
   end
   
-  context('when called on a __scope_get__') do
-    let(:node) { ::SByC::CodeTree::AstNode.coerce([:__scope_get__, [:x]]) }
+  context('when called on a ?') do
+    let(:node) { ::SByC::CodeTree::AstNode.coerce([:'?', [:x]]) }
     subject{ node.functional_eval(Kernel, :x => 12) }
     it { should == 12 }
   end

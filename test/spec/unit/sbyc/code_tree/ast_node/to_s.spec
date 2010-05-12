@@ -14,14 +14,14 @@ describe "::SByC::CodeTree::AstNode#inspect" do
     it { should == "12" }
   end
   
-  context('when called on a __scope_get__') do
-    let(:node) { ::SByC::CodeTree::AstNode.coerce([:__scope_get__, [:x]]) }
-    it { should == "(__scope_get__ :x)" }
+  context('when called on a ?') do
+    let(:node) { ::SByC::CodeTree::AstNode.coerce([:'?', [:x]]) }
+    it { should == "(? :x)" }
   end
   
   context('when called on a object-like expression') do
     let(:node)   { ::SByC::parse{ (say x, "SByC") } }
-    it { subject.should == '(say (__scope_get__ :x), "SByC")' }
+    it { subject.should == '(say (? :x), "SByC")' }
   end
   
 end

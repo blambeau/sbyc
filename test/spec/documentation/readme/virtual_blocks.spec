@@ -5,7 +5,7 @@ describe "README # virtual blocks section" do
   let(:code)     { lambda{|t| (t[:x] > 5) & (t[:z] <= 10)} }
   let(:ast)      { SByC::parse(code)                       }
   let(:compiled) { SByC::RubySystem::compile(code)         }
-  let(:expected) { "(& (> (__scope_get__ :x), 5), (<= (__scope_get__ :z), 10))" }
+  let(:expected) { "(& (> (? :x), 5), (<= (? :z), 10))" }
 
   describe "what is said about the parsing stage" do
     subject    { ast.to_s }
@@ -28,7 +28,7 @@ describe "README # virtual blocks section" do
     
     subject { SByC::parse(functional) }
     
-    specify{ subject.to_s.should == "(_and (gt (__scope_get__ :x), 5), (let (__scope_get__ :z), 10))" }
+    specify{ subject.to_s.should == "(_and (gt (? :x), 5), (let (? :z), 10))" }
   end
   
 end

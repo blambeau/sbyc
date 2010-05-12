@@ -19,7 +19,7 @@ describe "::SByC::CodeTree::AstNode#to_a" do
   end
   
   context("with variables") do
-    let(:expected) { [ :plus, [ [:__scope_get__, [ [:__literal__, [ :x ] ] ] ] ] ] }
+    let(:expected) { [ :plus, [ [:'?', [ [:__literal__, [ :x ] ] ] ] ] ] }
     subject { ::SByC::parse{ (plus x) }.to_a }
     it { should == expected }
   end

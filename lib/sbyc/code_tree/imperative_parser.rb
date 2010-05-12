@@ -22,7 +22,7 @@ module SByC
             args.unshift(self) if @name
             Expr.new(name, args)
           else
-            method_missing(:__scope_get__, name)
+            method_missing(:'?', name)
           end
           res
         end
@@ -32,7 +32,7 @@ module SByC
         def puts(*args, &block) method_missing(:puts, *args, &block) end
         def [](*args, &block)  
           if @name.nil?
-            method_missing(:__scope_get__,  *args, &block);  
+            method_missing(:'?',  *args, &block);  
           else            
             method_missing(:[],  *args, &block);  
           end
