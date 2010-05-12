@@ -97,13 +97,15 @@ For instance,
     expr = ::SByC::expr{ (display (concat x, y)) }    # (display (concat (? :x), (? :y)))
     expr.apply(receiver, :x => 3, :y => 25)           # 325, executed as receiver.display(receiver.concat(x, y))
   
-## TREE REWRITING
+## PRODUCTIONS and TREE REWRITING
 
-Consider the following (functional) example. 
+Consider the following example
 
-  ast = SByC::parse{ (concat "hello ", (get :who), (times "!", 3)) }
+    ast = SByC::parse{ (concat "hello ", (get :who), (times "!", 3)) }
 
-### An evaluation stage
+The tree rewriting engine is inspired from XSLT and allows you to traverse the tree recursively, executing specific rules on each node. Let analyze two different productions on the foregoing example:
+
+### An evaluation production
 
     # Evaluate the code above:
     rewriter = ::SByC::Rewriter.new {|r|
@@ -111,11 +113,11 @@ Consider the following (functional) example.
       r.rule(:capitalize){|r, node, who|         r.apply(who).capitalize                   }
       r.rule(:times)     {|r, node, who, times|  r.apply(who) * r.apply(times)             }
       r.rule(:get)       {|r, node, what|        scope[r.apply(what)]                      }
-      r.rule(:_)         {|r, node|              node.literal                              }
+      r.rule(:_)         {|r, node, literal|     literal                                   }
     }
     puts rewriter.rewrite(ast, :who => "SByC")      # => "hello SByC!!!"
 
-### A compilation stage  
+### A compilation production
 
     # Generate ruby code for the code above:
     rewriter = ::SByC::Rewriter.new {|r|
@@ -123,7 +125,7 @@ Consider the following (functional) example.
       r.rule(:capitalize){|r, node, who|         "#{r.apply(who)}.capitalize()"               }
       r.rule(:times)     {|r, node, who, times|  "(#{r.apply(who)} * #{r.apply(times)})"      }
       r.rule(:get)       {|r, node, what|        "scope[#{r.apply(what)}]"                    }
-      r.rule(:_)         {|r, node|              node.literal.inspect                         }
+      r.rule(:_)         {|r, node, literal|     literal.inspect                              }
     }
     puts rewriter.rewrite(ast)                     # "hello " + scope[:who] + ("!" * 3)
 
