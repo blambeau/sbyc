@@ -19,15 +19,40 @@ module SByC
       end
     end
     
-    # Executes this proc within a scope object
-    def eval(scope = {})
-      ast.object_eval(scope)
+    # Evaluates this AST with an object style.
+    def object_eval(scope = {}) 
+      ast.visit{|node, collected|
+        case func = node.function
+          when :'_'
+            collected.first
+          when :'?'
+            scope[*collected]
+          else
+            collected[0].send(func, *collected[1..-1])
+        end
+      }
     end
-    alias :call :eval
+    alias :eval :object_eval
+    alias :call :object_eval
+    
+    # Evaluates this AST with an object style.
+    def functional_eval(master_object, scope = {}) 
+      ast.visit{|node, collected|
+        case func = node.function
+          when :_
+            collected.first
+          when :'?'
+            scope[*collected]
+          else
+            master_object.send(func, *collected)
+        end
+      }
+    end
+    alias :apply :functional_eval
     
     # Returns a string representation
     def to_s
-      "::SByC::expr{ #{ast} }"
+      ast.to_s
     end
     
   end # class Expr

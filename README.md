@@ -7,7 +7,7 @@ This is part of SByC, a project investigating Specialization By Constraints for 
 This part of SByC provides a safe, reusable, extensible, mashallable, and non-intrusive (no monkey patching of Ruby core classes) implementation of block expressions. Block expressions are parsed using a generic DSL and converted to a parse tree, which may be analyzed, rewrited, compiled, and so on. The following example illustrates typical usage of SByC::expr.
 
     # Create a block expression
-    expr = SByC::expr{ x > y }      # ::SByC::expr{ (> (? :x), (? :y)) }
+    expr = SByC::expr{ x > y }      # (> (? :x), (? :y))
     
     # Inspect its parse tree
     expr.ast                        # (> (? :x), (? :y))
@@ -56,33 +56,47 @@ Code trees resulting from expression parsing MUST be interpreted functionally.
 
 ### Examples  
 
-For instance:
-
     SByC::parse{ 12 }.inspect                         # (_ 12)
     SByC::parse{ :x }.inspect                         # (_ :x)
     SByC::parse{ x  }.inspect                         # (? (_ :x))
 
 Leaf node (and therefore, the <code>_</code> operator) only appear when invoking inspect:
 
-    SByC::parse{ x + 12 }.inspect                     # (+ (? (_ :x))), (_ 12))
-    SByC::parse{ x + 12 }.to_s                        # (+ (? :x)), 12)
+    SByC::parse{ x + 12 }.inspect                     # (+ (? (_ :x)), (_ 12))
+    SByC::parse{ x + 12 }.to_s                        # (+ (? :x), 12)
 
-## HIGHER STAGES
+Parsed expressions are **functional expressions**. However, there is two ways to make their evaluation in Ruby: the object-way and the functional-way.
 
-    #
-    # Re-evaluate the AST with an object semantics in mind: 
-    #   the method/operator is sent on its first argument
-    #
-    expr = SByC::parse{ x + y }                       # => (+ x, y)
-    expr.object_eval(:x => 12, :y => 28)              # => 40 (executed as '12.+(28)')
+## OBJECT EVALUATION (_object_eval_ method, aliased as _eval_)
 
-    #
-    # Re-evaluate the AST with an functional semantics in mind: 
-    #   the method/operator is sent on a global object
-    #
-    expr = SByC::parse{ (puts x, y) }                 # => (puts x, " ", y)
-    expr.functional_eval(Kernel, :x => 12, :y => 28)  # => 12\n28 (executed as Kernel.puts(12, 28))
+In object evaluation, the expression
 
+    (function arg0, arg1, ..., argn)
+    
+is recursively executed as
+
+    arg0.function(arg1, ..., argn)
+
+For instance,
+
+    expr = ::SByC::expr{ (x + y).to_s }               # (to_s (+ (? :x), (? :y)))
+    expr.eval(:x => 3, :y => 25)                      # "28", executed as (x.+(y)).to_s()
+
+## FUNCTIONAL EVALUATION (_functional_eval_ method, aliased as _apply_)
+
+In functional evaluation, the expression
+
+    (function arg0, arg1, ..., argn)
+    
+is recursively executed in the context of a _receiver_ object as 
+
+    receiver.function(arg0, arg1, ..., argn)
+
+For instance,
+
+    expr = ::SByC::expr{ (display (concat x, y)) }    # (display (concat (? :x), (? :y)))
+    expr.apply(receiver, :x => 3, :y => 25)           # 325, executed as receiver.display(receiver.concat(x, y))
+  
 ## TREE REWRITING
 
 Consider the following (functional) example. 

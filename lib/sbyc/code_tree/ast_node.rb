@@ -59,31 +59,6 @@ module SByC
         visit{|node, collected| [node.name, collected]}
       end
       
-      # Evaluates this AST with an object style.
-      def object_eval(scope = nil) 
-        case name
-          when :'_'
-            literal
-          when :'?'
-            scope[*children.collect{|c| c.object_eval(scope)}]
-          else
-            cs = children.collect{|c| c.object_eval(scope)}
-            cs[0].send(name, *cs[1..-1])
-        end
-      end
-      
-      # Evaluates this AST with an object style.
-      def functional_eval(master_object, scope = nil) 
-        case name
-          when :_
-            literal
-          when :'?'
-            scope[*children.collect{|c| c.functional_eval(master_object, scope)}]
-          else
-            master_object.send(name, *children.collect{|c| c.functional_eval(master_object, scope)})
-        end
-      end
-      
       # Coercion
       def self.coerce(arg)
         case arg
