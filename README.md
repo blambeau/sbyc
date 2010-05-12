@@ -99,7 +99,7 @@ For instance,
   
 ## PRODUCTIONS and TREE REWRITING
 
-Consider the following example
+Having a functional code tree is extremely powerful! The same code can be used in different contexts, to make different kind of productions. Consider the example below.
 
     ast = SByC::parse{ (concat "hello ", who, (times "!", 3)) }
     
@@ -107,7 +107,7 @@ The complete code tree is as follows:
 
     (concat (_ "hello "), (? (_ :who)), (times (_ "!"), (_ 3)))
 
-The tree rewriting engine is inspired from XSLT and allows you to traverse the tree recursively, executing specific rules on each node. Let analyze two different productions on the foregoing example.
+The tree rewriting/production engine is inspired from XSLT and allows you to traverse the tree recursively, executing specific rules on each node. Let analyze two different productions on the foregoing example.
 
 ### An evaluation production
 
@@ -119,7 +119,7 @@ The tree rewriting engine is inspired from XSLT and allows you to traverse the t
       r.rule(:'?')       {|r, node, what|        r.scope[r.apply(what)]                    }
       r.rule(:'_')       {|r, node, literal|     literal                                   }
     }
-    puts rewriter.rewrite(ast, :who => "SByC")      # => "hello SByC!!!"
+    puts rewriter.rewrite(ast, :who => "SByC")        # => "hello SByC!!!"
 
 ### A compilation production
 
@@ -131,7 +131,26 @@ The tree rewriting engine is inspired from XSLT and allows you to traverse the t
       r.rule(:'?')       {|r, node, what|        "scope[#{r.apply(what)}]"                    }
       r.rule(:'_')       {|r, node, literal|     literal.inspect                              }
     }
-    puts rewriter.rewrite(ast)                     # "hello " + scope[:who] + ("!" * 3)
+    puts rewriter.rewrite(ast)                         # => "hello " + scope[:who] + ("!" * 3)
+
+### A rewriting production
+
+    # Generate a ruby-version of that AST
+    #   * n-adic 'concat' should be replaced by dyadic invocations '+'
+    #   * 'times' should be replaced by '*'
+    rewriter = ::SByC::Rewriter.new {|r|
+      r.rule(:concat)  {|r, node, left, right, *residual| 
+        rewrited = r.create_node(:+, [ r.apply(left), r.apply(right) ]) 
+        if residual.empty? 
+          rewrited
+        else 
+          r.apply(r.create_node(:concat, [ rewrited ] + residual))
+        end
+      }
+      r.rule(:times)   {|r, node, *children|   r.create_node(:*, r.apply_all)                 }
+      r.rule(r.ANY)    {|r, node, *children|   r.copy                                         }
+    }
+    puts rewriter.rewrite(ast)                          # => (+ (+ "hello ", (? :who)), (* "!", 3))
 
 ## LIMITATIONS (examples that DO NOT work)
 

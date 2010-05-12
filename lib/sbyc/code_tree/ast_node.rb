@@ -66,7 +66,11 @@ module SByC
             arg
           when Array
             name, children = arg
-            AstNode.new(name, children.collect{|c| AstNode.coerce(c)})
+            if name == :_ and children.size == 1
+              AstNode.new(:_, children)
+            else
+              AstNode.new(name, children.collect{|c| AstNode.coerce(c)})
+            end
           else
             AstNode.new(:_, [ arg ])
         end

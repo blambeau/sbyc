@@ -38,4 +38,23 @@ describe "README # rewriting section" do
     it { should == '"hello " + scope[:who] + ("!" * 3)' }
   end
 
+  describe("What is said about the code tree rewriting") do
+    let(:rewriter) { ::SByC::Rewriter.new {|r|
+      r.rule(:concat)  {|r, node, left, right, *residual| 
+        rewrited = r.create_node(:+, [ r.apply(left), r.apply(right) ]) 
+        if residual.empty? 
+          rewrited
+        else 
+          r.apply(r.create_node(:concat, [ rewrited ] + residual))
+        end
+      }
+      r.rule(:times)   {|r, node, *children|   r.create_node(:*, r.apply_all)                 }
+      r.rule(r.ANY)    {|r, node, *children|   r.copy                                         }
+    }}
+    
+    subject { rewriter.rewrite(ast).to_s }
+    
+    it { should == '(+ (+ "hello ", (? :who)), (* "!", 3))' }
+  end
+
 end

@@ -22,7 +22,7 @@ module SByC
             Match.new(SByC::Rewriter::Match::ANY, block)
           when "*"
             Match.new(SByC::Rewriter::Match::BRANCH, block)
-          when "@*"
+          when "@*", "_"
             Match.new(SByC::Rewriter::Match::LEAF, block)
         end
       end

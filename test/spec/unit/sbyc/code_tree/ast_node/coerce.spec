@@ -15,6 +15,12 @@ describe "::SByC::CodeTree::AstNode#coerce" do
     }
   end
   
+  context("with a literal in array form") do
+    subject { ::SByC::CodeTree::AstNode.coerce([:_, [ 12 ]]) }
+    it { should be_kind_of(::SByC::CodeTree::AstNode) }
+    specify { subject.inspect.should == "(_ 12)" }
+  end
+  
   context("without children") do
     subject { ::SByC::CodeTree::AstNode.coerce([:plus, []]) }
   
