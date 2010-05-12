@@ -5,6 +5,7 @@ module SByC
         
         # Creates an expression instance
         def initialize(name = nil, children = nil)
+          class << self; __clean_scope__; end
           @name, @children = name, children
         end
         
@@ -17,51 +18,22 @@ module SByC
         end
         alias :inspect :__to_functional_code
         
+        # Called when a method is missing
         def method_missing(name, *args)
-          res = if @name || args.length > 0
-            args.unshift(self) if @name
-            Expr.new(name, args)
+          if @name.nil?
+            if name == :[]
+              Expr.new(:'?', args)
+            elsif args.empty?
+              Expr.new(:'?', [name])
+            else
+              Expr.new(name, args)
+            end
           else
-            method_missing(:'?', name)
+            args.unshift(self)
+            Expr.new(name, args)
           end
-          res
         end
         
-        def to_s(*args, &block) method_missing(:to_s, *args, &block) end
-        def inspect(*args, &block) method_missing(:inspect, *args, &block) end
-        def puts(*args, &block) method_missing(:puts, *args, &block) end
-        def [](*args, &block)  
-          if @name.nil?
-            method_missing(:'?',  *args, &block);  
-          else            
-            method_missing(:[],  *args, &block);  
-          end
-        end
-        def []=(*args, &block) method_missing(:[]=, *args, &block);  end
-        def **(*args, &block)  method_missing(:**,  *args, &block);  end
-        def ~(*args, &block)   method_missing(:~,   *args, &block);  end
-        def ==(*args, &block)  method_missing(:==,  *args, &block);  end
-        #def !=(*args, &block)  method_missing(:!=,  *args, &block);  end
-        def -@(*args, &block)  method_missing(:-@,  *args, &block);  end
-        def +@(*args, &block)  method_missing(:+@,  *args, &block);  end
-        def -(*args, &block)   method_missing(:-,   *args, &block);  end
-        def +(*args, &block)   method_missing(:+,   *args, &block);  end
-        def *(*args, &block)   method_missing(:*,   *args, &block);  end
-        def /(*args, &block)   method_missing(:/,   *args, &block);  end
-        def %(*args, &block)   method_missing(:%,   *args, &block);  end
-        def =~(*args, &block)  method_missing(:=~,  *args, &block);  end
-        def ===(*args, &block) method_missing(:===, *args, &block);  end
-        def &(*args, &block)   method_missing(:&,   *args, &block);  end
-        def |(*args, &block)   method_missing(:|,   *args, &block);  end
-        def >(*args, &block)   method_missing(:>,   *args, &block);  end
-        def >=(*args, &block)  method_missing(:>=,  *args, &block);  end
-        def <=(*args, &block)  method_missing(:<=,  *args, &block);  end
-        def <(*args, &block)   method_missing(:<,   *args, &block);  end
-        def >>(*args, &block)  method_missing(:>>,  *args, &block);  end
-        def <<(*args, &block)  method_missing(:<<,  *args, &block);  end
-        def ^(*args, &block)   method_missing(:'^', *args, &block);  end
-        def <=>(*args, &block) method_missing(:<=>, *args, &block);  end
-
         def coerce(other)
           [self, other]
         end

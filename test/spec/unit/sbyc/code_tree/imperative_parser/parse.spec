@@ -68,4 +68,10 @@ describe "::SByC::CodeTree::ImperativeParser#parse" do
     end
   end
   
+  context "when call on expressions that refer to ruby Kernel methods" do
+    let(:expected) { "(puts (to_s (? :x)))"}
+    let(:code)     { lambda { (puts (to_s x)) } }
+    specify{ subject.to_s.should == expected }
+  end
+  
 end

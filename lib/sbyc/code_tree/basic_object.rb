@@ -5,7 +5,7 @@ module SByC
       # Methods that we keep
       KEPT_METHODS = [ "__send__", "__id__", "instance_eval", "initialize", "object_id", 
                        "singleton_method_added", "singleton_method_undefined", "method_missing",
-                       "__evaluate__"]
+                       "__evaluate__", "coerce"]
 
       class << self
         def __clean_scope__
