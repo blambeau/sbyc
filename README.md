@@ -131,24 +131,24 @@ The tree rewriting engine is inspired from XSLT and allows you to traverse the t
 
 ## LIMITATIONS (examples that DO NOT work)
 
-* SByC implicitly assumes that block's code can be interpreted functionally: no concept of variable, no sequence of code, no if/then/else, no loop. Said otherwise: your block code should always "compute a value", without any other (state) side effect. The following will NOT work:
+**No imperative code**: SByC implicitly assumes that block's code can be interpreted functionally: no concept of variable, no sequence of code, no if/then/else, no loop. Said otherwise: your block code should always "compute a value", without having any other (state) side effect. The following will NOT work:
 
-        SByC::parse{ if x then 0 else 1 end }           # 0
+    SByC::parse{ if x then 0 else 1 end }           # 0
 
-* SByC does not uses ruby2ruby or similar libraries to get an AST. It simply executes the block inside a specific DSL. Therefore, ruby expressions on literals will be evaluated at parsing time, according to operator precedence and ordering:
+**Evaluation at parsing time**: SByC does not uses ruby2ruby or similar libraries to get an AST. It simply executes the block inside a specific DSL. Therefore, ruby expressions on literals will be evaluated at parsing time, according to operator precedence and ordering:
   
-        SByC::parse{ x + 12 + 17     }                  # => (+ (+ (? :x), 12), 17)
-        SByC::parse{ x + (12 + 17)   }                  # => (+ (? :x), 29)
-        SByC::parse{ (x + 12) + 17   }                  # => (+ (+ (? :x), 12), 17)
+    SByC::parse{ x + 12 + 17     }                  # => (+ (+ (? :x), 12), 17)
+    SByC::parse{ x + (12 + 17)   }                  # => (+ (? :x), 29)
+    SByC::parse{ (x + 12) + 17   }                  # => (+ (+ (? :x), 12), 17)
 
-* For the same reason, only operators that rely on overridable methods are recognized. In particular, the following expressions will NOT work:
+**Ruby operator limitations**: for the same reason, only operators that rely on overridable methods are recognized. In particular, the following expressions will NOT work:
 
-        SByC::parse{ x and y }                          # => (? :y)
-        SByC::parse{ x && y  }                          # => (? :y)
-        SByC::parse{ x or y  }                          # => (? :x)
-        SByC::parse{ x || y  }                          # => (? :x)
-        SByC::parse{ not(x)  }                          # => false          # Works using Ruby >= 1.9.1
-        SByC::parse{ !x      }                          # => false          # Works using Ruby >= 1.9.1
+    SByC::parse{ x and y }                          # => (? :y)
+    SByC::parse{ x && y  }                          # => (? :y)
+    SByC::parse{ x or y  }                          # => (? :x)
+    SByC::parse{ x || y  }                          # => (? :x)
+    SByC::parse{ not(x)  }                          # => false          # Works with Ruby >= 1.9
+    SByC::parse{ !x      }                          # => false          # Works with Ruby >= 1.9
 
 ## CREDITS
 
