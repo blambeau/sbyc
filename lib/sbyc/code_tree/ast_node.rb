@@ -5,9 +5,11 @@ module SByC
       
       # Name of the method call
       attr_reader :name
+      alias :function :name
   
       # Children nodes
       attr_reader :children
+      alias :arg :children
   
       # Operator found by type checking
       attr_reader :operator
