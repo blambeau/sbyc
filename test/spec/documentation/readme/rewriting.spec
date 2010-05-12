@@ -11,7 +11,7 @@ describe "README # rewriting section" do
       r.rule(:capitalize)  {|r, node, who|         r.apply(who).capitalize                   }
       r.rule(:times)       {|r, node, who, times|  r.apply(who) * r.apply(times)             }
       r.rule(:get)         {|r, node, what|        r.scope[r.apply(what)]                    }
-      r.rule(:__literal__) {|r, node|              node.literal                              }
+      r.rule(:_)           {|r, node|              node.literal                              }
     }}
     
     subject { rewriter.rewrite(ast, :who => "SByC") }
@@ -25,7 +25,7 @@ describe "README # rewriting section" do
       r.rule(:capitalize)  {|r, node, who|         "#{r.apply(who)}.capitalize()"               }
       r.rule(:times)       {|r, node, who, times|  "(#{r.apply(who)} * #{r.apply(times)})"      }
       r.rule(:get)         {|r, node, what|        "scope[#{r.apply(what)}]"                    }
-      r.rule(:__literal__) {|r, node|              node.literal.inspect                         }
+      r.rule(:_)           {|r, node|              node.literal.inspect                         }
     }}
     
     subject { rewriter.rewrite(ast) }

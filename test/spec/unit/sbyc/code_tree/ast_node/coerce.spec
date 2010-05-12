@@ -11,7 +11,7 @@ describe "::SByC::CodeTree::AstNode#coerce" do
       subject.literal.should == 12 
       subject.children.should == [ 12 ]
       subject.to_s.should == "12"
-      subject.inspect.should == "(__literal__ 12)"
+      subject.inspect.should == "(_ 12)"
     }
   end
   

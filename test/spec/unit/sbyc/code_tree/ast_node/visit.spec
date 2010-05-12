@@ -19,7 +19,7 @@ describe "::SByC::CodeTree::AstNode#functional_eval" do
   
     subject{ node.visit{|node, collected| [node.name, collected]} }
     
-    it { subject.should == [:say, [ [ :'?', [ [ :__literal__,  [ :x ] ] ] ], [ :__literal__, [ "SByC" ] ] ] ] }
+    it { subject.should == [:say, [ [ :'?', [ [ :_,  [ :x ] ] ] ], [ :_, [ "SByC" ] ] ] ] }
   end
   
 end

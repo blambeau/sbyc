@@ -71,7 +71,7 @@ Consider the following (functional) example.
     r.rule(:capitalize){|r, node, who|         r.apply(who).capitalize                   }
     r.rule(:times)     {|r, node, who, times|  r.apply(who) * r.apply(times)             }
     r.rule(:get)       {|r, node, what|        scope[r.apply(what)]                      }
-    r.rule(:literal)   {|r, node|              node.literal                              }
+    r.rule(:_)         {|r, node|              node.literal                              }
   }
   puts rewriter.rewrite(ast, :who => "SByC")      # => "hello SByC!!!"
 
@@ -83,6 +83,6 @@ Consider the following (functional) example.
     r.rule(:capitalize){|r, node, who|         "#{r.apply(who)}.capitalize()"               }
     r.rule(:times)     {|r, node, who, times|  "(#{r.apply(who)} * #{r.apply(times)})"      }
     r.rule(:get)       {|r, node, what|        "scope[#{r.apply(what)}]"                    }
-    r.rule(:literal)   {|r, node|              node.literal.inspect                         }
+    r.rule(:_)         {|r, node|              node.literal.inspect                         }
   }
   puts rewriter.rewrite(ast)                     # "hello " + scope[:who] + ("!" * 3)

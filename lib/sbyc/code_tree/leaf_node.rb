@@ -15,9 +15,9 @@ module SByC
         true
       end
     
-      # Returns "literal"
+      # Returns "_"
       def name
-        :__literal__
+        :_
       end
       
       # Returns an empty array
