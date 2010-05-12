@@ -9,9 +9,9 @@ describe "::SByC::CodeTree::AstNode#coerce" do
     
     specify { 
       subject.literal.should == 12 
-      subject.children.should == []
-      subject.lambda.should be_nil
+      subject.children.should == [ 12 ]
       subject.to_s.should == "12"
+      subject.inspect.should == "(__literal__ 12)"
     }
   end
   
@@ -23,7 +23,6 @@ describe "::SByC::CodeTree::AstNode#coerce" do
     specify { 
       subject.name.should == :plus 
       subject.children.should be_empty
-      subject.lambda.should be_nil
     }
   end
   
@@ -35,7 +34,6 @@ describe "::SByC::CodeTree::AstNode#coerce" do
     specify { 
       subject.name.should == :plus 
       subject.children.collect{|a| a.literal}.should == [ 12, 15 ]
-      subject.lambda.should be_nil
     }
   end
   

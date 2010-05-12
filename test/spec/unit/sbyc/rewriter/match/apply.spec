@@ -14,7 +14,7 @@ describe "SByC::Rewriter::Match#apply" do
   end
   
   context "when called on a branch node" do
-    let(:node) { ::SByC::CodeTree::AstNode.new(:branch, [1, 2, 3], nil) }
+    let(:node) { ::SByC::CodeTree::AstNode.new(:branch, [1, 2, 3]) }
     specify { 
       subject.apply("rewriter", node).should == ["rewriter", node, [1, 2, 3]]
     }

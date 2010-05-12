@@ -2,19 +2,20 @@ require File.expand_path('../../../spec_helper', __FILE__)
 
 describe "README # assumptions section" do
   
-  specify {
-    SByC::parse{ x + 12 + 17     }.inspect.should == "(+ (+ (__scope_get__ :x), 12), 17)"
-    SByC::parse{ x + (12 + 17)   }.inspect.should == "(+ (__scope_get__ :x), 29)"
-    SByC::parse{ (x + 12) + 17   }.inspect.should == "(+ (+ (__scope_get__ :x), 12), 17)"
-
-    SByC::parse{ if x then 0 else 1 end }.inspect.should == SByC::parse{ 0 }.inspect
-
-    SByC::parse{ x and z }.inspect.should == "(__scope_get__ :z)"
-    SByC::parse{ x && z  }.inspect.should == "(__scope_get__ :z)"
-    SByC::parse{ x or z  }.inspect.should == "(__scope_get__ :x)"
-    SByC::parse{ x || z  }.inspect.should == "(__scope_get__ :x)"
-    SByC::parse{ not(x)  }.inspect.should == "false"
-    SByC::parse{ !x      }.inspect.should == "false"
+  [
+    [ proc{ x + 12 + 17   }, "(+ (+ (__scope_get__ :x), 12), 17)" ],
+    [ proc{ x + (12 + 17) }, "(+ (__scope_get__ :x), 29)"         ],
+    [ proc{ (x + 12) + 17 }, "(+ (+ (__scope_get__ :x), 12), 17)" ],
+    [ proc{ if x then 0 else 1 end }, "0"],
+    [ proc{ x and z }, "(__scope_get__ :z)"],
+    [ proc{ x && z }, "(__scope_get__ :z)"],
+    [ proc{ x or z }, "(__scope_get__ :x)"],
+    [ proc{ x || z }, "(__scope_get__ :x)"],
+    [ proc{ not(x) }, "false"],
+    [ proc{ !(x) }, "false"]
+  ].each{|test|
+    specify { SByC::parse(test[0]).to_s.should == test[1] }  
   }
+  
 
 end

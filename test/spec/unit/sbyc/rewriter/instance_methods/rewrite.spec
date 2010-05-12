@@ -5,8 +5,8 @@ describe "SByC::Rewriter" do
   describe "when called without scope" do 
     subject{
       ::SByC::Rewriter.new {|r|
-        r.rule(:concat)    {|r, node, *args| args.collect{|c| r.apply(c)}.join }
-        r.rule(:literal)   {|r, node| node.literal                       }
+        r.rule(:concat)        {|r, node, *args| args.collect{|c| r.apply(c)}.join }
+        r.rule(:__literal__)   {|r, node| node.literal                             }
       }
     }
   
@@ -29,10 +29,10 @@ describe "SByC::Rewriter" do
 
   describe "when called with a scope object" do 
     subject{
-      ::SByC::Rewriter.new {|r|
-        r.rule(:concat)    {|r, node, *args| args.collect{|c| r.apply(c)}.join }
-        r.rule(:get)       {|r, node, name|  r.scope[r.apply(name)]            }
-        r.rule(:literal)   {|r, node| node.literal                       }
+      ::SByC::Rewriter.new     {|r|
+        r.rule(:concat)        {|r, node, *args| args.collect{|c| r.apply(c)}.join }
+        r.rule(:get)           {|r, node, name|  r.scope[r.apply(name)]            }
+        r.rule(:__literal__)   {|r, node| node.literal                             }
       }
     }
   

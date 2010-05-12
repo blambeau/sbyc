@@ -9,15 +9,12 @@ module SByC
       # Children nodes
       attr_reader :children
   
-      # Lambda function, if any
-      attr_reader :lambda
-  
       # Operator found by type checking
       attr_reader :operator
       
       # Creates an ASTNode instance
-      def initialize(name, children, lambda)
-        @name, @children, @lambda = name, children, lambda
+      def initialize(name, children)
+        @name, @children = name, children
       end
     
       # Returns false
@@ -35,6 +32,11 @@ module SByC
         children.each(&block)
       end
       
+      # Makes a depth-first-search visit of the AST
+      def visit(&block)
+        yield self, children.collect{|c| c.visit(&block)}
+      end
+      
       # Inspection
       def inspect
         "(#{name} #{children.collect{|c| c.inspect}.join(', ')})"
@@ -42,12 +44,12 @@ module SByC
       
       # Returns a short string representation
       def to_s
-        "(#{name} ...)"
+        "(#{name} #{children.collect{|c| c.to_s}.join(', ')})"
       end
       
       # Returns an array version of this ast
       def to_a
-        lambda ? [name, children.collect{|c| c.to_a}, lambda] : [name, children.collect{|c| c.to_a}]
+        visit{|node, collected| [node.name, collected]}
       end
       
       # Evaluates this AST with an object style.
@@ -80,8 +82,8 @@ module SByC
           when AstNode
             arg
           when Array
-            name, children, lambda = arg
-            AstNode.new(name, children.collect{|c| AstNode.coerce(c)}, lambda)
+            name, children = arg
+            AstNode.new(name, children.collect{|c| AstNode.coerce(c)})
           else
             LeafNode.new(arg)
         end

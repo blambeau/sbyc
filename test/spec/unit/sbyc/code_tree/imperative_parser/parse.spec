@@ -5,7 +5,7 @@ describe "::SByC::CodeTree::ImperativeParser#parse" do
   subject { ::SByC::CodeTree::ImperativeParser::parse(code) }
 
   context "when called with an argument" do 
-    let(:expected)   { "(+ (__scope_get__ :a), 12)" }
+    let(:expected)   { "(+ (__scope_get__ (__literal__ :a)), (__literal__ 12))" }
   
     context("with a simple literal") do
       let(:code)  { proc {|t| 12 } }
@@ -35,7 +35,7 @@ describe "::SByC::CodeTree::ImperativeParser#parse" do
   end
   
   context "when called without argument" do
-    let(:expected)   { "(+ (__scope_get__ :a), 12)" }
+    let(:expected)   { "(+ (__scope_get__ (__literal__ :a)), (__literal__ 12))" }
   
     context("with a simple literal") do
       let(:code)        { proc { 12 } }
@@ -55,7 +55,7 @@ describe "::SByC::CodeTree::ImperativeParser#parse" do
   end
    
   context "when called and used with method calls" do
-    let(:expected)   { "(plus (__scope_get__ :a), 12)" }
+    let(:expected)   { "(plus (__scope_get__ (__literal__ :a)), (__literal__ 12))" }
    
     context("with a simple method call") do
       let(:code)        { proc {|t| t[:a].plus(12)   } }
