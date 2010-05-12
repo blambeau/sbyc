@@ -9,7 +9,7 @@ describe "::SByC::CodeTree::ImperativeParser#parse" do
   
     context("with a simple literal") do
       let(:code)  { proc {|t| 12 } }
-      specify     { subject.should be_kind_of(::SByC::CodeTree::LeafNode) }
+      specify     { subject.should be_kind_of(::SByC::CodeTree::AstNode) }
       specify     { subject.inspect.should == ::SByC::parse{ 12 }.inspect }
     end
   
@@ -39,7 +39,7 @@ describe "::SByC::CodeTree::ImperativeParser#parse" do
   
     context("with a simple literal") do
       let(:code)        { proc { 12 } }
-      specify     { subject.should be_kind_of(::SByC::CodeTree::LeafNode) }
+      specify     { subject.should be_kind_of(::SByC::CodeTree::AstNode) }
       specify { subject.inspect.should == ::SByC::parse{ 12 }.inspect }
     end
   
@@ -71,6 +71,12 @@ describe "::SByC::CodeTree::ImperativeParser#parse" do
   context "when call on expressions that refer to ruby Kernel methods" do
     let(:expected) { "(puts (to_s (? :x)))"}
     let(:code)     { lambda { (puts (to_s x)) } }
+    specify{ subject.to_s.should == expected }
+  end
+  
+  context "when call on expressions that refer to typical inherited methods/operators" do
+    let(:expected) { "(== (hash (? :x)), 12)"}
+    let(:code)     { lambda { x.hash == 12 } }
     specify{ subject.to_s.should == expected }
   end
   

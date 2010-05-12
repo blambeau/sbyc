@@ -5,7 +5,7 @@ describe "::SByC::CodeTree::AstNode#coerce" do
   context("with a literal") do
     subject { ::SByC::CodeTree::AstNode.coerce(12) }
   
-    it { should be_kind_of(::SByC::CodeTree::LeafNode) }
+    it { should be_kind_of(::SByC::CodeTree::AstNode) }
     
     specify { 
       subject.literal.should == 12 

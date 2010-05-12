@@ -1,5 +1,4 @@
 require 'sbyc/code_tree/ast_node'
-require 'sbyc/code_tree/leaf_node'
 require 'sbyc/code_tree/basic_object'
 require 'sbyc/code_tree/imperative_parser'
 module SByC

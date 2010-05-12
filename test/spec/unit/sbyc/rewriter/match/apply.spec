@@ -7,9 +7,9 @@ describe "SByC::Rewriter::Match#apply" do
   subject { ::SByC::Rewriter::Match.new(predicate, block) }
   
   context "when called on a leaf node" do
-    let(:node) { ::SByC::CodeTree::LeafNode.new(:literal) }
+    let(:node) { ::SByC::CodeTree::AstNode.coerce(:literal) }
     specify { 
-      subject.apply("rewriter", node).should == ["rewriter", node, []]
+      subject.apply("rewriter", node).should == ["rewriter", node, [ :literal ]]
     }
   end
   

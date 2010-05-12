@@ -54,7 +54,7 @@ describe "SByC::Rewriter" do
   
   describe "when only an ANY match is installed" do
     subject{ ::SByC::Rewriter.new{|r| 
-      r.rule(::SByC::Rewriter::Match::ANY){|r, node, arg| arg.respond_to?(:literal) ? arg.literal : r.apply(arg)} 
+      r.rule(::SByC::Rewriter::Match::ANY){|r, node, arg| node.leaf? ? arg : r.apply(arg) } 
     }}
     
     it "should return inner-most argument" do

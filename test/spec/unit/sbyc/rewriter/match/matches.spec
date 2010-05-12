@@ -3,7 +3,7 @@ require File.expand_path('../../../../../spec_helper', __FILE__)
 describe "SByC::Rewriter::Match#matches?" do
   
   let(:branch)  { ::SByC::CodeTree::AstNode.new(:branch, [1, 2, 3]) }
-  let(:literal) { ::SByC::CodeTree::LeafNode.new(12) }
+  let(:literal) { ::SByC::CodeTree::AstNode.coerce(12) }
   
   context "when built with a symbol" do
     subject { ::SByC::Rewriter::Match.coerce(:_, nil) }

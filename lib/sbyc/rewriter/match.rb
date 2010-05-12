@@ -41,8 +41,6 @@ module SByC
       # Applies this match
       def apply(rewriter, ast_node)
         case ast_node
-          when ::SByC::CodeTree::LeafNode
-            @block.call(rewriter, ast_node)
           when ::SByC::CodeTree::AstNode
             @block.call(rewriter, ast_node, *ast_node.children)
           else

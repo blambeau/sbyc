@@ -4,11 +4,6 @@ describe "::SByC::CodeTree::AstNode#inspect" do
   
   subject{ node.inspect }
 
-  context('when called on a leaf node') do
-    let(:node) { ::SByC::CodeTree::LeafNode.new(12) }
-    it { should == "(_ 12)" }
-  end
-  
   context('when called on a leaf node, through coercion') do
     let(:node) { ::SByC::CodeTree::AstNode.coerce(12) }
     it { should == "(_ 12)" }

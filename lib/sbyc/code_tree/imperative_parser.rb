@@ -54,7 +54,7 @@ module SByC
           when Expr
             e.__to_functional_code
           else
-            ::SByC::CodeTree::LeafNode.new(e)
+            ::SByC::CodeTree::AstNode.coerce(e)
         end
       end
       

@@ -16,10 +16,15 @@ module SByC
       def initialize(name, children)
         @name, @children = name, children
       end
+      
+      # Returns first children.
+      def literal
+        children.first
+      end
     
       # Returns false
       def leaf?
-        false
+        (name == :_)
       end
     
       # Negation of leaf?
@@ -34,7 +39,7 @@ module SByC
       
       # Makes a depth-first-search visit of the AST
       def visit(&block)
-        yield self, children.collect{|c| c.visit(&block)}
+        yield(self, leaf? ? children : children.collect{|c| c.visit(&block)})
       end
       
       # Inspection
@@ -44,7 +49,7 @@ module SByC
       
       # Returns a short string representation
       def to_s
-        "(#{name} #{children.collect{|c| c.to_s}.join(', ')})"
+        leaf? ? literal.inspect : "(#{name} #{children.collect{|c| c.to_s}.join(', ')})"
       end
       
       # Returns an array version of this ast
@@ -54,26 +59,27 @@ module SByC
       
       # Evaluates this AST with an object style.
       def object_eval(scope = nil) 
-        cs = children.collect{|c| c.object_eval(scope)}
-        res = case name
+        case name
+          when :'_'
+            literal
           when :'?'
-            scope[*cs]
+            scope[*children.collect{|c| c.object_eval(scope)}]
           else
+            cs = children.collect{|c| c.object_eval(scope)}
             cs[0].send(name, *cs[1..-1])
         end
-        res
       end
       
       # Evaluates this AST with an object style.
       def functional_eval(master_object, scope = nil) 
-        cs = children.collect{|c| c.functional_eval(master_object, scope)}
-        res = case name
+        case name
+          when :_
+            literal
           when :'?'
-            scope[*cs]
+            scope[*children.collect{|c| c.functional_eval(master_object, scope)}]
           else
-            master_object.send(name, *cs)
+            master_object.send(name, *children.collect{|c| c.functional_eval(master_object, scope)})
         end
-        res
       end
       
       # Coercion
@@ -85,7 +91,7 @@ module SByC
             name, children = arg
             AstNode.new(name, children.collect{|c| AstNode.coerce(c)})
           else
-            LeafNode.new(arg)
+            AstNode.new(:_, [ arg ])
         end
       end
       
