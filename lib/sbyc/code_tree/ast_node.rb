@@ -19,9 +19,14 @@ module SByC
         @name, @children = name, children
       end
       
-      # Returns first children.
+      # Delegated to the children array
+      def [](*args, &block)
+        children.[](*args, &block)
+      end
+      
+      # Recursively finds the first literal.
       def literal
-        children.first
+        leaf? ? children[0] : children[0].literal
       end
     
       # Returns false
