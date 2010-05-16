@@ -59,7 +59,7 @@ module SByC
               return false unless match(m, candidates.shift, match_data)
           end
         end
-        true
+        candidates.empty?
       end
       
     end # class IMatch

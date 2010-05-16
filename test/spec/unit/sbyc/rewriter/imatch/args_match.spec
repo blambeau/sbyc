@@ -46,4 +46,13 @@ describe "SByC::Rewriter::IMatch#args_match" do
     }
   end
 
+  context "when called with a recursive no-match" do
+    let(:matcher)    { ::SByC::parse{ (match :hello, "world") } }
+    let(:matched)    { ::SByC::parse{ (hello 12)              } }
+    let(:match_data) { { }                             }
+    let(:subject) { imatch.args_match([ matcher ], [ matched ], match_data)}
+    
+    specify { subject.should be_false }
+  end
+
 end
