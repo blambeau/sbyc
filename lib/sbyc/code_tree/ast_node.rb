@@ -9,7 +9,7 @@ module SByC
   
       # Children nodes
       attr_reader :children
-      alias :arg :children
+      alias :args :children
   
       # Operator found by type checking
       attr_reader :operator

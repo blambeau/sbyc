@@ -1,7 +1,7 @@
 module SByC
   class Rewriter
     class IMatch
-      
+
       # Match Abstract Syntax Tree
       attr_reader :match_ast
       
@@ -11,16 +11,25 @@ module SByC
       end
       
       # Looks for a match against some ast node
-      def =~(ast_node)
-        match_data = {}
-        return nil unless function_match(match_ast, ast_node, match_data)
-        match_data
+      def =~(ast_node, match_data = {})
+        match(match_ast, ast_node, match_data)
+      end
+      
+      # Lookups for a match between _matcher_ and _matched_.
+      def match(matcher, matched, match_data = {})
+        return nil unless function_match(matcher, matched, match_data)
+        return nil unless args_match(matcher.args[1..-1], matched.args.dup, match_data)
+        return match_data
       end
       
       #
-      # Applies function name matching. Cases that may arise:
-      #   (match (_ :fname), ...)
-      #   (match (? (_ :x)), ...)
+      # Applies function name matching, returning true if _ast_node_'s function name
+      # is matched by first argument of _match_ast_.
+      #
+      # Cases that may arise:
+      #   (match (_ :fname), ...)   # true iif ast_node.function == fname
+      #   (match (? (_ :x)), ...)   # true and match_data[x] = ast_node.function
+      #   false otherwise
       #
       def function_match(match_ast, ast_node, match_data = {})
         case fname = match_ast[0].function
@@ -29,9 +38,28 @@ module SByC
           when :'?'
             match_data[match_ast[0].literal] = ast_node.function
             return true
-          else
-            false
         end
+        false
+      end
+      
+      # 
+      #
+      #
+      def args_match(matchers, candidates, match_data = {})
+        matchers.each do |m|
+          case m.function
+            when :'?'
+              return false if candidates.empty?
+              match_data[m.literal] = candidates.shift
+            when :'_'
+              return false if candidates.empty?
+              return false unless candidates.shift.literal == m.literal
+            else
+              return false if candidates.empty?
+              return false unless match(m, candidates.shift, match_data)
+          end
+        end
+        true
       end
       
     end # class IMatch
