@@ -15,6 +15,12 @@ module SByC
         match(match_ast, ast_node, match_data)
       end
       
+      # Returns true if _ast_node_ is matched by this matcher,
+      # false otherwise
+      def ===(ast_node)
+        not((self =~ ast_node).nil?)
+      end
+      
       # Lookups for a match between _matcher_ and _matched_.
       def match(matcher, matched, match_data = {})
         return nil unless function_match(matcher, matched, match_data)
@@ -43,7 +49,8 @@ module SByC
       end
       
       # 
-      #
+      # Applies arguments matching, return true if there is a match,
+      # false otherwise.
       #
       def args_match(matchers, candidates, match_data = {})
         matchers.each do |m|

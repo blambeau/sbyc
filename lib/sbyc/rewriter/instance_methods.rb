@@ -39,7 +39,8 @@ module SByC
       end
       
       # Applies rules on a node      
-      def apply(node)
+      def apply(*args)
+        node = apply_args_conventions(*args)
         if node.kind_of?(::SByC::CodeTree::AstNode)
           @stack.push(node)
           rule = @rules.find{|r| r === node}
@@ -65,6 +66,22 @@ module SByC
       # Produces a node by copying another one
       def copy(node = context_node)
         create_node(node.function, apply_all(node.children))
+      end
+      
+      # 
+      # Applies conventions announced by the _apply_ method.
+      #
+      def apply_args_conventions(*args)
+        if args.size == 1 and args[0].kind_of?(::SByC::CodeTree::AstNode)
+          args[0]
+        elsif args.size > 1 and args[0].kind_of?(Symbol)
+          name = args.shift
+          ::SByC::CodeTree::AstNode.coerce([name, args])
+        elsif args.size == 1
+          args[0]
+        else
+          raise ArgumentError, "Unable to apply on #{args.inspect}", caller
+        end
       end
       
     end # module InstanceMethods
