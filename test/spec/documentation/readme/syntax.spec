@@ -3,7 +3,7 @@ require File.expand_path('../../../spec_helper', __FILE__)
 describe "README # syntax section" do
 
   describe "what is said about imperative styles" do
-    let(:expected) { "(& (> (? :x), 5), (<= (? :z), 10))" }
+    let(:expected) { "(& (> x, 5), (<= z, 10))" }
 
     let(:hash_style)       { lambda{|t| (t[:x] > 5) & (t[:z] <= 10)                  } }
     let(:object_style)     { lambda{|t| (t.x > 5) & (t.z <= 10)                      } }
@@ -20,7 +20,7 @@ describe "README # syntax section" do
     
     subject { SByC::parse(functional) }
     
-    specify{ subject.to_s.should == "(both (gt (? :x), 5), (lte (? :y), 10))" }
+    specify{ subject.to_s.should == "(both (gt x, 5), (lte y, 10))" }
   end
   
 end

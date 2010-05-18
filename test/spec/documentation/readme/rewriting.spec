@@ -54,7 +54,7 @@ describe "README # rewriting section" do
     
     subject { rewriter.rewrite(ast).to_s }
     
-    it { should == '(+ (+ "hello ", (? :who)), (* "!", 3))' }
+    it { should == '(+ (+ "hello ", who), (* "!", 3))' }
   end
 
 end

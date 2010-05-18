@@ -2,26 +2,14 @@ require File.expand_path('../../../spec_helper', __FILE__)
 
 describe "README # synopsis section" do
   
-  # # Create a block expression
-  # expr = SByC::expr{ x > y }      # (> (? :x), (? :y))
-  # 
-  # # Inspect its parse tree
-  # expr.ast                        # (> (? :x), (? :y))
-  # 
-  # # Evaluate the expression
-  # expr.eval(:x => 5, :y => 2)     # true
-  # 
-  # # Marshall it...
-  # Marshall::dump(expr)
-  
   let(:expr){ SByC::expr{ x > y } }
   
   specify {
-    expr.to_s.should == "(> (? :x), (? :y))"
+    expr.to_s.should == "(> x, y)"
   }
   
   specify {
-    expr.ast.to_s.should == "(> (? :x), (? :y))"
+    expr.ast.to_s.should == "(> x, y)"
   }
   
   specify {

@@ -69,15 +69,15 @@ describe "::SByC::CodeTree::ImperativeParser#parse" do
   end
   
   context "when call on expressions that refer to ruby Kernel methods" do
-    let(:expected) { "(puts (to_s (? :x)))"}
+    let(:expected) { "(puts (to_s (? (_ :x))))"}
     let(:code)     { lambda { (puts (to_s x)) } }
-    specify{ subject.to_s.should == expected }
+    specify{ subject.inspect.should == expected }
   end
   
   context "when call on expressions that refer to typical inherited methods/operators" do
-    let(:expected) { "(== (hash (? :x)), 12)"}
+    let(:expected) { "(== (hash (? (_ :x))), (_ 12))"}
     let(:code)     { lambda { x.hash == 12 } }
-    specify{ subject.to_s.should == expected }
+    specify{ subject.inspect.should == expected }
   end
   
 end

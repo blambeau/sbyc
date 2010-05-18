@@ -20,7 +20,7 @@ module SByC
         when Proc, String
           ::SByC::CodeTree::parse(arg)
         else
-          raise "Unable to coerce #{arg} to a CodeTree::AstNode"
+          raise "Unable to coerce #{arg.inspect} to a CodeTree::AstNode"
       end
     end
     module_function :coerce

@@ -44,7 +44,7 @@ module SByC
           when ::SByC::CodeTree::AstNode
             apply_on_node(node)
           when Array
-            node.collect{|c| apply_on_node(c)}
+            node.collect{|c| c.kind_of?(::SByC::CodeTree::AstNode) ? apply_on_node(c) : c}
           else
             node
         end
@@ -52,6 +52,7 @@ module SByC
       
       # Applies on a single node
       def apply_on_node(node)
+        raise ArgumentError, "Node expected, #{node.inspect} received" unless node.kind_of?(::SByC::CodeTree::AstNode)
         @stack.push(node)
         rule = @rules.find{|r| r === node}
         result = (rule ? rule.apply(self, node) : nil)

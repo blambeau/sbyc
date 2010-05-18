@@ -56,7 +56,14 @@ module SByC
       
       # Returns a short string representation
       def to_s
-        leaf? ? literal.inspect : "(#{name} #{children.collect{|c| c.to_s}.join(', ')})"
+        case function
+          when :'_'
+            literal.inspect
+          when :'?'
+            literal.to_s
+          else
+            "(#{name} #{children.collect{|c| c.to_s}.join(', ')})"
+        end
       end
       
       # Returns an array version of this ast

@@ -7,10 +7,10 @@ This is part of SByC, a project investigating Specialization By Constraints for 
 This part of SByC provides a safe, reusable, extensible, mashallable, and non-intrusive (no monkey patching of Ruby core classes) implementation of block expressions. Block expressions are parsed using a generic DSL and converted to a parse tree, which may be analyzed, rewrited, compiled, and so on. The following example illustrates typical usage of SByC::expr.
 
     # Create a block expression
-    expr = SByC::expr{ x > y }      # (> (? :x), (? :y))
+    expr = SByC::expr{ x > y }      # (> x, y)
     
     # Inspect its parse tree
-    expr.ast                        # (> (? :x), (? :y))
+    expr.ast                        # (> x, y)
     
     # Evaluate the expression
     expr.eval(:x => 5, :y => 2)     # true
@@ -23,16 +23,16 @@ This part of SByC provides a safe, reusable, extensible, mashallable, and non-in
 The following styles are recognized:
 
     # Hash-style
-    SByC::parse{|t| (t[:x] > 5) & (t[:y] <= 10) }     # => (& (> (? :x), 5), (<= (? :y), 10))
+    SByC::parse{|t| (t[:x] > 5) & (t[:y] <= 10) }     # => (& (> x, 5), (<= y, 10))
 
     # Object-style
-    SByC::parse{|t| (t.x > 5) & (t.y <= 10)     }     # => (& (> (? :x), 5), (<= (? :z), 10))
+    SByC::parse{|t| (t.x > 5) & (t.y <= 10)     }     # => (& (> x, 5), (<= z, 10))
 
     # Context-style
-    SByC::parse{ (x > 5) & (y <= 10)            }     # => (& (> (? :x), 5), (<= (? :z), 10))
+    SByC::parse{ (x > 5) & (y <= 10)            }     # => (& (> x, 5), (<= z, 10))
 
     # Functional-style
-    SByC::parse{ (both (gt x, 5), (lte y, 10))  }     # => (both (gt (? :x), 5), (lte (? :z), 10))
+    SByC::parse{ (both (gt x, 5), (lte y, 10))  }     # => (both (gt x, 5), (lte z, 10))
 
 The parsing stage returns a code tree, which can be passed to a next stage (rewriting, evaluation, compilation or whatever). 
 
@@ -60,10 +60,10 @@ Code trees resulting from expression parsing MUST be interpreted functionally.
     SByC::parse{ :x }.inspect                         # (_ :x)
     SByC::parse{ x  }.inspect                         # (? (_ :x))
 
-Leaf node (and therefore, the <code>_</code> operator) only appear when invoking inspect:
+'_' and '?' operators only appear when invoking inspect:
 
     SByC::parse{ x + 12 }.inspect                     # (+ (? (_ :x)), (_ 12))
-    SByC::parse{ x + 12 }.to_s                        # (+ (? :x), 12)
+    SByC::parse{ x + 12 }.to_s                        # (+ x, 12)
 
 Parsed expressions are **functional expressions**. However, there is two ways to make their evaluation in Ruby: the object-way and the functional-way.
 
@@ -79,7 +79,7 @@ is recursively executed as
 
 For instance,
 
-    expr = ::SByC::expr{ (x + y).to_s }               # (to_s (+ (? :x), (? :y)))
+    expr = ::SByC::expr{ (x + y).to_s }               # (to_s (+ x, y))
     expr.eval(:x => 3, :y => 25)                      # "28", executed as (x.+(y)).to_s()
 
 ## FUNCTIONAL EVALUATION (_functional_eval_ method, aliased as _apply_)
@@ -94,7 +94,7 @@ is recursively executed in the context of a _receiver_ object as
 
 For instance,
 
-    expr = ::SByC::expr{ (display (concat x, y)) }    # (display (concat (? :x), (? :y)))
+    expr = ::SByC::expr{ (display (concat x, y)) }    # (display (concat x, y))
     expr.apply(receiver, :x => 3, :y => 25)           # 325, executed as receiver.display(receiver.concat(x, y))
   
 ## PRODUCTIONS and TREE REWRITING
@@ -160,16 +160,16 @@ The tree rewriting/production engine is inspired from XSLT and allows you to tra
 
 **Evaluation at parsing time**: SByC does not uses ruby2ruby or similar libraries to get an AST. It simply executes the block inside a specific DSL. Therefore, ruby expressions on literals will be evaluated at parsing time, according to operator precedence and ordering:
   
-    SByC::parse{ x + 12 + 17     }                  # => (+ (+ (? :x), 12), 17)
-    SByC::parse{ x + (12 + 17)   }                  # => (+ (? :x), 29)
-    SByC::parse{ (x + 12) + 17   }                  # => (+ (+ (? :x), 12), 17)
+    SByC::parse{ x + 12 + 17     }                  # => (+ (+ x, 12), 17)
+    SByC::parse{ x + (12 + 17)   }                  # => (+ x, 29)
+    SByC::parse{ (x + 12) + 17   }                  # => (+ (+ x, 12), 17)
 
 **Ruby operator limitations**: for the same reason, only operators that rely on overridable methods are recognized. In particular, the following expressions will NOT work:
 
-    SByC::parse{ x and y }                          # => (? :y)
-    SByC::parse{ x && y  }                          # => (? :y)
-    SByC::parse{ x or y  }                          # => (? :x)
-    SByC::parse{ x || y  }                          # => (? :x)
+    SByC::parse{ x and y }                          # => y
+    SByC::parse{ x && y  }                          # => y
+    SByC::parse{ x or y  }                          # => x
+    SByC::parse{ x || y  }                          # => x
     SByC::parse{ not(x)  }                          # => false          # Works with Ruby >= 1.9
     SByC::parse{ !x      }                          # => false          # Works with Ruby >= 1.9
 

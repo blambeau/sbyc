@@ -25,6 +25,7 @@ module SByC
       def inspect
         "MatchData#{captures.inspect}"
       end
+      alias :to_s :inspect
       
     end # class MatchData
   end # module Matching

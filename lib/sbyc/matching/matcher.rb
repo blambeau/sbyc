@@ -29,6 +29,7 @@ module SByC
       
       # Lookups for a match between _matcher_ and _matched_.
       def do_match(matcher, matched, match_data = {})
+        return nil unless matched.kind_of?(::SByC::CodeTree::AstNode)
         return nil unless function_match(matcher, matched, match_data)
         return nil unless args_match(matcher.args[1..-1], matched.args.dup, match_data)
         return match_data

@@ -6,7 +6,7 @@ describe "::SByC::Expr" do
   subject    { expr.ast            }
   
   specify {
-    subject.to_s.should == "(> (? :x), (? :z))"
+    subject.inspect.should == "(> (? (_ :x)), (? (_ :z)))"
   }
 
 end

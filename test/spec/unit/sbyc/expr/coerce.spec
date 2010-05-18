@@ -12,28 +12,28 @@ describe "::SByC::Expr" do
     subject { ::SByC::Expr.coerce("x > z") }
     
     it{ should be_kind_of(::SByC::Expr) }
-    specify{ subject.ast.to_s.should == "(> (? :x), (? :z))" }
+    specify{ subject.ast.inspect.should == "(> (? (_ :x)), (? (_ :z)))" }
   end  
   
   context "when passed an ast" do
     subject { ::SByC::Expr.coerce(::SByC::parse{ x > z }) }
     
     it{ should be_kind_of(::SByC::Expr) }
-    specify{ subject.ast.to_s.should == "(> (? :x), (? :z))" }
+    specify{ subject.ast.inspect.should == "(> (? (_ :x)), (? (_ :z)))" }
   end  
   
   context "when passed a block" do
     subject { ::SByC::Expr.coerce{ x > z } }
     
     it{ should be_kind_of(::SByC::Expr) }
-    specify{ subject.ast.to_s.should == "(> (? :x), (? :z))" }
+    specify{ subject.ast.inspect.should == "(> (? (_ :x)), (? (_ :z)))" }
   end  
 
   context "when passed an expr" do
     subject { ::SByC::Expr.coerce(::SByC::expr{ x > z }) }
     
     it{ should be_kind_of(::SByC::Expr) }
-    specify{ subject.ast.to_s.should == "(> (? :x), (? :z))" }
+    specify{ subject.ast.inspect.should == "(> (? (_ :x)), (? (_ :z)))" }
   end  
 
 end
