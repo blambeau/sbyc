@@ -19,6 +19,7 @@ module SByC
         end
       end
       alias :match :=~
+      alias :call :=~
       
       # Returns true if _ast_node_ is matched by this matcher,
       # false otherwise

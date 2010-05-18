@@ -18,12 +18,16 @@ module SByC
             Match.new(arg, block)
           when Symbol
             Match.new(lambda{|node| node.kind_of?(::SByC::CodeTree::AstNode) and node.name == arg}, block)
+          when ::SByC::Matching::Matcher
+            Match.new(arg, block)
           when "."
             Match.new(SByC::Rewriter::Match::ANY, block)
           when "*"
             Match.new(SByC::Rewriter::Match::BRANCH, block)
           when "@*", "_"
             Match.new(SByC::Rewriter::Match::LEAF, block)
+          else
+            raise "Unexpected rule #{arg.class} #{arg.inspect}"
         end
       end
       
