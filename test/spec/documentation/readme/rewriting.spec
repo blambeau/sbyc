@@ -12,7 +12,7 @@ describe "README # rewriting section" do
 
   describe("What is said about the evaluation") do
     let(:rewriter) { ::SByC::Rewriter.new {|r|
-      r.rule(:concat)      {|r, node, *children|   r.apply_all.join("")                      }  
+      r.rule(:concat)      {|r, node, *children|   r.apply(children).join("")                }  
       r.rule(:capitalize)  {|r, node, who|         r.apply(who).capitalize                   }
       r.rule(:times)       {|r, node, who, times|  r.apply(who) * r.apply(times)             }
       r.rule(:'?')         {|r, node, what|        r.scope[r.apply(what)]                    }
@@ -26,7 +26,7 @@ describe "README # rewriting section" do
 
   describe("What is said about the code generation") do
     let(:rewriter) { ::SByC::Rewriter.new {|r|
-      r.rule(:concat)      {|r, node, *children|   r.apply_all.join(" + ")                      }  
+      r.rule(:concat)      {|r, node, *children|   r.apply(children).join(" + ")                }  
       r.rule(:capitalize)  {|r, node, who|         "#{r.apply(who)}.capitalize()"               }
       r.rule(:times)       {|r, node, who, times|  "(#{r.apply(who)} * #{r.apply(times)})"      }
       r.rule(:'?')         {|r, node, what|        "scope[#{r.apply(what)}]"                    }
@@ -37,19 +37,19 @@ describe "README # rewriting section" do
     
     it { should == '"hello " + scope[:who] + ("!" * 3)' }
   end
-
+  
   describe("What is said about the code tree rewriting") do
     let(:rewriter) { ::SByC::Rewriter.new {|r|
       r.rule(:concat)  {|r, node, left, right, *residual| 
-        rewrited = r.create_node(:+, [ r.apply(left), r.apply(right) ]) 
+        rewrited = r.node(:+, [ r.apply(left), r.apply(right) ]) 
         if residual.empty? 
           rewrited
         else 
-          r.apply(r.create_node(:concat, [ rewrited ] + residual))
+          r.apply(r.node(:concat, [ rewrited ] + residual))
         end
       }
-      r.rule(:times)   {|r, node, *children|   r.create_node(:*, r.apply_all)                 }
-      r.rule(r.ANY)    {|r, node, *children|   r.copy                                         }
+      r.rule(:times)   {|r, node, *children|   r.node(:*, r.apply(children))                  }
+      r.rule(r.ANY)    {|r, node, *children|   r.node(node.function, children)                }
     }}
     
     subject { rewriter.rewrite(ast).to_s }

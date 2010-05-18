@@ -40,32 +40,28 @@ module SByC
       
       # Applies rules on a node      
       def apply(*args)
-        node = apply_args_conventions(*args)
-        if node.kind_of?(::SByC::CodeTree::AstNode)
-          @stack.push(node)
-          rule = @rules.find{|r| r === node}
-          result = (rule ? rule.apply(self, node) : nil)
-          @stack.pop
-          result
-        else
-          node
+        case node = apply_args_conventions(*args)
+          when ::SByC::CodeTree::AstNode
+            apply_on_node(node)
+          when Array
+            node.collect{|c| apply_on_node(c)}
+          else
+            node
         end
       end
       
-      # Applies rules on each child of the context node and returns
-      # an array collecting the result
-      def apply_all(nodes = context_node.children)
-        nodes.collect{|c| apply(c)}
-      end
-      
-      # Produce a node with a specific function and arguments
-      def create_node(func = context_node.function, args = apply_all)
-        ::SByC::CodeTree::AstNode.coerce([func, args])
+      # Applies on a single node
+      def apply_on_node(node)
+        @stack.push(node)
+        rule = @rules.find{|r| r === node}
+        result = (rule ? rule.apply(self, node) : nil)
+        @stack.pop
+        result
       end
       
       # Produces a node by copying another one
-      def copy(node = context_node)
-        create_node(node.function, apply_all(node.children))
+      def node(function, children)
+        ::SByC::CodeTree::AstNode.coerce([function, children])
       end
       
       # 
@@ -76,6 +72,8 @@ module SByC
           args[0]
         elsif args.size > 1 and args[0].kind_of?(Symbol)
           ::SByC::CodeTree::AstNode.coerce([args.shift, args])
+        elsif args.all?{|a| a.kind_of?(::SByC::CodeTree::AstNode)}
+          args
         elsif args.size == 1
           args[0]
         else

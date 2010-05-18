@@ -16,6 +16,20 @@ describe "SByC::Rewriter#apply_args_conventions" do
     it { should == node }
   end
 
+  context "when called with multiple ASTNode instances" do
+    let(:child1)   { ::SByC::parse{ "hello" }                          }
+    let(:child2)   { ::SByC::parse{ "world" }                          }
+    subject        { rewriter.apply_args_conventions(child1, child2)   }
+    it { should == [child1, child2] }
+  end
+
+  context "when called with an array of ASTNode instances" do
+    let(:child1)   { ::SByC::parse{ "hello" }                          }
+    let(:child2)   { ::SByC::parse{ "world" }                          }
+    subject        { rewriter.apply_args_conventions([child1, child2]) }
+    it { should == [child1, child2] }
+  end
+
   context "when called with a function and a single ASTNode child" do
     let(:function) { :testfunc                      }
     let(:child)    { ::SByC::parse{ 12 }            }
