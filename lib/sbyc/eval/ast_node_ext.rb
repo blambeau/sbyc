@@ -14,6 +14,11 @@ module SByC
       alias :call :object_eval
       alias :eval :object_eval
       
+      # Generates the code of an functional evaluation
+      def functional_compile(receiver_object = "receiver", scope_object = "scope", scope_method = :[])
+        ::SByC::Eval::FunctionalEval.functional_compile(self, receiver_object, scope_object, scope_method)
+      end
+      
       # Executes functional evaluation of this ast
       def functional_eval(master_object, scope = {}) 
         ::SByC::Eval::FunctionalEval.functional_eval(self, master_object, scope)

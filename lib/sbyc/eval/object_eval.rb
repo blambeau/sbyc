@@ -7,7 +7,7 @@ module SByC
         ast.visit{|node, collected|
           case func = node.function
             when :'_'
-              node.literal.inspect
+              collected.first.inspect
             when :'?'
               if scope_method == :[]
                 "#{scope_object}[#{collected.join(', ')}]"
