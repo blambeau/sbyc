@@ -2,6 +2,11 @@ module SByC
   module CodeTree
     class AstNode
       
+      # Generates the code of an object evaluation
+      def object_compile(scope_object = "scope", scope_method = :[])
+        ::SByC::Eval::ObjectEval.object_compile(self, scope_object, scope_method)
+      end
+      
       # Executes object evaluation of this ast
       def object_eval(scope = {})
         ::SByC::Eval::ObjectEval.object_eval(self, scope)
