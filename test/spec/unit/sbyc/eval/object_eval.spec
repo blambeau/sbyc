@@ -27,5 +27,12 @@ describe "::SByC::CodeTree::AstNode#object_eval" do
     it { should == "hello" }
   end
   
+  context('when called on a object-like expression and specific scope method') do
+    let(:node) { ::SByC::expr{ x.say_hello } }
+    let(:twel) { x = Object.new; def x.say_hello(); "hello"; end; x}
+    subject{ node.object_eval({:x => twel}, :fetch) }
+    it { should == "hello" }
+  end
+  
 end
   

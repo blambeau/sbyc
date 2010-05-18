@@ -13,7 +13,7 @@ module SByC
       end
       
       # Executes object evaluation of this ast
-      def object_eval(scope = {})
+      def object_eval(scope = {}, scope_method = :[])
         ::SByC::Eval::ObjectEval.object_eval(self, scope)
       end
       alias :call :object_eval
@@ -30,7 +30,7 @@ module SByC
       end
       
       # Executes functional evaluation of this ast
-      def functional_eval(master_object, scope = {}) 
+      def functional_eval(master_object, scope = {}, scope_method = :[]) 
         ::SByC::Eval::FunctionalEval.functional_eval(self, master_object, scope)
       end
       alias :apply :functional_eval

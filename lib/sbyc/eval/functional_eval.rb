@@ -28,17 +28,8 @@ module SByC
       module_function :functional_proc
       
       # Evaluates this AST with an object style.
-      def functional_eval(ast, master_object, scope = {}) 
-        ast.visit{|node, collected|
-          case func = node.function
-            when :_
-              collected.first
-            when :'?'
-              scope[*collected]
-            else
-              master_object.send(func, *collected)
-          end
-        }
+      def functional_eval(ast, receiver, scope = {}, scope_method = :[]) 
+        functional_proc(ast, scope_method).call(receiver, scope)
       end
       module_function :functional_eval
     

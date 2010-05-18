@@ -23,5 +23,12 @@ describe "::SByC::CodeTree::AstNode#functional_eval" do
     it { subject.should == "hello SByC" }
   end
   
+  context('when called on a object-like expression with specific scope method') do
+    let(:node)   { ::SByC::expr{ (say x, "SByC") } }
+    let(:master) { x = Object.new; def x.say(*args); args.join(" "); end; x}
+    subject{ node.functional_eval(master, {:x => "hello"}, :fetch) }
+    it { subject.should == "hello SByC" }
+  end
+  
 end
   
