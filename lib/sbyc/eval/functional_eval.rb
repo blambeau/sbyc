@@ -21,6 +21,12 @@ module SByC
       end
       module_function :functional_compile
       
+      # Generates a lambda function for functional evaluation
+      def functional_proc(ast, scope_method = :[])
+        ::Kernel.eval("::Kernel.lambda{|receiver, scope| #{functional_compile(ast, 'receiver', 'scope', scope_method)}}")
+      end
+      module_function :functional_proc
+      
       # Evaluates this AST with an object style.
       def functional_eval(ast, master_object, scope = {}) 
         ast.visit{|node, collected|

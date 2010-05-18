@@ -7,6 +7,11 @@ module SByC
         ::SByC::Eval::ObjectEval.object_compile(self, scope_object, scope_method)
       end
       
+      # Generates a lambda function for object evaluation
+      def object_proc(scope_method = :[])
+        ::SByC::Eval::ObjectEval.object_proc(self, scope_method)
+      end
+      
       # Executes object evaluation of this ast
       def object_eval(scope = {})
         ::SByC::Eval::ObjectEval.object_eval(self, scope)
@@ -17,6 +22,11 @@ module SByC
       # Generates the code of an functional evaluation
       def functional_compile(receiver_object = "receiver", scope_object = "scope", scope_method = :[])
         ::SByC::Eval::FunctionalEval.functional_compile(self, receiver_object, scope_object, scope_method)
+      end
+      
+      # Generates a lambda function for functional evaluation
+      def functional_proc(scope_method = :[])
+        ::SByC::Eval::FunctionalEval.functional_proc(self, scope_method)
       end
       
       # Executes functional evaluation of this ast

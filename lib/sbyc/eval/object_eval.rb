@@ -21,6 +21,12 @@ module SByC
       end
       module_function :object_compile
       
+      # Generates a lambda function for object evaluation
+      def object_proc(ast, scope_method = :[])
+        ::Kernel.eval "::Kernel.lambda{|scope| #{object_compile(ast, 'scope', scope_method)}}"
+      end
+      module_function :object_proc
+      
       # Evaluates this AST with an object style.
       def object_eval(ast, scope = {}) 
         ast.visit{|node, collected|

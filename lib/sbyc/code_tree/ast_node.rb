@@ -48,6 +48,7 @@ module SByC
       def visit(&block)
         yield(self, leaf? ? children : children.collect{|c| c.visit(&block)})
       end
+      alias :produce :visit
       
       # Inspection
       def inspect
