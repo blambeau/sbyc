@@ -61,6 +61,10 @@ module SByC
             when :'_'
               return false if candidates.empty?
               return false unless candidates.shift.literal == m.literal
+            when :'[]'
+              return false if candidates.empty?
+              match_data[m.literal] = candidates
+              candidates = []
             else
               return false if candidates.empty?
               return false unless match(m, candidates.shift, match_data)
