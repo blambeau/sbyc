@@ -52,7 +52,7 @@ module SByC
     
     # Performs AST matching against a node
     def =~(ast_node)
-      (::SByC::Rewriter::IMatch.new(self) =~ ast_node)
+      (::SByC::matcher(self) =~ ::SByC::parse(ast_node))
     end
     
     # Returns a string representation

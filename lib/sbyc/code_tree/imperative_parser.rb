@@ -62,6 +62,8 @@ module SByC
       def self.parse(code = nil, &block)
         block = code || block
         case block
+          when ::SByC::Expr
+            block.ast
           when Proc
             parse_proc(block)
           when AstNode

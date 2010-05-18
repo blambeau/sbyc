@@ -21,6 +21,11 @@ module SByC
         captures[varname]
       end
       
+      # Inspects this MatchData
+      def inspect
+        "MatchData#{captures.inspect}"
+      end
+      
     end # class MatchData
   end # module Matching
 end # module SByC

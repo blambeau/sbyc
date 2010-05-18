@@ -52,6 +52,12 @@ module SByC
   end
   module_function :expr
   
+  # Factors an Matching::Matcher instance
+  def matcher(code = nil, &block)
+    ::SByC::Matching::Matcher::new(parse(code, &block))
+  end
+  module_function :matcher
+  
   # Applies type checking to a code
   def type_check(code = nil, system = ::SByC::RubySystem, &block)
     system.type_check(code, &block)

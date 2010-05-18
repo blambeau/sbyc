@@ -1,6 +1,6 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe "SByC::Rewriter::IMatch#args_match" do
+describe "SByC::Matching::Matcher#args_match" do
 
   let(:imatch) { ::SByC::Matching::Matcher.new nil }
 

@@ -13,6 +13,8 @@ module SByC
     # Converts an argument to an parse tree (an ASTNode instance)
     def coerce(arg)
       case arg
+        when ::SByC::Expr
+          arg.ast
         when ::SByC::CodeTree::AstNode
           arg
         when Proc, String

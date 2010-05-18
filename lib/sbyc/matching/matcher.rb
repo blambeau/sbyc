@@ -11,9 +11,14 @@ module SByC
       end
       
       # Looks for a match against some ast node
-      def =~(ast_node, match_data = {})
-        do_match(match_ast, ast_node, match_data)
+      def =~(ast_node)
+        if captures = do_match(match_ast, ast_node)
+          ::SByC::Matching::MatchData.new(ast_node, ast_node, captures)
+        else
+          nil
+        end
       end
+      alias :match :=~
       
       # Returns true if _ast_node_ is matched by this matcher,
       # false otherwise
