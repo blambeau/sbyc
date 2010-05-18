@@ -41,7 +41,7 @@ describe "README # rewriting section" do
   describe("What is said about the code tree rewriting") do
     let(:rewriter) { ::SByC::Rewriter.new {|r|
       r.rule(:concat)  {|r, node, left, right, *residual| 
-        rewrited = r.node(:+, [ r.apply(left), r.apply(right) ]) 
+        rewrited = r.node(:+, r.apply(left), r.apply(right))
         if residual.empty? 
           rewrited
         else 

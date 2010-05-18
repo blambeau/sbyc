@@ -60,8 +60,8 @@ module SByC
       end
       
       # Produces a node by copying another one
-      def node(function, children)
-        ::SByC::CodeTree::AstNode.coerce([function, children])
+      def node(function, *children)
+        ::SByC::CodeTree::AstNode.coerce([function, children.flatten])
       end
       
       # 
@@ -71,7 +71,9 @@ module SByC
         if args.size == 1 and args[0].kind_of?(::SByC::CodeTree::AstNode)
           args[0]
         elsif args.size > 1 and args[0].kind_of?(Symbol)
-          ::SByC::CodeTree::AstNode.coerce([args.shift, args])
+          function = args.shift
+          children = args.collect{|c| apply_args_conventions(c)}.flatten
+          ::SByC::CodeTree::AstNode.coerce([function, children])
         elsif args.all?{|a| a.kind_of?(::SByC::CodeTree::AstNode)}
           args
         elsif args.size == 1

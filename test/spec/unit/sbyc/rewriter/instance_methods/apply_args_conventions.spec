@@ -47,4 +47,14 @@ describe "SByC::Rewriter#apply_args_conventions" do
     it { should == expected }
   end 
   
+  context "when called with a function and mix of ASTNode children" do
+    let(:function) { :say                                              }
+    let(:child1)   { ::SByC::parse{ "hello" }                          }
+    let(:child2)   { ::SByC::parse{ "you" }                            }
+    let(:child3)   { ::SByC::parse{ "world" }                          }
+    let(:expected) { ::SByC::parse{ (say "hello", "you", "world") }    }
+    subject{ rewriter.apply_args_conventions(function, child1, [child2, child3]) }
+    it { should == expected }
+  end 
+  
 end
