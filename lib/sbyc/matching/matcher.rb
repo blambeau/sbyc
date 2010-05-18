@@ -1,7 +1,7 @@
 module SByC
-  class Rewriter
-    class IMatch
-
+  module Matching
+    class Matcher
+      
       # Match Abstract Syntax Tree
       attr_reader :match_ast
       
@@ -72,7 +72,7 @@ module SByC
         end
         candidates.empty?
       end
-      
-    end # class IMatch
-  end # class Rewriter
+
+    end # class Matcher
+  end # module Matching
 end # module SByC

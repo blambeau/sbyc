@@ -1,6 +1,6 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe "SByC::Rewriter::IMatch#match" do
+describe "SByC::Matching::Matcher#match" do
   
   
   context "When matching pure literal ASTs" do
@@ -8,7 +8,7 @@ describe "SByC::Rewriter::IMatch#match" do
       pending {
         let(:matcher) { ::SByC::parse{ (match 12) } }
         let(:matched) { ::SByC::parse{ 12 }         }
-        subject{ SByC::Rewriter::IMatch.new(matcher) =~ matched }
+        subject{ SByC::Matching::Matcher.new(matcher) =~ matched }
         it { should_not be_nil }
       }
     }
@@ -17,7 +17,7 @@ describe "SByC::Rewriter::IMatch#match" do
   context 'When capture are provided' do
     let(:matcher)    { ::SByC::parse{ (match :hello, (match :whos, x, y)) } } 
     let(:matched)    { ::SByC::parse{ (hello (whos "world", "others"))    } }
-    let(:subject)    { SByC::Rewriter::IMatch.new(matcher) =~ matched       }
+    let(:subject)    { SByC::Matching::Matcher.new(matcher) =~ matched       }
     specify {
       subject[:x].literal.should == "world"
       subject[:y].literal.should == "others"
@@ -31,7 +31,7 @@ describe "SByC::Rewriter::IMatch#match" do
       [::SByC::parse{ (match :hello, x, y, z) }, ::SByC::parse{ (hello "world", "and", "others") }],
       [::SByC::parse{ (match :hello, (match :world, x)) }, ::SByC::parse{ (hello (world "I")) }],
     ].each do |matcher, matched|
-      let(:subject){ SByC::Rewriter::IMatch.new(matcher) =~ matched }
+      let(:subject){ SByC::Matching::Matcher.new(matcher) =~ matched }
       it { should_not be_nil }
     end
   end
@@ -42,7 +42,7 @@ describe "SByC::Rewriter::IMatch#match" do
       [::SByC::parse{ (match :hello, "world") }, ::SByC::parse{ (hello "world", "and", "others") }],
       [::SByC::parse{ (match :hello, (match :world, x)) }, ::SByC::parse{ (hello "world") }],
     ].each do |matcher, matched|
-      let(:subject){ SByC::Rewriter::IMatch.new(matcher) =~ matched }
+      let(:subject){ SByC::Matching::Matcher.new(matcher) =~ matched }
       it { should be_nil }
     end
   end

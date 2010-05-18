@@ -2,7 +2,7 @@ require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe "SByC::Rewriter::IMatch#args_match" do
 
-  let(:imatch) { ::SByC::Rewriter::IMatch.new nil }
+  let(:imatch) { ::SByC::Matching::Matcher.new nil }
 
   context "when called with a capture match" do
     let(:matcher)    { ::SByC::parse{ x }  }

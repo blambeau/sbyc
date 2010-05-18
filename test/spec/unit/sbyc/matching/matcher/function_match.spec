@@ -7,7 +7,7 @@ describe "SByC::Rewriter::IMatch#function_match" do
     let(:victim) { ::SByC::parse{ (hello "world") } }
     let(:match_data) { Hash.new }
 
-    subject{ ::SByC::Rewriter::IMatch.new(match).function_match(match, victim, match_data) }
+    subject{ ::SByC::Matching::Matcher.new(match).function_match(match, victim, match_data) }
     
     specify { 
       subject.should == true 
@@ -20,7 +20,7 @@ describe "SByC::Rewriter::IMatch#function_match" do
     let(:victim) { ::SByC::parse{ (hello "world") } }
     let(:match_data) { Hash.new }
 
-    subject{ ::SByC::Rewriter::IMatch.new(match).function_match(match, victim, match_data) }
+    subject{ ::SByC::Matching::Matcher.new(match).function_match(match, victim, match_data) }
     
     specify { 
       subject.should == true
@@ -33,7 +33,7 @@ describe "SByC::Rewriter::IMatch#function_match" do
     let(:victim) { ::SByC::parse{ (i "world") } }
     let(:match_data) { Hash.new }
 
-    subject{ ::SByC::Rewriter::IMatch.new(match).function_match(match, victim, match_data) }
+    subject{ ::SByC::Matching::Matcher.new(match).function_match(match, victim, match_data) }
     
     specify { 
       subject.should == false 

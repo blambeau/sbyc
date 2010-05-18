@@ -50,6 +50,11 @@ module SByC
     end
     alias :apply :functional_eval
     
+    # Performs AST matching against a node
+    def =~(ast_node)
+      (::SByC::Rewriter::IMatch.new(self) =~ ast_node)
+    end
+    
     # Returns a string representation
     def to_s
       ast.to_s

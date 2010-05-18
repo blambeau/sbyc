@@ -2,6 +2,7 @@ require 'sbyc/core_ext'
 require 'sbyc/code_tree'
 require 'sbyc/expr'
 require 'sbyc/system'
+require 'sbyc/matching'
 require 'sbyc/rewriter'
 module SByC
   class TypeCheckingError < StandardError; end
@@ -76,4 +77,10 @@ module SByC
   module_function :execute
   
 end
+
+# Alias for ::SByC::expr(code, &block)
+def SByC(code = nil, &block)
+  ::SByC::expr(code, &block)
+end
+
 require 'sbyc/system/ruby_system'
