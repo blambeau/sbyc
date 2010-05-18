@@ -4,7 +4,7 @@ module SByC
       
       # Generates code for a functional evaluation
       def functional_compile(ast, receiver_object = "receiver", scope_object = "scope", scope_method = :[])
-        ast.visit{|node, collected|
+        ast.produce{|node, collected|
           case func = node.function
             when :_
               collected.first.inspect

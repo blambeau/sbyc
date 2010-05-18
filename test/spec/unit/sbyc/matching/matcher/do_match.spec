@@ -2,18 +2,6 @@ require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe "SByC::Matching::Matcher#match" do
   
-  
-  context "When matching pure literal ASTs" do
-    specify("Matching pure literals should work") {
-      pending {
-        let(:matcher) { ::SByC::parse{ (match 12) } }
-        let(:matched) { ::SByC::parse{ 12 }         }
-        subject{ SByC::Matching::Matcher.new(matcher) =~ matched }
-        it { should_not be_nil }
-      }
-    }
-  end
-  
   context 'When capture are provided' do
     let(:matcher)    { ::SByC::parse{ (match :hello, (match :whos, x, y)) } } 
     let(:matched)    { ::SByC::parse{ (hello (whos "world", "others"))    } }
