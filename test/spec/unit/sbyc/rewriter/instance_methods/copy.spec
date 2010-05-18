@@ -6,9 +6,7 @@ describe "SByC::Rewriter#copy" do
   
   context "when called on a leaf node" do 
     let(:node) { ::SByC::parse{ 12 } }
-    
     subject{ engine.copy(node).inspect }
-    
     it { should == ::SByC::parse{ 12 }.inspect }
   end
   

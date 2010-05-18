@@ -75,12 +75,11 @@ module SByC
         if args.size == 1 and args[0].kind_of?(::SByC::CodeTree::AstNode)
           args[0]
         elsif args.size > 1 and args[0].kind_of?(Symbol)
-          name = args.shift
-          ::SByC::CodeTree::AstNode.coerce([name, args])
+          ::SByC::CodeTree::AstNode.coerce([args.shift, args])
         elsif args.size == 1
           args[0]
         else
-          raise ArgumentError, "Unable to apply on #{args.inspect}", caller
+          raise ArgumentError, "Unable to apply on #{args.inspect} (#{args.size})", caller
         end
       end
       
