@@ -64,6 +64,15 @@ module SByC
         visit{|node, collected| [node.name, collected]}
       end
       
+      # Checks tree equality with another node 
+      def ==(other)
+        return false unless other.kind_of?(AstNode)
+        return false unless (function == other.function)
+        return false unless args.size == other.args.size
+        return false unless args.zip(other.args).all?{|v1, v2| v1 == v2}
+        true
+      end
+      
       # Coercion
       def self.coerce(arg)
         case arg
