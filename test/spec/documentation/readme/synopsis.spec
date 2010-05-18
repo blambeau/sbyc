@@ -9,7 +9,7 @@ describe "README # synopsis section" do
   }
   
   specify {
-    expr.ast.to_s.should == "(> x, y)"
+    expr.inspect.should == "(> (? (_ :x)), (? (_ :y)))"
   }
   
   specify {
@@ -17,10 +17,10 @@ describe "README # synopsis section" do
   }
   
   describe "what is said about marshalling" do
-    let(:mashaled)    { Marshal::dump(expr) }
-    let(:unmarshaled) { Marshal::load(mashaled) }
-    subject { unmarshaled.ast.to_s }
-    it { should == expr.ast.to_s }
+    let(:marshaled)    { Marshal::dump(expr)      }
+    let(:unmarshaled)  { Marshal::load(marshaled) }
+    subject { unmarshaled }
+    it { should == expr }
   end
   
 end

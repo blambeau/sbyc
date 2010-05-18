@@ -1,6 +1,6 @@
 require File.expand_path('../../../../spec_helper', __FILE__)
 
-describe "::SByC::CodeTree::Expr#object_apply" do
+describe "::SByC::CodeTree::AstNode#object_eval" do
   
   context('when called on a leaf node, through coercion') do
     let(:node) { ::SByC::expr{ 12 } }

@@ -9,8 +9,8 @@ This part of SByC provides a safe, reusable, extensible, mashallable, and non-in
     # Create a block expression
     expr = SByC::expr{ x > y }      # (> x, y)
     
-    # Inspect its parse tree
-    expr.ast                        # (> x, y)
+    # Inspect its parse tree (see Semantics section below)
+    expr.inspect                    # (> (? (_ :x)), (? (_ :y)))
     
     # Evaluate the expression
     expr.eval(:x => 5, :y => 2)     # true

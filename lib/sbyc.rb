@@ -1,6 +1,6 @@
 require 'sbyc/core_ext'
 require 'sbyc/code_tree'
-require 'sbyc/expr'
+require 'sbyc/eval'
 require 'sbyc/system'
 require 'sbyc/matching'
 require 'sbyc/rewriter'
@@ -46,9 +46,9 @@ module SByC
   end
   module_function :parse
   
-  # Factors an Expr instance
+  # Alias for parse
   def expr(code = nil, &block)
-    ::SByC::Expr::coerce(code, &block)
+    ::SByC::CodeTree::parse(code, &block)
   end
   module_function :expr
   
