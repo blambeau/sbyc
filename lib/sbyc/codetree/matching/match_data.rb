@@ -1,5 +1,5 @@
 module SByC
-  module Matching
+  module CodeTree
     class MatchData
       
       # Source AstNode of the matching
@@ -28,5 +28,5 @@ module SByC
       alias :to_s :inspect
       
     end # class MatchData
-  end # module Matching
+  end # module CodeTree
 end # module SByC

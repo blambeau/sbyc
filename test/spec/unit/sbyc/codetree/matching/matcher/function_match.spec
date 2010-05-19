@@ -1,13 +1,13 @@
-require File.expand_path('../../../../../spec_helper', __FILE__)
+require File.expand_path('../../../../../../spec_helper', __FILE__)
 
-describe "SByC::Matching::Matcher#function_match" do
+describe "SByC::CodeTree::Matcher#function_match" do
 
   context "called with a literal match" do
     let(:match)  { ::SByC::parse{ (match :hello)  } }
     let(:victim) { ::SByC::parse{ (hello "world") } }
     let(:match_data) { Hash.new }
 
-    subject{ ::SByC::Matching::Matcher.new(match).function_match(match, victim, match_data) }
+    subject{ ::SByC::CodeTree::Matcher.new(match).function_match(match, victim, match_data) }
     
     specify { 
       subject.should == true 
@@ -20,7 +20,7 @@ describe "SByC::Matching::Matcher#function_match" do
     let(:victim) { ::SByC::parse{ (hello "world") } }
     let(:match_data) { Hash.new }
 
-    subject{ ::SByC::Matching::Matcher.new(match).function_match(match, victim, match_data) }
+    subject{ ::SByC::CodeTree::Matcher.new(match).function_match(match, victim, match_data) }
     
     specify { 
       subject.should == true
@@ -33,7 +33,7 @@ describe "SByC::Matching::Matcher#function_match" do
     let(:victim) { ::SByC::parse{ (i "world") } }
     let(:match_data) { Hash.new }
 
-    subject{ ::SByC::Matching::Matcher.new(match).function_match(match, victim, match_data) }
+    subject{ ::SByC::CodeTree::Matcher.new(match).function_match(match, victim, match_data) }
     
     specify { 
       subject.should == false 

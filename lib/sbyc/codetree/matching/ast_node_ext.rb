@@ -4,8 +4,8 @@ module SByC
       
       # Applies ast node matching
       def ===(other)
-        if other.kind_of?(::SByC::CodeTree::AstNode)
-          ::SByC::Matching::Matcher.new(self) === other
+        if other.kind_of?(CodeTree::AstNode)
+          CodeTree::Matcher.new(self) === other
         else
           super
         end

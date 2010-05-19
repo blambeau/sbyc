@@ -1,7 +1,6 @@
 require 'sbyc/core_ext'
 require 'sbyc/codetree'
 require 'sbyc/system'
-require 'sbyc/matching'
 require 'sbyc/rewriter'
 module SByC
   class TypeCheckingError < StandardError; end
@@ -53,7 +52,7 @@ module SByC
   
   # Factors an Matching::Matcher instance
   def matcher(code = nil, &block)
-    ::SByC::Matching::Matcher::new(parse(code, &block))
+    ::SByC::CodeTree::Matcher::new(parse(code, &block))
   end
   module_function :matcher
   

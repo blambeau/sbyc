@@ -18,7 +18,7 @@ module SByC
             Match.new(arg, block)
           when Symbol
             Match.new(lambda{|node| node.kind_of?(::SByC::CodeTree::AstNode) and node.name == arg}, block)
-          when ::SByC::Matching::Matcher
+          when ::SByC::CodeTree::Matcher
             Match.new(arg, block)
           when "."
             Match.new(SByC::Rewriter::Match::ANY, block)

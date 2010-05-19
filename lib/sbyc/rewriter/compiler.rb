@@ -10,8 +10,8 @@ module SByC
             r.apply(children)
           }
           r.rule(:upon){|r, upon, upon_match, upon_rule|
-            matcher = ::SByC::matcher(upon_match)
-            upon_expr = ::SByC::expr(upon_rule)
+            matcher = ::SByC::CodeTree::matcher(upon_match)
+            upon_expr = ::SByC::CodeTree::expr(upon_rule)
             r.scope.rule(matcher){|compiled, matched, *matched_children| 
               upon_expr.apply(compiled, (matcher =~ matched))
             }

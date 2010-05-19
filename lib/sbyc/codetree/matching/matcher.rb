@@ -1,5 +1,5 @@
 module SByC
-  module Matching
+  module CodeTree
     class Matcher
       
       # Match Abstract Syntax Tree
@@ -13,7 +13,7 @@ module SByC
       # Looks for a match against some ast node
       def =~(ast_node)
         if captures = do_match(match_ast, ast_node)
-          ::SByC::Matching::MatchData.new(ast_node, ast_node, captures)
+          CodeTree::MatchData.new(ast_node, ast_node, captures)
         else
           nil
         end
@@ -29,7 +29,7 @@ module SByC
       
       # Lookups for a match between _matcher_ and _matched_.
       def do_match(matcher, matched, match_data = {})
-        return nil unless matched.kind_of?(::SByC::CodeTree::AstNode)
+        return nil unless matched.kind_of?(CodeTree::AstNode)
         return nil unless function_match(matcher, matched, match_data)
         return nil unless args_match(matcher.args[1..-1], matched.args.dup, match_data)
         return match_data
@@ -81,5 +81,5 @@ module SByC
       end
 
     end # class Matcher
-  end # module Matching
+  end # module CodeTree
 end # module SByC

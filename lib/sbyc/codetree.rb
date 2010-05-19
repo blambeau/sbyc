@@ -1,6 +1,7 @@
 require 'sbyc/codetree/ast_node'
 require 'sbyc/codetree/proc_parser'
 require 'sbyc/codetree/eval'
+require 'sbyc/codetree/matching'
 module SByC
   module CodeTree
     
@@ -15,6 +16,12 @@ module SByC
       ProcParser::parse(code, &block)
     end
     module_function :expr
+    
+    # Factors a CodeTree::Matcher instance
+    def matcher(code = nil, &block)
+      CodeTree::Matcher.new(parse(code, &block))
+    end
+    module_function :matcher
     
     # Converts an argument to an parse tree (an ASTNode instance)
     def coerce(arg)
