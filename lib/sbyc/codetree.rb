@@ -54,6 +54,12 @@ module CodeTree
   end
   module_function :rewriter
   
+  # Factors a producer instance
+  def producer(default_rules = true, &definition)
+    CodeTree::Producing::Producer.new(default_rules, &definition)
+  end
+  module_function :producer
+  
   # Converts an argument to an parse tree (an ASTNode instance)
   def coerce(arg)
     case arg
@@ -71,5 +77,6 @@ end # module CodeTree
 require 'sbyc/codetree/ast_node'
 require 'sbyc/codetree/proc_parser'
 require 'sbyc/codetree/eval'
+require 'sbyc/codetree/producing'
 require 'sbyc/codetree/matching'
 require 'sbyc/codetree/rewriting'
