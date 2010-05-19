@@ -1,8 +1,23 @@
 module SByC
   module CodeTree
     class ProcParser
-      class Expr < ::SByC::CodeTree::BasicObject
+      class Expr
         
+        # Methods that we keep
+        KEPT_METHODS = [ "__send__", "__id__", "instance_eval", "initialize", "object_id", 
+                         "singleton_method_added", "singleton_method_undefined", "method_missing",
+                         "__evaluate__", "coerce"]
+
+        class << self
+          def __clean_scope__
+            # Removes all methods that are not needed to the class
+            (instance_methods + private_instance_methods).each do |m|
+              m_to_s = m.to_s
+              undef_method(m_to_s.to_sym) unless ('__' == m_to_s[0..1]) or KEPT_METHODS.include?(m_to_s)
+            end
+          end
+        end
+      
         # Creates an expression instance
         def initialize(name = nil, children = nil)
           class << self; __clean_scope__; end
