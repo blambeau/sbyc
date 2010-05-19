@@ -1,8 +1,5 @@
-require 'sbyc/core_ext'
 require 'sbyc/codetree'
-require 'sbyc/system'
 module SByC
-  class TypeCheckingError < StandardError; end
 
   # Version
   VERSION = "0.0.1".freeze
@@ -55,35 +52,4 @@ module SByC
   end
   module_function :matcher
   
-  # Applies type checking to a code
-  def type_check(code = nil, system = ::SByC::RubySystem, &block)
-    system.type_check(code, &block)
-  end
-  module_function :type_check
-  
-  # Parses some code and returns a code tree.
-  def to_ruby_code(code = nil, system = ::SByC::RubySystem, &block)
-    system.to_ruby_code(code, &block)
-  end
-  module_function :to_ruby_code
-  
-  # Parses some code and returns a code tree.
-  def compile(code = nil, system = ::SByC::RubySystem, &block)
-    system.compile(code, &block)
-  end
-  module_function :compile
-  
-  # Parses some code and returns a code tree.
-  def execute(code = nil, system = ::SByC::RubySystem, &block)
-    compile(system, code, &block).call
-  end
-  module_function :execute
-  
 end
-
-# Alias for ::SByC::expr(code, &block)
-def SByC(code = nil, &block)
-  ::SByC::expr(code, &block)
-end
-
-require 'sbyc/system/ruby_system'
