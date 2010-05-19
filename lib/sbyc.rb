@@ -1,6 +1,5 @@
 require 'sbyc/core_ext'
 require 'sbyc/code_tree'
-require 'sbyc/eval'
 require 'sbyc/system'
 require 'sbyc/matching'
 require 'sbyc/rewriter'

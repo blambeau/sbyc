@@ -1,5 +1,6 @@
 require 'sbyc/code_tree/ast_node'
 require 'sbyc/code_tree/proc_parser'
+require 'sbyc/code_tree/eval'
 module SByC
   module CodeTree
     

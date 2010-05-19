@@ -1,5 +1,5 @@
 module SByC
-  module Eval
+  module CodeTree
     module FunctionalEval
       
       # Generates code for a functional evaluation
@@ -34,5 +34,5 @@ module SByC
       module_function :functional_eval
     
     end # module FunctionalEval
-  end # module Eval
+  end # module CodeTree
 end # module SByC

@@ -1,5 +1,5 @@
 module SByC
-  module Eval
+  module CodeTree
     module ObjectEval
       
       # Generates code for an object evaluation
@@ -34,5 +34,5 @@ module SByC
       module_function :object_eval
     
     end # module ObjectEval
-  end # module Eval
+  end # module CodeTree
 end # module SByC
