@@ -10,7 +10,7 @@ describe "README # syntax section" do
     let(:context_style)    { lambda{ (x > 5) & (z <= 10)                             } }
     let(:tested)           { [hash_style, object_style, context_style] }
     
-    subject{ tested.collect{|t| ::SByC::parse(t) } }
+    subject{ tested.collect{|t| CodeTree::parse(t) } }
     
     specify{ subject.collect{|c| c.to_s}.uniq.should == [ expected ] }
   end
@@ -18,7 +18,7 @@ describe "README # syntax section" do
   describe "what is said about functional style" do
     let(:functional)    { lambda{ (both (gt x, 5), (lte y, 10)) } }
     
-    subject { SByC::parse(functional) }
+    subject { CodeTree::parse(functional) }
     
     specify{ subject.to_s.should == "(both (gt x, 5), (lte y, 10))" }
   end

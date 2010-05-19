@@ -1,16 +1,16 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe "::SByC::CodeTree::ProcParser#parse" do
+describe "CodeTree::ProcParser#parse" do
   
-  subject { ::SByC::CodeTree::ProcParser::parse(code) }
+  subject { CodeTree::ProcParser::parse(code) }
 
   context "when called with an argument" do 
     let(:expected)   { "(+ (? (_ :a)), (_ 12))" }
   
     context("with a simple literal") do
       let(:code)  { proc {|t| 12 } }
-      specify     { subject.should be_kind_of(::SByC::CodeTree::AstNode) }
-      specify     { subject.inspect.should == ::SByC::parse{ 12 }.inspect }
+      specify     { subject.should be_kind_of(CodeTree::AstNode) }
+      specify     { subject.inspect.should == CodeTree::parse{ 12 }.inspect }
     end
   
     context("with a simple operator call") do
@@ -39,8 +39,8 @@ describe "::SByC::CodeTree::ProcParser#parse" do
   
     context("with a simple literal") do
       let(:code)        { proc { 12 } }
-      specify     { subject.should be_kind_of(::SByC::CodeTree::AstNode) }
-      specify { subject.inspect.should == ::SByC::parse{ 12 }.inspect }
+      specify     { subject.should be_kind_of(CodeTree::AstNode) }
+      specify { subject.inspect.should == CodeTree::parse{ 12 }.inspect }
     end
   
     context("with a simple operator call") do

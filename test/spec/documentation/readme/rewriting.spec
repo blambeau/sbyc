@@ -3,7 +3,7 @@ require File.expand_path('../../../spec_helper', __FILE__)
 describe "README # rewriting section" do
   
   let(:code) { lambda{ (concat "hello ", who, (times "!", 3)) } }
-  let(:ast)  { ::SByC::parse(code) }
+  let(:ast)  { CodeTree::parse(code) }
   
   describe('What is said about the ast') do
     subject{ ast.inspect }
@@ -11,7 +11,7 @@ describe "README # rewriting section" do
   end
 
   describe("What is said about the evaluation") do
-    let(:rewriter) { ::SByC::CodeTree::rewriter {|r|
+    let(:rewriter) { CodeTree::rewriter {|r|
       r.rule(:concat)      {|r, node, *children|   r.apply(children).join("")                }  
       r.rule(:capitalize)  {|r, node, who|         r.apply(who).capitalize                   }
       r.rule(:times)       {|r, node, who, times|  r.apply(who) * r.apply(times)             }
@@ -19,13 +19,13 @@ describe "README # rewriting section" do
       r.rule(:'_')         {|r, node, literal|     literal                                   }
     }}
     
-    subject { rewriter.rewrite(ast, :who => "SByC") }
+    subject { rewriter.rewrite(ast, :who => "You") }
     
-    it { should == "hello SByC!!!" }
+    it { should == "hello You!!!" }
   end
 
   describe("What is said about the code generation") do
-    let(:rewriter) { ::SByC::CodeTree::rewriter {|r|
+    let(:rewriter) { CodeTree::rewriter {|r|
       r.rule(:concat)      {|r, node, *children|   r.apply(children).join(" + ")                }  
       r.rule(:capitalize)  {|r, node, who|         "#{r.apply(who)}.capitalize()"               }
       r.rule(:times)       {|r, node, who, times|  "(#{r.apply(who)} * #{r.apply(times)})"      }
@@ -39,7 +39,7 @@ describe "README # rewriting section" do
   end
   
   describe("What is said about the code tree rewriting") do
-    let(:rewriter) { ::SByC::CodeTree::rewriter {|r|
+    let(:rewriter) { CodeTree::rewriter {|r|
       r.rule(:concat)  {|r, node, left, right, *residual| 
         rewrited = r.node(:+, r.apply(left), r.apply(right))
         if residual.empty? 

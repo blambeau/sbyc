@@ -1,11 +1,11 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe "::SByC::CodeTree::AstNode#coerce" do
+describe "CodeTree::AstNode#coerce" do
   
   context("with a literal") do
-    subject { ::SByC::CodeTree::AstNode.coerce(12) }
+    subject { CodeTree::AstNode.coerce(12) }
   
-    it { should be_kind_of(::SByC::CodeTree::AstNode) }
+    it { should be_kind_of(CodeTree::AstNode) }
     
     specify { 
       subject.literal.should == 12 
@@ -16,15 +16,15 @@ describe "::SByC::CodeTree::AstNode#coerce" do
   end
   
   context("with a literal in array form") do
-    subject { ::SByC::CodeTree::AstNode.coerce([:_, [ 12 ]]) }
-    it { should be_kind_of(::SByC::CodeTree::AstNode) }
+    subject { CodeTree::AstNode.coerce([:_, [ 12 ]]) }
+    it { should be_kind_of(CodeTree::AstNode) }
     specify { subject.inspect.should == "(_ 12)" }
   end
   
   context("without children") do
-    subject { ::SByC::CodeTree::AstNode.coerce([:plus, []]) }
+    subject { CodeTree::AstNode.coerce([:plus, []]) }
   
-    it { should be_kind_of(::SByC::CodeTree::AstNode) }
+    it { should be_kind_of(CodeTree::AstNode) }
   
     specify { 
       subject.name.should == :plus 
@@ -33,9 +33,9 @@ describe "::SByC::CodeTree::AstNode#coerce" do
   end
   
   context("with literal children") do
-    subject { ::SByC::CodeTree::AstNode.coerce([ :plus, [ 12, 15 ] ]) }
+    subject { CodeTree::AstNode.coerce([ :plus, [ 12, 15 ] ]) }
   
-    it { should be_kind_of(::SByC::CodeTree::AstNode) }
+    it { should be_kind_of(CodeTree::AstNode) }
   
     specify { 
       subject.name.should == :plus 
@@ -44,9 +44,9 @@ describe "::SByC::CodeTree::AstNode#coerce" do
   end
   
   context("with complex structure") do
-    subject { ::SByC::CodeTree::AstNode.coerce([ :plus, [ [ :minus, [12, 15] ] ] ]) }
+    subject { CodeTree::AstNode.coerce([ :plus, [ [ :minus, [12, 15] ] ] ]) }
   
-    it { should be_kind_of(::SByC::CodeTree::AstNode) }
+    it { should be_kind_of(CodeTree::AstNode) }
     
     specify {
       subject.name.should == :plus

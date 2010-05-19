@@ -2,7 +2,7 @@ require File.expand_path('../../../spec_helper', __FILE__)
 
 describe "README # synopsis section" do
   
-  let(:expr){ SByC::expr{ x > y } }
+  let(:expr){ CodeTree::expr{ x > y } }
   
   specify {
     expr.to_s.should == "(> x, y)"

@@ -1,24 +1,24 @@
 require File.expand_path('../../../../../../spec_helper', __FILE__)
 
-describe "SByC::CodeTree::Matcher#match" do
+describe "CodeTree::Matcher#match" do
   
   context "when called on something that matches" do
-    let(:matcher) { SByC::CodeTree::matcher{ (match :say, x) } }
-    let(:matched) { SByC::parse  { (say "hello")   } }
+    let(:matcher) { CodeTree::matcher{ (match :say, x) } }
+    let(:matched) { CodeTree::parse  { (say "hello")   } }
     subject{ matcher =~ matched }
     it { should_not be_nil }
-    specify{ subject[:x].should == SByC::parse{"hello"} }
+    specify{ subject[:x].should == CodeTree::parse{"hello"} }
   end
   
   context "when called on something that does not match" do
-    let(:matcher) { SByC::CodeTree::matcher{ (match :say, x) } }
-    let(:matched) { SByC::parse  { (nosay "hello") } }
+    let(:matcher) { CodeTree::matcher{ (match :say, x) } }
+    let(:matched) { CodeTree::parse  { (nosay "hello") } }
     subject{ matcher =~ matched }
     it { should be_nil }
   end
   
   context "a generic matcher" do
-    let(:matcher) { SByC::CodeTree::matcher{ (match x, y[]) } }
+    let(:matcher) { CodeTree::matcher{ (match x, y[]) } }
     
     context 'against a ruby object' do
       let(:expr) { 12               }
@@ -27,7 +27,7 @@ describe "SByC::CodeTree::Matcher#match" do
     end
     
     context 'against a literal' do
-      let(:expr) { SByC::parse{ 12 } }
+      let(:expr) { CodeTree::parse{ 12 } }
       subject    { matcher =~ expr   }
       it         { should_not be_nil }
       specify    { subject[:x].should == :_ }
@@ -35,27 +35,27 @@ describe "SByC::CodeTree::Matcher#match" do
     end
 
     context 'against a variable' do
-      let(:expr) { SByC::parse{ var } }
+      let(:expr) { CodeTree::parse{ var } }
       subject    { matcher =~ expr    }
       it         { should_not be_nil  }
       specify    { subject[:x].should == :'?'   }
-      specify    { subject[:y].should == [ SByC::parse{ :var }] }
+      specify    { subject[:y].should == [ CodeTree::parse{ :var }] }
     end
     
     context 'against a function with one literal argument' do
-      let(:expr) { SByC::parse{ (func "a") } }
+      let(:expr) { CodeTree::parse{ (func "a") } }
       subject    { matcher =~ expr    }
       it         { should_not be_nil  }
       specify    { subject[:x].should == :func }
-      specify    { subject[:y].should == [ SByC::parse{ "a" } ] }
+      specify    { subject[:y].should == [ CodeTree::parse{ "a" } ] }
     end
     
     context 'against a function with two arguments' do
-      let(:expr) { SByC::parse{ (func "a", b) } }
+      let(:expr) { CodeTree::parse{ (func "a", b) } }
       subject    { matcher =~ expr    }
       it         { should_not be_nil  }
       specify    { subject[:x].should == :func }
-      specify    { subject[:y].should == [ SByC::parse{ "a" }, SByC::parse{ b } ] }
+      specify    { subject[:y].should == [ CodeTree::parse{ "a" }, CodeTree::parse{ b } ] }
     end
     
   end

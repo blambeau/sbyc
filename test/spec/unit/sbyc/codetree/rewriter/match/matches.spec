@@ -1,12 +1,12 @@
 require File.expand_path('../../../../../../spec_helper', __FILE__)
 
-describe "SByC::CodeTree::Rewriting::Rewriter::Match#matches?" do
+describe "CodeTree::Rewriting::Rewriter::Match#matches?" do
   
-  let(:branch)  { ::SByC::CodeTree::AstNode.new(:branch, [1, 2, 3]) }
-  let(:literal) { ::SByC::CodeTree::AstNode.coerce(12) }
+  let(:branch)  { CodeTree::AstNode.new(:branch, [1, 2, 3]) }
+  let(:literal) { CodeTree::AstNode.coerce(12) }
   
   context "when built with a symbol" do
-    subject { ::SByC::CodeTree::Rewriting::Rewriter::Match.coerce(:_, nil) }
+    subject { CodeTree::Rewriting::Rewriter::Match.coerce(:_, nil) }
     specify { 
       (subject.matches? branch).should be_false
       (subject.matches? literal).should be_true
@@ -17,7 +17,7 @@ describe "SByC::CodeTree::Rewriting::Rewriter::Match#matches?" do
   
   context "when built with a proc" do
     let(:proc) { lambda {|node| node.name == :branch } }
-    subject { ::SByC::CodeTree::Rewriting::Rewriter::Match.coerce(proc, nil) }
+    subject { CodeTree::Rewriting::Rewriter::Match.coerce(proc, nil) }
     specify { 
       (subject.matches? branch).should be_true
       (subject.matches? literal).should be_false

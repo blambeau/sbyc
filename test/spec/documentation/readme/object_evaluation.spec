@@ -2,7 +2,7 @@ require File.expand_path('../../../spec_helper', __FILE__)
 
 describe "README # object-evaluation section" do
 
-  let(:expr){ ::SByC::expr{ (x + y).to_s } }
+  let(:expr){ CodeTree::parse{ (x + y).to_s } }
   
   describe('what is said about the ast') do
     subject{ expr.to_s }

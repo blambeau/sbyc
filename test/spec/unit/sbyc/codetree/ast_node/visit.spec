@@ -1,21 +1,21 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe "::SByC::CodeTree::AstNode#functional_eval" do
+describe "CodeTree::AstNode#functional_eval" do
   
   context('when called on a leaf node, through coercion') do
-    let(:node) { ::SByC::CodeTree::AstNode.coerce(12) }
+    let(:node) { CodeTree::AstNode.coerce(12) }
     subject{ node.visit{|node, collected| [node, collected]} }
     it { should == [node, [12]] }
   end
   
   context('when called on a object-like expression') do
-    let(:node)   { ::SByC::parse{ (say x, "SByC") } }
+    let(:node)   { CodeTree::parse{ (say x, "Hello") } }
     subject{ node.visit{|node, collected| [node.name, collected]} }
-    it { subject.should == [:say, [ [ :'?', [ [ :_,  [ :x ] ] ] ], [ :_, [ "SByC" ] ] ] ] }
+    it { subject.should == [:say, [ [ :'?', [ [ :_,  [ :x ] ] ] ], [ :_, [ "Hello" ] ] ] ] }
   end
   
   context('when called for productions') do
-    let(:node) { ::SByC::parse{ (say x, "SByC") } }
+    let(:node) { CodeTree::parse{ (say x, "Hello") } }
     subject { 
       node.produce{|n, collected|
         case n.function
@@ -28,7 +28,7 @@ describe "::SByC::CodeTree::AstNode#functional_eval" do
         end
       }
     }
-    it { should == 'scope[:x].say("SByC")' }
+    it { should == 'scope[:x].say("Hello")' }
   end
   
 end
