@@ -1,6 +1,6 @@
 module SByC
   module CodeTree
-    class ImperativeParser
+    class ProcParser
       class Expr < ::SByC::CodeTree::BasicObject
         
         # Creates an expression instance
@@ -73,6 +73,6 @@ module SByC
         end
       end
       
-    end # class ImperativeParser
+    end # class ProcParser
   end # module CodeTree
 end # module SByC

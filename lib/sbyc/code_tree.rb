@@ -1,12 +1,12 @@
 require 'sbyc/code_tree/ast_node'
 require 'sbyc/code_tree/basic_object'
-require 'sbyc/code_tree/imperative_parser'
+require 'sbyc/code_tree/proc_parser'
 module SByC
   module CodeTree
     
     # Parses some code or block
     def parse(code = nil, &block)
-      SByC::CodeTree::ImperativeParser::parse(code, &block)
+      SByC::CodeTree::ProcParser::parse(code, &block)
     end
     module_function :parse
     

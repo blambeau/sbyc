@@ -1,8 +1,8 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe "::SByC::CodeTree::ImperativeParser#parse" do
+describe "::SByC::CodeTree::ProcParser#parse" do
   
-  subject { ::SByC::CodeTree::ImperativeParser::parse(code) }
+  subject { ::SByC::CodeTree::ProcParser::parse(code) }
 
   context "when called with an argument" do 
     let(:expected)   { "(+ (? (_ :a)), (_ 12))" }
