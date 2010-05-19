@@ -2,7 +2,7 @@ require 'sbyc/codetree/ast_node'
 require 'sbyc/codetree/proc_parser'
 require 'sbyc/codetree/eval'
 require 'sbyc/codetree/matching'
-require 'sbyc/codetree/rewriter'
+require 'sbyc/codetree/rewriting'
 module SByC
   module CodeTree
     
@@ -23,6 +23,12 @@ module SByC
       CodeTree::Matcher.new(parse(code, &block))
     end
     module_function :matcher
+    
+    # Factors a rewriter instance
+    def rewriter(&definition)
+      CodeTree::Rewriting::Rewriter.new(&definition)
+    end
+    module_function :rewriter
     
     # Converts an argument to an parse tree (an ASTNode instance)
     def coerce(arg)

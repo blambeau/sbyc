@@ -11,7 +11,7 @@ describe "README # rewriting section" do
   end
 
   describe("What is said about the evaluation") do
-    let(:rewriter) { ::SByC::CodeTree::Rewriter.new {|r|
+    let(:rewriter) { ::SByC::CodeTree::rewriter {|r|
       r.rule(:concat)      {|r, node, *children|   r.apply(children).join("")                }  
       r.rule(:capitalize)  {|r, node, who|         r.apply(who).capitalize                   }
       r.rule(:times)       {|r, node, who, times|  r.apply(who) * r.apply(times)             }
@@ -25,7 +25,7 @@ describe "README # rewriting section" do
   end
 
   describe("What is said about the code generation") do
-    let(:rewriter) { ::SByC::CodeTree::Rewriter.new {|r|
+    let(:rewriter) { ::SByC::CodeTree::rewriter {|r|
       r.rule(:concat)      {|r, node, *children|   r.apply(children).join(" + ")                }  
       r.rule(:capitalize)  {|r, node, who|         "#{r.apply(who)}.capitalize()"               }
       r.rule(:times)       {|r, node, who, times|  "(#{r.apply(who)} * #{r.apply(times)})"      }
@@ -39,7 +39,7 @@ describe "README # rewriting section" do
   end
   
   describe("What is said about the code tree rewriting") do
-    let(:rewriter) { ::SByC::CodeTree::Rewriter.new {|r|
+    let(:rewriter) { ::SByC::CodeTree::rewriter {|r|
       r.rule(:concat)  {|r, node, left, right, *residual| 
         rewrited = r.node(:+, r.apply(left), r.apply(right))
         if residual.empty? 

@@ -1,8 +1,8 @@
 require File.expand_path('../../../../../../spec_helper', __FILE__)
 
-describe "SByC::CodeTree::Rewriter#apply_args_conventions" do
+describe "SByC::CodeTree::Rewriting::Rewriter#apply_args_conventions" do
 
-  let(:rewriter) { ::SByC::CodeTree::Rewriter.new }
+  let(:rewriter) { ::SByC::CodeTree::rewriter }
 
   context "when called with a literal" do
     let(:node)     { 12 }
