@@ -6,17 +6,23 @@ module SByC
     
     # Parses some code or block
     def parse(code = nil, &block)
-      SByC::CodeTree::ProcParser::parse(code, &block)
+      ProcParser::parse(code, &block)
     end
     module_function :parse
+    
+    # Alias for _parse_
+    def expr(code = nil, &block)
+      ProcParser::parse(code, &block)
+    end
+    module_function :expr
     
     # Converts an argument to an parse tree (an ASTNode instance)
     def coerce(arg)
       case arg
-        when ::SByC::CodeTree::AstNode
+        when AstNode
           arg
         when Proc, String
-          ::SByC::CodeTree::parse(arg)
+          CodeTree::parse(arg)
         else
           raise "Unable to coerce #{arg.inspect} to a CodeTree::AstNode"
       end

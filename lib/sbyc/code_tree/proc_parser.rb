@@ -29,7 +29,7 @@ module SByC
           children = @children.collect{|c|
             c.kind_of?(Expr) ? c.__to_functional_code : AstNode.coerce(c)
           }
-          ::SByC::CodeTree::AstNode.coerce([@name, children])
+          CodeTree::AstNode.coerce([@name, children])
         end
         alias :inspect :__to_functional_code
         
@@ -69,7 +69,7 @@ module SByC
           when Expr
             e.__to_functional_code
           else
-            ::SByC::CodeTree::AstNode.coerce(e)
+            CodeTree::AstNode.coerce(e)
         end
       end
       
