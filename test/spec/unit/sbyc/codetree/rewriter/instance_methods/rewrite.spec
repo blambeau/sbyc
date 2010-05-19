@@ -1,16 +1,16 @@
-require File.expand_path('../../../../../spec_helper', __FILE__)
+require File.expand_path('../../../../../../spec_helper', __FILE__)
 
-describe "SByC::Rewriter" do
+describe "SByC::CodeTree::Rewriter" do
 
   describe "when called without scope" do 
     subject{
-      ::SByC::Rewriter.new {|r|
+      ::SByC::CodeTree::Rewriter.new {|r|
         r.rule(:concat)        {|r, node, *args| args.collect{|c| r.apply(c)}.join }
         r.rule(:_)             {|r, node| node.literal                             }
       }
     }
   
-    it { should be_kind_of(::SByC::Rewriter) }
+    it { should be_kind_of(::SByC::CodeTree::Rewriter) }
   
     context("when applied on an ast string") do
       specify { subject.rewrite("(concat 1, 2, 3)").should == "123" }
@@ -29,14 +29,14 @@ describe "SByC::Rewriter" do
 
   describe "when called with a scope object" do 
     subject{
-      ::SByC::Rewriter.new     {|r|
+      ::SByC::CodeTree::Rewriter.new     {|r|
         r.rule(:concat)        {|r, node, *args| args.collect{|c| r.apply(c)}.join }
         r.rule(:get)           {|r, node, name|  r.scope[r.apply(name)]            }
         r.rule(:_)             {|r, node| node.literal                             }
       }
     }
   
-    it { should be_kind_of(::SByC::Rewriter) }
+    it { should be_kind_of(::SByC::CodeTree::Rewriter) }
   
     context("when applied on an ast string") do
       specify { subject.rewrite("(get :hello)", :hello => "world").should == "world" }
@@ -53,8 +53,8 @@ describe "SByC::Rewriter" do
   end
   
   describe "when only an ANY match is installed" do
-    subject{ ::SByC::Rewriter.new{|r| 
-      r.rule(::SByC::Rewriter::Match::ANY){|r, node, arg| node.leaf? ? arg : r.apply(arg) } 
+    subject{ ::SByC::CodeTree::Rewriter.new{|r| 
+      r.rule(::SByC::CodeTree::Rewriter::Match::ANY){|r, node, arg| node.leaf? ? arg : r.apply(arg) } 
     }}
     
     it "should return inner-most argument" do
@@ -63,9 +63,9 @@ describe "SByC::Rewriter" do
   end
   
   describe "when only an LEAF/BRANCH are used" do
-    subject{ ::SByC::Rewriter.new{|r| 
-      r.rule(::SByC::Rewriter::Match::BRANCH){|r, node, child| r.apply(child)}
-      r.rule(::SByC::Rewriter::Match::LEAF){|r, node| node.literal}
+    subject{ ::SByC::CodeTree::Rewriter.new{|r| 
+      r.rule(::SByC::CodeTree::Rewriter::Match::BRANCH){|r, node, child| r.apply(child)}
+      r.rule(::SByC::CodeTree::Rewriter::Match::LEAF){|r, node| node.literal}
     }}
     
     it "should return inner-most argument" do

@@ -2,6 +2,7 @@ require 'sbyc/codetree/ast_node'
 require 'sbyc/codetree/proc_parser'
 require 'sbyc/codetree/eval'
 require 'sbyc/codetree/matching'
+require 'sbyc/codetree/rewriter'
 module SByC
   module CodeTree
     

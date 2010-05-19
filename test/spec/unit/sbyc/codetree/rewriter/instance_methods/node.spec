@@ -1,8 +1,8 @@
-require File.expand_path('../../../../../spec_helper', __FILE__)
+require File.expand_path('../../../../../../spec_helper', __FILE__)
 
-describe "SByC::Rewriter#copy" do
+describe "SByC::CodeTree::Rewriter#copy" do
   
-  let(:engine) { SByC::Rewriter.new }
+  let(:engine) { SByC::CodeTree::Rewriter.new }
   
   context "when called with a literal" do 
     subject{ engine.node(:test, [ 12 ]) }

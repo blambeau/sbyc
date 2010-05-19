@@ -1,7 +1,6 @@
 require 'sbyc/core_ext'
 require 'sbyc/codetree'
 require 'sbyc/system'
-require 'sbyc/rewriter'
 module SByC
   class TypeCheckingError < StandardError; end
 

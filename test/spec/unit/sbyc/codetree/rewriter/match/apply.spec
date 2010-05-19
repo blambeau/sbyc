@@ -1,10 +1,10 @@
-require File.expand_path('../../../../../spec_helper', __FILE__)
+require File.expand_path('../../../../../../spec_helper', __FILE__)
 
-describe "SByC::Rewriter::Match#apply" do
+describe "SByC::CodeTree::Rewriter::Match#apply" do
   
   let(:predicate) { true }
   let(:block)     { lambda{ |r, node, *args| [r, node, args] } }
-  subject { ::SByC::Rewriter::Match.new(predicate, block) }
+  subject { ::SByC::CodeTree::Rewriter::Match.new(predicate, block) }
   
   context "when called on a leaf node" do
     let(:node) { ::SByC::CodeTree::AstNode.coerce(:literal) }

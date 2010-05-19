@@ -112,7 +112,7 @@ The tree rewriting/production engine is inspired from XSLT and allows you to tra
 ### An evaluation production
 
     # Evaluate the code above:
-    rewriter = ::SByC::Rewriter.new {|r|
+    rewriter = ::SByC::CodeTree::Rewriter.new {|r|
       r.rule(:concat)    {|r, node, *children|   r.apply(children).join("")                }  
       r.rule(:capitalize){|r, node, who|         r.apply(who).capitalize                   }
       r.rule(:times)     {|r, node, who, times|  r.apply(who) * r.apply(times)             }
@@ -124,7 +124,7 @@ The tree rewriting/production engine is inspired from XSLT and allows you to tra
 ### A compilation production
 
     # Generate ruby code for the code above:
-    rewriter = ::SByC::Rewriter.new {|r|
+    rewriter = ::SByC::CodeTree::Rewriter.new {|r|
       r.rule(:concat)    {|r, node, *children|   r.apply(children).join(" + ")                }  
       r.rule(:capitalize){|r, node, who|         "#{r.apply(who)}.capitalize()"               }
       r.rule(:times)     {|r, node, who, times|  "(#{r.apply(who)} * #{r.apply(times)})"      }
@@ -138,7 +138,7 @@ The tree rewriting/production engine is inspired from XSLT and allows you to tra
     # Generate a ruby-version of that AST
     #   * n-adic 'concat' should be replaced by dyadic invocations '+'
     #   * 'times' should be replaced by '*'
-    rewriter = ::SByC::Rewriter.new {|r|
+    rewriter = ::SByC::CodeTree::Rewriter.new {|r|
       r.rule(:concat)  {|r, node, left, right, *residual| 
         rewrited = r.node(:+, [ r.apply(left), r.apply(right) ]) 
         if residual.empty? 
