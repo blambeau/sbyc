@@ -9,25 +9,25 @@ describe "::SByC::CodeTree::AstNode#functional_proc" do
   }
   
   context('when called on a leaf node') do
-    let(:node) { ::SByC::expr{ 12 } }
+    let(:node) { ::SByC::CodeTree::expr{ 12 } }
     subject{ node.functional_proc.call(nil, nil) }
     it { should == 12 }
   end
   
   context('when called on a ?') do
-    let(:node) { ::SByC::expr{ x } }
+    let(:node) { ::SByC::CodeTree::expr{ x } }
     subject{ node.functional_proc.call(receiver, :x => "hello") }
     it { should == "hello" }
   end
   
   context('when called on a object-like expression') do
-    let(:node)   { ::SByC::expr{ (upcase x) } }
+    let(:node)   { ::SByC::CodeTree::expr{ (upcase x) } }
     subject{ node.functional_proc.call(receiver, :x => "hello") }
     it { should == 'HELLO' }
   end
   
   context('when called with specific arguments') do
-    let(:node)   { ::SByC::expr{ (upcase x) } }
+    let(:node)   { ::SByC::CodeTree::expr{ (upcase x) } }
     subject{ node.functional_proc(:fetch).call(receiver, :x => "hello") }
     it { should == 'HELLO' }
   end
