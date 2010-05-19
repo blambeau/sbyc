@@ -13,6 +13,7 @@ task :default => [:test]
 
 desc "Run all rspec test"
 Spec::Rake::SpecTask.new(:spec) do |t|
+  t.ruby_opts = ['-I.']
   t.spec_files = FileList['test/spec/test_all.rb']
 end
 
