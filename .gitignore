@@ -1,2 +1,4 @@
 .yardoc
-doc
+doc/api
+doc/gh-pages
+pkg

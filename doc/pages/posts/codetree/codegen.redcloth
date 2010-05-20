@@ -1,0 +1,111 @@
+h2. synopsis
+
+Code generation allows to generate ruby code from a CodeTree. Similarly to evaluation, there's two ways to generate code: the object way and the functional way.
+
+h2. object generation 
+
+In object generation (_object_compile_ and _object_proc_ methods), the expression
+
+<notextile>
+^{xhtml/coderay/ruby}{(function arg0, arg1, ..., argn)}
+</notextile>
+    
+recursively generates code like:
+
+<notextile>
+^{xhtml/coderay/ruby}{arg0.function(arg1, ..., argn)}
+</notextile>
+
+The special '?' operator leads to the evaluation of a variable name (Symbol) on a scope object (default name to 'scope') using a given scope method (default to :[]):
+
+<notextile>
+^{xhtml/coderay/ruby}{
+CodeTree::parse{ x }.object_compile
+# => "scope[:x]"
+}
+</notextile>
+
+Therefore,
+
+<notextile>
+^{xhtml/coderay/ruby}{
+expr = CodeTree::parse{ (x + y).to_s }   
+# => (to_s (+ x, y))
+
+expr.object_compile
+# => "scope[:x].+(scope[:y]).to_s()"
+
+expr.object_compile("hash", :fetch)             
+# => "hash.fetch(:x).+(hash.fetch(:y)).to_s()"
+}
+</notextile>
+
+The _object_proc_ method generates a Proc instance with the equivalent code. The scope method can also be specified:
+
+<notextile>
+^{xhtml/coderay/ruby}{
+expr = CodeTree::parse{ (x + y).to_s }   
+# => (to_s (+ x, y))
+
+expr.object_proc(:fetch)
+# => <Proc...>
+
+proc.call(:x => 3, :y => 25)
+# => "28"
+}
+</notextile>
+
+h2. functional generation
+
+In functional generation (_functional_compile_ and _functional_proc_ methods), the expression
+
+<notextile>
+^{xhtml/coderay/ruby}{
+(function arg0, arg1, ..., argn)
+}
+</notextile>
+    
+recursively generates code as 
+
+<notextile>
+^{xhtml/coderay/ruby}{
+receiver.function(arg0, arg1, ..., argn)
+}
+</notextile>
+
+The receiver object name can be specified as first argument. The special '?' operator leads to the evaluation of a variable name (Symbol) on a scope object (default name to 'scope') using a given scope method (default to :[]):
+
+<notextile>
+^{xhtml/coderay/ruby}{
+CodeTree::parse{ x }.functional_compile
+# => "scope[:x]"
+}
+</notextile>
+
+Therefore,
+
+<notextile>
+^{xhtml/coderay/ruby}{
+expr = CodeTree::parse{ (display (concat x, y)) }    
+# => (display (concat x, y))
+
+expr.functional_compile('rcv', 'hash', :fetch)              
+# => "rcv.display(rcv.concat(hash.fetch(:x), hash.fetch(:y)))"
+}
+</notextile>
+ 
+The _functional_proc_ method generates a Proc instance with the equivalent code. The scope method can also be specified:
+
+<notextile>
+^{xhtml/coderay/ruby}{
+expr = CodeTree::parse{ (display (concat x, y)) }   
+# => (to_s (+ x, y))
+
+expr.functional_proc(:fetch)
+# => <Proc...>
+
+proc.call(some_receiver_object, :x => 3, :y => 25)
+# => "28"
+}
+</notextile>
+
