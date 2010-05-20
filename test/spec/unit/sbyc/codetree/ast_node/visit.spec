@@ -17,7 +17,7 @@ describe "CodeTree::AstNode#functional_eval" do
   context('when called for productions') do
     let(:node) { CodeTree::parse{ (say x, "Hello") } }
     subject { 
-      node.produce{|n, collected|
+      node.visit{|n, collected|
         case n.function
           when :'_'
             collected.first.inspect
