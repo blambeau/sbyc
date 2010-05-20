@@ -1,4 +1,4 @@
-code = CodeTree:parse{ x > 10 & y < 20 }   
+code = CodeTree::parse{ x > 10 & y < 20 }   
 # => (& (> x, 10), (< y, 20))
 
 # See the evaluation section for details
