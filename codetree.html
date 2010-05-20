@@ -10,20 +10,25 @@
 	</head>
 	<body>
 	  <div id="header">
-	    <span>SByC on</span>
-	    <a href="http://rdoc.info/blambeau/sbyc">rdoc.info</a>
-	    <a href="http://github.com/blambeau/sbyc">GitHub</a>
+	    <div class="left">
+	      This feature is part of <a href="index.html">SByC</a>
+	    </div>
+	    <div class="right">
+  	    <span>SByC on</span>
+  	    <a href="http://rdoc.info/blambeau/sbyc">rdoc.info</a>
+  	    <a href="http://github.com/blambeau/sbyc">GitHub</a>
+  	  </div>
 	  </div>
 	  <div id="main">
       <h1>CodeTree - Reusable block expressions</h1>
       <ul id="menu">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="codetree/evaluation.html">Eval &amp; Code</a></li>
+        <li><a href="codetree.html">Home</a></li>
+        <li><a href="codetree/evaluation.html">Evaluation</a></li>
+        <li><a href="codetree/codegen.html">Code generation</a></li>
         <li><a href="codetree/production.html">Production</a></li>
         <li><a href="codetree/rewriting.html">Rewriting</a></li>
 
       </ul>
-
       <div class="text">
 <h2>synopsis</h2>
 <p>This part of SByC provides a safe, reusable, extensible, mashallable, and non-intrusive (no monkey patching of Ruby core classes) implementation of block expressions. Block expressions are parsed using a generic <span class="caps">DSL</span> and converted to a parse tree, which may be analyzed, rewrited, compiled, and so on. The following example illustrates typical usage of CodeTree::parse.</p>
@@ -87,8 +92,49 @@ code.ruby_code(<span class="s"><span class="dl">'</span><span class="k">scope</s
 </pre></div>
 </div>
 
-<p>Parsed expressions are <b>functional expressions</b>. However, there is two ways to make their evaluation in Ruby: the object-way and the functional-way.</p>
+<h2>limitations</h2>
+<p><strong>No imperative code</strong>: SByC implicitly assumes that block&#8217;s code can be interpreted functionally: no concept of variable, no sequence of code, no if/then/else, no loop. Said otherwise: your block code should always &#8220;compute a value&#8221;, without having any other (state) side effect. The following will <span class="caps">NOT</span> work:</p>
+<div class="CodeRay">
+  <div class="code"><pre>
+<span class="co">CodeTree</span>::parse{ <span class="r">if</span> x <span class="r">then</span> <span class="i">0</span> <span class="r">else</span> <span class="i">1</span> <span class="r">end</span> }  <span class="c"># 0</span>
+</pre></div>
+</div>
+
+<p><b>Evaluation at parsing time</b>: SByC does not uses ruby2ruby or similar libraries to get an <span class="caps">AST</span>. It simply executes the block inside a specific <span class="caps">DSL</span>. Therefore, ruby expressions on literals will be evaluated at parsing time, according to operator precedence and ordering:</p>
+<div class="CodeRay">
+  <div class="code"><pre>
+<span class="co">CodeTree</span>::parse{ x + <span class="i">12</span> + <span class="i">17</span>     }      <span class="c"># =&gt; (+ (+ x, 12), 17)</span>
+<span class="co">CodeTree</span>::parse{ x + (<span class="i">12</span> + <span class="i">17</span>)   }      <span class="c"># =&gt; (+ x, 29)</span>
+<span class="co">CodeTree</span>::parse{ (x + <span class="i">12</span>) + <span class="i">17</span>   }      <span class="c"># =&gt; (+ (+ x, 12), 17)</span>
+</pre></div>
+</div>
+
+<p><b>Ruby operator limitations</b>: for the same reason, only operators that rely on overridable methods are recognized. In particular, the following expressions will <span class="caps">NOT</span> work:</p>
+<div class="CodeRay">
+  <div class="code"><pre>
+<span class="co">CodeTree</span>::parse{ x <span class="r">and</span> y }              <span class="c"># =&gt; y</span>
+<span class="co">CodeTree</span>::parse{ x &amp;&amp; y  }              <span class="c"># =&gt; y</span>
+<span class="co">CodeTree</span>::parse{ x <span class="r">or</span> y  }              <span class="c"># =&gt; x</span>
+<span class="co">CodeTree</span>::parse{ x || y  }              <span class="c"># =&gt; x</span>
+<span class="co">CodeTree</span>::parse{ <span class="r">not</span>(x)  }              <span class="c"># =&gt; false ... but works with Ruby &gt;= 1.9</span>
+<span class="co">CodeTree</span>::parse{ !x      }              <span class="c"># =&gt; false ... but works with Ruby &gt;= 1.9</span>
+</pre></div>
+</div>
+
+<h2>credits</h2>
+<p>SByC &#8211; CodeTree &#169; 2010 by Bernard Lambeau. SByC is distributed under the <span class="caps">MIT</span> licence. Please see the <span class="caps">LICENCE</span>.md document for details.</p>
       </div>
   	</div>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-16520635-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
 	</body>
 </html>

@@ -10,16 +10,90 @@
 	</head>
 	<body>
 	  <div id="header">
-	    <span>SByC on</span>
-	    <a href="http://rdoc.info/blambeau/sbyc">rdoc.info</a>
-	    <a href="http://github.com/blambeau/sbyc">GitHub</a>
+	    <div class="left">
+	      This feature is part of <a href="index.html">SByC</a>
+	    </div>
+	    <div class="right">
+  	    <span>SByC on</span>
+  	    <a href="http://rdoc.info/blambeau/sbyc">rdoc.info</a>
+  	    <a href="http://github.com/blambeau/sbyc">GitHub</a>
+  	  </div>
 	  </div>
 	  <div id="main">
-      <h1>CodeTree - Evaluation and Code Generation</h1>
-      
+      <h1>CodeTree - Evaluation</h1>
+      <ul id="menu">
+        <li><a href="codetree.html">Home</a></li>
+        <li><a href="codetree/evaluation.html">Evaluation</a></li>
+        <li><a href="codetree/codegen.html">Code generation</a></li>
+        <li><a href="codetree/production.html">Production</a></li>
+        <li><a href="codetree/rewriting.html">Rewriting</a></li>
+
+      </ul>
       <div class="text">
+<h2>synopsis</h2>
+<p>Expressions parsed using CodeTree::parse are <b>functional expressions</b>. However, there is two ways to make their evaluation in Ruby: the object-way and the functional-way. Both are proposed as methods installed on AstNode.</p>
+<h2>object evaluation</h2>
+<p>In object evaluation (<em>object_eval</em> method, aliased as <em>eval</em> on AstNode), the expression</p>
+<div class="CodeRay">
+  <div class="code"><pre>(function arg0, arg1, ..., argn)</pre></div>
+</div>
+
+
+<p>is recursively executed as</p>
+<div class="CodeRay">
+  <div class="code"><pre>arg0.function(arg1, ..., argn)</pre></div>
+</div>
+
+<p>For instance,</p>
+<div class="CodeRay">
+  <div class="code"><pre>
+expr = <span class="co">CodeTree</span>::parse{ (x + y).to_s }   
+<span class="c"># =&gt; (to_s (+ x, y))</span>
+
+expr.eval(<span class="sy">:x</span> =&gt; <span class="i">3</span>, <span class="sy">:y</span> =&gt; <span class="i">25</span>)             
+<span class="c"># =&gt; &quot;28&quot;, executed as (x.+(y)).to_s()</span>
+</pre></div>
+</div>
+
+<h2>functional evaluation</h2>
+<p>In functional evaluation (<em>functional_eval</em> method, aliased as <em>apply</em> on AstNode), the expression</p>
+<div class="CodeRay">
+  <div class="code"><pre>
+(function arg0, arg1, ..., argn)
+</pre></div>
+</div>
+
+
+<p>is recursively executed in the context of a <em>receiver</em> object as</p>
+<div class="CodeRay">
+  <div class="code"><pre>
+receiver.function(arg0, arg1, ..., argn)
+</pre></div>
+</div>
+
+<p>For instance,</p>
+<div class="CodeRay">
+  <div class="code"><pre>
+expr = <span class="co">CodeTree</span>::parse{ (display (concat x, y)) }    
+<span class="c"># =&gt; (display (concat x, y))</span>
+
+expr.apply(receiver, <span class="sy">:x</span> =&gt; <span class="i">3</span>, <span class="sy">:y</span> =&gt; <span class="i">25</span>)              
+<span class="c"># =&gt; &quot;325&quot;, executed as receiver.display(receiver.concat(x, y))</span>
+</pre></div>
+</div>
 
       </div>
   	</div>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-16520635-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
 	</body>
 </html>
