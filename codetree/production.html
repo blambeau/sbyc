@@ -92,7 +92,7 @@ values = {<span class="sy">:x</span> =&gt; <span class="i">3</span>, <span class
 <p>The following example demonstrates the approach with some generic rules:</p>
 <div class="CodeRay">
   <div class="code"><pre>
-producer = ::<span class="co">CodeTree</span>::producer(<span class="pc">false</span>){|p|
+producer = <span class="co">CodeTree</span>::producer(<span class="pc">false</span>){|p|
   
   <span class="c"># This rule matches leaf nodes (literals)</span>
   p.rule(<span class="sy"><span class="sy">:</span><span class="dl">'</span><span class="k">_</span><span class="dl">'</span></span>) <span class="r">do</span> |engine, node|
