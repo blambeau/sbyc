@@ -21,15 +21,102 @@
 	  </div>
 	  <div id="main">
       <h1>CodeTree - Production</h1>
-      <ul id="menu">
-        <li><a href="codetree.html">Home</a></li>
-        <li><a href="codetree/evaluation.html">Evaluation</a></li>
-        <li><a href="codetree/codegen.html">Code generation</a></li>
-        <li><a href="codetree/production.html">Production</a></li>
-        <li><a href="codetree/rewriting.html">Rewriting</a></li>
+      <div id="menu_wrapper" class="black">
+        <ul id="menu">
+          <li ><a href="codetree.html">Home</a></li>
+          <li class="active"><a href="codetree/production.html">Production</a></li>
+          <li ><a href="codetree/evaluation.html">Evaluation</a></li>
+          <li ><a href="codetree/codegen.html">Code generation</a></li>
 
-      </ul>
+        </ul>
+      </div>
       <div class="text">
+<h2>synopsis</h2>
+<p>Production basically means visiting a CodeTree and producing/collecting values on each node. There is two major ways for making productions in CodeTree: using the <a href="codetree/production.html#visit"><em>visit</em></a> method or using a <a href="codetree/production.html#producer"><em>Producer</em></a>.</p>
+<h2 id="visit">the <em>visit</em> method</h2>
+<p>CodeTree nodes provide the following method</p>
+<div class="CodeRay">
+  <div class="code"><pre>
+<span class="c"># Makes a depth-first-search visit of the code tree, and calls _visitor_ </span>
+<span class="c"># on each node, passing two arguments:</span>
+<span class="c">#</span>
+<span class="c">#   node: the current node being visited</span>
+<span class="c">#   collected: values previously collected on its children</span>
+<span class="c">#</span>
+<span class="c"># Returns what _visitor_ returned.</span>
+<span class="r">def</span> <span class="fu">visit</span>(&amp;visitor)
+  ...
+<span class="r">end</span>
+</pre></div>
+</div>
+
+<p>Let instantiate the pattern to find all variable names referenced in an expression:</p>
+<div class="CodeRay">
+  <div class="code"><pre>
+<span class="co">CodeTree</span>::parse{ z * (x + y) }.visit <span class="r">do</span> |node, collected|
+  <span class="r">if</span> node.function == <span class="sy"><span class="sy">:</span><span class="dl">'</span><span class="k">?</span><span class="dl">'</span></span>
+    node.literal
+  <span class="r">else</span>
+    collected.flatten
+  <span class="r">end</span>
+<span class="r">end</span>
+<span class="c"># =&gt; [:z, :x, :y]</span>
+</pre></div>
+</div>
+
+<p>Let evaluate the expression through the <em>visit</em> method (see <a href="codetree/evaluation.html">Evaluation</a> the shortcut way)</p>
+<div class="CodeRay">
+  <div class="code"><pre>
+values = {<span class="sy">:x</span> =&gt; <span class="i">3</span>, <span class="sy">:y</span> =&gt; <span class="i">6</span>, <span class="sy">:z</span> =&gt; <span class="i">2</span>}
+<span class="co">CodeTree</span>::parse{ z * (x + y) }.visit <span class="r">do</span> |node, collected|
+  <span class="r">case</span> node.function
+    <span class="r">when</span> <span class="sy"><span class="sy">:</span><span class="dl">'</span><span class="k">?</span><span class="dl">'</span></span>
+      values[node.literal]
+    <span class="r">when</span> <span class="sy"><span class="sy">:</span><span class="dl">'</span><span class="k">+</span><span class="dl">'</span></span>
+      collected[<span class="i">0</span>] + collected[<span class="i">1</span>]
+    <span class="r">when</span> <span class="sy"><span class="sy">:</span><span class="dl">'</span><span class="k">*</span><span class="dl">'</span></span>
+      collected[<span class="i">0</span>] * collected[<span class="i">1</span>]
+  <span class="r">end</span>
+<span class="r">end</span>
+<span class="c"># =&gt; 18</span>
+</pre></div>
+</div>
+
+<h2 id="producer">using a producer</h2>
+<p>The Producer method allows you to have the control over the tree search and visit algorithm, that is, no depth-first-search is hard-coded. A producer works similarly to a basic <span class="caps">XSLT</span> engine:</p>
+<ul>
+	<li>rules are (matching-condition, block) pairs</li>
+	<li>applying the engine on a node means executing the block associated to the rule that matches.</li>
+	<li>the block determines what needs to be done, and on which nodes the engine must be applied next.</li>
+</ul>
+<p>The following example demonstrates the approach with some generic rules:</p>
+<div class="CodeRay">
+  <div class="code"><pre>
+producer = ::<span class="co">CodeTree</span>::producer(<span class="pc">false</span>){|p|
+  
+  <span class="c"># This rule matches leaf nodes (literals)</span>
+  p.rule(<span class="sy"><span class="sy">:</span><span class="dl">'</span><span class="k">_</span><span class="dl">'</span></span>) <span class="r">do</span> |engine, node|
+    puts <span class="s"><span class="dl">&quot;</span><span class="k">On: </span><span class="il"><span class="idl">#{</span>node.literal.inspect<span class="idl">}</span></span><span class="dl">&quot;</span></span>
+  <span class="r">end</span>
+  
+  <span class="c"># This rule matches everything else</span>
+  p.rule(<span class="s"><span class="dl">&quot;</span><span class="k">*</span><span class="dl">&quot;</span></span>) <span class="r">do</span> |engine, node| 
+    puts <span class="s"><span class="dl">&quot;</span><span class="k">Before: </span><span class="il"><span class="idl">#{</span>node.inspect<span class="idl">}</span></span><span class="dl">&quot;</span></span>
+    engine.apply(node.children)
+    puts <span class="s"><span class="dl">&quot;</span><span class="k">After </span><span class="il"><span class="idl">#{</span>node.inspect<span class="idl">}</span></span><span class="dl">&quot;</span></span>
+  <span class="r">end</span>
+  
+}
+producer.apply <span class="co">CodeTree</span>::parse{ (concat <span class="s"><span class="dl">&quot;</span><span class="k">hello </span><span class="dl">&quot;</span></span>, who) }
+
+<span class="c"># Before: (concat (_ &quot;hello &quot;), (? (_ :who)))</span>
+<span class="c">#   On: &quot;hello&quot; </span>
+<span class="c">#   Before: (? (_ :who))</span>
+<span class="c">#     On: :who</span>
+<span class="c">#   After: (? (_ :who))</span>
+<span class="c"># After: (concat (_ &quot;hello &quot;), (? (_ :who)))</span>
+</pre></div>
+</div>
 
       </div>
   	</div>

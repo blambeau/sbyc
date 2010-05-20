@@ -21,11 +21,13 @@
 	  </div>
 	  <div id="main">
       <h1>SByC - Investigating Specialization by Constraint</h1>
-      <ul id="menu">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="codetree.html">Code Tree</a></li>
+      <div id="menu_wrapper" class="black">
+        <ul id="menu">
+          <li class="active"><a href="index.html">Home</a></li>
+          <li ><a href="codetree.html">Code Tree</a></li>
 
-      </ul>
+        </ul>
+      </div>
       <div class="text">
 <h2>synopsis</h2>
 <p>SByC is an investigation about Specialization by Constraint as an alternative to common type systems that we found in (object-oriented) programming languages. The library is written as a collection of Ruby tools described below. Those tools are in fact sub-gems of SByC that can often be used in isolation.</p>
@@ -36,10 +38,19 @@
 <h2>code tree</h2>
 <p>This part of SByC provides a safe, reusable, extensible, mashallable, and non-intrusive (no monkey patching of Ruby core classes) implementation of block expressions. Block expressions are parsed using a generic <span class="caps">DSL</span> and converted to a parse tree, which may be analyzed, rewrited, compiled, and so on. The example below illustrates typical usage of CodeTree.</p>
 <div class="CodeRay">
-  <div class="code"><pre>code = <span class="co">CodeTree</span><span class="sy">:parse</span>{ x &gt; <span class="i">10</span> &amp; y &lt; <span class="i">20</span> }   <span class="c"># (&amp; (&gt; x, 10), (&lt; y, 20))</span>
-code.eval{<span class="sy">:x</span> =&gt; <span class="i">5</span>, <span class="sy">:y</span> =&gt; <span class="i">5</span>}                <span class="c"># true</span>
-code.ruby_code(<span class="s"><span class="dl">'</span><span class="k">scope</span><span class="dl">'</span></span>, <span class="sy">:[]</span>)               <span class="c"># &quot;scope[:x].&gt;(10) &amp; scope[:y].&lt;(20)&quot;</span>
-<span class="co">Marshall</span>.dump(code)                        <span class="c"># this works perfectly!</span>
+  <div class="code"><pre>code = <span class="co">CodeTree</span><span class="sy">:parse</span>{ x &gt; <span class="i">10</span> &amp; y &lt; <span class="i">20</span> }   
+<span class="c"># =&gt; (&amp; (&gt; x, 10), (&lt; y, 20))</span>
+
+<span class="c"># See the evaluation section for details</span>
+code.eval{<span class="sy">:x</span> =&gt; <span class="i">5</span>, <span class="sy">:y</span> =&gt; <span class="i">5</span>}                
+<span class="c"># =&gt; true</span>
+
+<span class="c"># See the code-generation section for details</span>
+code.object_compile(<span class="s"><span class="dl">'</span><span class="k">scope</span><span class="dl">'</span></span>, <span class="sy">:[]</span>)          
+<span class="c"># =&gt; &quot;scope[:x].&gt;(10) &amp; scope[:y].&lt;(20)&quot;</span>
+
+<span class="c"># CodeTree expressions may be marshaled</span>
+<span class="co">Marshal</span>.dump(code)
 </pre></div>
 </div>
 

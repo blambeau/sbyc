@@ -21,15 +21,115 @@
 	  </div>
 	  <div id="main">
       <h1>CodeTree - Code generation</h1>
-      <ul id="menu">
-        <li><a href="codetree.html">Home</a></li>
-        <li><a href="codetree/evaluation.html">Evaluation</a></li>
-        <li><a href="codetree/codegen.html">Code generation</a></li>
-        <li><a href="codetree/production.html">Production</a></li>
-        <li><a href="codetree/rewriting.html">Rewriting</a></li>
+      <div id="menu_wrapper" class="black">
+        <ul id="menu">
+          <li ><a href="codetree.html">Home</a></li>
+          <li ><a href="codetree/production.html">Production</a></li>
+          <li ><a href="codetree/evaluation.html">Evaluation</a></li>
+          <li class="active"><a href="codetree/codegen.html">Code generation</a></li>
 
-      </ul>
+        </ul>
+      </div>
       <div class="text">
+<h2>synopsis</h2>
+<p>Code generation allows to generate ruby code from a CodeTree. Similarly to evaluation, there&#8217;s two ways to generate code: the object way and the functional way.</p>
+<h2>object generation</h2>
+<p>In object generation (<em>object_compile</em> and <em>object_proc</em> methods), the expression</p>
+<div class="CodeRay">
+  <div class="code"><pre>(function arg0, arg1, ..., argn)</pre></div>
+</div>
+
+
+<p>recursively generates code like:</p>
+<div class="CodeRay">
+  <div class="code"><pre>arg0.function(arg1, ..., argn)</pre></div>
+</div>
+
+<p>The special &#8216;?&#8217; operator leads to the evaluation of a variable name (Symbol) on a scope object (default name to &#8216;scope&#8217;) using a given scope method (default to :[]):</p>
+<div class="CodeRay">
+  <div class="code"><pre>
+<span class="co">CodeTree</span>::parse{ x }.object_compile
+<span class="c"># =&gt; &quot;scope[:x]&quot;</span>
+</pre></div>
+</div>
+
+<p>Therefore,</p>
+<div class="CodeRay">
+  <div class="code"><pre>
+expr = <span class="co">CodeTree</span>::parse{ (x + y).to_s }   
+<span class="c"># =&gt; (to_s (+ x, y))</span>
+
+expr.object_compile
+<span class="c"># =&gt; &quot;scope[:x].+(scope[:y]).to_s()&quot;</span>
+
+expr.object_compile(<span class="s"><span class="dl">&quot;</span><span class="k">hash</span><span class="dl">&quot;</span></span>, <span class="sy">:fetch</span>)             
+<span class="c"># =&gt; &quot;hash.fetch(:x).+(hash.fetch(:y)).to_s()&quot;</span>
+</pre></div>
+</div>
+
+<p>The <em>object_proc</em> method generates a Proc instance with the equivalent code. The scope method can also be specified:</p>
+<div class="CodeRay">
+  <div class="code"><pre>
+expr = <span class="co">CodeTree</span>::parse{ (x + y).to_s }   
+<span class="c"># =&gt; (to_s (+ x, y))</span>
+
+expr.object_proc(<span class="sy">:fetch</span>)
+<span class="c"># =&gt; &lt;Proc...&gt;</span>
+
+proc.call(<span class="sy">:x</span> =&gt; <span class="i">3</span>, <span class="sy">:y</span> =&gt; <span class="i">25</span>)
+<span class="c"># =&gt; &quot;28&quot;</span>
+</pre></div>
+</div>
+
+<h2>functional generation</h2>
+<p>In functional generation (<em>functional_compile</em> and <em>functional_proc</em> methods), the expression</p>
+<div class="CodeRay">
+  <div class="code"><pre>
+(function arg0, arg1, ..., argn)
+</pre></div>
+</div>
+
+
+<p>recursively generates code as</p>
+<div class="CodeRay">
+  <div class="code"><pre>
+receiver.function(arg0, arg1, ..., argn)
+</pre></div>
+</div>
+
+<p>The receiver object name can be specified as first argument. The special &#8216;?&#8217; operator leads to the evaluation of a variable name (Symbol) on a scope object (default name to &#8216;scope&#8217;) using a given scope method (default to :[]):</p>
+<div class="CodeRay">
+  <div class="code"><pre>
+<span class="co">CodeTree</span>::parse{ x }.functional_compile
+<span class="c"># =&gt; &quot;scope[:x]&quot;</span>
+</pre></div>
+</div>
+
+<p>Therefore,</p>
+<div class="CodeRay">
+  <div class="code"><pre>
+expr = <span class="co">CodeTree</span>::parse{ (display (concat x, y)) }    
+<span class="c"># =&gt; (display (concat x, y))</span>
+
+expr.functional_compile(<span class="s"><span class="dl">'</span><span class="k">rcv</span><span class="dl">'</span></span>, <span class="s"><span class="dl">'</span><span class="k">hash</span><span class="dl">'</span></span>, <span class="sy">:fetch</span>)              
+<span class="c"># =&gt; &quot;rcv.display(rcv.concat(hash.fetch(:x), hash.fetch(:y)))&quot;</span>
+</pre></div>
+</div>
+
+
+<p>The <em>functional_proc</em> method generates a Proc instance with the equivalent code. The scope method can also be specified:</p>
+<div class="CodeRay">
+  <div class="code"><pre>
+expr = <span class="co">CodeTree</span>::parse{ (display (concat x, y)) }   
+<span class="c"># =&gt; (to_s (+ x, y))</span>
+
+expr.functional_proc(<span class="sy">:fetch</span>)
+<span class="c"># =&gt; &lt;Proc...&gt;</span>
+
+proc.call(some_receiver_object, <span class="sy">:x</span> =&gt; <span class="i">3</span>, <span class="sy">:y</span> =&gt; <span class="i">25</span>)
+<span class="c"># =&gt; &quot;28&quot;</span>
+</pre></div>
+</div>
 
       </div>
   	</div>

@@ -21,14 +21,15 @@
 	  </div>
 	  <div id="main">
       <h1>CodeTree - Evaluation</h1>
-      <ul id="menu">
-        <li><a href="codetree.html">Home</a></li>
-        <li><a href="codetree/evaluation.html">Evaluation</a></li>
-        <li><a href="codetree/codegen.html">Code generation</a></li>
-        <li><a href="codetree/production.html">Production</a></li>
-        <li><a href="codetree/rewriting.html">Rewriting</a></li>
+      <div id="menu_wrapper" class="black">
+        <ul id="menu">
+          <li ><a href="codetree.html">Home</a></li>
+          <li ><a href="codetree/production.html">Production</a></li>
+          <li class="active"><a href="codetree/evaluation.html">Evaluation</a></li>
+          <li ><a href="codetree/codegen.html">Code generation</a></li>
 
-      </ul>
+        </ul>
+      </div>
       <div class="text">
 <h2>synopsis</h2>
 <p>Expressions parsed using CodeTree::parse are <b>functional expressions</b>. However, there is two ways to make their evaluation in Ruby: the object-way and the functional-way. Both are proposed as methods installed on AstNode.</p>
