@@ -27,7 +27,7 @@ end
 
 desc "Generates the github pages" 
 task :pages do 
-  `./doc/pages/generate "http://blambeau.github.com/blambeau/sbyc/" ./doc/gh-pages`
+  `./doc/pages/generate "http://blambeau.github.com/sbyc/" ./doc/gh-pages`
 end
 
 gemspec = Gem::Specification.new do |s|
