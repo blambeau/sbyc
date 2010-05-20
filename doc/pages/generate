@@ -25,6 +25,6 @@ structure.posts.each do |post|
   output_file = File.join(output_dir, "#{post.identifier}.html")
   FileUtils.mkdir_p(File.dirname(output_file))
   File.open(output_file, "w") do |io|
-    io << WLang::file_instantiate(main_template, {:base => base, :post => post})
+    io << WLang::file_instantiate(main_template, {:base => base, :menus => structure.menus, :post => post})
   end
 end

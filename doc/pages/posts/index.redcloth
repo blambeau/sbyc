@@ -15,3 +15,7 @@ This part of SByC provides a safe, reusable, extensible, mashallable, and non-in
 </notextile>
 
 @{codetree.html}{Read more about CodeTree}
+
+h2. credits
+
+SByC (c) 2010 by Bernard Lambeau. SByC is distributed under the MIT licence. Please see the LICENCE.md document for details.

@@ -57,5 +57,40 @@ CodeTree::parse{ x + 12 }.to_s      # (+ x, 12)
 }
 </notextile>
 
-Parsed expressions are **functional expressions**. However, there is two ways to make their evaluation in Ruby: the object-way and the functional-way.
+h2. limitations
 
+*No imperative code*: SByC implicitly assumes that block's code can be interpreted functionally: no concept of variable, no sequence of code, no if/then/else, no loop. Said otherwise: your block code should always "compute a value", without having any other (state) side effect. The following will NOT work:
+
+<notextile>
+^{xhtml/coderay/ruby}{
+CodeTree::parse{ if x then 0 else 1 end }  # 0
+}
+</notextile>
+
+
+**Evaluation at parsing time**: SByC does not uses ruby2ruby or similar libraries to get an AST. It simply executes the block inside a specific DSL. Therefore, ruby expressions on literals will be evaluated at parsing time, according to operator precedence and ordering:
+  
+<notextile>
+^{xhtml/coderay/ruby}{
+CodeTree::parse{ x + 12 + 17     }      # => (+ (+ x, 12), 17)
+CodeTree::parse{ x + (12 + 17)   }      # => (+ x, 29)
+CodeTree::parse{ (x + 12) + 17   }      # => (+ (+ x, 12), 17)
+}
+</notextile>
+
+**Ruby operator limitations**: for the same reason, only operators that rely on overridable methods are recognized. In particular, the following expressions will NOT work:
+
+<notextile>
+^{xhtml/coderay/ruby}{
+CodeTree::parse{ x and y }              # => y
+CodeTree::parse{ x && y  }              # => y
+CodeTree::parse{ x or y  }              # => x
+CodeTree::parse{ x || y  }              # => x
+CodeTree::parse{ not(x)  }              # => false ... but works with Ruby >= 1.9
+CodeTree::parse{ !x      }              # => false ... but works with Ruby >= 1.9
+}
+</notextile>
+
+h2. credits
+
+SByC - CodeTree (c) 2010 by Bernard Lambeau. SByC is distributed under the MIT licence. Please see the LICENCE.md document for details.

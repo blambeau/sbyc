@@ -7,11 +7,14 @@ body {
 }
 #header {
 	margin: 25px 10px 0px 10px;
-	text-align: right;
 	color: white;
 }
-#header a, #header a:visited {
+#header .left { float: left; }
+#header .right { text-align: right; }
+#header .right a {
 	padding-left: 10px;
+}
+#header a, #header a:visited {
 	color: white;
 }
 #header a:hover {

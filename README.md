@@ -80,7 +80,7 @@ is recursively executed as
 For instance,
 
     expr = CodeTree::parse{ (x + y).to_s }               # (to_s (+ x, y))
-    expr.eval(:x => 3, :y => 25)                      # "28", executed as (x.+(y)).to_s()
+    expr.eval(:x => 3, :y => 25)                         # "28", executed as (x.+(y)).to_s()
 
 ## FUNCTIONAL EVALUATION (_functional_eval_ method, aliased as _apply_)
 
@@ -95,7 +95,7 @@ is recursively executed in the context of a _receiver_ object as
 For instance,
 
     expr = CodeTree::parse{ (display (concat x, y)) }    # (display (concat x, y))
-    expr.apply(receiver, :x => 3, :y => 25)           # 325, executed as receiver.display(receiver.concat(x, y))
+    expr.apply(receiver, :x => 3, :y => 25)              # 325, executed as receiver.display(receiver.concat(x, y))
   
 ## PRODUCTIONS and TREE REWRITING
 
