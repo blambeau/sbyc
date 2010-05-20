@@ -1,0 +1,44 @@
+h1. SByC - Investigating Specialization by Constraint
+
+h2. SYNOPSIS
+
+SByC is an investigation about Specialization by Constraint as an alternative to common type systems that we found in (object-oriented) programming languages. The library is written as a collection of Ruby tools described below. Those tools are in fact sub-gems of SByC that can often be used in isolation.
+
+h2. CodeTree
+
+This part of SByC provides a safe, reusable, extensible, mashallable, and non-intrusive (no monkey patching of Ruby core classes) implementation of block expressions. Block expressions are parsed using a generic DSL and converted to a parse tree, which may be analyzed, rewrited, compiled, and so on. The example below illustrates typical usage of CodeTree.
+
+<pre>
+code = CodeTree::parse{ x > 10 & y < 20 }   
+# => (& (> x, 10), (< y, 20))
+
+# See the evaluation section for details
+code.eval{:x => 5, :y => 5}                
+# => true
+
+# See the code-generation section for details
+code.object_compile('scope', :[])          
+# => "scope[:x].>(10) & scope[:y].<(20)"
+
+# CodeTree expressions may be marshaled
+Marshal.dump(code)
+</pre>
+
+"Learn more about CodeTree":http://blambeau.github.com/sbyc/codetree.html
+
+h2. INSTALL
+
+bc. gem install sbyc
+
+h2. DOCUMENTATION
+
+* The official documentation can be found on "GitHub pages":http://blambeau.github.com/sbyc/
+* The api documentation can be found on "rdoc.info":http://rdoc.info/blambeau/sbyc
+
+h2. CONTRIBUTE
+
+Fork the project on "github":http://github.com/blambeau/sbyc, make a contrib, and send me a pull request
+
+h2. CREDITS
+
+SByC (c) 2010 by Bernard Lambeau. SByC is distributed under the MIT licence. Please see the LICENCE.md document for details.

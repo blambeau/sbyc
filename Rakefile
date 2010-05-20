@@ -21,7 +21,7 @@ desc "Launches all tests"
 task :test => [:spec]
 
 YARD::Rake::YardocTask.new do |t|
-  t.files   = ['lib/**/*.rb', "README.md", "LICENCE.md"]
+  t.files   = ['lib/**/*.rb', "README.textile", "LICENCE.textile"]
   t.options = ['--output-dir', 'doc/api']
 end
 
