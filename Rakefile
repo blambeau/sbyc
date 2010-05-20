@@ -22,6 +22,7 @@ task :test => [:spec]
 
 YARD::Rake::YardocTask.new do |t|
   t.files   = ['lib/**/*.rb', "README.md", "LICENCE.md"]
+  t.options = ['--output-dir', 'doc/api']
 end
 
 gemspec = Gem::Specification.new do |s|
