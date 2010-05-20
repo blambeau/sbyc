@@ -2,16 +2,16 @@
 <html>
 	<head> 
 		<title>SByC - Investigating Specialization by Constraint</title>
-		<base href="http://blambeau.github.com/sbyc"/>
-		<link rel="stylesheet" type="text/css" href="/css/style.css" />
-		<link rel="stylesheet" type="text/css" href="/css/menu.css" />
-		<link rel="stylesheet" type="text/css" href="/css/coderay.css" />
-    <script type="text/javascript" src="/js/jquery-1.4.1.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<base href="{base}"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/menu.css" />
+		<link rel="stylesheet" type="text/css" href="css/coderay.css" />
 	</head>
 	<body>
 	  <div id="header">
 	    <span>SByC on</span>
-	    <a href="http://github.com/blambeau/sbyc">rdoc.info</a>
+	    <a href="http://rdoc.info/blambeau/sbyc">rdoc.info</a>
 	    <a href="http://github.com/blambeau/sbyc">GitHub</a>
 	  </div>
 	  <div id="main">

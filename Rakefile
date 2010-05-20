@@ -27,8 +27,7 @@ end
 
 desc "Generates the github pages" 
 task :pages do 
-  `wlang --methodize --output trash.wlang ./doc/pages/generate.wtpl`
-  `rm trash.wlang`
+  `./doc/pages/generate "http://blambeau.github.com/blambeau/sbyc/" ./doc/gh-pages`
 end
 
 gemspec = Gem::Specification.new do |s|

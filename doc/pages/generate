@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+unless ARGV.size==2
+  puts "Usage: generate base output-dir"
+  Kernel.exit
+end
+base, output_dir = ARGV
+
+# Load some tools
+require 'fileutils'
+require 'wlang'
+require 'wlang/ext/hash_methodize'
+require 'yaml'
+WLang::file_extension_map('.redcloth', 'wlang/xhtml')
+
+# Create output dir and copy public files
+here = File.dirname(__FILE__)
+FileUtils.mkdir_p(output_dir)
+FileUtils.cp_r(File.join(here, "public", "css"), output_dir)
+
+# Instantiate the main template on each post
+main_template = File.join(here, "layouts", "main.wtpl")
+structure = YAML::load(File.read(File.join(here, "structure.yml")))
+structure.posts.each do |post|
+  output_file = File.join(output_dir, "#{post.identifier}.html")
+  FileUtils.mkdir_p(File.dirname(output_file))
+  File.open(output_file, "w") do |io|
+    io << WLang::file_instantiate(main_template, {:base => base, :post => post})
+  end
+end

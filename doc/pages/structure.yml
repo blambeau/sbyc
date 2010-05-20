@@ -1,0 +1,20 @@
+posts:
+  - identifier: index 
+    title: SByC - Investigating Specialization by Constraint
+    menu:
+      - index: Home
+      - codetree: CodeTree
+  - identifier: codetree
+    title: CodeTree - Reusable block expressions
+    menu:
+      - index: Home
+      - codetree/evaluation: Eval & Code
+      - codetree/production: Production
+      - codetree/rewriting: Rewriting
+  - identifier: codetree/evaluation
+    title: CodeTree - Evaluation and Code Generation  
+  - identifier: codetree/production
+    title: CodeTree - Production
+  - identifier: codetree/rewriting
+    title: CodeTree - Rewriting
+    
