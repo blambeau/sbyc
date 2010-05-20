@@ -35,13 +35,13 @@ gemspec = Gem::Specification.new do |s|
   s.name = 'sbyc'
   s.version = version
   s.summary = "SByC - Specialization By Constraint"
-  s.description = %{A new Typing System on top of Ruby}
-  s.files = Dir['lib/**/*'] + Dir['test/**/*'] + Dir['bin/*']
+  s.description = %{Tools around Ruby and Types}
+  s.files = Dir['lib/**/*'] + Dir['test/**/*']
   s.require_path = 'lib'
   s.has_rdoc = true
-  s.extra_rdoc_files = ["README.md", "LICENCE.md"]
-  s.rdoc_options << '--title' << 'SByC - A new Typing System through Specialization By Constraint' <<
-                    '--main' << 'README.md' <<
+  s.extra_rdoc_files = ["README.textile", "LICENCE.textile"]
+  s.rdoc_options << '--title' << 'SByC - SByC - Specialization By Constraint' <<
+                    '--main' << 'README.textile' <<
                     '--line-numbers'  
   s.bindir = "bin"
   s.executables = []
