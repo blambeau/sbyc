@@ -33,7 +33,7 @@ bc. gem install sbyc
 h2. DOCUMENTATION
 
 * The official documentation can be found on "GitHub pages":http://blambeau.github.com/sbyc/
-* The api documentation can be found on "rdoc.info":http://rdoc.info/blambeau/sbyc
+* The api documentation can be found on "rdoc.info":http://rdoc.info/projects/blambeau/sbyc
 
 h2. CONTRIBUTE
 
