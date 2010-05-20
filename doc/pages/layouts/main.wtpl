@@ -21,11 +21,13 @@
 	  </div>
 	  <div id="main">
       <h1>${post.title}</h1>
-      <ul id="menu">
-        *{menus[post.menu] as entry}{
-          <li><a href="+{entry.keys[0]}.html">${entry.values[0]}</a></li>
-        }
-      </ul>
+      <div id="menu_wrapper" class="black">
+        <ul id="menu">
+          *{menus[post.menu] as entry}{
+            <li ?{entry.keys[0] == post.identifier}{class="active"}><a href="+{entry.keys[0]}.html">${entry.values[0]}</a></li>
+          }
+        </ul>
+      </div>
       <div class="text">
 ^{redcloth/xhtml}{<<+{../posts/${post.identifier}.redcloth share all}}
       </div>

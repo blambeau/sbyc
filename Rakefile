@@ -28,6 +28,7 @@ end
 desc "Generates the github pages" 
 task :pages do 
   `./doc/pages/generate "http://blambeau.github.com/sbyc/" ./doc/gh-pages`
+  #puts `cd doc/gh-pages && git commit -a -m 'Documentation improved.' && git push origin && cd ../..`
 end
 
 gemspec = Gem::Specification.new do |s|

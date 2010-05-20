@@ -1,0 +1,93 @@
+h2. synopsis
+
+Production basically means visiting a CodeTree and producing/collecting values on each node. There is two major ways for making productions in CodeTree: using the "_visit_":codetree/production.html#visit method or using a "_Producer_":codetree/production.html#producer.
+
+h2(#visit). the _visit_ method
+
+CodeTree nodes provide the following method
+
+<notextile>
+^{xhtml/coderay/ruby}{
+# Makes a depth-first-search visit of the code tree, and calls _visitor_ 
+# on each node, passing two arguments:
+#
+#   node: the current node being visited
+#   collected: values previously collected on its children
+#
+# Returns what _visitor_ returned.
+def visit(&visitor)
+  ...
+end
+}
+</notextile>
+
+Let instantiate the pattern to find all variable names referenced in an expression:
+
+<notextile>
+^{xhtml/coderay/ruby}{
+CodeTree::parse{ z * (x + y) }.visit do |node, collected|
+  if node.function == :'?'
+    node.literal
+  else
+    collected.flatten
+  end
+end
+# => [:z, :x, :y]
+}
+</notextile>
+
+Let evaluate the expression through the _visit_ method (see @{codetree/evaluation.html}{Evaluation} the shortcut way)
+
+<notextile>
+^{xhtml/coderay/ruby}{
+values = {:x => 3, :y => 6, :z => 2}
+CodeTree::parse{ z * (x + y) }.visit do |node, collected|
+  case node.function
+    when :'?'
+      values[node.literal]
+    when :'+'
+      collected[0] + collected[1]
+    when :'*'
+      collected[0] * collected[1]
+  end
+end
+# => 18
+}
+</notextile>
+
+h2(#producer). using a producer
+
+The Producer method allows you to have the control over the tree search and visit algorithm, that is, no depth-first-search is hard-coded. A producer works similarly to a basic XSLT engine: 
+* rules are (matching-condition, block) pairs
+* applying the engine on a node means executing the block associated to the rule that matches. 
+* the block determines what needs to be done, and on which nodes the engine must be applied next.
+
+The following example demonstrates the approach with some generic rules:
+
+<notextile>
+^{xhtml/coderay/ruby}{
+producer = ::CodeTree::producer(false){|p|
+  
+  # This rule matches leaf nodes (literals)
+  p.rule(:'_') do |engine, node|
+    puts "On: #{node.literal.inspect}"
+  end
+  
+  # This rule matches everything else
+  p.rule("*") do |engine, node| 
+    puts "Before: #{node.inspect}"
+    engine.apply(node.children)
+    puts "After #{node.inspect}"
+  end
+  
+}
+producer.apply CodeTree::parse{ (concat "hello ", who) }
+
+# Before: (concat (_ "hello "), (? (_ :who)))
+#   On: "hello" 
+#   Before: (? (_ :who))
+#     On: :who
+#   After: (? (_ :who))
+# After: (concat (_ "hello "), (? (_ :who)))
+}
+</notextile>
