@@ -1,0 +1,19 @@
+h1. SByC - Investigating Specialization by Constraint
+
+h2. synopsis
+
+SByC is an investigation about Specialization by Constraint as an alternative to common type systems that we found in (object-oriented) programming languages. The library is written as a collection of Ruby tools described below. Those tools are in fact sub-gems of SByC that can often be used in isolation.
+
+<notextile>
+^{xhtml/coderay/html}{gem install sbyc}
+</notextile>
+
+h2. code tree
+
+This part of SByC provides a safe, reusable, extensible, mashallable, and non-intrusive (no monkey patching of Ruby core classes) implementation of block expressions. Block expressions are parsed using a generic DSL and converted to a parse tree, which may be analyzed, rewrited, compiled, and so on. The example below illustrates typical usage of CodeTree.
+
+<notextile>
+^{xhtml/coderay/ruby}{<<{codetree_example.rb}}
+</notextile>
+
+@{codetree.html}{Read more about CodeTree}

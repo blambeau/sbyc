@@ -1,0 +1,63 @@
+h1. CodeTree: Reusable block expressions
+
+h2. synopsis
+
+This part of SByC provides a safe, reusable, extensible, mashallable, and non-intrusive (no monkey patching of Ruby core classes) implementation of block expressions. Block expressions are parsed using a generic DSL and converted to a parse tree, which may be analyzed, rewrited, compiled, and so on. The following example illustrates typical usage of CodeTree::parse.
+
+<notextile>
+^{xhtml/coderay/ruby}{<<{codetree_example.rb}}
+</notextile>
+
+h2. syntax
+
+The following styles are recognized:
+
+<notextile>
+^{xhtml/coderay/ruby}{<<{codetree_syntax.rb}}
+</notextile>
+
+The parsing stage returns a code tree, which can be passed to a next stage (rewriting, evaluation, compilation or whatever). 
+
+h2. semantics
+
+*Branch nodes* in the code tree correspond to a function call with arguments (see AstNode for details):
+
+<notextile>
+^{xhtml/coderay/ruby}{(function arg0, arg1, arg2, ..., argn)}
+</notextile>
+
+where <code>arg0, arg1 ... argn</code> always are AstNode instances, expect for leaf nodes. Function name is accessible through the  _function_ attribute (aliased as _name_). Arguments are accessible through the _arg_ (aliased as _children_) attribute.
+
+*Leaf nodes* encode literals through the special <code>'\_'</code> function. The later takes only one argument, which can be any ruby object, and is accessible through the _literal_ attribute. All and only leaf nodes have that function.
+
+<notextile>
+^{xhtml/coderay/ruby}{(_ literal)}
+</notextile>
+
+*Variable references* are denoted through a special function <code>'?'</code>. This operator expects one argument, i.e. the variable name, typically (but not necessarily) represented by a symbol literal.
+
+<notextile>
+^{xhtml/coderay/ruby}{(? variable_name)}
+</notextile>
+
+h2. examples
+
+<notextile>
+^{xhtml/coderay/ruby}{
+CodeTree::parse{ 12 }.inspect       # (_ 12)
+CodeTree::parse{ :x }.inspect       # (_ :x)
+CodeTree::parse{ x  }.inspect       # (? (_ :x))
+}
+</notextile>
+
+'_' and '?' operators only appear when invoking inspect:
+
+<notextile>
+^{xhtml/coderay/ruby}{
+CodeTree::parse{ x + 12 }.inspect   # (+ (? (_ :x)), (_ 12))
+CodeTree::parse{ x + 12 }.to_s      # (+ x, 12)
+}
+</notextile>
+
+Parsed expressions are **functional expressions**. However, there is two ways to make their evaluation in Ruby: the object-way and the functional-way.
+
