@@ -1,85 +1,46 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html>
+	<head> 
+		<title>SByC - Investigating Specialization by Constraint</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<base href="http://blambeau.github.com/blambeau/sbyc/"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/menu.css" />
+		<link rel="stylesheet" type="text/css" href="css/coderay.css" />
+	</head>
+	<body>
+	  <div id="header">
+	    <span>SByC on</span>
+	    <a href="http://rdoc.info/blambeau/sbyc">rdoc.info</a>
+	    <a href="http://github.com/blambeau/sbyc">GitHub</a>
+	  </div>
+	  <div id="main">
+      <h1>SByC - Investigating Specialization by Constraint</h1>
+      <ul id="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="codetree.html">CodeTree</a></li>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+      </ul>
 
-	<title>blambeau/sbyc @ GitHub</title>
-	
-	<style type="text/css">
-		body {
-  		margin-top: 1.0em;
-  		background-color: #093f17;
-		  font-family: "Helvetica,Arial,FreeSans";
-  		color: #ffffff;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-		h1 { font-size: 3.8em; color: #f6c0e8; margin-bottom: 3px; }
-		h1 .small { font-size: 0.4em; }
-		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #f6c0e8; }
-    h3 { text-align: center; color: #f6c0e8; }
-    a { color: #f6c0e8; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-		pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-	</style>
-	
-</head>
+      <div class="text">
+<h2>synopsis</h2>
+<p>SByC is an investigation about Specialization by Constraint as an alternative to common type systems that we found in (object-oriented) programming languages. The library is written as a collection of Ruby tools described below. Those tools are in fact sub-gems of SByC that can often be used in isolation.</p>
+<div class="CodeRay">
+  <div class="code"><pre>gem install sbyc</pre></div>
+</div>
 
-<body>
-  <a href="http://github.com/blambeau/sbyc"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+<h2>code tree</h2>
+<p>This part of SByC provides a safe, reusable, extensible, mashallable, and non-intrusive (no monkey patching of Ruby core classes) implementation of block expressions. Block expressions are parsed using a generic <span class="caps">DSL</span> and converted to a parse tree, which may be analyzed, rewrited, compiled, and so on. The example below illustrates typical usage of CodeTree.</p>
+<div class="CodeRay">
+  <div class="code"><pre>code = <span class="co">CodeTree</span><span class="sy">:parse</span>{ x &gt; <span class="i">10</span> &amp; y &lt; <span class="i">20</span> }   <span class="c"># (&amp; (&gt; x, 10), (&lt; y, 20))</span>
+code.eval{<span class="sy">:x</span> =&gt; <span class="i">5</span>, <span class="sy">:y</span> =&gt; <span class="i">5</span>}                <span class="c"># true</span>
+code.ruby_code(<span class="s"><span class="dl">'</span><span class="k">scope</span><span class="dl">'</span></span>, <span class="sy">:[]</span>)               <span class="c"># &quot;scope[:x].&gt;(10) &amp; scope[:y].&lt;(20)&quot;</span>
+<span class="co">Marshall</span>.dump(code)                        <span class="c"># this works perfectly!</span>
+</pre></div>
+</div>
 
-  <div id="container">
-
-    <div class="download">
-      <a href="http://github.com/blambeau/sbyc/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/blambeau/sbyc/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
-
-    <h1><a href="http://github.com/blambeau/sbyc">sbyc</a>
-      <span class="small">by <a href="http://github.com/blambeau">blambeau</a></span></h1>
-
-    <div class="description">
-      SByC - Investigating Specialization by Constraint
-    </div>
-
-    <p>SByC is an investigation about Specialization by Constraint as an alternative to common type systems that we found in (object-oriented) programming languages. The library is written as a collection of Ruby tools described below. Those tools are in fact sub-gems of SByC that can often be used in isolation.</p><h2>Install</h2>
-<p>gem install sbyc</p>
-<h2>License</h2>
-<p>The MIT License
-</p>
-<h2>Authors</h2>
-<p>Bernard Lambeau (blambeau@gmail.com)<br/><br/>      </p>
-<h2>Contact</h2>
-<p>Bernard Lambeau (blambeau@gmail.com)<br/>      </p>
-
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/blambeau/sbyc/zipball/master">zip</a> or
-      <a href="http://github.com/blambeau/sbyc/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/blambeau/sbyc</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/blambeau/sbyc">blambeau/sbyc</a>
-    </div>
-
-  </div>
-
-  
-</body>
+<p><a href="codetree.html">Read more about CodeTree</a></p>
+      </div>
+  	</div>
+	</body>
 </html>

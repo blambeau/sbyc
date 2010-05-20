@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html>
+	<head> 
+		<title>SByC - Investigating Specialization by Constraint</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<base href="http://blambeau.github.com/blambeau/sbyc/"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/menu.css" />
+		<link rel="stylesheet" type="text/css" href="css/coderay.css" />
+	</head>
+	<body>
+	  <div id="header">
+	    <span>SByC on</span>
+	    <a href="http://rdoc.info/blambeau/sbyc">rdoc.info</a>
+	    <a href="http://github.com/blambeau/sbyc">GitHub</a>
+	  </div>
+	  <div id="main">
+      <h1>CodeTree - Reusable block expressions</h1>
+      <ul id="menu">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="codetree/evaluation.html">Eval &amp; Code</a></li>
+        <li><a href="codetree/production.html">Production</a></li>
+        <li><a href="codetree/rewriting.html">Rewriting</a></li>
+
+      </ul>
+
+      <div class="text">
+<h2>synopsis</h2>
+<p>This part of SByC provides a safe, reusable, extensible, mashallable, and non-intrusive (no monkey patching of Ruby core classes) implementation of block expressions. Block expressions are parsed using a generic <span class="caps">DSL</span> and converted to a parse tree, which may be analyzed, rewrited, compiled, and so on. The following example illustrates typical usage of CodeTree::parse.</p>
+<div class="CodeRay">
+  <div class="code"><pre>code = <span class="co">CodeTree</span><span class="sy">:parse</span>{ x &gt; <span class="i">10</span> &amp; y &lt; <span class="i">20</span> }   <span class="c"># (&amp; (&gt; x, 10), (&lt; y, 20))</span>
+code.eval{<span class="sy">:x</span> =&gt; <span class="i">5</span>, <span class="sy">:y</span> =&gt; <span class="i">5</span>}                <span class="c"># true</span>
+code.ruby_code(<span class="s"><span class="dl">'</span><span class="k">scope</span><span class="dl">'</span></span>, <span class="sy">:[]</span>)               <span class="c"># &quot;scope[:x].&gt;(10) &amp; scope[:y].&lt;(20)&quot;</span>
+<span class="co">Marshall</span>.dump(code)                        <span class="c"># this works perfectly!</span>
+</pre></div>
+</div>
+
+<h2>syntax</h2>
+<p>The following styles are recognized:</p>
+<div class="CodeRay">
+  <div class="code"><pre><span class="c"># Hash-style</span>
+<span class="co">CodeTree</span>::parse{|t| (t[<span class="sy">:x</span>] &gt; <span class="i">5</span>) &amp; (t[<span class="sy">:y</span>] &lt;= <span class="i">10</span>) }  <span class="c"># =&gt; (&amp; (&gt; x, 5), (&lt;= y, 10))</span>
+
+<span class="c"># Object-style</span>
+<span class="co">CodeTree</span>::parse{|t| (t.x &gt; <span class="i">5</span>) &amp; (t.y &lt;= <span class="i">10</span>)     }  <span class="c"># =&gt; (&amp; (&gt; x, 5), (&lt;= z, 10))</span>
+
+<span class="c"># Context-style</span>
+<span class="co">CodeTree</span>::parse{ (x &gt; <span class="i">5</span>) &amp; (y &lt;= <span class="i">10</span>)            }  <span class="c"># =&gt; (&amp; (&gt; x, 5), (&lt;= z, 10))</span>
+
+<span class="c"># Functional-style</span>
+<span class="co">CodeTree</span>::parse{ (both (gt x, <span class="i">5</span>), (lte y, <span class="i">10</span>))  }  <span class="c"># =&gt; (both (gt x, 5), (lte z, 10))</span>
+</pre></div>
+</div>
+
+<p>The parsing stage returns a code tree, which can be passed to a next stage (rewriting, evaluation, compilation or whatever).</p>
+<h2>semantics</h2>
+<p><strong>Branch nodes</strong> in the code tree correspond to a function call with arguments (see AstNode for details):</p>
+<div class="CodeRay">
+  <div class="code"><pre>(function arg0, arg1, arg2, ..., argn)</pre></div>
+</div>
+
+<p>where <code>arg0, arg1 ... argn</code> always are AstNode instances, expect for leaf nodes. Function name is accessible through the  <em>function</em> attribute (aliased as <em>name</em>). Arguments are accessible through the <em>arg</em> (aliased as <em>children</em>) attribute.</p>
+<p><strong>Leaf nodes</strong> encode literals through the special <code>'\_'</code> function. The later takes only one argument, which can be any ruby object, and is accessible through the <em>literal</em> attribute. All and only leaf nodes have that function.</p>
+<div class="CodeRay">
+  <div class="code"><pre>(_ literal)</pre></div>
+</div>
+
+<p><strong>Variable references</strong> are denoted through a special function <code>'?'</code>. This operator expects one argument, i.e. the variable name, typically (but not necessarily) represented by a symbol literal.</p>
+<div class="CodeRay">
+  <div class="code"><pre>(? variable_name)</pre></div>
+</div>
+
+<h2>examples</h2>
+<div class="CodeRay">
+  <div class="code"><pre>
+<span class="co">CodeTree</span>::parse{ <span class="i">12</span> }.inspect       <span class="c"># (_ 12)</span>
+<span class="co">CodeTree</span>::parse{ <span class="sy">:x</span> }.inspect       <span class="c"># (_ :x)</span>
+<span class="co">CodeTree</span>::parse{ x  }.inspect       <span class="c"># (? (_ :x))</span>
+</pre></div>
+</div>
+
+<p>&#8216;_&#8217; and &#8216;?&#8217; operators only appear when invoking inspect:</p>
+<div class="CodeRay">
+  <div class="code"><pre>
+<span class="co">CodeTree</span>::parse{ x + <span class="i">12</span> }.inspect   <span class="c"># (+ (? (_ :x)), (_ 12))</span>
+<span class="co">CodeTree</span>::parse{ x + <span class="i">12</span> }.to_s      <span class="c"># (+ x, 12)</span>
+</pre></div>
+</div>
+
+<p>Parsed expressions are <b>functional expressions</b>. However, there is two ways to make their evaluation in Ruby: the object-way and the functional-way.</p>
+      </div>
+  	</div>
+	</body>
+</html>

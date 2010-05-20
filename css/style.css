@@ -1,0 +1,49 @@
+body {
+  font-family: "Lucida Sans", "Lucida Grande", Verdana, Arial, sans-serif; 
+  font-size: 14px;
+	width: 800px;
+	margin: auto;
+	background-color: #100000;
+}
+#header {
+	margin: 25px 10px 0px 10px;
+	text-align: right;
+	color: white;
+}
+#header a, #header a:visited {
+	padding-left: 10px;
+	color: white;
+}
+#header a:hover {
+	color: red;
+}
+#main {
+	margin: 5px 10px;
+	background-color: white;
+	padding-top: 25px;
+}
+#main h1 {
+	font-size: 1.8em;
+	background-color: #700000;
+	color: white;
+	padding: 15px;
+	margin: 0;
+}
+#main .text {
+	padding: 8px 30px 8px 15px;
+	min-height: 800px;
+}
+#main h2 {
+	font-size: 1.9em;
+  font-variant: small-caps;
+  border-bottom: 1px solid black;
+  margin-top: 10px;
+}
+#main h3 {
+	font-size: 1.5em;
+  margin-top: 15px;
+}
+#main p {
+	text-align: justify;
+	margin-bottom: 25px;
+}
