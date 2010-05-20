@@ -2,16 +2,30 @@
 <html>
 	<head> 
 		<title>SByC - Investigating Specialization by Constraint</title>
-		<link rel="stylesheet" type="text/css" href="css/style.css" />
-		<link rel="stylesheet" type="text/css" href="css/coderay.css" />
-    <script type="text/javascript" src="js/jquery-1.4.1.min.js"></script>
+		<base href="http://blambeau.github.com/sbyc"/>
+		<link rel="stylesheet" type="text/css" href="/css/style.css" />
+		<link rel="stylesheet" type="text/css" href="/css/menu.css" />
+		<link rel="stylesheet" type="text/css" href="/css/coderay.css" />
+    <script type="text/javascript" src="/js/jquery-1.4.1.min.js"></script>
 	</head>
 	<body>
 	  <div id="header">
-	    <a href="http://github.com/blambeau/sbyc">SByC on GitHub</a>
+	    <span>SByC on</span>
+	    <a href="http://github.com/blambeau/sbyc">rdoc.info</a>
+	    <a href="http://github.com/blambeau/sbyc">GitHub</a>
 	  </div>
 	  <div id="main">
-^{redcloth/xhtml}{<<+{../posts/${post}.redcloth share all}}
+      <h1>${post.title}</h1>
+      ?{post.key?('menu')}{
+          <ul id="menu">
+            *{post.menu as entry}{
+              <li><a href="+{entry.keys[0]}.html">${entry.values[0]}</a></li>
+            }
+          </ul>
+      }
+      <div class="text">
+^{redcloth/xhtml}{<<+{../posts/${post.identifier}.redcloth share all}}
+      </div>
   	</div>
 	</body>
 </html>

@@ -25,6 +25,12 @@ YARD::Rake::YardocTask.new do |t|
   t.options = ['--output-dir', 'doc/api']
 end
 
+desc "Generates the github pages" 
+task :pages do 
+  `wlang --methodize --output trash.wlang ./doc/pages/generate.wtpl`
+  `rm trash.wlang`
+end
+
 gemspec = Gem::Specification.new do |s|
   s.name = 'sbyc'
   s.version = version

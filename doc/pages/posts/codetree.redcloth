@@ -1,11 +1,9 @@
-h1. CodeTree: Reusable block expressions
-
 h2. synopsis
 
 This part of SByC provides a safe, reusable, extensible, mashallable, and non-intrusive (no monkey patching of Ruby core classes) implementation of block expressions. Block expressions are parsed using a generic DSL and converted to a parse tree, which may be analyzed, rewrited, compiled, and so on. The following example illustrates typical usage of CodeTree::parse.
 
 <notextile>
-^{xhtml/coderay/ruby}{<<{codetree_example.rb}}
+^{xhtml/coderay/ruby}{<<{codetree/codetree_example.rb}}
 </notextile>
 
 h2. syntax
@@ -13,7 +11,7 @@ h2. syntax
 The following styles are recognized:
 
 <notextile>
-^{xhtml/coderay/ruby}{<<{codetree_syntax.rb}}
+^{xhtml/coderay/ruby}{<<{codetree/codetree_syntax.rb}}
 </notextile>
 
 The parsing stage returns a code tree, which can be passed to a next stage (rewriting, evaluation, compilation or whatever). 
