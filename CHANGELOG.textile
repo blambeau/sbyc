@@ -1,0 +1,10 @@
+h1. CHANGELOG
+
+h2. Version 0.1.0 (current master branch on github)
+
+* AstNode
+    ** <code>alias :produce :visit</code> alias removed.
+
+h2. Version 0.1.0
+
+* First official version with a working CodeTree package

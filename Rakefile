@@ -21,8 +21,8 @@ desc "Launches all tests"
 task :test => [:spec]
 
 YARD::Rake::YardocTask.new do |t|
-  t.files   = ['lib/**/*.rb', "README.textile", "LICENCE.textile"]
-  t.options = ['--output-dir', 'doc/api']
+  t.files   = ['lib/**/*.rb']
+  t.options = ['--output-dir', 'doc/api', '-', "README.textile", "LICENCE.textile", "CHANGELOG.textile"]
 end
 
 desc "Generates the github pages" 
