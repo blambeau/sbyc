@@ -5,14 +5,26 @@ module CodeTree
       # Rules kepts by node function
       attr_reader :rules
       
+      # Extension options.
+      attr_reader :extension_options
+      
       # Creates a producer instance
       def initialize(default_rules = true)
         @rules = {}
+        @extension_options = {}
         if default_rules
           rule(:_) {|r,node| node.literal}
           rule("*"){|r,node| r.apply(node.children)}
         end
         yield(self) if block_given?
+      end
+      
+      # Adds an extension module
+      def add_extension(mod, options = {})
+        self.extend(mod)
+        options = mod.const_get(:DEFAULT_OPTIONS).merge(options) if mod.const_defined?(:DEFAULT_OPTIONS)
+        extension_options[mod] = options
+        self
       end
       
       # Adds a rule
