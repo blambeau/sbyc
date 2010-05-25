@@ -2,13 +2,12 @@ module CodeTree
   module Producing
     module TracingMethods
       
-      # Default options
-      DEFAULT_OPTIONS = {
-        :indent_support  => true,
-        :indent_string   => "  ",
-        :newline_support => true,
-        :io              => STDOUT
-      }
+      def self.prepare_options(options)
+        {:indent_support  => true,
+         :indent_string   => "  ",
+         :newline_support => true,
+         :io              => STDOUT}.merge(options)
+      end
       
       # Returns tracing extension options
       def tracing_options

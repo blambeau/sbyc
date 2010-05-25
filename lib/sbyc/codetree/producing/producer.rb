@@ -22,7 +22,7 @@ module CodeTree
       # Adds an extension module
       def add_extension(mod, options = {})
         self.extend(mod)
-        options = mod.const_get(:DEFAULT_OPTIONS).merge(options) if mod.const_defined?(:DEFAULT_OPTIONS)
+        options = mod.send(:prepare_options, options || {}) if mod.respond_to?(:prepare_options)
         extension_options[mod] = options
         self
       end
