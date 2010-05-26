@@ -2,11 +2,17 @@ module CodeTree
   module Producing
     module TracingMethods
       
-      def self.prepare_options(options)
+      # Returns the default options
+      def self.default_options
         {:indent_support  => true,
          :indent_string   => "  ",
          :newline_support => true,
-         :io              => STDOUT}.merge(options)
+         :io              => STDOUT}
+      end
+      
+      # Merge the default options and the options
+      def self.prepare_options(options)
+        default_options.merge(options)
       end
       
       # Returns tracing extension options
@@ -43,7 +49,7 @@ module CodeTree
       # Logs a message on the IO object, without any other side effect (no
       # depth increment, for instance).
       def trace(message)
-        message = (tracing_indent_string*tracing_indent_level + message.to_s) if tracing_indent_support?
+        message = (tracing_indent_string*tracing_indent_level + message.to_s) if tracing_indent_support? and tracing_indent_level>0 
         message = "#{message}\n" if tracing_newline_support?
         if tracing_io.kind_of?(IO)
           tracing_io << message
