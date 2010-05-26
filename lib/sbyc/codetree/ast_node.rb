@@ -48,6 +48,12 @@ module CodeTree
       yield(self, leaf? ? children : children.collect{|c| c.visit(&block)})
     end
     
+    # Inject code through module mapped to function names
+    def code_inject(map)
+      visit{|node, collected| node.extend(map[node.function]) if map.key?(node.function); nil;}
+      self
+    end
+    
     # Inspection
     def inspect
       "(#{name} #{children.collect{|c| c.inspect}.join(', ')})"

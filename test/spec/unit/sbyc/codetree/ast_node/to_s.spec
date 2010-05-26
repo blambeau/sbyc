@@ -1,6 +1,6 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe "CodeTree::AstNode#inspect" do
+describe "CodeTree::AstNode#to_s" do
   
   subject{ node.to_s }
 

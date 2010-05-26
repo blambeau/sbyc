@@ -1,6 +1,6 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe "CodeTree::AstNode#functional_eval" do
+describe "CodeTree::AstNode#visit" do
   
   context('when called on a leaf node, through coercion') do
     let(:node) { CodeTree::AstNode.coerce(12) }
