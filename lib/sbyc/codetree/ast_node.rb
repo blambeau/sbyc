@@ -50,18 +50,25 @@ module CodeTree
     
     # Inject code through module mapped to function names
     def code_inject(map)
-      visit{|node, collected| node.extend(map[node.function]) if map.key?(node.function); nil;}
+      map = CodeTree::Name2X::Delegate.coerce(map)
+      visit{|node, collected| 
+        ext = map.name2module(node.function)
+        node.extend(ext) if ext
+        nil
+      }
       self
     end
     
     # Create class instances
     def digest(map)
+      map = CodeTree::Name2X::Delegate.coerce(map)
       visit{|node, collected| 
         if node.leaf?
           node.literal
         else
-          raise "Unexpected node function: #{node.function}" unless map.key?(node.function)
-          map[node.function].new(*collected)
+          ext = map.name2class(node.function)
+          raise "Unexpected node function: #{node.function}" unless ext
+          ext.new(*collected)
         end
       }
     end
