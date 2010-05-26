@@ -54,6 +54,18 @@ module CodeTree
       self
     end
     
+    # Create class instances
+    def digest(map)
+      visit{|node, collected| 
+        if node.leaf?
+          node.literal
+        else
+          raise "Unexpected node function: #{node.function}" unless map.key?(node.function)
+          map[node.function].new(*collected)
+        end
+      }
+    end
+    
     # Inspection
     def inspect
       "(#{name} #{children.collect{|c| c.inspect}.join(', ')})"

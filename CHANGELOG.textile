@@ -3,12 +3,13 @@ h1. CHANGELOG
 h2. Version 0.1.0 (current master branch on github)
 
 * AstNode
-    ** <code>alias :produce :visit</code> removed.
-    ** #code_inject utility has been added
+    ** <code>alias :produce :visit</code> removed
+    ** #code_inject utility added
+    ** #digest utility added
 
 * Producer
-    ** add_extension utility has been added.
-    ** TracingMethods utilities added.
+    ** add_extension utility added
+    ** TracingMethods utilities added
 
 h2. Version 0.1.0
 
