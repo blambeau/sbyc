@@ -1,15 +1,13 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
 describe "CodeTree::AstNode#code_inject" do
-
-  before(:all) do
-    module CodeTreeAstNodeCodeInject 
-      module Hello;       end 
-      module Capitalize;  end
-      module Varref;      end
-    end
-  end
   
+  module CodeTreeAstNodeCodeInject 
+    module Hello;       end 
+    module Capitalize;  end
+    module Varref;      end
+  end
+
   let(:parsed) { CodeTree.parse{ (hello (capitalize name)) } }
 
   subject{ parsed.code_inject(map_arg) }
