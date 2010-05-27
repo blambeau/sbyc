@@ -1,6 +1,5 @@
 module CodeTree
   class AstNode
-    include Enumerable
     
     # Name of the method call
     attr_accessor :name

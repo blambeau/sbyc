@@ -7,6 +7,7 @@ h2. Version 0.1.1 (current master branch on github)
 
 * AstNode
     ** <code>alias :produce :visit</code> removed
+    ** AstNode is not Enumerable anymore
     ** #rename, #code_inject, #digest utilities added
 
 * Producer
