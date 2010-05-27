@@ -60,7 +60,7 @@ module CodeTree
     end
     
     # Inject code through module mapped to function names
-    def code_inject(map = nil, &block)
+    def code_inject!(map = nil, &block)
       map = CodeTree::Name2X::Delegate.coerce(map || block)
       visit{|node, collected| 
         ext = map.name2module(node.function)

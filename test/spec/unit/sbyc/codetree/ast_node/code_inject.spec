@@ -1,6 +1,6 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 
-describe "CodeTree::AstNode#code_inject" do
+describe "CodeTree::AstNode#code_inject!" do
   
   module CodeTreeAstNodeCodeInject 
     module Hello;       end 
@@ -14,7 +14,7 @@ describe "CodeTree::AstNode#code_inject" do
     let(:map_arg) { {:varref     => CodeTreeAstNodeCodeInject::Varref, 
                      :hello      => CodeTreeAstNodeCodeInject::Hello, 
                      :capitalize => CodeTreeAstNodeCodeInject::Capitalize} }
-    subject{ parsed.code_inject(map_arg) }
+    subject{ parsed.code_inject!(map_arg) }
     it { should == parsed }
     it { should be_kind_of(CodeTreeAstNodeCodeInject::Hello) }
     specify { 
@@ -24,7 +24,7 @@ describe "CodeTree::AstNode#code_inject" do
   end
 
   context "When called with a proc" do
-    subject{ parsed.code_inject{|name|
+    subject{ parsed.code_inject!{|name|
       case name
         when :varref
           CodeTreeAstNodeCodeInject::Varref
@@ -44,7 +44,7 @@ describe "CodeTree::AstNode#code_inject" do
   
   context "When called with a module" do
     let(:map_arg){ CodeTreeAstNodeCodeInject }
-    subject{ parsed.code_inject(map_arg) }
+    subject{ parsed.code_inject!(map_arg) }
     it { should == parsed }
     it { should be_kind_of(CodeTreeAstNodeCodeInject::Hello) }
     specify { 
