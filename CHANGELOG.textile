@@ -1,11 +1,13 @@
 h1. CHANGELOG
 
-h2. Version 0.1.0 (current master branch on github)
+h2. Version 0.1.1 (current master branch on github)
+
+* Name2X
+    ** basic contract with name2module, name2class and name2name
 
 * AstNode
     ** <code>alias :produce :visit</code> removed
-    ** #code_inject utility added
-    ** #digest utility added
+    ** #rename, #code_inject, #digest utilities added
 
 * Producer
     ** add_extension utility added

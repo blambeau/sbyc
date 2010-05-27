@@ -24,21 +24,60 @@ describe "CodeTree::AstNode#digest" do
       end
     end
   end
-  let(:parsed) { CodeTree.parse{ ~(a & (b | c)) } }
+  
+  context "when called with a hash" do
+    let(:parsed) { CodeTree.parse{ ~(a & (b | c)) } }
+    subject{ parsed.digest(:'?' => CodeTreeAstNodeDigestTest::Varref, 
+                           :&   => CodeTreeAstNodeDigestTest::And, 
+                           :|   => CodeTreeAstNodeDigestTest::Or, 
+                           :~   => CodeTreeAstNodeDigestTest::Not) }
+    it { should be_kind_of(CodeTreeAstNodeDigestTest::Not) }
+    specify { 
+      subject.term.should be_kind_of(CodeTreeAstNodeDigestTest::And)
+      subject.term.left.should be_kind_of(CodeTreeAstNodeDigestTest::Varref)
+      subject.term.left.varname.should == :a
+      subject.term.right.should be_kind_of(CodeTreeAstNodeDigestTest::Or)
+      subject.term.right.left.should be_kind_of(CodeTreeAstNodeDigestTest::Varref)
+    }
+  end
 
-  subject{ parsed.digest(:'?' => CodeTreeAstNodeDigestTest::Varref, 
-                         :& => CodeTreeAstNodeDigestTest::And, 
-                         :| => CodeTreeAstNodeDigestTest::Or, 
-                         :~ => CodeTreeAstNodeDigestTest::Not) }
+  context "when called with a proc" do
+    let(:parsed) { CodeTree.parse{ ~(a & (b | c)) } }
+    subject{ parsed.digest{|name|
+      case name
+        when :'?'
+          CodeTreeAstNodeDigestTest::Varref
+        when :&
+          CodeTreeAstNodeDigestTest::And
+        when :|
+          CodeTreeAstNodeDigestTest::Or
+        when :~
+          CodeTreeAstNodeDigestTest::Not
+      end
+    } }
+    it { should be_kind_of(CodeTreeAstNodeDigestTest::Not) }
+    specify { 
+      subject.term.should be_kind_of(CodeTreeAstNodeDigestTest::And)
+      subject.term.left.should be_kind_of(CodeTreeAstNodeDigestTest::Varref)
+      subject.term.left.varname.should == :a
+      subject.term.right.should be_kind_of(CodeTreeAstNodeDigestTest::Or)
+      subject.term.right.left.should be_kind_of(CodeTreeAstNodeDigestTest::Varref)
+    }
+  end
 
-  it { should be_kind_of(CodeTreeAstNodeDigestTest::Not) }
-  specify { 
-    subject.term.should be_kind_of(CodeTreeAstNodeDigestTest::And)
-    subject.term.left.should be_kind_of(CodeTreeAstNodeDigestTest::Varref)
-    subject.term.left.varname.should == :a
-    subject.term.right.should be_kind_of(CodeTreeAstNodeDigestTest::Or)
-    subject.term.right.left.should be_kind_of(CodeTreeAstNodeDigestTest::Varref)
-  }
-
+  context "when called with a module" do
+    let(:parsed) { CodeTree.parse{ ~(a & (b | c)) } }
+    let(:renamed) { parsed.rename!(:& => :and, :| => :or, :~ => :not, :'?' => :varref) }
+    subject{ renamed.digest(CodeTreeAstNodeDigestTest) }  
+    it { should be_kind_of(CodeTreeAstNodeDigestTest::Not) }
+    specify { 
+      subject.term.should be_kind_of(CodeTreeAstNodeDigestTest::And)
+      subject.term.left.should be_kind_of(CodeTreeAstNodeDigestTest::Varref)
+      subject.term.left.varname.should == :a
+      subject.term.right.should be_kind_of(CodeTreeAstNodeDigestTest::Or)
+      subject.term.right.left.should be_kind_of(CodeTreeAstNodeDigestTest::Varref)
+    }
+  end
+  
 end
   

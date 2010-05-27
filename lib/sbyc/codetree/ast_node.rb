@@ -3,7 +3,7 @@ module CodeTree
     include Enumerable
     
     # Name of the method call
-    attr_reader :name
+    attr_accessor :name
     alias :function :name
 
     # Children nodes
@@ -48,9 +48,20 @@ module CodeTree
       yield(self, leaf? ? children : children.collect{|c| c.visit(&block)})
     end
     
+    # Renames some nodes, given a name2name map.
+    def rename!(map = nil, &block)
+      map = CodeTree::Name2X::Delegate.coerce(map || block)
+      visit{|node, collected|
+        newname = map.name2name(node.name)
+        node.send(:name=, newname) if newname
+        nil
+      }
+      self
+    end
+    
     # Inject code through module mapped to function names
-    def code_inject(map)
-      map = CodeTree::Name2X::Delegate.coerce(map)
+    def code_inject(map = nil, &block)
+      map = CodeTree::Name2X::Delegate.coerce(map || block)
       visit{|node, collected| 
         ext = map.name2module(node.function)
         node.extend(ext) if ext
@@ -60,8 +71,8 @@ module CodeTree
     end
     
     # Create class instances
-    def digest(map)
-      map = CodeTree::Name2X::Delegate.coerce(map)
+    def digest(map = nil, &block)
+      map = CodeTree::Name2X::Delegate.coerce(map || block)
       visit{|node, collected| 
         if node.leaf?
           node.literal
@@ -121,5 +132,6 @@ module CodeTree
       end
     end
     
+    private :name=
   end # module AstNode
 end # module CodeTree

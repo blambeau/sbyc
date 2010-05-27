@@ -6,6 +6,8 @@ module CodeTree
       def fetch(name)
         name = name2name(name)
         delegate.const_defined?(name) ? delegate.const_get(name) : nil
+      rescue NameError
+        nil
       end
       
       # Capitalize a name

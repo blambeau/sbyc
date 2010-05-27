@@ -8,15 +8,13 @@ describe "CodeTree::AstNode#code_inject" do
     module Varref;      end
   end
 
-  let(:parsed) { CodeTree.parse{ (hello (capitalize name)) } }
-
-  subject{ parsed.code_inject(map_arg) }
+  let(:parsed) { CodeTree.parse{ (hello (capitalize name)) }.rename!(:'?' => :varref) }
 
   context "When called with a map" do
-    let(:map_arg) { {:'?'        => CodeTreeAstNodeCodeInject::Varref, 
+    let(:map_arg) { {:varref     => CodeTreeAstNodeCodeInject::Varref, 
                      :hello      => CodeTreeAstNodeCodeInject::Hello, 
                      :capitalize => CodeTreeAstNodeCodeInject::Capitalize} }
-
+    subject{ parsed.code_inject(map_arg) }
     it { should == parsed }
     it { should be_kind_of(CodeTreeAstNodeCodeInject::Hello) }
     specify { 
@@ -26,9 +24,9 @@ describe "CodeTree::AstNode#code_inject" do
   end
 
   context "When called with a proc" do
-    let(:map_arg) { lambda {|name|
+    subject{ parsed.code_inject{|name|
       case name
-        when :'?'
+        when :varref
           CodeTreeAstNodeCodeInject::Varref
         when :hello
           CodeTreeAstNodeCodeInject::Hello
@@ -36,7 +34,6 @@ describe "CodeTree::AstNode#code_inject" do
           CodeTreeAstNodeCodeInject::Capitalize
       end
     } }
-
     it { should == parsed }
     it { should be_kind_of(CodeTreeAstNodeCodeInject::Hello) }
     specify { 
@@ -44,19 +41,17 @@ describe "CodeTree::AstNode#code_inject" do
       subject.children[0].children[0].should be_kind_of(CodeTreeAstNodeCodeInject::Varref)
     }
   end
-
-  # context "When called with a module" do
-  #   let(:map_arg){ CodeTreeAstNodeCodeInject }
-  # 
-  #   it { should == parsed }
-  #   it { should be_kind_of(CodeTreeAstNodeCodeInject::Not) }
-  #   specify { 
-  #     subject.children[0].should be_kind_of(CodeTreeAstNodeCodeInject::And)
-  #     subject.children[0].children[0].should be_kind_of(CodeTreeAstNodeCodeInject::Varref)
-  #     subject.children[0].children[1].should be_kind_of(CodeTreeAstNodeCodeInject::Or)
-  #     subject.children[0].children[1].children.all?{|c| c.should be_kind_of(CodeTreeAstNodeCodeInject::Varref)}
-  #   }
-  # end
+  
+  context "When called with a module" do
+    let(:map_arg){ CodeTreeAstNodeCodeInject }
+    subject{ parsed.code_inject(map_arg) }
+    it { should == parsed }
+    it { should be_kind_of(CodeTreeAstNodeCodeInject::Hello) }
+    specify { 
+      subject.children[0].should be_kind_of(CodeTreeAstNodeCodeInject::Capitalize)
+      subject.children[0].children[0].should be_kind_of(CodeTreeAstNodeCodeInject::Varref)
+    }
+  end
 
 end
   
