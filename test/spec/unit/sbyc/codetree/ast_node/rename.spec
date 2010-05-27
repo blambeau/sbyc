@@ -4,6 +4,12 @@ describe "CodeTree::AstNode#rename" do
   
   let(:expr){ CodeTree::parse{ ~(a & (b | c)) } }
   
+  context "When called with CodeTree::OPERATOR_NAMES" do
+    subject{ expr.rename!(CodeTree::OPERATOR_NAMES) }
+    it { should == expr }
+    specify { subject.to_s.should == "(complement (and (varref :a), (or (varref :b), (varref :c))))" }
+  end
+  
   context "When called with a hash" do
     subject{ expr.rename!(:~ => :not, :& => :and, :| => :or, :'?' => :varref) }
     it { should == expr }

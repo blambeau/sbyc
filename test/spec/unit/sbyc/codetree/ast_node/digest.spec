@@ -11,7 +11,7 @@ describe "CodeTree::AstNode#digest" do
     end
     class And < Dyadic; end 
     class Or < Dyadic; end 
-    class Not 
+    class Complement 
       attr_reader :term
       def initialize(term)
         @term = term
@@ -30,8 +30,8 @@ describe "CodeTree::AstNode#digest" do
     subject{ parsed.digest(:'?' => CodeTreeAstNodeDigestTest::Varref, 
                            :&   => CodeTreeAstNodeDigestTest::And, 
                            :|   => CodeTreeAstNodeDigestTest::Or, 
-                           :~   => CodeTreeAstNodeDigestTest::Not) }
-    it { should be_kind_of(CodeTreeAstNodeDigestTest::Not) }
+                           :~   => CodeTreeAstNodeDigestTest::Complement) }
+    it { should be_kind_of(CodeTreeAstNodeDigestTest::Complement) }
     specify { 
       subject.term.should be_kind_of(CodeTreeAstNodeDigestTest::And)
       subject.term.left.should be_kind_of(CodeTreeAstNodeDigestTest::Varref)
@@ -52,10 +52,10 @@ describe "CodeTree::AstNode#digest" do
         when :|
           CodeTreeAstNodeDigestTest::Or
         when :~
-          CodeTreeAstNodeDigestTest::Not
+          CodeTreeAstNodeDigestTest::Complement
       end
     } }
-    it { should be_kind_of(CodeTreeAstNodeDigestTest::Not) }
+    it { should be_kind_of(CodeTreeAstNodeDigestTest::Complement) }
     specify { 
       subject.term.should be_kind_of(CodeTreeAstNodeDigestTest::And)
       subject.term.left.should be_kind_of(CodeTreeAstNodeDigestTest::Varref)
@@ -67,9 +67,9 @@ describe "CodeTree::AstNode#digest" do
 
   context "when called with a module" do
     let(:parsed) { CodeTree.parse{ ~(a & (b | c)) } }
-    let(:renamed) { parsed.rename!(:& => :and, :| => :or, :~ => :not, :'?' => :varref) }
+    let(:renamed) { parsed.rename!(CodeTree::OPERATOR_NAMES) }
     subject{ renamed.digest(CodeTreeAstNodeDigestTest) }  
-    it { should be_kind_of(CodeTreeAstNodeDigestTest::Not) }
+    it { should be_kind_of(CodeTreeAstNodeDigestTest::Complement) }
     specify { 
       subject.term.should be_kind_of(CodeTreeAstNodeDigestTest::And)
       subject.term.left.should be_kind_of(CodeTreeAstNodeDigestTest::Varref)

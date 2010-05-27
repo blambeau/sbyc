@@ -44,7 +44,7 @@ module CodeTree
     
     # Makes a depth-first-search visit of the AST
     def visit(&block)
-      yield(self, leaf? ? children : children.collect{|c| c.visit(&block)})
+      yield(self, leaf? ? children : children.collect{|c| c.respond_to?(:visit) ? c.visit(&block) : c})
     end
     
     # Renames some nodes, given a name2name map.

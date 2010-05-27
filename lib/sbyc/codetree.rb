@@ -2,6 +2,7 @@ module CodeTree
   
   # Operator names
   OPERATOR_NAMES = {
+    :'?' => :varref,
     :[]  => :get,
     :[]= => :set,
     :**  => :exponentiation,
@@ -17,8 +18,8 @@ module CodeTree
     :%   => :modulo,
     :=~  => :match,
     :=== => :matches?,
-    :&   => :bool_and,
-    :|   => :bool_or,
+    :&   => :and,
+    :|   => :or,
     :>   => :gt,
     :>=  => :gte,
     :<=  => :lte,

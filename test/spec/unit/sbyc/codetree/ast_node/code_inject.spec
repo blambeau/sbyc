@@ -8,7 +8,7 @@ describe "CodeTree::AstNode#code_inject!" do
     module Varref;      end
   end
 
-  let(:parsed) { CodeTree.parse{ (hello (capitalize name)) }.rename!(:'?' => :varref) }
+  let(:parsed) { CodeTree.parse{ (hello (capitalize name)) }.rename!(CodeTree::OPERATOR_NAMES) }
 
   context "When called with a map" do
     let(:map_arg) { {:varref     => CodeTreeAstNodeCodeInject::Varref, 
