@@ -1,6 +1,11 @@
 h1. CHANGELOG
 
-h2. Version 0.1.1 (current master branch on github)
+h2. Version 0.1.2 (current master branch on github)
+
+* AstNode
+    ** coerce now supports Array literal as children.
+
+h2. Version 0.1.1
 
 * Name2X
     ** basic contract with name2module, name2class and name2name

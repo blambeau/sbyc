@@ -121,6 +121,7 @@ module CodeTree
           arg
         when Array
           name, children = arg
+          return AstNode.new(:_, [ arg ]) unless name.kind_of?(Symbol)
           if name == :_ and children.size == 1
             AstNode.new(:_, children)
           else

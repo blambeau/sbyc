@@ -28,5 +28,17 @@ describe "CodeTree::parse" do
     }
   end
   
+  context "when call with an array of hashes as parameter" do
+    subject{ CodeTree::parse{
+      insert [{:id => 1}, {:id => 2}]
+    }}
+    specify{
+      subject.should be_kind_of(CodeTree::AstNode)
+      subject.name.should == :insert
+      subject.children[0].should be_kind_of(CodeTree::AstNode)
+      subject.children[0].literal.should == [{:id => 1}, {:id => 2}]
+    }
+  end
+  
 end
   

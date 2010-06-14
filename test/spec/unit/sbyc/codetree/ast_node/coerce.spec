@@ -57,4 +57,13 @@ describe "CodeTree::AstNode#coerce" do
     }
   end
   
+  context("with array a single literal") do
+    subject { CodeTree::AstNode.coerce([{:id => 1}, {:id => 2}]) }
+    specify { 
+      subject.should be_kind_of(CodeTree::AstNode) 
+      subject.leaf?.should be_true
+      subject.literal.should == [{:id => 1}, {:id => 2}]
+    }
+  end
+  
 end 
