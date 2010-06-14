@@ -1,11 +1,38 @@
 module CodeTree
   class ProcParser
+    #
+    # Collector when :multiline option is set to true.
+    #
+    class Collector
+
+      # Which nodes are kept?
+      attr_reader :kept
+
+      # Creates a collector instance
+      def initialize
+        @kept = []
+      end
+
+      # Callback when a new Expr is created
+      def built(who, children)
+        @kept << who
+        children.each{|c| @kept.delete_if{|k| k.__id__ == c.__id__}}
+      end
+      
+      # Returns expressions as an array of AstNodes
+      def to_a
+        kept.collect{|c| c.__to_functional_code}
+      end
+
+    end # class Collector
+    
+    # An expression
     class Expr
       
       # Methods that we keep
       KEPT_METHODS = [ "__send__", "__id__", "instance_eval", "initialize", "object_id", 
                        "singleton_method_added", "singleton_method_undefined", "method_missing",
-                       "__evaluate__", "coerce"]
+                       "__evaluate__", "coerce", "kind_of?"]
 
       class << self
         def __clean_scope__
@@ -18,14 +45,17 @@ module CodeTree
       end
     
       # Creates an expression instance
-      def initialize(name = nil, children = nil)
+      def initialize(name, children, collector)
         class << self; __clean_scope__; end
-        @name, @children = name, children
+        @name, @children, @collector = name, children, collector
+        if @collector and @name
+          @collector.built(self, children)
+        end
       end
       
       # Returns the associated functional code
       def __to_functional_code
-        children = @children.collect{|c|
+        children = (@children || []).collect{|c|
           c.kind_of?(Expr) ? c.__to_functional_code : AstNode.coerce(c)
         }
         CodeTree::AstNode.coerce([@name, children])
@@ -36,15 +66,15 @@ module CodeTree
       def method_missing(name, *args)
         if @name.nil?
           if name == :[]
-            Expr.new(:'?', args)
+            Expr.new(:'?', args, @collector)
           elsif args.empty?
-            Expr.new(:'?', [name])
+            Expr.new(:'?', [name], @collector)
           else
-            Expr.new(name, args)
+            Expr.new(name, args, @collector)
           end
         else
           args.unshift(self)
-          Expr.new(name, args)
+          Expr.new(name, args, @collector)
         end
       end
       
@@ -55,15 +85,17 @@ module CodeTree
     end # class Expr
     
     # Parses a Proc object
-    def self.parse_proc(block)
+    def self.parse_proc(block, options = {})
+      collector = options[:multiline] ? Collector.new : nil
       e = case block.arity
         when -1, 0
-          Expr.new.instance_eval(&block)
+          Expr.new(nil, nil, collector).instance_eval(&block)
         when 1
-          block.call(Expr.new)
+          block.call(Expr.new(nil, nil, collector))
         else
           raise ArgumentError, "Unexpected block arity #{block.arity}"
       end
+      return collector.to_a if collector
       case e
         when Expr
           e.__to_functional_code
@@ -73,15 +105,15 @@ module CodeTree
     end
     
     # Parses a block
-    def self.parse(code = nil, &block)
+    def self.parse(code = nil, options = {}, &block)
       block = code || block
       case block
         when Proc
-          parse_proc(block)
+          parse_proc(block, options)
         when AstNode
           block
         when String
-          parse(Kernel.eval("proc{ #{block} }"))
+          parse(Kernel.eval("proc{ #{block} }"), options)
         else
           raise ArgumentError, "Unable to parse #{block}"
       end
