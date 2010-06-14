@@ -32,14 +32,15 @@ module CodeTree
   REVERSE_OPERATOR_NAMES = Hash[*OPERATOR_NAMES.to_a.collect{|c| c.reverse}.flatten]
   
   # Parses some code or block
-  def parse(code = nil, &block)
-    ProcParser::parse(code, &block)
+  def parse(code = nil, options = nil, &block)
+    code, options = nil, code if code.kind_of?(Hash) and options.nil?
+    ProcParser::parse(code, options, &block)
   end
   module_function :parse
   
   # Alias for _parse_
-  def expr(code = nil, &block)
-    ProcParser::parse(code, &block)
+  def expr(code = nil, options = nil, &block)
+    parse(code, options, &block)
   end
   module_function :expr
   
