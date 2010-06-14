@@ -5,6 +5,9 @@ h2. Version 0.1.1 (current master branch on github)
 * Name2X
     ** basic contract with name2module, name2class and name2name
 
+* ProcParser
+    ** an options hash is now supported on parse. When :multiline is set to true, the parser returns an array of AstNode, one for each line that has been parsed.
+
 * AstNode
     ** <code>alias :produce :visit</code> removed
     ** AstNode is not Enumerable anymore
