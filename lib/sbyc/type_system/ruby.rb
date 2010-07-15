@@ -1,3 +1,5 @@
+require 'date'
+require 'time'
 module TypeSystem
   # 
   # Implements a basic TypeSystem that mimics Ruby's type system.
@@ -16,7 +18,8 @@ module TypeSystem
        String,
        Symbol,
        Class, 
-       Module].each{|c| SAFE_LITERAL_CLASSES[c] = true}
+       Module,
+       Regexp].each{|c| SAFE_LITERAL_CLASSES[c] = true}
     
       #
       # Returns value.class
@@ -50,6 +53,10 @@ module TypeSystem
           "[" + value.collect{|v| to_literal(v, optimistic)}.join(', ') + "]"
         elsif value.kind_of?(Hash)
           "{" + value.collect{|pair| "#{to_literal(pair[0], optimistic)} => #{to_literal(pair[1], optimistic)}"}.join(', ') + "}"
+        elsif value.kind_of?(Date)
+          "Date::parse(#{value.inspect})"
+        elsif value.kind_of?(Time)
+          "Time::parse(#{value.inspect})"
         elsif optimistic
           value.inspect
         else

@@ -13,7 +13,8 @@ describe "TypeSystem::Ruby#to_literal" do
     String     => ['', 'hello'],
     Symbol     => [ :hello, :"s-b-y-c", :"12" ],
     Class      => [ Integer, ::Struct::Tms ],
-    Module     => [ Kernel, TypeSystem, TypeSystem::Ruby ]
+    Module     => [ Kernel, TypeSystem, TypeSystem::Ruby ],
+    Regexp     => [ /a-z/, /^$/, /\s*/, /[a-z]{15}/ ]
   }
   
   TypeSystem::Ruby::Methods::SAFE_LITERAL_CLASSES.keys.each do |clazz|
@@ -52,6 +53,18 @@ describe "TypeSystem::Ruby#to_literal" do
       subject{ TypeSystem::Ruby::parse_literal(TypeSystem::Ruby::to_literal(value)) }
       it{ should == value }
     end
+  end
+  
+  describe "When called on times" do |value|
+    let(:value){ Time.now }
+    subject{ TypeSystem::Ruby::parse_literal(TypeSystem::Ruby::to_literal(value)) }
+    it{ should == value }
+  end
+  
+  describe "When called on dates" do |value|
+    let(:value){ Date.ajd }
+    subject{ TypeSystem::Ruby::parse_literal(TypeSystem::Ruby::to_literal(value)) }
+    it{ should == value }
   end
   
   describe "When called on an array with safe class instances" do
