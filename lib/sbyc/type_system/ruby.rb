@@ -37,6 +37,10 @@ module TypeSystem
       def to_literal(value, optimistic = false)
         if value.respond_to?(:to_ruby_literal)
           value.to_ruby_literal
+        elsif value == (1.0/0)
+          return '(1.0/0)'
+        elsif value == -(1.0/0)
+          return '(-1.0/0)'
         elsif SAFE_LITERAL_CLASSES.key?(type_of(value))
           value.inspect
         elsif optimistic
