@@ -3,6 +3,10 @@ require 'sbyc/type_system/ruby'
 
 describe "TypeSystem::Ruby#to_literal" do
   
+  ##################################################################################
+  ### SAFE CLASSES REPRESENTORS
+  ##################################################################################
+  
   safe_representors = {
     NilClass   => [ nil ],
     TrueClass  => [ true ],
@@ -48,35 +52,65 @@ describe "TypeSystem::Ruby#to_literal" do
     end
   }
   
-  [1.0/0, -1.0/0].each do |value|
-    describe "when called on special value #{value}" do
+  ##################################################################################
+  ### SPECIAL VALUES
+  ##################################################################################
+  
+  special_values = [
+    1.0/0, -1.0/0,
+    Time::parse(Time.now.inspect), Date::parse(Date.today.to_s)
+  ]
+  
+  special_values.each{|value|
+    describe("When called on special value #{value}") do
       subject{ TypeSystem::Ruby::parse_literal(TypeSystem::Ruby::to_literal(value)) }
       it{ should == value }
     end
-  end
+  }
   
-  describe "When called on times" do |value|
-    let(:value){ Time.now }
-    subject{ TypeSystem::Ruby::parse_literal(TypeSystem::Ruby::to_literal(value)) }
-    it{ should == value }
-  end
-  
-  describe "When called on dates" do |value|
-    let(:value){ Date.ajd }
-    subject{ TypeSystem::Ruby::parse_literal(TypeSystem::Ruby::to_literal(value)) }
-    it{ should == value }
-  end
+  ##################################################################################
+  ### ARRAY AND HASH
+  ##################################################################################
   
   describe "When called on an array with safe class instances" do
-    let(:value){ safe_representors.values.flatten }
+    let(:value){ (safe_representors.values + special_values).flatten }
     subject{ TypeSystem::Ruby::parse_literal(TypeSystem::Ruby::to_literal(value)) }
     it{ should == value }
   end
-  
+
   describe "When called on a hash with safe class instances" do
     let(:value){ safe_representors }
     subject{ TypeSystem::Ruby::parse_literal(TypeSystem::Ruby::to_literal(value)) }
     it{ should == value }
+  end
+
+
+  ##################################################################################
+  ### User defined objects
+  ##################################################################################
+  
+  class TypeSystem::Ruby::Foo
+    attr_accessor :id
+    def initialize(id = 1); @id = id; end
+    def ==(other); other.kind_of?(TypeSystem::Ruby::Foo) and other.id == id; end
+    def inspect
+      "TypeSystem::Ruby::Foo.new(#{id.inspect})"
+    end
+  end
+  
+  non_failing_fallbacks = [:inspect, :marshal]
+  non_failing_fallbacks.each do |fallback|
+    describe "When called on a user-defined object with a #{fallback.inspect} fallback option" do
+      let(:value){ TypeSystem::Ruby::Foo.new(10) }
+      subject{ TypeSystem::Ruby::parse_literal(TypeSystem::Ruby::to_literal(value, :fallback => fallback)) }
+      it{ should == value }
+    end
+  end
+  
+  describe 'When called on a user-defined object with a :fail fallback option' do
+    let(:value){ TypeSystem::Ruby::Foo.new(10) }
+    subject{ Kernel::lambda{ TypeSystem::Ruby::to_literal(value, :fallback => :fail) } }
+    it{ should raise_error(TypeSystem::NoSuchLiteralError) }
   end
   
 end

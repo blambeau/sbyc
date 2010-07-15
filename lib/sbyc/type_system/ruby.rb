@@ -33,14 +33,16 @@ module TypeSystem
       #
       # Converts _value_ to a ruby literal and returns it.
       #
-      # If _optimistic_ is set to true, implemented algorithm falls back to 
-      # <code>value.inspect</code> if it does not recognize the value, i.e. 
-      # hoping that the required contract invariant will be respected. 
-      # It raises a NoSuchLiteralError otherwise 
+      # Behavior of the algorithm when th value cannot be recognized depends
+      # on the :fallback option:
+      #   * when set to :fail, it raises a NoSuchLiteralError
+      #   * when set to :inspect, it returns <code>value.inspect</code>
+      #   * when set to :marshal it uses <code>Marshal::dump(value)</code>
+      #   * when set to :json it uses <code>JSON::generate(value)</code>
       #
       # @see TypeSystem::Contract#to_literal(value)
       #
-      def to_literal(value, optimistic = false)
+      def to_literal(value, options = {:fallback => :fail})
         if value.respond_to?(:to_ruby_literal)
           value.to_ruby_literal
         elsif value == (1.0/0)
@@ -50,17 +52,27 @@ module TypeSystem
         elsif SAFE_LITERAL_CLASSES.key?(type_of(value))
           value.inspect
         elsif value.kind_of?(Array)
-          "[" + value.collect{|v| to_literal(v, optimistic)}.join(', ') + "]"
+          "[" + value.collect{|v| to_literal(v, options)}.join(', ') + "]"
         elsif value.kind_of?(Hash)
-          "{" + value.collect{|pair| "#{to_literal(pair[0], optimistic)} => #{to_literal(pair[1], optimistic)}"}.join(', ') + "}"
+          "{" + value.collect{|pair| "#{to_literal(pair[0], options)} => #{to_literal(pair[1], options)}"}.join(', ') + "}"
         elsif value.kind_of?(Date)
-          "Date::parse(#{value.inspect})"
+          "Date::parse(#{value.to_s.inspect})"
         elsif value.kind_of?(Time)
-          "Time::parse(#{value.inspect})"
-        elsif optimistic
-          value.inspect
+          "Time::parse(#{value.inspect.inspect})"
         else
-          raise NoSuchLiteralError, "Unable to convert #{value.inspect} to a ruby literal"
+          case options[:fallback]
+            when :inspect
+              value.inspect
+            when :marshal
+              "Marshal::load(#{Marshal::dump(value).inspect})"
+            when :json
+              require 'json'
+              JSON::generate(value)
+            when :fail, nil
+              raise NoSuchLiteralError, "Unable to convert #{value.inspect} to a ruby literal"
+            else
+              raise ArgumentError, "Invalid fallback option #{options[:fallback]}"
+          end
         end
       end
     
@@ -72,7 +84,7 @@ module TypeSystem
       def parse_literal(str)
         Kernel.eval(str)
       rescue Exception => ex
-        raise TypeSystem::InvalidValueLiteralError, "Invalid ruby value literal #{str.inspect}", ex
+        raise TypeSystem::InvalidValueLiteralError, "Invalid ruby value literal #{str.inspect}", ex.backtrace
       end
 
     end # module Methods
