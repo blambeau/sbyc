@@ -7,8 +7,16 @@ module SByC
   module CodeTree
     
   end # module CodeTree
+
+  # Provides tools around type system abstractions
+  module TypeSystem
+    
+  end # module CodeTree
   
 end # module SByC
 
 CodeTree = ::SByC::CodeTree
 require 'sbyc/codetree'
+
+TypeSystem = ::SByC::TypeSystem
+require 'sbyc/type_system'
