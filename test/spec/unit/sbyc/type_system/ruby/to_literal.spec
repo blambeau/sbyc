@@ -10,7 +10,10 @@ describe "TypeSystem::Ruby#to_literal" do
     Fixnum     => [ -(2**(0.size * 8 - 2)), -1, 0, 1, 10, (2**(0.size * 8 - 2) - 1)],
     Bignum     => [ -(2**(0.size * 8 - 2)) - 1, (2**(0.size * 8 - 2)) ],
     Float      => [ -0.10, 0.0, 0.10 ],
-    String     => ['', 'hello']
+    String     => ['', 'hello'],
+    Symbol     => [ :hello, :"s-b-y-c", :"12" ],
+    Class      => [ Integer, ::Struct::Tms ],
+    Module     => [ Kernel, TypeSystem, TypeSystem::Ruby ]
   }
   
   TypeSystem::Ruby::Methods::SAFE_LITERAL_CLASSES.keys.each do |clazz|
@@ -49,6 +52,18 @@ describe "TypeSystem::Ruby#to_literal" do
       subject{ TypeSystem::Ruby::parse_literal(TypeSystem::Ruby::to_literal(value)) }
       it{ should == value }
     end
+  end
+  
+  describe "When called on an array with safe class instances" do
+    let(:value){ safe_representors.values.flatten }
+    subject{ TypeSystem::Ruby::parse_literal(TypeSystem::Ruby::to_literal(value)) }
+    it{ should == value }
+  end
+  
+  describe "When called on a hash with safe class instances" do
+    let(:value){ safe_representors }
+    subject{ TypeSystem::Ruby::parse_literal(TypeSystem::Ruby::to_literal(value)) }
+    it{ should == value }
   end
   
 end

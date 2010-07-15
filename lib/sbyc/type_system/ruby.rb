@@ -13,7 +13,10 @@ module TypeSystem
       [NilClass, TrueClass, FalseClass,
        Fixnum, Bignum,
        Float, 
-       String].each{|c| SAFE_LITERAL_CLASSES[c] = true}
+       String,
+       Symbol,
+       Class, 
+       Module].each{|c| SAFE_LITERAL_CLASSES[c] = true}
     
       #
       # Returns value.class
@@ -43,10 +46,14 @@ module TypeSystem
           return '(-1.0/0)'
         elsif SAFE_LITERAL_CLASSES.key?(type_of(value))
           value.inspect
+        elsif value.kind_of?(Array)
+          "[" + value.collect{|v| to_literal(v, optimistic)}.join(', ') + "]"
+        elsif value.kind_of?(Hash)
+          "{" + value.collect{|pair| "#{to_literal(pair[0], optimistic)} => #{to_literal(pair[1], optimistic)}"}.join(', ') + "}"
         elsif optimistic
           value.inspect
         else
-          raise NoSuchLiteralError, "Unable to convert #{value} to a ruby literal"
+          raise NoSuchLiteralError, "Unable to convert #{value.inspect} to a ruby literal"
         end
       end
     
