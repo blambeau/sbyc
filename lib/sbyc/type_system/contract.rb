@@ -11,6 +11,17 @@ module TypeSystem
     end
     
     #
+    # Converts _value_ to a literal and returns it.
+    #
+    # This method should always be such that:
+    #   v == parse_literal(to_literal(v))
+    #
+    # @raise NoSuchLiteralError if value cannot be expressed as a literal
+    #
+    def to_literal(value)
+    end
+    
+    #
     # Parse _str_ value literal and returns real value.
     #
     # @raise InvalidValueLiteralError if str does not look like a valid 
