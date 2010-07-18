@@ -44,7 +44,7 @@ TypeSystem::Ruby::coerce('-125', Integer)
 # => -125
 </pre>
 
-"Learn more about TypeSystem":http://blambeau.github.com/sbyc/type_system_.html
+"Learn more about TypeSystem":http://blambeau.github.com/sbyc/type_system.html
 
 
 h2. INSTALL
