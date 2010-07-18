@@ -1,0 +1,35 @@
+h2. Synopsis
+
+This part of SByC implements a TypeSystem abstraction. A type is simply collection of values. A type system is to generate and parse literals and to coerce from String values.
+
+<notextile>
+^{xhtml/coderay/ruby}{<<{type_system/type_system_example.rb}}
+</notextile>
+
+h2. Semantics
+
+* A type is defined as a *collection of values*
+* A *sub type is a subset*
+* Values are *immutable*
+* A literal is any valid *type system expression* 
+* Coercing means *converting a value to another type* 
+
+h2. The Ruby type system
+
+The TypeSystem::Ruby module implements the abstraction for common ruby types. The following types are recognized:
+
+* NilClass
+* TrueClass and FalseClass
+* Fixnum and Bignum
+* Float
+* String
+* Symbol
+* Class
+* Module
+* Regexp
+
+User defined types (say <code>Foo</code> and <code>v.kind_of?(Foo)</code>) are supported provided that they provide two methods
+
+* A class :parse method such that <code>Foo::parse(v.inspect) == v</code>
+* A :to_ruby_literal instance method such that <code>Kernel.eval(v.to_ruby_literal) == v</code>
+

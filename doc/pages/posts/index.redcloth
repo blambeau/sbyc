@@ -16,6 +16,16 @@ This part of SByC provides a safe, reusable, extensible, mashallable, and non-in
 
 @{codetree.html}{Read more about CodeTree}
 
+h2. type system
+
+This part of SByC implements a TypeSystem abstraction. A type is simply collection of values. A type system is to generate and parse literals and to coerce from String values.
+
+<notextile>
+^{xhtml/coderay/ruby}{<<{type_system/type_system_example.rb}}
+</notextile>
+
+@{type_system.html}{Read more about TypeSystem}
+
 h2. credits
 
 SByC (c) 2010 by Bernard Lambeau. SByC is distributed under the MIT licence. Please see the LICENCE.md document for details.

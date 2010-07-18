@@ -2,11 +2,14 @@ menus:
   main:
     - index: Home
     - codetree: Code Tree
+    - type_system: Type System
   codetree:
     - codetree: Home
     - codetree/production: Production
     - codetree/evaluation: Evaluation
     - codetree/codegen: Code generation
+  type_system:
+    - type_system: Home
 posts:
   - identifier: index 
     title: SByC - Investigating Specialization by Constraint
@@ -23,4 +26,7 @@ posts:
   - identifier: codetree/codegen
     title: CodeTree - Code generation
     menu: codetree
+  - identifier: type_system
+    title: TypeSystem - A notion of type system
+    menu: type_system
     

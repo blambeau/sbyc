@@ -26,6 +26,27 @@ Marshal.dump(code)
 
 "Learn more about CodeTree":http://blambeau.github.com/sbyc/codetree.html
 
+h2. TypeSystem
+
+This part of SByC implements a TypeSystem abstraction. A type is simply collection of values. A type system is to generate and parse literals and to coerce from String values.
+
+<pre>
+TypeSystem::Ruby::type_of(-125)
+# => Fixnum
+
+lit = TypeSystem::Ruby::to_literal(-125)
+# => "-125"
+
+TypeSystem::Ruby::parse_literal("-125")
+# => -125
+
+TypeSystem::Ruby::coerce('-125', Integer)
+# => -125
+</pre>
+
+"Learn more about TypeSystem":http://blambeau.github.com/sbyc/type_system_.html
+
+
 h2. INSTALL
 
 bc. gem install sbyc
