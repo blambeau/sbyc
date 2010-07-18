@@ -79,12 +79,49 @@ module TypeSystem
       #
       # Returns result of Kernel.eval(str)
       #
-      # @see TypeSystem::Contract#coerce(str)
+      # @see TypeSystem::Contract#parse_literal(str)
       #
       def parse_literal(str)
         Kernel.eval(str)
       rescue Exception => ex
         raise TypeSystem::InvalidValueLiteralError, "Invalid ruby value literal #{str.inspect}", ex.backtrace
+      end
+
+      #
+      # Coerces a string to a given class.
+      #
+      # @see TypeSystem::Contract#coerce(str)
+      #
+      def coerce(str, clazz)
+        if clazz == NilClass
+          return nil if str.empty? or str == "nil"
+        elsif clazz == TrueClass
+          return true if str == "true"
+        elsif clazz == FalseClass
+          return false if str == "false"
+        elsif [Fixnum, Bignum, Integer].include?(clazz)
+          if str =~ /^[-+]?[0-9]+$/
+            i = str.to_i
+            return i if i.kind_of?(clazz)
+          end
+        elsif clazz == Float 
+          if str =~ /^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/
+            return str.to_f
+          end
+        elsif clazz == String
+          return str
+        elsif clazz == Symbol
+          return str.to_sym
+        elsif clazz == Class or clazz == Module
+          parts, current = str.split("::"), Kernel
+          parts.each{|part| current = current.const_get(part.to_sym)}
+          return current if current.kind_of?(clazz)
+        elsif clazz == Regexp
+          return Regexp::compile(str)
+        end
+        raise TypeSystem::CoercionError, "Unable to coerce #{str} to a #{clazz}"
+      rescue StandardError => ex
+        raise TypeSystem::CoercionError, "Unable to coerce #{str} to a #{clazz}: #{ex.message}"
       end
 
     end # module Methods

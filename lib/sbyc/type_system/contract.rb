@@ -30,5 +30,13 @@ module TypeSystem
     def parse_literal(str)
     end
     
+    #
+    # Coerces a string to a given class.
+    #
+    # @raise CoercionError if something goes wrong
+    #
+    def coerce(str, clazz)
+    end
+    
   end # module Contract
 end # module TypeSystem
