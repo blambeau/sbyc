@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" >
+<html>
+	<head> 
+		<title>SByC - Investigating Specialization by Constraint</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<base href="http://blambeau.github.com/sbyc/"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<link rel="stylesheet" type="text/css" href="css/menu.css" />
+		<link rel="stylesheet" type="text/css" href="css/coderay.css" />
+	</head>
+	<body>
+	  <div id="header">
+	    <div class="left">
+	      This feature is part of <a href="index.html">SByC</a>
+	    </div>
+	    <div class="right">
+  	    <span>SByC on</span>
+  	    <a href="http://rdoc.info/projects/blambeau/sbyc">rdoc.info</a>
+  	    <a href="http://github.com/blambeau/sbyc">GitHub</a>
+  	  </div>
+	  </div>
+	  <div id="main">
+      <h1>TypeSystem - A notion of type system</h1>
+      <div id="menu_wrapper" class="black">
+        <ul id="menu">
+          <li class="active"><a href="type_system.html">Home</a></li>
+
+        </ul>
+      </div>
+      <div class="text">
+<h2>Synopsis</h2>
+<p>This part of SByC implements a TypeSystem abstraction. A type is simply collection of values. A type system is to generate and parse literals and to coerce from String values.</p>
+<div class="CodeRay">
+  <div class="code"><pre><span class="co">TypeSystem</span>::<span class="co">Ruby</span>::type_of(<span class="i">-125</span>)
+<span class="c"># =&gt; Fixnum</span>
+
+lit = <span class="co">TypeSystem</span>::<span class="co">Ruby</span>::to_literal(<span class="i">-125</span>)
+<span class="c"># =&gt; &quot;-125&quot;</span>
+
+<span class="co">TypeSystem</span>::<span class="co">Ruby</span>::parse_literal(<span class="s"><span class="dl">&quot;</span><span class="k">-125</span><span class="dl">&quot;</span></span>)
+<span class="c"># =&gt; -125</span>
+
+<span class="co">TypeSystem</span>::<span class="co">Ruby</span>::coerce(<span class="s"><span class="dl">'</span><span class="k">-125</span><span class="dl">'</span></span>, <span class="co">Integer</span>)
+<span class="c"># =&gt; -125</span></pre></div>
+</div>
+
+<h2>Semantics</h2>
+<ul>
+	<li>A type is defined as a <strong>collection of values</strong></li>
+	<li>A <strong>sub type is a subset</strong></li>
+	<li>Values are <strong>immutable</strong></li>
+	<li>A literal is any valid <strong>type system expression</strong></li>
+	<li>Coercing means <strong>converting a value to another type</strong></li>
+</ul>
+<h2>The Ruby type system</h2>
+<p>The TypeSystem::Ruby module implements the abstraction for common ruby types. The following types are recognized:</p>
+<ul>
+	<li>NilClass</li>
+	<li>TrueClass and FalseClass</li>
+	<li>Fixnum and Bignum</li>
+	<li>Float</li>
+	<li>String</li>
+	<li>Symbol</li>
+	<li>Class</li>
+	<li>Module</li>
+	<li>Regexp</li>
+</ul>
+<p>User defined types (say <code>Foo</code> and <code>v.kind_of?(Foo)</code>) are supported provided that they provide two methods</p>
+<ul>
+	<li>A class :parse method such that <code>Foo::parse(v.inspect) == v</code></li>
+	<li>A :to_ruby_literal instance method such that <code>Kernel.eval(v.to_ruby_literal) == v</code></li>
+</ul>
+      </div>
+  	</div>
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-16520635-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+	</body>
+</html>
