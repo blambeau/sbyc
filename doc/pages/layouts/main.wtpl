@@ -15,8 +15,9 @@
 	    </div>
 	    <div class="right">
   	    <span>SByC on</span>
-  	    <a href="http://rdoc.info/projects/blambeau/sbyc">rdoc.info</a>
-  	    <a href="http://github.com/blambeau/sbyc">GitHub</a>
+  	    <a target="_blank" href="http://rubygems.org/gems/sbyc">rubygems.org</a>
+  	    <a target="_blank" href="http://rdoc.info/projects/blambeau/sbyc">rdoc.info</a>
+  	    <a target="_blank" href="http://github.com/blambeau/sbyc">GitHub</a>
   	  </div>
 	  </div>
 	  <div id="main">
