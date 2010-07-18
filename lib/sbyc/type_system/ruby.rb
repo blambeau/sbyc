@@ -118,8 +118,12 @@ module TypeSystem
           return current if current.kind_of?(clazz)
         elsif clazz == Regexp
           return Regexp::compile(str)
+        elsif clazz.respond_to?(:parse)
+          return clazz.parse(str)
         end
         raise TypeSystem::CoercionError, "Unable to coerce #{str} to a #{clazz}"
+      rescue TypeSystem::CoercionError
+        raise
       rescue StandardError => ex
         raise TypeSystem::CoercionError, "Unable to coerce #{str} to a #{clazz}: #{ex.message}"
       end

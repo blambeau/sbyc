@@ -32,6 +32,41 @@ describe "TypeSystem::Ruby#coerce" do
     end
   end 
 
+
+  ##################################################################################
+  ### User defined objects
+  ##################################################################################
+  class TypeSystem::Ruby::Bar
+    attr_accessor :id
+    def initialize(id = 1); @id = id; end
+    def ==(other); other.kind_of?(TypeSystem::Ruby::Bar) and other.id == id; end
+    def self.parse(str)
+      TypeSystem::Ruby::Bar.new(TypeSystem::Ruby::coerce(str, Integer))
+    end
+    def inspect
+      id.inspect
+    end
+  end
+  
+  describe "when called with a user-defined class that respond to parse" do
+    
+    subject{ TypeSystem::Ruby::coerce(str, TypeSystem::Ruby::Bar) }
+
+    describe "when given a valid value" do
+      let(:value){ TypeSystem::Ruby::Bar.new(10) }
+      let(:str){ value.inspect }
+      it{ should == value }
+    end
+    
+    describe "when given an invalid values" do
+      let(:str){ "hello" }
+      specify{
+        lambda{ subject }.should raise_error(TypeSystem::CoercionError)
+      }
+    end
+    
+  end
+  
   
   ##################################################################################
   ### Invalid values
