@@ -81,7 +81,7 @@ describe "TypeSystem::Ruby#coerce" do
     Float      => [ "hello", "1hello", "hello1", "1.0qsjh" ],
     Class      => [ "hello" ],
     Module     => [ "hello" ],
-    Regexp     => [ "{}" ]
+    Regexp     => [ "[a-" ]
   }
   
   invalid_values.each_pair do |clazz, values|

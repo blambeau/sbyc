@@ -89,7 +89,8 @@ module CodeTree
       collector = options[:multiline] ? Collector.new : nil
       e = case block.arity
         when -1, 0
-          Expr.new(nil, nil, collector).instance_eval(&block)
+          expr = Expr.new(nil, nil, collector)
+          expr.instance_eval(&block)
         when 1
           block.call(Expr.new(nil, nil, collector))
         else
