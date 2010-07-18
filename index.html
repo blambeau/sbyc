@@ -25,6 +25,7 @@
         <ul id="menu">
           <li class="active"><a href="index.html">Home</a></li>
           <li ><a href="codetree.html">Code Tree</a></li>
+          <li ><a href="type_system.html">Type System</a></li>
 
         </ul>
       </div>
@@ -55,6 +56,23 @@ code.object_compile(<span class="s"><span class="dl">'</span><span class="k">sco
 </div>
 
 <p><a href="codetree.html">Read more about CodeTree</a></p>
+<h2>type system</h2>
+<p>This part of SByC implements a TypeSystem abstraction. A type is simply collection of values. A type system is to generate and parse literals and to coerce from String values.</p>
+<div class="CodeRay">
+  <div class="code"><pre><span class="co">TypeSystem</span>::<span class="co">Ruby</span>::type_of(<span class="i">-125</span>)
+<span class="c"># =&gt; Fixnum</span>
+
+lit = <span class="co">TypeSystem</span>::<span class="co">Ruby</span>::to_literal(<span class="i">-125</span>)
+<span class="c"># =&gt; &quot;-125&quot;</span>
+
+<span class="co">TypeSystem</span>::<span class="co">Ruby</span>::parse_literal(<span class="s"><span class="dl">&quot;</span><span class="k">-125</span><span class="dl">&quot;</span></span>)
+<span class="c"># =&gt; -125</span>
+
+<span class="co">TypeSystem</span>::<span class="co">Ruby</span>::coerce(<span class="s"><span class="dl">'</span><span class="k">-125</span><span class="dl">'</span></span>, <span class="co">Integer</span>)
+<span class="c"># =&gt; -125</span></pre></div>
+</div>
+
+<p><a href="type_system.html">Read more about TypeSystem</a></p>
 <h2>credits</h2>
 <p>SByC &#169; 2010 by Bernard Lambeau. SByC is distributed under the <span class="caps">MIT</span> licence. Please see the <span class="caps">LICENCE</span>.md document for details.</p>
       </div>

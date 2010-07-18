@@ -57,13 +57,13 @@ code.object_compile(<span class="s"><span class="dl">'</span><span class="k">sco
 <span class="co">CodeTree</span>::parse{|t| (t[<span class="sy">:x</span>] &gt; <span class="i">5</span>) &amp; (t[<span class="sy">:y</span>] &lt;= <span class="i">10</span>) }  <span class="c"># =&gt; (&amp; (&gt; x, 5), (&lt;= y, 10))</span>
 
 <span class="c"># Object-style</span>
-<span class="co">CodeTree</span>::parse{|t| (t.x &gt; <span class="i">5</span>) &amp; (t.y &lt;= <span class="i">10</span>)     }  <span class="c"># =&gt; (&amp; (&gt; x, 5), (&lt;= z, 10))</span>
+<span class="co">CodeTree</span>::parse{|t| (t.x &gt; <span class="i">5</span>) &amp; (t.y &lt;= <span class="i">10</span>)     }  <span class="c"># =&gt; (&amp; (&gt; x, 5), (&lt;= y, 10))</span>
 
 <span class="c"># Context-style</span>
-<span class="co">CodeTree</span>::parse{ (x &gt; <span class="i">5</span>) &amp; (y &lt;= <span class="i">10</span>)            }  <span class="c"># =&gt; (&amp; (&gt; x, 5), (&lt;= z, 10))</span>
+<span class="co">CodeTree</span>::parse{ (x &gt; <span class="i">5</span>) &amp; (y &lt;= <span class="i">10</span>)            }  <span class="c"># =&gt; (&amp; (&gt; x, 5), (&lt;= y, 10))</span>
 
 <span class="c"># Functional-style</span>
-<span class="co">CodeTree</span>::parse{ (both (gt x, <span class="i">5</span>), (lte y, <span class="i">10</span>))  }  <span class="c"># =&gt; (both (gt x, 5), (lte z, 10))</span>
+<span class="co">CodeTree</span>::parse{ (both (gt x, <span class="i">5</span>), (lte y, <span class="i">10</span>))  }  <span class="c"># =&gt; (both (gt x, 5), (lte y, 10))</span>
 </pre></div>
 </div>
 
