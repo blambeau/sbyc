@@ -6,6 +6,16 @@ module TypeSystem
   #
   module Ruby
     
+    # Marker module for ruby Boolean values
+    module Boolean 
+      
+      # Returns true if value is a boolean
+      def self.===(value)
+        (value == true) or (value == false)
+      end
+      
+    end
+    
     # Methods
     module Methods
       

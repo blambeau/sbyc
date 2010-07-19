@@ -1,6 +1,14 @@
 h1. CHANGELOG
 
-h2. Version 0.1.2 (current master branch on github)
+h2. Version 0.1.4
+
+* Added TypeSystem::Ruby::Boolean marker module
+
+h2. Version 0.1.3
+
+* Added TypeSystem abstraction
+
+h2. Version 0.1.2
 
 * AstNode
     ** coerce now supports Array literal as children.
