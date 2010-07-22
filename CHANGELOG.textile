@@ -3,6 +3,7 @@ h1. CHANGELOG
 h2. Version 0.1.4
 
 * Added TypeSystem::Ruby::Boolean marker module
+* Ensures that coercion is friendly if value is already of correct type
 
 h2. Version 0.1.3
 

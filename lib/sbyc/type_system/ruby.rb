@@ -30,7 +30,7 @@ module TypeSystem
        Class, 
        Module,
        Regexp].each{|c| SAFE_LITERAL_CLASSES[c] = true}
-    
+       
       #
       # Returns value.class
       #
@@ -103,8 +103,12 @@ module TypeSystem
       # @see TypeSystem::Contract#coerce(str)
       #
       def coerce(str, clazz)
+        return str if str.kind_of?(clazz)
         if clazz == NilClass
           return nil if str.empty? or str == "nil"
+        elsif clazz == Ruby::Boolean
+          return true if str.to_s == "true"
+          return false if str.to_s == "false"
         elsif clazz == TrueClass
           return true if str == "true"
         elsif clazz == FalseClass

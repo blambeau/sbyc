@@ -9,6 +9,7 @@ describe "TypeSystem::Ruby#coerce" do
   
   safe_representors = {
     NilClass   => [ nil ],
+    ::SByC::TypeSystem::Ruby::Boolean => [ true, false ],
     TrueClass  => [ true ],
     FalseClass => [ false ],
     Fixnum     => [ -(2**(0.size * 8 - 2)), -1, 0, 1, 10, (2**(0.size * 8 - 2) - 1)],
@@ -23,12 +24,20 @@ describe "TypeSystem::Ruby#coerce" do
   
   safe_representors.each_pair do |clazz, values|
     values.each do |value|
-      describe "When coercing #{value} to a #{clazz}" do
+      
+      describe "When coercing '#{value} to a #{clazz}" do
+
         it "should return #{value}" do
           str = value.kind_of?(Regexp) ? value.inspect[1..-2] : value.to_s
           TypeSystem::Ruby::coerce(str, clazz).should == value
         end  
+
+        it "should be friendly" do
+          TypeSystem::Ruby::coerce(value, clazz).should == value
+        end  
+
       end
+      
     end
   end 
 
