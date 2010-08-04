@@ -11,4 +11,9 @@ describe "TypeSystem::Ruby::Boolean" do
 
   it { should_not === nil }
   
+  it "should be coercable easily" do
+    SByC::TypeSystem::Ruby::coerce(subject, Module).should == subject
+    SByC::TypeSystem::Ruby::coerce(subject.to_s, Module).should == subject
+  end
+  
 end
