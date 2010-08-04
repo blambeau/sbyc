@@ -52,6 +52,11 @@ module Predicate
       ((other.values & values) == values)
     end
     
+    def to_s
+      "#{name}: in(#{values.join(', ')})"
+    end
+    alias :inspect :to_s
+    
   end # class BelongsTo
 end # module Predicate
     

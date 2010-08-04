@@ -17,5 +17,10 @@ module Predicate
       other.kind_of?(None)
     end
     
+    def to_s
+      "none"
+    end
+    alias :inspect :to_s
+    
   end # class None
 end # module Predicate

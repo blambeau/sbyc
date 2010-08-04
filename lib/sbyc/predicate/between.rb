@@ -39,5 +39,16 @@ module Predicate
       end
     end
     
+    def ==(other)
+      other.kind_of?(Between) && 
+      (other.name == name) &&
+      (other.interval == interval)
+    end
+    
+    def to_s
+      "#{name}: #{interval}"
+    end
+    alias :inspect :to_s
+    
   end # class Negated
 end # module Predicate

@@ -7,7 +7,7 @@ module Predicate
       elsif right.kind_of?(None)
         right
       else
-        BigAnd.new(self, right)
+        And.new(self, right)
       end
     end
   
@@ -17,7 +17,7 @@ module Predicate
       elsif right.kind_of?(None)
         self
       else
-        BigOr.new(self, right)
+        Or.new(self, right)
       end
     end
   

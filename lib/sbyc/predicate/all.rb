@@ -17,5 +17,10 @@ module Predicate
       other.kind_of?(All)
     end
     
+    def to_s
+      "all"
+    end
+    alias :inspect :to_s
+    
   end # class All
 end # module Predicate

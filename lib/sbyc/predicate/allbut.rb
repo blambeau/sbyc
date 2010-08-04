@@ -57,6 +57,12 @@ module Predicate
       ((other.values & values) == values)
     end
     
+    def to_s
+      "#{name}: not(in(#{values.join(', ')}))"
+    end
+    alias :inspect :to_s
+    
+    
   end # class AllBut
 end # module Predicate
     
