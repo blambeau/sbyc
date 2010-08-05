@@ -1,16 +1,16 @@
 module Logic
   class False < Logic::Term
     
-    def negation
+    def bool_not
       Logic::TRUE
     end
     
-    def disjunction(term)
-      term
+    def bool_and(term)
+      self
     end
     
-    def conjunction(term)
-      self
+    def bool_or(term)
+      term
     end
     
     def ==(other)
