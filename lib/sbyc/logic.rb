@@ -5,6 +5,7 @@ require 'sbyc/logic/true'
 require 'sbyc/logic/variable'
 require 'sbyc/logic/finite'
 require 'sbyc/logic/ordered'
+require 'sbyc/logic/parser'
 module Logic
   
   # All logic
@@ -12,5 +13,10 @@ module Logic
   
   # False logic
   FALSE = Logic::False.new
+  
+  # Parses a logical expression and returns a formula
+  def parse(type_system, &block)
+    Logic::Parser.new(type_system).parse(block)
+  end
   
 end

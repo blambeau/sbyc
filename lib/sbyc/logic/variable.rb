@@ -29,5 +29,13 @@ module Logic
       other.kind_of?(Variable) and other.name==name and other.domain==domain
     end
     
+    def to_s
+      "#{name}"
+    end
+    
+    def inspect
+      "Variable(#{name}, #{domain})"
+    end
+    
   end # class Variable
 end # module Logic
