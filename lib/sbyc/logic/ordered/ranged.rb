@@ -17,38 +17,22 @@ module Logic
       end
     
       # Computes boolean conjunction
-      def bool_and(term)
-        if term.kind_of?(Ordered::OrderedTerm) and term.variable == variable
-          case term
-            when Any
-              self
-            when None
-              term
-            when Ranged
-              Ordered::ranged(variable, interval.intersection(term.interval))
-            else
-              super
-          end
-        else
-          super
+      def _bool_and(term)
+        case term
+          when Ranged
+            Ordered::ranged(variable, interval.intersection(term.interval))
+          else
+            raise "Unexpected term #{term.class}"
         end
       end
     
       # Computes boolean disjunction
-      def bool_or(term)
-        if term.kind_of?(Ordered::OrderedTerm) and term.variable == variable
-          case term
-            when Any
-              term
-            when None
-              self
-            when Ranged
-              Ordered::ranged(variable, interval.union(term.interval))
-            else
-              super
-          end
-        else
-          super
+      def _bool_or(term)
+        case term
+          when Ranged
+            Ordered::ranged(variable, interval.union(term.interval))
+          else
+            raise "Unexpected term #{term.class}"
         end
       end
     

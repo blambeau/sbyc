@@ -1,6 +1,7 @@
 module Logic
   module Finite
     class None < Finite::FiniteTerm
+      include Logic::False::Mimics
       
       # Computes boolean negation
       def bool_not

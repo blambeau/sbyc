@@ -1,6 +1,7 @@
 module Logic
   module Ordered
     class None < Ordered::OrderedTerm
+      include Logic::False::Mimics
       
       # Computes boolean negation
       def bool_not

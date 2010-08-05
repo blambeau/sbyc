@@ -17,50 +17,34 @@ module Logic
       end
     
       # Computes a boolean conjunction
-      def bool_and(term)
-        if term.kind_of?(FiniteTerm) && term.variable == variable
-          case term
-            when None
-              term
-            when Any
-              self
-            when AllBut
-              # not(in(x, y)) & not(in(y, z)) -> not(in(x,y) | in(y,z))
-              #                               -> not(in(x,y | y,z))
-              Finite::allbut(variable, (values | term.values))
-            when BelongsTo
-              # not(in(x, y)) & in(y, z) -> in(y-z - x,y)
-              #                          -> in(z)
-              Finite::belongs_to(variable, (term.values - values))
-            else
-              super
-          end
-        else
-          super
+      def _bool_and(term)
+        case term
+          when AllBut
+            # not(in(x, y)) & not(in(y, z)) -> not(in(x,y) | in(y,z))
+            #                               -> not(in(x,y | y,z))
+            Finite::allbut(variable, (values | term.values))
+          when BelongsTo
+            # not(in(x, y)) & in(y, z) -> in(y-z - x,y)
+            #                          -> in(z)
+            Finite::belongs_to(variable, (term.values - values))
+          else
+            raise "Unexpected term #{term.class}"
         end
       end
     
       # Computes a boolean disjunction
-      def bool_or(term)
-        if term.kind_of?(FiniteTerm) && term.variable == variable
-          case term
-            when None
-              self
-            when Any
-              term
-            when AllBut
-              # not(in(x, y)) | not(in(y, z)) -> not(in(x, y) & in(y, z))
-              #                               -> not(in(y))
-              Finite::allbut(variable, values & term.values)
-            when BelongsTo
-              # not(in(x,y)) | in(y,z) -> not(in(x,y) & not(in(y,z)))
-              #                        -> not(in(x,y - y,z))
-              Finite::allbut(variable, values - term.values)
-            else
-              super
-          end
-        else
-          super
+      def _bool_or(term)
+        case term
+          when AllBut
+            # not(in(x, y)) | not(in(y, z)) -> not(in(x, y) & in(y, z))
+            #                               -> not(in(y))
+            Finite::allbut(variable, values & term.values)
+          when BelongsTo
+            # not(in(x,y)) | in(y,z) -> not(in(x,y) & not(in(y,z)))
+            #                        -> not(in(x,y - y,z))
+            Finite::allbut(variable, values - term.values)
+          else
+            raise "Unexpected term #{term.class}"
         end
       end
     

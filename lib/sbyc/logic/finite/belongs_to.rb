@@ -12,44 +12,28 @@ module Logic
       end
     
       # Computes boolean conjunction
-      def bool_and(term)
-        if term.kind_of?(FiniteTerm) && term.variable == variable
-          case term
-            when None
-              term
-            when Any
-              self
-            when AllBut
-              term.bool_and(self)
-            when BelongsTo
-              # in(x,y) & in(y,z) -> in(x,y & y,z)
-              Finite::belongs_to(variable, (values & term.values))
-            else
-              super
-          end
-        else
-          super
+      def _bool_and(term)
+        case term
+          when AllBut
+            term.bool_and(self)
+          when BelongsTo
+            # in(x,y) & in(y,z) -> in(x,y & y,z)
+            Finite::belongs_to(variable, (values & term.values))
+          else
+            raise "Unexpected term #{term.class}"
         end
       end
     
       # Computes boolean disjunction
-      def bool_or(term)
-        if term.kind_of?(FiniteTerm) && term.variable == variable
-          case term
-            when None
-              self
-            when Any
-              term
-            when AllBut
-              term.bool_or(self)
-            when BelongsTo
-              # in(x,y) | in(y,z) -> in(x,y | y,z)
-              Finite::belongs_to(variable, (values | term.values))
-            else
-              super
-          end
-        else
-          super
+      def _bool_or(term)
+        case term
+          when AllBut
+            term.bool_or(self)
+          when BelongsTo
+            # in(x,y) | in(y,z) -> in(x,y | y,z)
+            Finite::belongs_to(variable, (values | term.values))
+          else
+            raise "Unexpected term #{term.class}"
         end
       end
     
