@@ -1,6 +1,18 @@
 module Logic
   class Formula
 
+    # Returns true if a given term can be reduced
+    # on bool_and, false otherwise
+    def reduces_bool_and?(term)
+      false
+    end
+    
+    # Returns true if a given term can be reduced
+    # on bool_or, false otherwise
+    def reduces_bool_or?(term)
+      false
+    end
+      
     def bool_true?
       self.kind_of?(Logic::True::Mimics)
     end
@@ -27,7 +39,7 @@ module Logic
       elsif right.reduces_bool_and?(self)
         right._bool_and(self)
       else 
-        And.new(self, right)
+        And.new([self, right])
       end
     end
   
@@ -49,7 +61,7 @@ module Logic
       elsif right.reduces_bool_or?(self)
         right._bool_or(self)
       else 
-        Or.new(self, right)
+        Or.new([self, right])
       end
     end
   

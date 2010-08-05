@@ -17,8 +17,22 @@ describe "Logic::parse" do
 
   describe "When called on an empty solution single var expression" do
     let(:expr){ lambda{ (x < 0) & (x > 20) } }
-    it{ should be_kind_of(Logic::Ordered::None) }
+    it{ should be_bool_false }
+  end
+
+  describe "When called on a non empty solution with multiple var expression" do
+    let(:expr){ lambda{ (x < 0) & (y > 20) } }
+    it{ should be_kind_of(Logic::And) }
   end
   
+  describe "When called on a non empty solution with multiple var expression" do
+    let(:expr){ lambda{ (x >= 0) & (x <= 20) & (y > 20) } }
+    it{ should be_kind_of(Logic::And) }
+  end
+  
+  describe "When called on an empty solution with multiple var expression" do
+    let(:expr){ lambda{ (x < 0) & (y > 20) & (x > 20) } }
+    it{ should be_bool_false }
+  end
   
 end
