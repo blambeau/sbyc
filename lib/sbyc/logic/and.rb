@@ -16,11 +16,12 @@ module Logic
       
     # Computes boolean conjunction
     def _bool_and(term)
-      if term.kind_of?(And)
-        raise NotImplementedError
+      new_terms = if term.kind_of?(And)
+        term.terms.inject(terms.dup){|memo, t| reduce_terms_with(memo, t)}
       else
-        normalize(reduce_terms_with(terms.dup, term))
+        reduce_terms_with(terms.dup, term)
       end
+      normalize(new_terms)
     end
     
     # Computes boolean reduction
@@ -36,6 +37,7 @@ module Logic
       terms
     end
     
+    # Normalizes terms
     def normalize(terms)
       if terms.any?{|t| t.bool_false?}
         Logic::FALSE
@@ -51,6 +53,18 @@ module Logic
         end
       end
     end
+    
+    # Implements equality
+    def ==(other)
+      other.kind_of?(And) &&
+      (other.terms.size == self.terms.size) &&
+      (other.terms.all?{|t| self.terms.include?(t)})
+    end
+    
+    def to_s
+      terms.join(' & ')
+    end
+    alias :inspect :to_s
     
   end # class And
 end # module Logic

@@ -47,4 +47,16 @@ describe "Logic::And::bool_and" do
     it{ should be_bool_false }
   end
   
+  describe "with itself" do
+    let(:right){ left }
+    specify{
+      subject.should be_kind_of(Logic::And)
+      subject.terms.size.should == 2
+      subject.terms[0].should == x_20
+      subject.terms[1].should == y_20
+      subject.should == left
+      subject.should == right
+    }
+  end
+  
 end
