@@ -42,6 +42,15 @@ module Logic
         Finite::allbut(variable, values)
       end
     
+      # Evaluates this formula on a context object
+      # (typically a variable assignment)
+      def evaluate(context)
+        if context[variable.name].nil?
+          raise SByC::NilError, "Missing variable #{variable.name}"
+        end
+        values.include?(context[variable.name])
+      end
+    
       # Checks equality with another term
       def ==(other)
         other.kind_of?(BelongsTo) && 

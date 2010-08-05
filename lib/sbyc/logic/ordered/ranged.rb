@@ -36,6 +36,15 @@ module Logic
         end
       end
     
+      # Evaluates this formula on a context object
+      # (typically a variable assignment)
+      def evaluate(context)
+        if context[variable.name].nil?
+          raise SByC::NilError, "Missing variable #{variable.name}"
+        end
+        interval.contains?(context[variable.name])
+      end
+      
       # Computes equality with another term
       def ==(other)
         other.kind_of?(Ranged) && 

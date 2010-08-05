@@ -1,3 +1,4 @@
+require 'sbyc/errors'
 module SByC
 
   # Version

@@ -59,6 +59,12 @@ module Logic
       end
     end
     
+    # Evaluates this formula on a context object
+    # (typically a variable assignment)
+    def evaluate(context)
+      terms.all?{|t| t.evaluate(context)}
+    end
+      
     # Implements equality
     def ==(other)
       other.kind_of?(And) &&
