@@ -5,7 +5,7 @@ describe "Logic::BelongsTo::new" do
   
   describe "when values are empty" do
     let(:values){ [] }
-    it{ should == Logic::NONE }
+    it{ should == Logic::FALSE }
   end
   
   describe "when values are not empty" do

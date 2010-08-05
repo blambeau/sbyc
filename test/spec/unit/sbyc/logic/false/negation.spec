@@ -4,8 +4,8 @@ describe "Logic::None::negation" do
   subject{ left.negation }
   
   describe "None.negation" do
-    let(:left) { SByC::Logic::NONE }
-    it{ should == SByC::Logic::ALL }
+    let(:left) { SByC::Logic::FALSE }
+    it{ should == SByC::Logic::TRUE }
   end
   
 end

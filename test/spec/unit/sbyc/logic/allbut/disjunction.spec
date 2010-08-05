@@ -5,12 +5,12 @@ describe "Logic::AllBut::disjunction" do
   subject{ left.disjunction(right) }
   
   describe "AllBut | All" do
-    let(:right){ SByC::Logic::ALL }
-    it{ should == SByC::Logic::ALL }
+    let(:right){ SByC::Logic::TRUE }
+    it{ should == SByC::Logic::TRUE }
   end
 
   describe "AllBut | None" do
-    let(:right){ SByC::Logic::NONE }
+    let(:right){ SByC::Logic::FALSE }
     it{ should == left }
   end
 

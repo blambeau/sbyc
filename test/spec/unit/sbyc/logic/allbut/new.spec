@@ -5,7 +5,7 @@ describe "Logic::AllBut::new" do
   
   describe "when values are empty" do
     let(:values){ [] }
-    it{ should == Logic::ALL }
+    it{ should == Logic::TRUE }
   end
   
   describe "when values are not empty" do

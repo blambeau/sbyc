@@ -2,9 +2,9 @@ module Logic
   class Term
   
     def conjunction(right)
-      if right.kind_of?(All)
+      if right.kind_of?(True)
         self
-      elsif right.kind_of?(None)
+      elsif right.kind_of?(False)
         right
       else
         And.new(self, right)
@@ -12,9 +12,9 @@ module Logic
     end
   
     def disjunction(right)
-      if right.kind_of?(All)
+      if right.kind_of?(True)
         right
-      elsif right.kind_of?(None)
+      elsif right.kind_of?(False)
         self
       else
         Or.new(self, right)

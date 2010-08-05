@@ -4,9 +4,9 @@ module Logic
     def self.new(term)
       case term
         when All
-          Logic::NONE
+          Logic::FALSE
         when None
-          Logic::ALL
+          Logic::TRUE
         when BigOr
           BigAnd.new term.collect{|t| t.negation}
         when BigAnd

@@ -1,7 +1,7 @@
 require 'sbyc/logic/term'
 require 'sbyc/logic/named_term'
-require 'sbyc/logic/none'
-require 'sbyc/logic/all'
+require 'sbyc/logic/false'
+require 'sbyc/logic/true'
 require 'sbyc/logic/belongs_to'
 require 'sbyc/logic/allbut'
 require 'sbyc/logic/interval'
@@ -10,10 +10,10 @@ require 'sbyc/logic/and'
 module Logic
   
   # All logic
-  ALL = Logic::All.new
+  TRUE = Logic::True.new
   
-  # None logic
-  NONE = Logic::None.new
+  # False logic
+  FALSE = Logic::False.new
   
   def self.and(*terms)
     And.new(*terms)

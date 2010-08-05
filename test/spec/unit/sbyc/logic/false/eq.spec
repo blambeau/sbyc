@@ -1,16 +1,16 @@
 require File.expand_path('../../../../../spec_helper', __FILE__)
 describe "Logic::None#==" do
   
-  let(:left) { SByC::Logic::NONE }
+  let(:left) { SByC::Logic::FALSE }
   subject{ left == right }
   
   describe "None == None" do
-    let(:right){ SByC::Logic::NONE }
+    let(:right){ SByC::Logic::FALSE }
     it{ should == true }
   end
   
   describe "None == All" do
-    let(:right){ SByC::Logic::ALL }
+    let(:right){ SByC::Logic::TRUE }
     it{ should == false }
   end
   

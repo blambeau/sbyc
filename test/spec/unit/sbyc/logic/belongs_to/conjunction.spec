@@ -5,13 +5,13 @@ describe "Logic::BelongsTo::conjunction" do
   subject{ left.conjunction(right) }
   
   describe "BelongsTo & All" do
-    let(:right){ SByC::Logic::ALL }
+    let(:right){ SByC::Logic::TRUE }
     it{ should == left }
   end
 
   describe "BelongsTo & None" do
-    let(:right){ SByC::Logic::NONE }
-    it{ should == SByC::Logic::NONE }
+    let(:right){ SByC::Logic::FALSE }
+    it{ should == SByC::Logic::FALSE }
   end
   
   describe "BelongsTo & BelongsTo" do

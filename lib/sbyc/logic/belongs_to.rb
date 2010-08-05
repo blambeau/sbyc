@@ -4,7 +4,7 @@ module Logic
     
     def self.new(name, values)
       if values.empty?
-        Logic::NONE
+        Logic::FALSE
       else
         super(name, values.uniq)
       end

@@ -10,13 +10,13 @@ module Logic
     end
     
     def self.new(*terms)
-      terms = terms.flatten.uniq.delete_if{|v| v == Logic::ALL}
+      terms = terms.flatten.uniq.delete_if{|v| v == Logic::TRUE}
       if terms.empty?
-        Logic::ALL
+        Logic::TRUE
       elsif terms.size == 1
         terms.first
-      elsif terms.include?(Logic::NONE)
-        Logic::NONE
+      elsif terms.include?(Logic::FALSE)
+        Logic::FALSE
       elsif terms.any?{|v| v.kind_of?(And)}
         ands, others = terms.partition{|term| term.kind_of?(And)}
         self.new(ands.collect{|a| a.terms}.flatten + others)
@@ -24,7 +24,7 @@ module Logic
         super(terms)
       else
         named, others = terms.partition{|term| Logic::NamedTerm === term}
-        hash = Hash.new{|h,k| h[k] = Logic::ALL}
+        hash = Hash.new{|h,k| h[k] = Logic::TRUE}
         named.each{|n| hash[n.name] = hash[n.name].conjunction(n)}
         named = hash.keys.sort{|k1, k2| k1.to_s <=> k2.to_s}.collect{|k| hash[k]}
         self.new(named + others)

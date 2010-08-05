@@ -1,26 +1,26 @@
 module Logic
-  class None < Logic::Term
+  class True < Logic::Term
     
     def negation
-      Logic::ALL
+      Logic::FALSE
     end
     
     def disjunction(term)
-      term
-    end
-    
-    def conjunction(term)
       self
     end
     
+    def conjunction(term)
+      term
+    end
+    
     def ==(other)
-      other.kind_of?(None)
+      other.kind_of?(True)
     end
     
     def to_s
-      "none"
+      "true"
     end
     alias :inspect :to_s
     
-  end # class None
+  end # class True
 end # module Logic

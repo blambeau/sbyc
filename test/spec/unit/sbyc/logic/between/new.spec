@@ -5,12 +5,12 @@ describe "Logic::Between::new" do
   
   describe "when interval is empty" do
     let(:interval){ Interval.empty }
-    it{ should == Logic::NONE }
+    it{ should == Logic::FALSE }
   end
   
   describe "when interval is all" do
     let(:interval){ Interval.all }
-    it{ should == Logic::ALL }
+    it{ should == Logic::TRUE }
   end
   
   describe "when interval is arbitrar" do

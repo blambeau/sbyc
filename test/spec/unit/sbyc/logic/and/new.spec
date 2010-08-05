@@ -6,17 +6,17 @@ describe "Logic::And.new" do
   
   describe "when called with empty args" do
     let(:terms){ [] }
-    it{ should == Logic::ALL }
+    it{ should == Logic::TRUE }
   end
   
   describe "when called with only all in args" do
-    let(:terms){ [ Logic::ALL ] }
-    it{ should == Logic::ALL }
+    let(:terms){ [ Logic::TRUE ] }
+    it{ should == Logic::TRUE }
   end
   
   describe "when called with only none in args" do
-    let(:terms){ [ Logic::NONE ] }
-    it{ should == Logic::NONE }
+    let(:terms){ [ Logic::FALSE ] }
+    it{ should == Logic::FALSE }
   end
   
   describe "when called with only one arg" do
@@ -24,13 +24,13 @@ describe "Logic::And.new" do
     it{ should == arbitrar }
   end
   
-  describe "when called with at least one NONE" do
-    let(:terms){ [ arbitrar, Logic::NONE ] }
-    it{ should == Logic::NONE }
+  describe "when called with at least one FALSE" do
+    let(:terms){ [ arbitrar, Logic::FALSE ] }
+    it{ should == Logic::FALSE }
   end
   
-  describe "when called with at least one ALL" do
-    let(:terms){ [ arbitrar, Logic::ALL ] }
+  describe "when called with at least one TRUE" do
+    let(:terms){ [ arbitrar, Logic::TRUE ] }
     it{ should == arbitrar }
   end
   
@@ -47,7 +47,7 @@ describe "Logic::And.new" do
   
   describe "when called with predicates on same attr that would lead to empty" do
     let(:terms){ [ Logic::gt(:x, 20), Logic::lt(:x, 10) ] }
-    let(:expected){ Logic::NONE }
+    let(:expected){ Logic::FALSE }
     it{ should == expected }
   end
   

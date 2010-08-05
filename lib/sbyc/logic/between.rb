@@ -7,9 +7,9 @@ module Logic
     
     def self.new(name, interval)
       if interval.empty?
-        Logic::NONE
+        Logic::FALSE
       elsif interval.all?
-        Logic::ALL
+        Logic::TRUE
       else
         super
       end
