@@ -45,7 +45,7 @@ module Logic
     
       # Returns a string representation
       def to_s
-        "#{variable}: #{interval}"
+        interval.to_ruby_code(variable.name.to_s)
       end
       alias :inspect :to_s
     

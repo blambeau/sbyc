@@ -15,6 +15,11 @@ module Logic
         operands.all?{|op| is_formula!(op)}
       end
 
+      def eq(var, literal) 
+        is_var!(var)
+        Logic::Ordered::eq(var, literal)
+      end
+      
       def gt(var, literal) 
         is_var!(var)
         Logic::Ordered::gt(var, literal)
@@ -78,7 +83,7 @@ module Logic
     end
     
     # Parses an expression and returns a Formula
-    def parse(expr, &block)
+    def parse(expr = nil, &block)
       ast = CodeTree::parse(expr || block)
       ast.rename!(SYMBOL_TO_FUNCTION)
       ast.functional_eval(Receiver.new, self)

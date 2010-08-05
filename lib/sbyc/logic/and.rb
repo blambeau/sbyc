@@ -13,6 +13,11 @@ module Logic
     def reduces_bool_and?(term)
       true
     end
+
+    # Computes boolean negation
+    def bool_not
+      Or.new(terms.collect{|t| t.bool_not})
+    end
       
     # Computes boolean conjunction
     def _bool_and(term)
@@ -62,7 +67,7 @@ module Logic
     end
     
     def to_s
-      terms.join(' & ')
+      '(' + terms.join(' & ') + ')'
     end
     alias :inspect :to_s
     

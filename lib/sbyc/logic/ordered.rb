@@ -34,7 +34,7 @@ module Logic
   
     # Factors a eq term
     def eq(var, x)
-      ranged(var, Interval.eq(x))
+      ranged(var, Interval.point(x))
     end
   
     # Factors a gt term

@@ -21,7 +21,7 @@ module Logic
       def reduces_bool_or?(term)
         term.kind_of?(FiniteTerm) and term.variable == variable
       end
-      
+
     end # class FiniteTerm
   end # module Finite
 end # module Logic

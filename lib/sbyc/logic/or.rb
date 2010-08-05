@@ -9,9 +9,14 @@ module Logic
     end
     
     # Returns true if a given term can be reduced
-    # on bool_or
+    # on bool_and
     def reduces_bool_or?(term)
       true
+    end
+    
+    # Computes boolean negation
+    def bool_not
+      And.new(terms.collect{|t| t.bool_not})
     end
       
     # Computes boolean disjunction
@@ -62,7 +67,7 @@ module Logic
     end
     
     def to_s
-      terms.join(' | ')
+      '(' + terms.join(' | ') + ')'
     end
     alias :inspect :to_s
     

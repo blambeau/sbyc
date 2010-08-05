@@ -58,7 +58,7 @@ module Logic
     
       # Returns a string representation
       def to_s
-        "#{variable}: not(in(#{values.join(', ')}))"
+        "~(#{variable.name}.in(#{values.join(', ')}))"
       end
       alias :inspect :to_s
     

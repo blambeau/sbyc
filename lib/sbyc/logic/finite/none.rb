@@ -23,6 +23,11 @@ module Logic
         other.kind_of?(None) and other.variable == variable
       end
       
+      def to_s
+        "false"
+      end
+      alias :inspect :to_s
+      
     end # class None
   end # module Finite
 end # module Logic

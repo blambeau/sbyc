@@ -66,7 +66,13 @@ module Logic
     end
   
     def bool_not
-      raise NotImplementedError
+      if self.bool_true?
+        Logic::FALSE
+      elsif self.bool_false?
+        Logic::TRUE
+      else
+        raise NotImplementedError
+      end
     end
   
   end # class Formula
