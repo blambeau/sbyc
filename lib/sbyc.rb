@@ -14,9 +14,9 @@ module SByC
   end # module CodeTree
 
   # Provides tools around predicates
-  module Predicate
+  module Formulae
     
-  end # module Predicate
+  end # module Formulae
   
 end # module SByC
 
@@ -26,5 +26,5 @@ require 'sbyc/codetree'
 TypeSystem = ::SByC::TypeSystem
 require 'sbyc/type_system'
 
-Predicate = ::SByC::Predicate
-require 'sbyc/predicate'
+Formulae = ::SByC::Formulae
+require 'sbyc/formulae'
