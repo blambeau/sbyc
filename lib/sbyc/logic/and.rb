@@ -19,23 +19,21 @@ module Logic
       if term.kind_of?(And)
         raise NotImplementedError
       else
-        reduce(term)
+        normalize(reduce_terms_with(terms.dup, term))
       end
     end
     
     # Computes boolean reduction
-    def reduce(term)
-      found = false
-      new_terms = terms.collect{|t| 
-        if t.reduces_bool_and?(term) 
-          found = true
-          t._bool_and(term)
-        else
-          t
+    def reduce_terms_with(terms, term)
+      changed = false
+      terms.each_with_index{|t,i|
+        if t.reduces_bool_and?(term)
+          changed = true
+          terms[i] = t._bool_and(term) 
         end
       }
-      new_terms += [ term ] unless found
-      normalize(new_terms)
+      terms += [ term ] unless changed
+      terms
     end
     
     def normalize(terms)
