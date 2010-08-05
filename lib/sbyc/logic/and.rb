@@ -18,20 +18,24 @@ module Logic
     def _bool_and(term)
       if term.kind_of?(And)
         raise NotImplementedError
-      elsif reducer_and_index = find_reducer_and_index(term)
-        new_terms = terms.dup
-        new_terms[reducer_and_index[1]] = reducer_and_index[0]._bool_and(term)
-        normalize(new_terms)
       else
-        And.new(terms + [ term ])
+        reduce(term)
       end
     end
     
-    def find_reducer_and_index(term)
-      terms.each_with_index{|t,i|
-        return [t, i] if t.reduces_bool_and?(term)
+    # Computes boolean reduction
+    def reduce(term)
+      found = false
+      new_terms = terms.collect{|t| 
+        if t.reduces_bool_and?(term) 
+          found = true
+          t._bool_and(term)
+        else
+          t
+        end
       }
-      nil
+      new_terms += [ term ] unless found
+      normalize(new_terms)
     end
     
     def normalize(terms)
