@@ -13,14 +13,17 @@ module Logic
       false
     end
       
+    # Is this formula equivalent to boolean true?
     def bool_true?
       self.kind_of?(Logic::True::Mimics)
     end
 
+    # Is this formula equivalent to boolean false?
     def bool_false?
       self.kind_of?(Logic::False::Mimics)
     end
 
+    # Computes boolean and
     def bool_and(right)
       if self.bool_true?
         # true and right -> right
@@ -43,6 +46,7 @@ module Logic
       end
     end
   
+    # Computes boolean or
     def bool_or(right)
       if self.bool_true?
         # true or right -> true
@@ -65,6 +69,7 @@ module Logic
       end
     end
   
+    # Computes boolean not
     def bool_not
       if self.bool_true?
         Logic::FALSE
@@ -73,6 +78,12 @@ module Logic
       else
         raise NotImplementedError
       end
+    end
+    
+    # Evaluates this formula on a context object
+    # (typically a variable assignment)
+    def evaluate(context)
+      raise NotImplementedError
     end
   
   end # class Formula

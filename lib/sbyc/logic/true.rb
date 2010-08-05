@@ -18,6 +18,10 @@ module Logic
       other.kind_of?(True)
     end
     
+    def evaluate(context)
+      true
+    end
+  
     def to_s
       "true"
     end
