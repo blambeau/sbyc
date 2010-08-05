@@ -1,6 +1,5 @@
 module Logic
-  class True < Logic::Term
-    module Mimics; end 
+  module TrueLike
     
     def bool_not
       Logic::FALSE
@@ -27,6 +26,8 @@ module Logic
     end
     alias :inspect :to_s
     
-    include Mimics
   end # class True
+  class True < Logic::Term
+    include TrueLike
+  end
 end # module Logic

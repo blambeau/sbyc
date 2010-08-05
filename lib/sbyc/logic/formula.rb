@@ -15,12 +15,12 @@ module Logic
       
     # Is this formula equivalent to boolean true?
     def bool_true?
-      self.kind_of?(Logic::True::Mimics)
+      self.kind_of?(Logic::TrueLike)
     end
 
     # Is this formula equivalent to boolean false?
     def bool_false?
-      self.kind_of?(Logic::False::Mimics)
+      self.kind_of?(Logic::FalseLike)
     end
 
     # Computes boolean and

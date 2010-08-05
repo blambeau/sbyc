@@ -1,7 +1,7 @@
 module Logic
   module Finite
     class Any < Finite::FiniteTerm
-      include Logic::True::Mimics
+      include Logic::TrueLike
       
       # Computes boolean negation
       def bool_not
