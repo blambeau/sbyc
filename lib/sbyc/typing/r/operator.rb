@@ -16,10 +16,18 @@ module SByC
         end
         
         # Does the signature matches some arguments?
-        def matches?(args)
+        def arg_matches?(args)
           return false unless signature.size == args.size
           signature.zip(args).all?{|pair|
             pair[0].is_value?(pair[1])
+          }
+        end
+        
+        # Does the signature matches another signature?
+        def signature_matches?(args)
+          return false unless signature.size == args.size
+          signature.zip(args).all?{|pair|
+            pair[0] == pair[1]
           }
         end
         

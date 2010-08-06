@@ -9,6 +9,11 @@ module SByC
             @operators ||= {}
           end
           
+          # Find an operator that matches a given signature
+          def find_operator(name)
+            operators[name]
+          end
+          
           # Adds a operator
           def add_operator(names, operator)
             names.each{|n| operators[n] = operator}
