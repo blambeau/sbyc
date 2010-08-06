@@ -29,7 +29,7 @@ module SByC
           def to_literal(value)
             value == true ? "true" : "false"
           end
-      
+          
         end # class << self
         
       end # class Boolean

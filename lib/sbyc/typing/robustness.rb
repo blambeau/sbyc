@@ -26,6 +26,12 @@ module SByC
       def __not_a_literal__!(domain, str, cal = caller)
         raise ::SByC::TypeError, "Invalid domain literal #{str.inspect} for #{domain.name}", cal
       end
+      
+      # Raises a TypeError with a message explaining that _value_
+      # cannot be coerced to a given domain
+      def __not_a_valid_value__!(domain, value, cal = caller)
+        raise ::SByC::TypeError, "Unable to coerce #{value.inspect} to #{domain.name}", cal
+      end
     
       extend(Robustness)
     end # module Robustness

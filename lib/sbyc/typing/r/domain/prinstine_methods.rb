@@ -9,7 +9,7 @@ module SByC
             R::Domain
           end
           alias :sbyc_domain :domain
-
+      
         end # module PrinstineMethods
       end # class Domain
     end # module R
