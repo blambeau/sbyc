@@ -44,6 +44,18 @@ module SByC
       parse(code, options || {}, &block)
     end
     module_function :expr
+    
+    # Type checks some code
+    def type_check(assignment, code = nil, type_system = nil, &block)
+      coerce(code || block).type_check(assignment, type_system)
+    end
+    module_function :type_check
+
+    # Type checks some code
+    def type_check_by_heading(heading, code = nil, type_system = nil, &block)
+      coerce(code || block).type_check_by_heading(heading, type_system)
+    end
+    module_function :type_check_by_heading
 
     # Factors a CodeTree::Matcher instance
     def matcher(code = nil, &block)
