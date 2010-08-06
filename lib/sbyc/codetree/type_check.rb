@@ -1,0 +1,1 @@
+require 'sbyc/codetree/type_check/ast_node_ext'

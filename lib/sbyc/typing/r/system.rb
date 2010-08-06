@@ -86,7 +86,7 @@ module SByC
         
         # Returns the of an expression
         def result_domain_by_heading(heading, expr = nil, &block)
-          CodeTree::parse(expr || block).visit do |node, collected|
+          CodeTree::coerce(expr || block).visit do |node, collected|
             case f = node.function
               when :'?'
                 var_name = node.literal
@@ -106,6 +106,13 @@ module SByC
                 end
             end
           end
+        end
+
+        # Returns the of an expression
+        def result_domain_by_args(args, expr = nil, &block)
+          heading = {}
+          args.each_pair{|name, value| heading[name] = domain_of(value)}
+          result_domain_by_heading(heading, expr, &block)
         end
         
       end # module System
