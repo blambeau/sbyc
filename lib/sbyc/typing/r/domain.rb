@@ -8,7 +8,6 @@ module SByC
         extend Typing::Robustness
         extend R::Domain::CommonMethods
       end # class Domain
-      
       R::Domain.extend(R::Domain::RootMethods)
     end # module R
   end # module Typing

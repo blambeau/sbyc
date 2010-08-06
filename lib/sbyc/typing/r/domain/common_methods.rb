@@ -7,7 +7,7 @@ module SByC
           # Coerces from a ruby value
           def ruby_coerce(value)
             return value if is_value?(value)
-            __not_a_valid_value__!(value)
+            __not_a_valid_value__!(self, value)
           end
           
           # Coerces a value

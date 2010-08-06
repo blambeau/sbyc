@@ -11,16 +11,12 @@ require 'sbyc/typing/r/symbol'
 require 'sbyc/typing/r/regexp'
 require 'sbyc/typing/r/module'
 require 'sbyc/typing/r/class'
+require 'sbyc/typing/r/system'
 module SByC
   module Typing
     module R
       extend Typing::Robustness
-      extend Typing::System
-      
-      # Returns the domains
-      def domains
-        [ R::Domain ] + R::Domain.prinstine_domains
-      end
+      extend Typing::R::System
       
       # Returns a R::Time value
       def Time(str)

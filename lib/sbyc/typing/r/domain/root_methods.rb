@@ -4,6 +4,13 @@ module SByC
       class Domain
         module RootMethods
           
+          RUBY_TO_R = {
+            'Fixnum'     => :Integer,
+            'Bignum'     => :Integer,
+            'FalseClass' => :Boolean,
+            'TrueClass'  => :Boolean
+          }
+          
           # Installs the prinstine methods when inherited
           def inherited(subclass)
             subclass.extend(R::Domain::PrinstineMethods)
@@ -49,6 +56,19 @@ module SByC
               $1
             else
               name
+            end
+          end
+
+          # Coerces from a ruby value
+          def ruby_coerce(value)
+            if is_value?(value)
+              return value 
+            elsif value.kind_of?(::Class)
+              parse_literal(RUBY_TO_R[value.name.to_s] || value.name)
+            elsif value.kind_of?(::String)
+              parse_literal(RUBY_TO_R[value] || value)
+            else 
+              super
             end
           end
           
