@@ -1,8 +1,10 @@
 module SByC
   module Typing
     module R
-      class String < Typing::Domain
+      class String < R::Domain
+        
         class << self
+          
           # Returns true if a given value belongs to this domain,
           # false otherwise
           def is_value?(value)
@@ -33,7 +35,9 @@ module SByC
           def str_coerce(str)
             str
           end
+          
         end # class << self
+        
       end # class String
     end # module R
   end # module Typing

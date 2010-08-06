@@ -1,8 +1,10 @@
 module SByC
   module Typing
     module R
-      class Boolean < Typing::Domain
+      class Boolean < R::Domain
+        
         class << self
+          
           # Returns true if a given value belongs to this domain,
           # false otherwise
           def is_value?(value)
@@ -29,6 +31,7 @@ module SByC
           end
       
         end # class << self
+        
       end # class Boolean
     end # module R
   end # module Typing

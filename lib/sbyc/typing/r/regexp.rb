@@ -1,8 +1,10 @@
 module SByC
   module Typing
     module R
-      class Regexp < Typing::Domain
+      class Regexp < R::Domain
+        
         class << self
+          
           # Returns true if a given value belongs to this domain,
           # false otherwise
           def is_value?(value)
@@ -35,6 +37,7 @@ module SByC
           end
       
         end # class << self
+        
       end # class Regexp
     end # module R
   end # module Typing

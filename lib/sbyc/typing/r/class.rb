@@ -2,6 +2,7 @@ module SByC
   module Typing
     module R
       class Class < R::Module
+        
         class << self
           
           # Returns true if a given value belongs to this domain,
@@ -11,6 +12,7 @@ module SByC
           end
             
         end # class << self
+        
       end # class Class
     end # module R
   end # module Typing

@@ -1,5 +1,6 @@
 require 'time'
 require 'date'
+require 'sbyc/typing/r/domain'
 require 'sbyc/typing/r/boolean'
 require 'sbyc/typing/r/string'
 require 'sbyc/typing/r/integer'

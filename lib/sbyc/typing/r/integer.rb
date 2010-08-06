@@ -1,8 +1,10 @@
 module SByC
   module Typing
     module R
-      class Integer < Typing::Domain
+      class Integer < R::Domain
+        
         class << self
+          
           # Returns true if a given value belongs to this domain,
           # false otherwise
           def is_value?(value)
@@ -27,6 +29,7 @@ module SByC
           end
       
         end # class << self
+        
       end # class Integer
     end # module R
   end # module Typing
