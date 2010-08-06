@@ -16,6 +16,8 @@ module SByC
       MODULES  = [ SByC, SByC::Typing, SByC::Typing::R, SByC::Typing::R::Boolean ]
       CLASSES  = [ SByC::Typing::R::Boolean ]
       STRICT_MODULES = MODULES - CLASSES
+      DOMAINS  = [ SByC::Typing::R::Boolean, SByC::Typing::R::Integer, SByC::Typing::R::Domain ]
+      DOMAIN_NAMES = [ 'Boolean', 'Domain', 'SByC::Typing::R::Integer' ]
       
     end # module R
   end # module Fixtures

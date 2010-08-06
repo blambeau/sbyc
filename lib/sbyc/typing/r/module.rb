@@ -14,19 +14,9 @@ module SByC
           # Parses a literal from the domain and returns
           # a value
           def parse_literal(str)
-            str = str.to_s.strip
-            unless str.empty?
-              begin
-                parts, current = str.split("::"), Kernel
-                parts.each{|part| current = current.const_get(part.to_sym)}
-                if is_value?(current)
-                  return current 
-                else
-                  __not_a_literal__!(self, str)
-                end
-              rescue Exception => ex
-                __not_a_literal__!(self, str)
-              end
+            found = __find_ruby_module__(str)
+            if found and is_value?(found) 
+              found
             else
               __not_a_literal__!(self, str)
             end
