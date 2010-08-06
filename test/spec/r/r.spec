@@ -12,4 +12,13 @@ describe "R" do
     it_should_behave_like("A prinstine domain")
   }
   
+  Dir[File.expand_path('../r_scripts/**/*.r', __FILE__)].each{|f|
+    it "should run #{f} without errors" do
+      runner = R::SpecRunner.new
+      runner.run(File.read(f))
+      puts "\n#{runner}"
+      runner.should_not have_failure
+    end
+  }
+  
 end

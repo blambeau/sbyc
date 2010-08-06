@@ -7,7 +7,7 @@ require 'spec'
 require 'spec/autorun'
 
 # require spec support files
-Dir[File.expand_path('../support/**/*.spec', __FILE__)].each { |f| require f }
+Dir[File.expand_path('../support/**/*.rb', __FILE__)].each { |f| require f }
 
 Spec::Runner.configure do |config|
 end

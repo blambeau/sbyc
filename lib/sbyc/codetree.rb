@@ -76,12 +76,12 @@ module SByC
     module_function :producer
 
     # Converts an argument to an parse tree (an ASTNode instance)
-    def coerce(arg)
+    def coerce(arg, options = nil)
       case arg
         when AstNode
           arg
         when Proc, String
-          CodeTree::parse(arg)
+          CodeTree::parse(arg, options)
         else
           raise "Unable to coerce #{arg.inspect} to a CodeTree::AstNode"
       end

@@ -12,13 +12,13 @@ SByC::Typing::R::install{|s|
   s::String.wrap_ruby_monadic_operator :upcase,        s::String
 
   # Some standard binary operators on strings
-  s::String::wrap_ruby_dyadic_operator [:at, :slice], [s::Integer], s::String
-  s::String::wrap_ruby_dyadic_operator :center,       [s::Integer], s::String
-  s::String::wrap_ruby_dyadic_operator :concat,       [s::String],  s::String
-  s::String::wrap_ruby_dyadic_operator :format,       [s::String],  s::String
-  s::String::wrap_ruby_dyadic_operator :include?,     [s::String],  s::Boolean
-  s::String::wrap_ruby_dyadic_operator :matches?,     [s::Regexp],  s::Boolean
-  s::String::wrap_ruby_dyadic_operator :times,        [s::Integer], s::String
+  #s::String::wrap_ruby_dyadic_operator [:at, :slice], s::Integer, s::String
+  s::String::wrap_ruby_dyadic_operator :center,       s::Integer, s::String
+  s::String::wrap_ruby_dyadic_operator :concat,       s::String,  s::String
+  s::String::wrap_ruby_dyadic_operator :format,       s::String,  s::String
+  s::String::wrap_ruby_dyadic_operator :include?,     s::String,  s::Boolean
+  #s::String::wrap_ruby_dyadic_operator :matches?,     s::Regexp,  s::Boolean
+  s::String::wrap_ruby_dyadic_operator [:times, :*],  s::Integer, s::String
 
   # # Some standard ternary operators on strings
   # s::String::wrap_ruby_dyadic_operator :sub,        [[String, Regexp, String], String],  "$0.sub($1, $2)")
