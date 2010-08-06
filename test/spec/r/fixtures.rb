@@ -11,6 +11,7 @@ module SByC
       FLOATS   = [ -0.10, 0.0, 0.10 ]
       TIMES    = [ Time.at(0), Time.utc(2010, 8, 5, 12, 15, 00) ]
       DATES    = [ Date.today ]
+      SYMBOLS  = [ :var, :something_with_underscores, :'s#' ]
       
     end # module R
   end # module Fixtures
