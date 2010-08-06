@@ -1,7 +1,7 @@
 module SByC
 
   # Version
-  VERSION = "0.1.4".freeze
+  VERSION = "0.2.0".freeze
   
   # Provides tools around functional source code trees.
   module CodeTree
