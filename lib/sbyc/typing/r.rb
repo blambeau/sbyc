@@ -35,3 +35,4 @@ module SByC
 end # module SByC
 require 'sbyc/typing/r/system/bool_op'
 require 'sbyc/typing/r/system/string_op'
+require 'sbyc/typing/r/system/integer_op'

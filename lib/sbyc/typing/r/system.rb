@@ -91,14 +91,18 @@ module SByC
           find_operator_by_signature(name, args.collect{|arg| domain_of(arg)})
         end
         
+        #######################################################################
+        ### About type checking
+        #######################################################################
+        
         # Returns the of an expression
-        def result_domain_by_heading(heading, expr = nil, &block)
-          CodeTree::coerce(expr || block).visit do |node, collected|
+        def type_check_by_heading(heading, expr = nil, &block)
+          CodeTree::coerce(expr || block).visit{|node, collected|
             case f = node.function
               when :'?'
                 var_name = node.literal
                 if heading.key?(node.literal)
-                  heading[node.literal]
+                  coerce_domain!(heading[node.literal])
                 else
                   __type_check_error__!("No such variable #{var_name}")
                 end
@@ -109,17 +113,44 @@ module SByC
                 if op
                   op.result_domain
                 else
-                  __type_check_error__!("No such operator #{f} for signature #{collected.inspect}")
+                  types_str = collected.collect{|x| x.short_name}.join(', ')
+                  __type_check_error__!("No such operator #{f}(#{types_str})")
                 end
             end
-          end
+          }
         end
+        alias :result_domain_by_heading :type_check_by_heading
 
         # Returns the of an expression
-        def result_domain_by_args(args, expr = nil, &block)
+        def type_check_by_args(args, expr = nil, &block)
           heading = {}
           args.each_pair{|name, value| heading[name] = domain_of(value)}
           result_domain_by_heading(heading, expr, &block)
+        end
+        alias :type_check :type_check_by_args
+        alias :result_domain_by_args :type_check_by_args
+        
+        #######################################################################
+        ### About execution
+        #######################################################################
+        
+        # Evaluates an expression inside a given context
+        def evaluate(context = {}, expr = nil, &block)
+          ast = CodeTree::coerce(expr || block)
+          type_check_by_args(context, ast)
+          result = ast.visit{|node, collected|
+            case f = node.function
+              when :'?'
+                context[node.literal]
+              when :'_'
+                node.literal
+              else
+                sign = collected.collect{|v| domain_of(v)}
+                op = find_operator_by_signature(f, sign)
+                op.call(collected)
+            end
+          }
+          result
         end
         
       end # module System

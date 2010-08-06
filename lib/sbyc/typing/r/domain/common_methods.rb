@@ -21,6 +21,15 @@ module SByC
               ruby_coerce(value)
             end
           end
+          
+          # Returns short name
+          def short_name
+            if name =~ /::([^:]+)$/
+              $1
+            else
+              name
+            end
+          end
       
         end # module CommonMethods
       end # class Domain
