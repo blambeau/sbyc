@@ -13,6 +13,7 @@ module SByC
       DATES    = [ Date.today ]
       SYMBOLS  = [ :var, :something_with_underscores, :'s#', :hello, :"s-b-y-c", :"12" ]
       REGEXPS  = [ /a-z/, /^$/, /\s*/, /[a-z]{15}/ ]
+      MODULES  = [ SByC, SByC::Typing, SByC::Typing::R, SByC::Typing::Domain ]
       
     end # module R
   end # module Fixtures

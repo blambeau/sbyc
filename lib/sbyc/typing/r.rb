@@ -8,6 +8,7 @@ require 'sbyc/typing/r/time'
 require 'sbyc/typing/r/date'
 require 'sbyc/typing/r/symbol'
 require 'sbyc/typing/r/regexp'
+require 'sbyc/typing/r/module'
 module SByC
   module Typing
     module R
