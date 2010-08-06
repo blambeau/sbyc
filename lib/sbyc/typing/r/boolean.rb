@@ -32,9 +32,6 @@ module SByC
           
         end # class << self
         
-        add_monadic_operator([:not, :~], Boolean){|v| !v} 
-        wrap_ruby_dyadic_operator [:and, :&], Boolean, Boolean
-        wrap_ruby_dyadic_operator [:or,  :|], Boolean, Boolean
       end # class Boolean
     end # module R
   end # module Typing

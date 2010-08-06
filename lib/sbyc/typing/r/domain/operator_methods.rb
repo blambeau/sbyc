@@ -26,7 +26,7 @@ module SByC
           end
           
           # Adds a monadic operator with a proc
-          def add_monadic_operator(names, return_type, &proc)
+          def add_monadic_operator(names, return_type, proc)
             names = [names] unless names.kind_of?(Array)
             add_operator(names, ProcOperator.new([self], return_type, proc))
           end

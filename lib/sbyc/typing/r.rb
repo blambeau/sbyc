@@ -3,9 +3,9 @@ require 'date'
 require 'sbyc/typing/r/operator'
 require 'sbyc/typing/r/domain'
 require 'sbyc/typing/r/boolean'
-require 'sbyc/typing/r/string'
 require 'sbyc/typing/r/integer'
 require 'sbyc/typing/r/float'
+require 'sbyc/typing/r/string'
 require 'sbyc/typing/r/time'
 require 'sbyc/typing/r/date'
 require 'sbyc/typing/r/symbol'
@@ -33,3 +33,5 @@ module SByC
     end # module R
   end # module Typing
 end # module SByC
+require 'sbyc/typing/r/system/bool_op'
+require 'sbyc/typing/r/system/string_op'
