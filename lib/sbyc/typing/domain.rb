@@ -1,6 +1,6 @@
 module SByC
   module Typing
-    module Domain
+    class Domain
       extend Robustness
     end # class Domain
   end # module Typing

@@ -12,7 +12,7 @@ module SByC
           # Parses a literal from the domain and returns
           # a value
           def parse_literal(str)
-            str = str.strip
+            str = str.to_s.strip
             if str == 'true'
               return true
             elsif str == 'false'
@@ -29,7 +29,7 @@ module SByC
       
           # Coerces a string to a value of the domain 
           def str_coerce(str)
-            raise NotImplementedError
+            parse_literal(str)
           end
         end # class << self
       end # class Boolean

@@ -1,4 +1,4 @@
 module SByC
-  class SByCError < StandardError; end
-  class NilError < SByCError; end
+  class Error < StandardError; end
+  class NilError < Error;      end
 end

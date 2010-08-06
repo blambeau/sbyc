@@ -14,5 +14,7 @@ module SByC
   end # module CodeTree
   
 end # module SByC
+require 'sbyc/errors'
 require 'sbyc/codetree'
 require 'sbyc/type_system'
+require 'sbyc/typing'
