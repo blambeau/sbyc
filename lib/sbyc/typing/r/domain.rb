@@ -1,3 +1,4 @@
+require 'sbyc/typing/r/domain/operator_methods'
 require 'sbyc/typing/r/domain/common_methods'
 require 'sbyc/typing/r/domain/prinstine_methods'
 require 'sbyc/typing/r/domain/root_methods'
