@@ -12,7 +12,11 @@ module SByC
           # Find an operator that matches a given signature
           def find_operator_by_signature(name, signature)
             op = operators[name]
-            op.signature_matches?(signature) ? op : nil
+            if op and op.signature_matches?(signature)
+              op
+            else
+              nil
+            end
           end
           
           # Adds a operator

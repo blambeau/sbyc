@@ -5,6 +5,9 @@ module SByC
       # Raised when a type error occurs
       class ::SByC::TypeError < ::SByC::Error; end
     
+      # Raised when a type checking error occurs
+      class ::SByC::TypeCheckError < ::SByC::Error; end
+    
       # Finds a ruby module by name or returns nil
       def __find_ruby_module__(name, start = ::Kernel)
         name = name.to_s.strip
@@ -31,6 +34,11 @@ module SByC
       # cannot be coerced to a given domain
       def __not_a_valid_value__!(domain, value, cal = caller)
         raise ::SByC::TypeError, "Unable to coerce #{value.inspect} to #{domain.name}", cal
+      end
+      
+      # Rauses a TypeCheckError with a specific message
+      def __type_check_error__!(msg, cal = caller)
+        raise ::SByC::TypeCheckError, msg, cal
       end
     
       extend(Robustness)

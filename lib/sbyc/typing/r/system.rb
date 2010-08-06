@@ -84,6 +84,30 @@ module SByC
           find_operator_by_signature(name, args.collect{|arg| domain_of(arg)})
         end
         
+        # Returns the of an expression
+        def result_domain_by_heading(heading, expr = nil, &block)
+          CodeTree::parse(expr || block).visit do |node, collected|
+            case f = node.function
+              when :'?'
+                var_name = node.literal
+                if heading.key?(node.literal)
+                  heading[node.literal]
+                else
+                  __type_check_error__!("No such variable #{var_name}")
+                end
+              when :'_'
+                domain_of(node.literal)
+              else
+                op = find_operator_by_signature(f, collected)
+                if op
+                  op.result_domain
+                else
+                  __type_check_error__!("No such operator #{f} for signature #{collected.inspect}")
+                end
+            end
+          end
+        end
+        
       end # module System
     end # module R
   end # module Typing
