@@ -3,6 +3,7 @@ module SByC
     module R
       class Module < Typing::Domain
         class << self
+          
           # Returns true if a given value belongs to this domain,
           # false otherwise
           def is_value?(value)
@@ -17,7 +18,11 @@ module SByC
               begin
                 parts, current = str.split("::"), Kernel
                 parts.each{|part| current = current.const_get(part.to_sym)}
-                return current if is_value?(current)
+                if is_value?(current)
+                  return current 
+                else
+                  __not_a_literal__!(self, str)
+                end
               rescue Exception => ex
                 __not_a_literal__!(self, str)
               end

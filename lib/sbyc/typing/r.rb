@@ -9,6 +9,7 @@ require 'sbyc/typing/r/date'
 require 'sbyc/typing/r/symbol'
 require 'sbyc/typing/r/regexp'
 require 'sbyc/typing/r/module'
+require 'sbyc/typing/r/class'
 module SByC
   module Typing
     module R

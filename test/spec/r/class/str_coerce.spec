@@ -1,9 +1,9 @@
 require File.expand_path('../../fixtures', __FILE__)
-describe "R::Integer.str_coerce" do
+describe "R::Class.str_coerce" do
   
-  SByC::Fixtures::R::INTEGERS.each{|i|
+  SByC::Fixtures::R::CLASSES.each{|i|
     it "should not raise error on #{i.inspect}" do
-      R::Integer.str_coerce(i.inspect).should == i
+      R::Class.str_coerce(i.name).should == i
     end
   }
   

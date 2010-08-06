@@ -2,7 +2,7 @@ require File.expand_path('../../fixtures', __FILE__)
 describe "R::Module.parse_literal" do
   
   SByC::Fixtures::R::MODULES.each{|i|
-    it "should not raise error on fixnum #{i}" do
+    it "should not raise error on #{i.inspect}" do
       R::Module.parse_literal(R::Module.to_literal(i)).should == i
     end
   }
