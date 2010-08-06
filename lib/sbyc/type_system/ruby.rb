@@ -31,6 +31,17 @@ module SByC
          Class, 
          Module,
          Regexp].each{|c| SAFE_LITERAL_CLASSES[c] = true}
+         
+        def deprecated=(value)
+          @deprecated = value
+        end
+       
+        # Prints a depreciation message
+        def deprecated(method, caller)
+          if @deprecated 
+            STDERR << "Deprecated usage of Ruby::#{method}\n  #{caller[0]}\n"
+          end
+        end
        
         #
         # Returns value.class
@@ -54,6 +65,7 @@ module SByC
         # @see TypeSystem::Contract#to_literal(value)
         #
         def to_literal(value, options = {:fallback => :fail})
+          deprecated(:to_literal, caller)
           if value.respond_to?(:to_ruby_literal)
             value.to_ruby_literal
           elsif value == (1.0/0)
@@ -93,6 +105,7 @@ module SByC
         # @see TypeSystem::Contract#parse_literal(str)
         #
         def parse_literal(str)
+          deprecated(:parse_literal, caller)
           Kernel.eval(str)
         rescue Exception => ex
           raise TypeSystem::InvalidValueLiteralError, "Invalid ruby value literal #{str.inspect}", ex.backtrace
@@ -104,6 +117,7 @@ module SByC
         # @see TypeSystem::Contract#coerce(str)
         #
         def coerce(str, clazz)
+          deprecated(:coerce, caller)
           return str if str.kind_of?(clazz)
           if clazz == NilClass
             return nil if str.empty? or str == "nil"
