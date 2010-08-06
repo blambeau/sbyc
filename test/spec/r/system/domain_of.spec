@@ -1,4 +1,4 @@
-require File.expand_path('../fixtures', __FILE__)
+require File.expand_path('../../fixtures', __FILE__)
 describe "R::domain_of" do
   
   let(:R){ SByC::Fixtures::R }

@@ -4,8 +4,8 @@ module SByC
       class ProcOperator < R::Operator
         
         # Creates an operator instance
-        def initialize(signature, return_type, proc)
-          super(signature, return_type)
+        def initialize(signature, result_domain, proc)
+          super(signature, result_domain)
           @proc = proc
         end
         

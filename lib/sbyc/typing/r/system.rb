@@ -70,6 +70,15 @@ module SByC
           end
         end
       
+        #######################################################################
+        ### About operators
+        #######################################################################
+        
+        # Returns an operator for a given name and signature
+        def find_operator_by_signature(name, signature)
+          signature[0].find_operator_by_signature(name, signature)
+        end
+        
       end # module System
     end # module R
   end # module Typing

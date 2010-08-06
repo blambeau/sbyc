@@ -7,8 +7,8 @@ module SByC
         attr_reader :method
         
         # Creates an operator instance
-        def initialize(signature, return_type, method)
-          super(signature, return_type)
+        def initialize(signature, result_domain, method)
+          super(signature, result_domain)
           @method = method
         end
         

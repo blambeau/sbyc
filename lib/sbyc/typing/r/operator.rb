@@ -6,13 +6,13 @@ module SByC
         # Operator signature
         attr_reader :signature
         
-        # Operator returned type
-        attr_reader :return_type
+        # Domain of the result
+        attr_reader :result_domain
         
         # Creates an operator instance
-        def initialize(signature, return_type)
+        def initialize(signature, result_domain)
           @signature = signature
-          @return_type = return_type
+          @result_domain = result_domain
         end
         
         # Does the signature matches some arguments?
