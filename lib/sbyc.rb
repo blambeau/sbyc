@@ -1,7 +1,7 @@
 module SByC
 
   # Version
-  VERSION = "0.1.4".freeze
+  VERSION = "0.2.0".freeze
   
   # Provides tools around functional source code trees.
   module CodeTree
@@ -14,9 +14,5 @@ module SByC
   end # module CodeTree
   
 end # module SByC
-
-CodeTree = ::SByC::CodeTree
 require 'sbyc/codetree'
-
-TypeSystem = ::SByC::TypeSystem
 require 'sbyc/type_system'
