@@ -4,11 +4,8 @@ describe "R::String.parse_literal" do
   File.readlines(File.expand_path('../strings.txt', __FILE__)).collect{|s| s.strip}.each do |str|
     it "should accept #{str}" do
       expected = Kernel.eval(str)
-      R::String.parse_literal(str).should == expected
-      R::String.parse_literal(expected.inspect).should == expected
-      parsed  = R::String.parse_literal(str)
-      written = R::String.to_literal(parsed)
-      R::String.parse_literal(written).should == parsed
+      R::String::parse_literal(str).should == expected
+      R::String::parse_literal(R::String::to_literal(expected)).should == expected
     end
   end
   
