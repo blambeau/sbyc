@@ -8,7 +8,7 @@ describe "R::find_operator_by_signature" do
     [:and, [R::Boolean, R::Boolean], R::Boolean],
   ].each{|name, sign, returns|
 
-    it "should find #{name} #{sign}" do
+    it "should find #{name} #{sign.inspect}" do
       op = R.find_operator_by_signature(name, sign)
       op.should_not be_nil
       op.result_domain.should == returns

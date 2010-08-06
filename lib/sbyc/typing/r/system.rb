@@ -79,6 +79,11 @@ module SByC
           signature[0].find_operator_by_signature(name, signature)
         end
         
+        # Returns an operator for a given name and args
+        def find_operator_by_args(name, args)
+          find_operator_by_signature(name, args.collect{|arg| domain_of(arg)})
+        end
+        
       end # module System
     end # module R
   end # module Typing
