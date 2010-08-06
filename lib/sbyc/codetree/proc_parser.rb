@@ -31,7 +31,7 @@ module SByC
       class Expr
       
         # Methods that we keep
-        KEPT_METHODS = [ "__send__", "__id__", "instance_eval", "initialize", "object_id", 
+        KEPT_METHODS = [ "__send__", "__id__", "instance_eval", "instance_exec", "initialize", "object_id", 
                          "singleton_method_added", "singleton_method_undefined", "method_missing",
                          "__evaluate__", "coerce", "kind_of?"]
 
@@ -84,19 +84,28 @@ module SByC
         end
 
       end # class Expr
-    
-      # Parses a Proc object
-      def self.parse_proc(block, options = {})
-        collector = options[:multiline] ? Collector.new : nil
-        e = case block.arity
+      
+      # Calls a proc object
+      def self.call_proc(block, collector = nil)
+        case block.arity
           when -1, 0
             expr = Expr.new(nil, nil, collector)
-            expr.instance_eval(&block)
+            if RUBY_VERSION >= "1.9.2"
+              expr.instance_exec(&block)
+            else
+              expr.instance_eval(&block)
+            end
           when 1
             block.call(Expr.new(nil, nil, collector))
           else
             raise ArgumentError, "Unexpected block arity #{block.arity}"
         end
+      end
+    
+      # Parses a Proc object
+      def self.parse_proc(block, options = {})
+        collector = options[:multiline] ? Collector.new : nil
+        e = call_proc(block, collector)
         return collector.to_a if collector
         case e
           when Expr
