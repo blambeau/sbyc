@@ -1,5 +1,11 @@
-require File.expand_path('../../../spec_helper', __FILE__)
+require File.expand_path('../../fixtures', __FILE__)
 describe "R::String.parse_literal" do
+  
+  SByC::Fixtures::R::STRINGS.each{|i|
+    it "should accept #{i}" do
+      R::String::parse_literal(R::String::to_literal(i)).should == i
+    end
+  }
   
   File.readlines(File.expand_path('../strings.txt', __FILE__)).collect{|s| s.strip}.each do |str|
     it "should accept #{str}" do

@@ -1,16 +1,16 @@
-require File.expand_path('../../../spec_helper', __FILE__)
+require File.expand_path('../../fixtures', __FILE__)
 describe "R::String.is_value?" do
   
-  subject{ R::String.is_value?(value) }
+  SByC::Fixtures::R::STRINGS.each{|i|
+    it "should accept #{i}" do
+      R::String.is_value?(i).should == true
+    end
+  }
   
-  describe "when called on a string" do
-    let(:value){ 'hello' }
-    it{ should == true }
-  end
-  
-  describe "when called on nil" do
-    let(:value){ nil }
-    it{ should == false }
+  [nil, 12].each do |bad|
+    it "should reject #{bad}" do
+      R::String.is_value?(bad).should == false
+    end
   end
   
 end

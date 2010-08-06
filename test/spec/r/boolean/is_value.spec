@@ -1,21 +1,16 @@
-require File.expand_path('../../../spec_helper', __FILE__)
+require File.expand_path('../../fixtures', __FILE__)
 describe "R::Boolean.is_value?" do
   
-  subject{ R::Boolean.is_value?(value) }
+  SByC::Fixtures::R::BOOLEANS.each{|i|
+    it "should accept #{i}" do
+      R::Boolean.is_value?(i).should == true
+    end
+  }
   
-  describe "when called on false" do
-    let(:value){ false }
-    it{ should == true }
-  end
-  
-  describe "when called on true" do
-    let(:value){ true }
-    it{ should == true }
-  end
-  
-  describe "when called on nil" do
-    let(:value){ nil }
-    it{ should == false }
-  end
-  
+  [nil, ''].each do |bad|
+    it "should accept #{bad}" do
+      R::Boolean.is_value?(bad).should == false
+    end
+  end   
+
 end

@@ -21,16 +21,13 @@ module SByC
               __not_a_literal__!(self, str)
             end
           end
+          alias :str_coerce :parse_literal
       
           # Converts a value to a literal
           def to_literal(value)
             value == true ? "true" : "false"
           end
       
-          # Coerces a string to a value of the domain 
-          def str_coerce(str)
-            parse_literal(str)
-          end
         end # class << self
       end # class Boolean
     end # module R
