@@ -1,0 +1,8 @@
+''
+""
+'hello'
+"hello"
+"O'Neil"
+'O"Neil'
+'O\'Neil'
+"O\"Neil"
