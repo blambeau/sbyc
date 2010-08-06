@@ -14,9 +14,5 @@ module SByC
   end # module CodeTree
   
 end # module SByC
-
-CodeTree = ::SByC::CodeTree
 require 'sbyc/codetree'
-
-TypeSystem = ::SByC::TypeSystem
 require 'sbyc/type_system'
