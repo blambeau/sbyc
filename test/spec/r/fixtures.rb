@@ -20,6 +20,20 @@ module SByC
       DOMAINS  = PRINSTINE_DOMAINS + [ SByC::Typing::R::Domain ]
       DOMAIN_NAMES = [ 'Boolean', 'Domain', 'SByC::Typing::R::Integer' ]
       
+      # Yields each value
+      def self.each_value(&block)
+        BOOLEANS.each(&block)
+        INTEGERS.each(&block)
+        STRINGS.each(&block)
+        FLOATS.each(&block)
+        TIMES.each(&block)
+        DATES.each(&block)
+        SYMBOLS.each(&block)
+        REGEXPS.each(&block)
+        MODULES.each(&block)
+        DOMAINS.each(&block)
+      end
+      
     end # module R
   end # module Fixtures
 end # module SByC

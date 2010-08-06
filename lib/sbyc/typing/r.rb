@@ -14,6 +14,13 @@ require 'sbyc/typing/r/class'
 module SByC
   module Typing
     module R
+      extend Typing::Robustness
+      extend Typing::System
+      
+      # Returns the domains
+      def domains
+        [ R::Domain ] + R::Domain.prinstine_domains
+      end
       
       # Returns a R::Time value
       def Time(str)

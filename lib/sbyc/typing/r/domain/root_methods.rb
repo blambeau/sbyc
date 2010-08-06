@@ -21,6 +21,7 @@ module SByC
           def domain
             ::Class
           end
+          alias :sbyc_domain :domain
 
           # Returns true if a given value belongs to this domain,
           # false otherwise

@@ -24,7 +24,7 @@ module SByC
       # Raises a TypeError with a message explaining that _str_
       # is not a literal for _domain_
       def __not_a_literal__!(domain, str, cal = caller)
-        raise ::SByC::TypeError, "Invalid domain literal #{str} for #{domain.name}", cal
+        raise ::SByC::TypeError, "Invalid domain literal #{str.inspect} for #{domain.name}", cal
       end
     
       extend(Robustness)
