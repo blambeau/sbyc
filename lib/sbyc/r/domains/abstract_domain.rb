@@ -4,6 +4,12 @@ module SByC
       module AbstractDomain
         include SByC::R::Robustness
         
+        # Returns the domain of this domain
+        def domain
+          R::Domain
+        end
+        alias :sbyc_domain :domain
+    
         # Returns known subdomains
         def sub_domains
           @sub_domains ||= []
@@ -32,12 +38,6 @@ module SByC
         end
         alias :sub_domain_of? :has_super_domain?
       
-        # Returns the domain of this domain
-        def domain
-          R::Domain
-        end
-        alias :sbyc_domain :domain
-    
         # Coerces from a ruby value
         def ruby_coerce(value)
           return value if is_value?(value)

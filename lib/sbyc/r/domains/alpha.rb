@@ -4,7 +4,7 @@ module SByC
       
       # Returns the domain of a value
       def most_specific_domain_of(value)
-        R::Domain.is_value?(value) ? R::Domain : R::Domain::coerce(value.class)
+        value.respond_to?(:domain) ? value.domain : R::Domain::coerce(value.class)
       end
     
       # Returns true if a given value belongs to this domain,
