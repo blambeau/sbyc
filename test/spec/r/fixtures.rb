@@ -14,8 +14,6 @@ module SByC
       SYMBOLS  = [ :var, :something_with_underscores, :'s#', :hello, :"s-b-y-c", :"12" ]
       REGEXPS  = [ /a-z/, /^$/, /\s*/, /[a-z]{15}/ ]
       MODULES  = [ SByC, SByC::R, SByC::R::Boolean ]
-      CLASSES  = [ SByC::R::Boolean ]
-      STRICT_MODULES = MODULES - CLASSES
       PRINSTINE_DOMAINS = SByC::R::Domain.prinstine_domains
       DOMAINS  = PRINSTINE_DOMAINS + [ SByC::R::Domain ]
       DOMAIN_NAMES = [ 'Boolean', 'Domain', 'SByC::R::Integer' ]
