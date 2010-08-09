@@ -11,16 +11,6 @@ module SByC
     extend R::Robustness
     extend R::System
     
-    # Returns a R::Time value
-    def Time(str)
-      ::Time::parse(str)
-    end
-    
-    # Returns a R::Date value
-    def Date(str)
-      ::Date::parse(str)
-    end
-    
     extend(R)
   end # module R
 end # module SByC

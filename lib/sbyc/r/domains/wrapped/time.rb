@@ -15,7 +15,7 @@ module SByC
         def parse_literal(str)
           str = str.to_s.strip
           if str =~ /^Time\((.*)\)$/
-            R::Time($1)
+            ::Time::parse($1)
           else
             __not_a_literal__!(self, str)
           end
@@ -28,7 +28,7 @@ module SByC
         
         # Coerces a string to a time
         def str_coerce(str)
-          R::Time(str)
+          ::Time::parse(str)
         end
     
       end # class << self
