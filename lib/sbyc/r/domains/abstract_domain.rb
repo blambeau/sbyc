@@ -25,6 +25,12 @@ module SByC
           super_domains << super_domain
           self
         end
+        
+        # Checks if a domain is a super domain of this one 
+        def has_super_domain?(super_domain)
+          super_domains.include?(super_domain)
+        end
+        alias :sub_domain_of? :has_super_domain?
       
         # Returns the domain of this domain
         def domain

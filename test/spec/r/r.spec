@@ -6,7 +6,7 @@ describe "R" do
     R.domains.include?(R::Boolean).should be_true
   end
   
-  SByC::Fixtures::R::DOMAINS.each{|i|
+  R::Alpha::sub_domains.each{|i|
     subject{ i }
     it_should_behave_like("A domain")
   }
