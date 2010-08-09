@@ -3,7 +3,29 @@ module SByC
     module Domains
       module AbstractDomain
         include SByC::R::Robustness
+        
+        # Returns known subdomains
+        def sub_domains
+          @sub_domains ||= []
+        end
 
+        # Adds a sub domain
+        def add_sub_domain(subdomain)
+          sub_domains << subdomain
+          self
+        end
+      
+        # Returns known super domains
+        def super_domains
+          @super_domains ||= []
+        end
+
+        # Adds a super domain
+        def add_super_domain(super_domain)
+          super_domains << super_domain
+          self
+        end
+      
         # Returns the domain of this domain
         def domain
           R::Domain

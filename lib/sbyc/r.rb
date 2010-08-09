@@ -8,14 +8,25 @@ module SByC
     extend R::System
     
     def domains
-      @__domains__ ||= []
+      R::Alpha::sub_domains
     end
     
     # Creates a domain
     def CreateDomain(name, class_methods)
+      
+      # Create the domain and builds it
       c = Class.new
-      [ R::Domains::AbstractDomain, class_methods ].flatten.each{|mod| c.extend(mod)}
-      domains << c
+      [ R::Domains::AbstractDomain, class_methods ].flatten.each{|mod| 
+        c.extend(mod)
+      }
+      
+      # Adds it to known domain
+      if const_defined?(:Alpha)
+        R::Alpha.add_sub_domain(c)
+        c.add_super_domain(R::Alpha)
+      end
+      
+      # Returns it
       c
     end
     

@@ -23,25 +23,10 @@ module SByC
         R::Domain::coerce(x)
       end
       
-      # Does a given value looks a domain
-      def looks_a_domain?(x)
-        x.kind_of?(Class) and x.ancestors.include?(R::Domain)
-      end
-      
-      # Does a given value looks a prinstine domain
-      def looks_a_prinstine_domain?(x)
-        looks_a_domain?(x) and !(x == R::Domain)
-      end
-      
       # Returns the domain of a value
       def domain_of(value)
-        if value.respond_to?(:sbyc_domain)
-          return value.sbyc_domain
-        else
-          coerce_domain!(value.class)
-        end
+        R::Alpha::most_specific_domain_of(value)
       end
-      alias :type_of :domain_of
     
       #######################################################################
       ### About literals
@@ -49,23 +34,12 @@ module SByC
       
       # Converts a value to a literal
       def to_literal(value)
-        if value == R::Domain
-          "R::Domain"
-        else
-          domain = domain_of(value)
-          domain.to_literal(value)
-        end
+        R::Alpha::to_literal(value)
       end
     
       # Parses a literal
       def parse_literal(literal)
-        domains.each{|d| 
-          begin
-            return d.parse_literal(literal)
-          rescue SByC::TypeError
-          end
-        }
-        __not_a_literal__!(self, literal)
+        R::Alpha.parse_literal(literal)
       end
       
       #######################################################################

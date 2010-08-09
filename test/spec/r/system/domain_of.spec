@@ -3,6 +3,12 @@ describe "R::domain_of" do
   
   let(:R){ SByC::Fixtures::R }
   
+  SByC::Fixtures::R::DOMAINS.each{|i|
+    it "should recognize #{i}" do
+      R.domain_of(i).should == R::Domain
+    end
+  }
+  
   SByC::Fixtures::R::BOOLEANS.each{|i|
     it "should recognize #{i}" do
       R.domain_of(i).should == R::Boolean
@@ -41,10 +47,6 @@ describe "R::domain_of" do
   
   it "should raise a TypeError when the value is unknown" do
     lambda{ R.domain_of(Object.new) }.should raise_error(SByC::TypeError)
-  end
-  
-  it "should have a type_of alias" do
-    R.type_of(true).should == R::Boolean
   end
     
 end
