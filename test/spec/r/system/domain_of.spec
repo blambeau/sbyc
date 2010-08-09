@@ -39,16 +39,6 @@ describe "R::domain_of" do
     end
   }
   
-  SByC::Fixtures::R::PRINSTINE_DOMAINS.each{|i|
-    it "should recognize #{i}" do
-      R.domain_of(i).should == R::Domain
-    end
-  }
-  
-  it "should recognize R::Domain" do
-    R.domain_of(R::Domain).should == ::Class
-  end
-  
   it "should raise a TypeError when the value is unknown" do
     lambda{ R.domain_of(Object.new) }.should raise_error(SByC::TypeError)
   end

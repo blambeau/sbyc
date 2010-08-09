@@ -14,8 +14,7 @@ module SByC
       SYMBOLS  = [ :var, :something_with_underscores, :'s#', :hello, :"s-b-y-c", :"12" ]
       REGEXPS  = [ /a-z/, /^$/, /\s*/, /[a-z]{15}/ ]
       MODULES  = [ SByC, SByC::R, SByC::R::Boolean ]
-      PRINSTINE_DOMAINS = SByC::R::Domain.prinstine_domains
-      DOMAINS  = PRINSTINE_DOMAINS + [ SByC::R::Domain ]
+      DOMAINS  = SByC::R.domains
       DOMAIN_NAMES = [ 'Boolean', 'Domain', 'SByC::R::Integer' ]
       
       # Yields each value

@@ -1,8 +1,14 @@
 module SByC
   module R
-    class Domain
+    module DomainImpl
       module CommonMethods
         
+        # Returns the domain of this domain
+        def domain
+          R::Domain
+        end
+        alias :sbyc_domain :domain
+    
         # Coerces from a ruby value
         def ruby_coerce(value)
           return value if is_value?(value)
@@ -30,7 +36,7 @@ module SByC
         end
     
       end # module CommonMethods
-    end # class Domain
+    end # class DomainImpl
   end # module R
 end # module SByC
 

@@ -19,9 +19,9 @@ module SByC
       #######################################################################
     
       # Returns the domains
-      def domains
-        [ R::Domain ] + R::Domain.prinstine_domains
-      end
+      # def domains
+      #   [ R::Domain ] + R::Domain.prinstine_domains
+      # end
     
       # Ensures a domain on x
       def coerce_domain!(x)
@@ -54,7 +54,12 @@ module SByC
       
       # Converts a value to a literal
       def to_literal(value)
-        domain_of(value).to_literal(value)
+        if value == R::Domain
+          "R::Domain"
+        else
+          domain = domain_of(value)
+          domain.to_literal(value)
+        end
       end
     
       # Parses a literal

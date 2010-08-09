@@ -5,7 +5,6 @@ describe "R::literal methods" do
   
   SByC::Fixtures::R.each_value{|i|
     it "should correctly handle literal #{i}" do
-      next if i == R::Domain
       R::to_literal(i).should be_kind_of(String)
       R::parse_literal(R::to_literal(i)).should == i
     end

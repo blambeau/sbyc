@@ -12,14 +12,17 @@ module SByC
       @__all_domains__ ||= []
     end
     
-    def WrapRubyDomain(ruby_classes, class_methods)
-      c = Class.new(R::Domain)
-      c.extend(class_methods)
-      c
+    def domains
+      __all_domains__
     end
     
-    def WrappedDomain(*args)
-      R::Domain
+    def WrapRubyDomain(ruby_classes, class_methods)
+      c = Class.new
+      c.extend(R::Robustness)
+      c.extend(R::DomainImpl::CommonMethods)
+      c.extend(class_methods)
+      __all_domains__ << c
+      c
     end
     
     extend(R)
@@ -27,7 +30,7 @@ module SByC
 end # module SByC
 
 
-require 'sbyc/r/domain'
+require 'sbyc/r/domain_impl'
 require 'sbyc/r/domains'
 
 require 'sbyc/r/operators'

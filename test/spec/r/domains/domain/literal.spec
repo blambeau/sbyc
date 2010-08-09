@@ -1,4 +1,4 @@
-require File.expand_path('../../fixtures', __FILE__)
+require File.expand_path('../../../fixtures', __FILE__)
 describe "R::Domain.parse_literal" do
   
   SByC::Fixtures::R::DOMAINS.each{|i|
@@ -12,7 +12,6 @@ describe "R::Domain.parse_literal" do
       got = R::Domain.parse_literal(i)
       got.should_not be_nil
       got.should be_kind_of(Class)
-      got.ancestors.include?(R::Domain).should be_true
     end
   }
 
