@@ -7,11 +7,7 @@ describe "R::Domain.values" do
   
   it "should have domains only" do
     R::Domain.values.each{|d| 
-      if d == R::Domain
-        d.domain.should == ::Class
-      else
-        d.domain.should == R::Domain
-      end
+      d.domain.should == R::Domain
       R::Domain.is_value?(d).should be_true
     }
   end

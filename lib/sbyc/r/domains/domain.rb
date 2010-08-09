@@ -8,13 +8,7 @@ module SByC
         'FalseClass' => :Boolean,
         'TrueClass'  => :Boolean
       }
-      
-      # Returns the domain of this domain
-      def domain
-        ::Class
-      end
-      alias :sbyc_domain :domain
-
+            
       # Returns true if a given value belongs to this domain,
       # false otherwise
       def is_value?(value)
