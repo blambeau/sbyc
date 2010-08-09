@@ -1,5 +1,5 @@
 SByC::R::install{|s|
- s.wrap_operator [:not, :~], [s::Boolean], s::Boolean, lambda{|v| !v} 
- s.wrap_operator [:and, :&], [s::Boolean, s::Boolean], s::Boolean
- s.wrap_operator [:or,  :|], [s::Boolean, s::Boolean], s::Boolean
+ s.wrap_operator [:complement,  :not, :~], [s::Boolean], s::Boolean, lambda{|v| !v[0]} 
+ s.wrap_operator [:conjunction, :and, :&], [s::Boolean, s::Boolean], s::Boolean
+ s.wrap_operator [:disjunction, :or,  :|], [s::Boolean, s::Boolean], s::Boolean
 }

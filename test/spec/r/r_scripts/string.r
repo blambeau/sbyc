@@ -1,3 +1,9 @@
+# equals?
+(should (equals? "hello", "hello"),
+        (eq true))
+(should (equals? "HELLO", "hello"),
+        (eq false))
+
 # capitalize
 (should (capitalize "hello"),
         (eq "Hello"))

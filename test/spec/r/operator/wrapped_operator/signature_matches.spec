@@ -13,10 +13,6 @@ describe "R::Operator.signature_matches?" do
       op.signature_matches?([R::String]).should == false
     end
     
-    it "should not match on nil" do
-      op.signature_matches?([nil]).should == false
-    end
-    
     it "should not match on too few args" do
       op.signature_matches?([]).should == false
     end

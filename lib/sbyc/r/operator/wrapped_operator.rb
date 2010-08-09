@@ -33,7 +33,8 @@ module SByC
       def signature_matches?(args)
         return false unless signature.size == args.size
         signature.zip(args).all?{|pair|
-          pair[0] == pair[1]
+          declared, actual = pair
+          (actual == declared) || (actual.has_super_domain?(declared))
         }
       end
       
