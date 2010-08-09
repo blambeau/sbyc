@@ -1,8 +1,9 @@
 module SByC
   module R
-    module DomainImpl
-      module CommonMethods
-        
+    module Domains
+      module AbstractDomain
+        include SByC::R::Robustness
+
         # Returns the domain of this domain
         def domain
           R::Domain
@@ -30,9 +31,8 @@ module SByC
         def short_name
           (name =~ /::([^:]+)$/) ? $1 : name
         end
-    
-      end # module CommonMethods
-    end # class DomainImpl
+        
+      end # module AbstractDomain
+    end # module Domains
   end # module R
 end # module SByC
-
