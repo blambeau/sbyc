@@ -26,6 +26,6 @@ module SByC
       end
       
     end # module FloatDomain
-    Float = R::WrapRubyDomain(::Float, FloatDomain)
+    Float = R::WrapRubyDomain(:Float, ::Float, FloatDomain)
   end # module R
 end # module SByC

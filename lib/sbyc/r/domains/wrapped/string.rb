@@ -34,6 +34,6 @@ module SByC
       end
       
     end # module StringDomain
-    String = R::WrapRubyDomain(::String, StringDomain)
+    String = R::WrapRubyDomain(:String, ::String, StringDomain)
   end # module R
 end # module SByC

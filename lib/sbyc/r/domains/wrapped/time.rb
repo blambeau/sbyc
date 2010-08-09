@@ -30,6 +30,6 @@ module SByC
       end
       
     end # module TimeDomain
-    Time = R::WrapRubyDomain(::Time, TimeDomain)
+    Time = R::WrapRubyDomain(:TIme, ::Time, TimeDomain)
   end # module R
 end # module SByC

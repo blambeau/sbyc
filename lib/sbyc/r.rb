@@ -19,13 +19,8 @@ module SByC
       c
     end
     
-    def WrapRubyDomain(ruby_classes, class_methods)
-      c = Class.new
-      c.extend(R::Domains::AbstractDomain)
-      c.extend(R::Domains::WrappedDomain)
-      c.extend(class_methods)
-      domains << c
-      c
+    def WrapRubyDomain(name, ruby_classes, class_methods)
+      CreateDomain(name, [ R::Domains::WrappedDomain, class_methods ])
     end
     
     extend(R)

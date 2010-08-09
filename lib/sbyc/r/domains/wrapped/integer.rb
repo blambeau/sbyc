@@ -26,6 +26,6 @@ module SByC
       end
     
     end # module IntegerDomain
-    Integer = R::WrapRubyDomain(::Integer, IntegerDomain)
+    Integer = R::WrapRubyDomain(:Integer, ::Integer, IntegerDomain)
   end # module R
 end # module SByC
