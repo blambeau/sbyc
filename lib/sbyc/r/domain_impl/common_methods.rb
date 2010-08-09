@@ -28,11 +28,7 @@ module SByC
         
         # Returns short name
         def short_name
-          if name =~ /::([^:]+)$/
-            $1
-          else
-            name
-          end
+          (name =~ /::([^:]+)$/) ? $1 : name
         end
     
       end # module CommonMethods

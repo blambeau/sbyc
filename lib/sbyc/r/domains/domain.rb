@@ -36,11 +36,7 @@ module SByC
       # Converts a value to a literal
       def to_literal(value)
         name = value.name.to_s
-        if name =~ /^SByC::R::(.*)$/
-          $1
-        else
-          name
-        end
+        (name =~ /^SByC::R::(.*)$/) ? $1 : name
       end
 
       # Coerces from a ruby value
