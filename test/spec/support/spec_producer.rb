@@ -24,10 +24,14 @@ module SByC
 
         rule(:should) do |engine, node|
           @assertion_count += 1
-          @to_check = R::evaluate({}, node[0])
-          ok, value = engine.apply(node[1])
-          unless ok
-            @failures << [node, value]
+          begin
+            @to_check = R::evaluate({}, node[0])
+            ok, value = engine.apply(node[1])
+            unless ok
+              @failures << [node, value]
+            end
+          rescue StandardError => ex
+            @failures << [node, ex.message]
           end
         end
 

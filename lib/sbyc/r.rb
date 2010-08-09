@@ -27,3 +27,4 @@ end # module SByC
 require 'sbyc/r/system/bool_op'
 require 'sbyc/r/system/string_op'
 require 'sbyc/r/system/integer_op'
+require 'sbyc/r/system/float_op'
