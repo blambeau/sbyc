@@ -1,5 +1,6 @@
 require 'time'
 require 'date'
+require 'sbyc/typing/r/robustness'
 require 'sbyc/typing/r/operator'
 require 'sbyc/typing/r/domain'
 require 'sbyc/typing/r/domains'
@@ -7,7 +8,7 @@ require 'sbyc/typing/r/system'
 module SByC
   module Typing
     module R
-      extend Typing::Robustness
+      extend Typing::R::Robustness
       extend Typing::R::System
       
       # Returns a R::Time value

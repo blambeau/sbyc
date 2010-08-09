@@ -1,7 +1,7 @@
 require File.expand_path('../../fixtures', __FILE__)
-describe "SByC::Typing::Robustness.find_ruby_module" do
+describe "SByC::Typing::R::Robustness.find_ruby_module" do
   
-  let(:r){ SByC::Typing::Robustness }
+  let(:r){ SByC::Typing::R::Robustness }
   
   describe 'with default start (Kernel)' do
     SByC::Fixtures::R::MODULES.each{|i|
@@ -12,7 +12,7 @@ describe "SByC::Typing::Robustness.find_ruby_module" do
   end
   
   describe 'with a specifc start (SByC::Typing)' do
-    ['Robustness', 'R::Boolean'].each{|i|
+    ['R::Robustness', 'R::Boolean'].each{|i|
       it("should correctly resolve #{i.inspect}") do 
         real = Kernel.eval("SByC::Typing::#{i}")
         got  = r.__find_ruby_module__(i, SByC::Typing)
