@@ -1,6 +1,6 @@
 module SByC
   module R
-    class Regexp < R::Domain
+    class Regexp < R::WrappedDomain()
       
       class << self
         

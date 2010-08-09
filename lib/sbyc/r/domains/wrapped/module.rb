@@ -1,6 +1,6 @@
 module SByC
   module R
-    class Module < R::Domain
+    class Module < R::WrappedDomain()
       
       class << self
         

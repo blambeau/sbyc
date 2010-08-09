@@ -1,6 +1,6 @@
 module SByC
   module R
-    class Date < R::Domain
+    class Date < R::WrappedDomain()
       
       class << self
         

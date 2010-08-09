@@ -1,6 +1,6 @@
 module SByC
   module R
-    class Time < R::Domain
+    class Time < R::WrappedDomain()
       
       class << self
         

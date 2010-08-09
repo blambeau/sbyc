@@ -1,6 +1,6 @@
 module SByC
   module R
-    class Symbol < R::Domain
+    class Symbol < R::WrappedDomain()
 
       class << self
 

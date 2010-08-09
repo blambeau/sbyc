@@ -1,6 +1,6 @@
 module SByC
   module R
-    class Float < R::Domain
+    class Float < R::WrappedDomain()
       
       class << self
         

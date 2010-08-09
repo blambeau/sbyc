@@ -1,6 +1,6 @@
 module SByC
   module R
-    class Boolean < R::Domain
+    class Boolean < R::WrappedDomain()
       
       class << self
         

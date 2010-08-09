@@ -1,6 +1,6 @@
 module SByC
   module R
-    class Integer < R::Domain
+    class Integer < R::WrappedDomain()
       
       class << self
         
