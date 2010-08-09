@@ -31,11 +31,6 @@ module SByC
         most_specific_domain_of(value).to_literal(value)
       end
 
-      # Coerces from a ruby value
-      def ruby_coerce(value)
-        nil
-      end
-        
     end # module AlphaDomain
     Alpha = R::CreateDomain(:Alpha, AlphaDomain)
   end # module R
