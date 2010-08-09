@@ -40,6 +40,7 @@ end # module SByC
 
 
 require 'sbyc/r/domains'
+require 'sbyc/r/structures'
 
 require 'sbyc/r/operators'
 require 'sbyc/r/operator'

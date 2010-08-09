@@ -4,12 +4,27 @@ module SByC
       module AbstractDomain
         include SByC::R::Robustness
         
+        #######################################################################
+        ### About itself
+        #######################################################################
+        
         # Returns the domain of this domain
         def domain
           R::Domain
         end
         alias :sbyc_domain :domain
+
+        # Returns short name
+        def short_name
+          (name =~ /::([^:]+)$/) ? $1 : name
+        end
+        
+
     
+        #######################################################################
+        ### About sub domains
+        #######################################################################
+        
         # Returns known subdomains
         def sub_domains
           @sub_domains ||= []
@@ -20,7 +35,13 @@ module SByC
           sub_domains << subdomain
           self
         end
+
+
       
+        #######################################################################
+        ### About superdomains
+        #######################################################################
+        
         # Returns known super domains
         def super_domains
           @super_domains ||= []
@@ -38,6 +59,33 @@ module SByC
         end
         alias :sub_domain_of? :has_super_domain?
       
+
+        #######################################################################
+        ### About structures
+        #######################################################################
+        
+        # Returns type structures
+        def structures
+          @structures ||= []
+        end
+
+        # Adds a structure
+        def add_structure(structure)
+          structures << structure
+          self
+        end
+        
+        # Checks if a domain has a given structure
+        def has_structure?(structure)
+          structures.include?(structure)
+        end
+      
+      
+      
+        #######################################################################
+        ### About coercion
+        #######################################################################
+        
         # Coerces from a ruby value
         def ruby_coerce(value)
           return value if is_value?(value)
@@ -53,11 +101,6 @@ module SByC
           else
             ruby_coerce(value)
           end
-        end
-        
-        # Returns short name
-        def short_name
-          (name =~ /::([^:]+)$/) ? $1 : name
         end
         
       end # module AbstractDomain

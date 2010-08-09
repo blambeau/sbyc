@@ -14,6 +14,10 @@ module SByC
         operators.wrap_operator(*args, &block)
       end
     
+      def add_structure(domain, structure)
+        structure.install(self, domain)
+      end
+    
       #######################################################################
       ### About domains
       #######################################################################
