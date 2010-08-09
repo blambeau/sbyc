@@ -13,12 +13,12 @@ module SByC
       DATES    = [ Date.today ]
       SYMBOLS  = [ :var, :something_with_underscores, :'s#', :hello, :"s-b-y-c", :"12" ]
       REGEXPS  = [ /a-z/, /^$/, /\s*/, /[a-z]{15}/ ]
-      MODULES  = [ SByC, SByC::Typing, SByC::Typing::R, SByC::Typing::R::Boolean ]
-      CLASSES  = [ SByC::Typing::R::Boolean ]
+      MODULES  = [ SByC, SByC::R, SByC::R::Boolean ]
+      CLASSES  = [ SByC::R::Boolean ]
       STRICT_MODULES = MODULES - CLASSES
-      PRINSTINE_DOMAINS = SByC::Typing::R::Domain.prinstine_domains
-      DOMAINS  = PRINSTINE_DOMAINS + [ SByC::Typing::R::Domain ]
-      DOMAIN_NAMES = [ 'Boolean', 'Domain', 'SByC::Typing::R::Integer' ]
+      PRINSTINE_DOMAINS = SByC::R::Domain.prinstine_domains
+      DOMAINS  = PRINSTINE_DOMAINS + [ SByC::R::Domain ]
+      DOMAIN_NAMES = [ 'Boolean', 'Domain', 'SByC::R::Integer' ]
       
       # Yields each value
       def self.each_value(&block)

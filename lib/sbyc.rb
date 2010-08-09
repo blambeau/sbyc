@@ -17,5 +17,5 @@ end # module SByC
 require 'sbyc/errors'
 require 'sbyc/codetree'
 require 'sbyc/type_system'
-require 'sbyc/typing'
+require 'sbyc/r'
 SByC::TypeSystem::Ruby::deprecated = true
