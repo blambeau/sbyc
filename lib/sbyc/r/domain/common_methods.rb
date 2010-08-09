@@ -2,7 +2,6 @@ module SByC
   module R
     class Domain
       module CommonMethods
-        include OperatorMethods
         
         # Coerces from a ruby value
         def ruby_coerce(value)

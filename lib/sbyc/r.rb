@@ -4,6 +4,7 @@ require 'sbyc/r/robustness'
 require 'sbyc/r/operator'
 require 'sbyc/r/domain'
 require 'sbyc/r/domains'
+require 'sbyc/r/operators'
 require 'sbyc/r/system'
 module SByC
   module R

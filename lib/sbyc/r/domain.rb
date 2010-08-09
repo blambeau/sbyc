@@ -1,4 +1,3 @@
-require 'sbyc/r/domain/operator_methods'
 require 'sbyc/r/domain/common_methods'
 require 'sbyc/r/domain/prinstine_methods'
 require 'sbyc/r/domain/root_methods'

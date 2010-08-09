@@ -1,9 +1,9 @@
-require File.expand_path('../../fixtures', __FILE__)
-describe "R::Operator.arg_matches?" do
+require File.expand_path('../../../fixtures', __FILE__)
+describe "R::WrappedOperator.arg_matches?" do
   
   describe "on a monadic operator" do
 
-    let(:op){ R::Operator.new([R::Boolean], R::Boolean) }
+    let(:op){ R::WrappedOperator.new([R::Boolean], R::Boolean, :&) }
     
     it "should match on true" do
       op.arg_matches?([true]).should == true
@@ -29,7 +29,7 @@ describe "R::Operator.arg_matches?" do
 
   describe "on a dyadic operator" do
 
-    let(:op){ R::Operator.new([R::String, R::Integer], R::String) }
+    let(:op){ R::WrappedOperator.new([R::String, R::Integer], R::String, :*) }
     
     it "should match on valid args" do
       op.arg_matches?(["a", 3]).should == true

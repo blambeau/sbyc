@@ -5,8 +5,13 @@ module SByC
       #######################################################################
       ### About installation
       #######################################################################
+
       def install(&block)
         block.call(self)
+      end
+      
+      def wrap_operator(*args, &block)
+        operators.wrap_operator(*args, &block)
       end
     
       #######################################################################
@@ -80,14 +85,19 @@ module SByC
       ### About operators
       #######################################################################
       
+      # Returns the collection of operators
+      def operators
+        @operators ||= R::Operators.new
+      end 
+      
       # Returns an operator for a given name and signature
       def find_operator_by_signature(name, signature)
-        signature[0].find_operator_by_signature(name, signature)
+        operators.find_operator(name, signature)
       end
       
       # Returns an operator for a given name and args
       def find_operator_by_args(name, args)
-        find_operator_by_signature(name, args.collect{|arg| domain_of(arg)})
+        operators.find_operator(name, args.collect{|arg| domain_of(arg)})
       end
       
       #######################################################################

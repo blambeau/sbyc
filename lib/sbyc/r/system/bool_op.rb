@@ -1,5 +1,5 @@
 SByC::R::install{|s|
- s::Boolean.add_monadic_operator      [:not, :~], s::Boolean, lambda{|v| !v} 
- s::Boolean.wrap_ruby_dyadic_operator [:and, :&], s::Boolean, s::Boolean
- s::Boolean.wrap_ruby_dyadic_operator [:or,  :|], s::Boolean, s::Boolean
+ s.wrap_operator [:not, :~], [s::Boolean], s::Boolean, lambda{|v| !v} 
+ s.wrap_operator [:and, :&], [s::Boolean, s::Boolean], s::Boolean
+ s.wrap_operator [:or,  :|], [s::Boolean, s::Boolean], s::Boolean
 }
