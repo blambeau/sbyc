@@ -44,7 +44,7 @@ module SByC
           when ::Symbol
             args.shift.send(impl, *args, &block)
           when ::Proc
-            impl.call(args, &block)
+            impl.call(*args, &block)
           else
             raise SByC::Error, "Unable to use #{impl.class} as operator implementation"
         end
