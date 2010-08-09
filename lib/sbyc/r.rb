@@ -7,13 +7,8 @@ module SByC
     extend R::Robustness
     extend R::System
     
-    # Returns all known domains
-    def __all_domains__
-      @__all_domains__ ||= []
-    end
-    
     def domains
-      __all_domains__
+      @__domains__ ||= []
     end
     
     def WrapRubyDomain(ruby_classes, class_methods)
@@ -21,7 +16,7 @@ module SByC
       c.extend(R::Robustness)
       c.extend(R::DomainImpl::CommonMethods)
       c.extend(class_methods)
-      __all_domains__ << c
+      domains << c
       c
     end
     

@@ -18,12 +18,12 @@ module SByC
       # Returns true if a given value belongs to this domain,
       # false otherwise
       def is_value?(value)
-        R::__all_domains__.include?(value)
+        R::domains.include?(value)
       end
       
       # Returns all domains
       def values
-        R::__all_domains__
+        R::domains
       end
   
       # Parses a literal from the domain and returns

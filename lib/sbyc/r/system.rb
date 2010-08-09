@@ -18,11 +18,6 @@ module SByC
       ### About domains
       #######################################################################
     
-      # Returns the domains
-      # def domains
-      #   [ R::Domain ] + R::Domain.prinstine_domains
-      # end
-    
       # Ensures a domain on x
       def coerce_domain!(x)
         R::Domain::coerce(x)
