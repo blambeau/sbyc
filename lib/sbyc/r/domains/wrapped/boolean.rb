@@ -28,6 +28,6 @@ module SByC
       end
       
     end # module BooleanDomain
-    Boolean = R::WrapRubyDomain(:Boolean, [TrueClass, FalseClass], BooleanDomain)
+    Boolean = R::CreateDomain(:Boolean, BooleanDomain)
   end # module R
 end # module SByC

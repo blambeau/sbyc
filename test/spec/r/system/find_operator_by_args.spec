@@ -11,7 +11,7 @@ describe "R::find_operator_by_args" do
     it "should find #{name} #{args.inspect}" do
       op = R.find_operator_by_args(name, args)
       op.should_not be_nil
-      op.result_domain.should == returns
+      op.result_domain_by_heading(nil).should == returns
     end
 
   }

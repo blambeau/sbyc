@@ -29,6 +29,12 @@ module SByC
         add_operator(names, WrappedOperator.new(signature, returns, impl))
       end
       
+      def aggregate_operator(names, operand_domain, neutral_value, impl = nil)
+        names = [ names ] unless names.kind_of?(Array)
+        impl = names.last if impl.nil?
+        add_operator(names, AggregateOperator.new(operand_domain, neutral_value, impl))
+      end
+      
     end # class Operators
   end # module R
 end # module SByC

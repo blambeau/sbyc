@@ -5,9 +5,6 @@ module SByC
       # Operator signature
       attr_reader :signature
       
-      # Domain of the result
-      attr_reader :result_domain
-      
       # Implementation name
       attr_reader :impl
       
@@ -36,6 +33,11 @@ module SByC
           declared, actual = pair
           (actual == declared) || (actual.has_super_domain?(declared))
         }
+      end
+      
+      # Returns resulting domain when applied to a heading
+      def result_domain_by_heading(args)
+        @result_domain
       end
       
       # Call the operator

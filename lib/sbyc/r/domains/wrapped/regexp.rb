@@ -34,6 +34,6 @@ module SByC
       end
       
     end # module RegexpDomain
-    Regexp = R::WrapRubyDomain(:Regexp, ::Regexp, RegexpDomain)
+    Regexp = R::CreateDomain(:Regexp, RegexpDomain)
   end # module R
 end # module SByC

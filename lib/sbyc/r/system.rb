@@ -13,6 +13,10 @@ module SByC
       def wrap_operator(*args, &block)
         operators.wrap_operator(*args, &block)
       end
+      
+      def aggregate_operator(*args, &block)
+        operators.aggregate_operator(*args, &block)
+      end
     
       def add_structure(domain, structure)
         structure.install(self, domain)
@@ -98,7 +102,7 @@ module SByC
             else
               op = find_operator_by_signature(f, collected)
               if op
-                op.result_domain
+                op.result_domain_by_heading(collected)
               else
                 types_str = collected.collect{|x| x.short_name}.join(', ')
                 __type_check_error__!("No such operator #{f}(#{types_str})")
@@ -120,6 +124,10 @@ module SByC
       #######################################################################
       ### About execution
       #######################################################################
+      
+      def parse(expr = nil, &block)
+        CodeTree::coerce(expr || block)
+      end
       
       # Evaluates an expression inside a given context
       def evaluate(context = {}, expr = nil, &block)

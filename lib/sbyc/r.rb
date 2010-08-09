@@ -30,8 +30,15 @@ module SByC
       c
     end
     
-    def WrapRubyDomain(name, ruby_classes, class_methods)
-      CreateDomain(name, [ R::Domains::WrappedDomain, class_methods ])
+    def CreateUnionDomain(name, class_methods)
+      CreateDomain(name, [ R::Domains::UnionDomain, class_methods ])
+    end
+    
+    def RefineUnionDomain(name, union_domain, class_methods)
+      c = CreateDomain(name, class_methods)
+      union_domain.add_sub_domain(c)
+      c.add_super_domain(union_domain)
+      c
     end
     
     extend(R)

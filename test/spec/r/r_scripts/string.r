@@ -69,6 +69,8 @@
 # concat 
 (should (concat "hello", " world"),
         (eq "hello world"))
+(should (concat "1", "2", "3", "4"),
+        (eq "1234"))
  
 # include?       
 (should (include? "hello", "ll"),

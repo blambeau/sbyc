@@ -6,12 +6,16 @@
 # plus
 (should (plus 12, 13),
         (eq 25))
+(should (plus 1, 2, 3, 4),
+        (eq 10))
 # minus
 (should (minus 25, 13),
         (eq 12))
 # times
 (should (times 5, 5),
         (eq 25))
+(should (times 2, 2, 2, 2),
+        (eq 16))
 
 # compare
 (should (compare 5, 25),

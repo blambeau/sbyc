@@ -30,6 +30,6 @@ module SByC
       end
       
     end # module DateDomain
-    Date = R::WrapRubyDomain(:Date, ::Date, DateDomain)
+    Date = R::CreateDomain(:Date, DateDomain)
   end # module R
 end # module SByC

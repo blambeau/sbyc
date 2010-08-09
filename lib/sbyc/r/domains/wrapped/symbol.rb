@@ -30,6 +30,6 @@ module SByC
       end
       
     end # module SymbolDomain
-    Symbol = R::WrapRubyDomain(:Symbol, ::Symbol, SymbolDomain)
+    Symbol = R::CreateDomain(:Symbol, SymbolDomain)
   end # module R
 end # module SByC

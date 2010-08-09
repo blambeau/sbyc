@@ -26,6 +26,6 @@ module SByC
       end
       
     end # module ModuleDomain
-    Module = R::WrapRubyDomain(:Module, ::Module, ModuleDomain)
+    Module = R::CreateDomain(:Module, ModuleDomain)
   end # module R
 end # module SByC
