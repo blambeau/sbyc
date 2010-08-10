@@ -1,5 +1,5 @@
 require 'sbyc/r/domains/abstract_domain'
+require 'sbyc/r/domains/union_domain'
 require 'sbyc/r/domains/alpha'
 require 'sbyc/r/domains/domain'
-require 'sbyc/r/domains/union_domain'
 require 'sbyc/r/domains/wrapped'

@@ -24,7 +24,8 @@ module SByC
   
         # Converts a value to a literal
         def to_literal(value)
-          sub_domains.find{|sub| sub.is_value?(value)}.to_literal(value)
+          sub = sub_domains.find{|sub| sub.is_value?(value)}
+          sub ? sub.to_literal(value) : __not_a_literal__!(self, value)
         end
 
       end # module UnionDomain
