@@ -2,6 +2,12 @@ module SByC
   module R
     module IntegerDomain
       
+      # Returns exemplars
+      def exemplars
+        [ -(2**(0.size * 8 - 2)), -1, 0, 1, 10, (2**(0.size * 8 - 2) - 1)] +
+        [ -(2**(0.size * 8 - 2)) - 1, (2**(0.size * 8 - 2)) ]
+      end
+      
       # Returns true if a given value belongs to this domain,
       # false otherwise
       def is_value?(value)

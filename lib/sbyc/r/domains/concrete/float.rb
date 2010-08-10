@@ -2,6 +2,11 @@ module SByC
   module R
     module FloatDomain
 
+      # Returns exemplars
+      def exemplars
+        [ -1.0, 0.0, 1.0 ]
+      end
+      
       # Returns true if a given value belongs to this domain,
       # false otherwise
       def is_value?(value)

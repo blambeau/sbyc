@@ -1,6 +1,11 @@
 module SByC
   module R
     module SymbolDomain
+      
+      # Returns exemplars
+      def exemplars
+        [ :var, :something_with_underscores, :'s#', :hello, :"s-b-y-c", :"12" ]
+      end
 
       # Returns true if a given value belongs to this domain,
       # false otherwise

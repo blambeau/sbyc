@@ -2,6 +2,11 @@ module SByC
   module R
     module TimeDomain
       
+      # Returns exemplars
+      def exemplars
+        [ Time.at(0), Time.utc(2010, 8, 5, 12, 15, 00) ]
+      end
+
       # Returns true if a given value belongs to this domain,
       # false otherwise
       def is_value?(value)

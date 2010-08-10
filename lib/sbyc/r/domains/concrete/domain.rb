@@ -9,6 +9,11 @@ module SByC
         'TrueClass'  => :Boolean
       }
             
+      # Returns exemplars
+      def exemplars
+        [ R::Alpha, R::Domain, R::Boolean ]
+      end
+      
       # Returns true if a given value belongs to this domain,
       # false otherwise
       def is_value?(value)

@@ -3,6 +3,11 @@ module SByC
     module AbstractDomain
       module Union
 
+        # Returns exemplars
+        def exemplars
+          sub_domains.collect{|dom| dom.exemplars}.flatten
+        end
+      
         # Returns true if a given value belongs to this domain,
         # false otherwise
         def is_value?(value)

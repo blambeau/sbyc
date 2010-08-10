@@ -2,6 +2,11 @@ module SByC
   module R
     module StringDomain
       
+      # Returns exemplars
+      def exemplars
+        ['', 'hello', "O'Neil", '"What magic, he said"']
+      end
+      
       # Returns true if a given value belongs to this domain,
       # false otherwise
       def is_value?(value)

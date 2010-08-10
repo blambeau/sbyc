@@ -2,6 +2,11 @@ module SByC
   module R
     module DateDomain
       
+      # Returns exemplars
+      def exemplars
+        [ Date.today ]
+      end
+      
       # Returns true if a given value belongs to this domain,
       # false otherwise
       def is_value?(value)

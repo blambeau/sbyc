@@ -2,6 +2,11 @@ module SByC
   module R
     module ModuleDomain
       
+      # Returns exemplars
+      def exemplars
+        [ SByC, SByC::R::Boolean ]
+      end
+      
       # Returns true if a given value belongs to this domain,
       # false otherwise
       def is_value?(value)

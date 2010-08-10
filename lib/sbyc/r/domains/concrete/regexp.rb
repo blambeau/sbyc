@@ -2,6 +2,11 @@ module SByC
   module R
     module RegexpDomain
       
+      # Returns exemplars
+      def exemplars
+        [ /a-z/, /^$/, /\s*/, /[a-z]{15}/ ]
+      end
+      
       # Returns true if a given value belongs to this domain,
       # false otherwise
       def is_value?(value)
