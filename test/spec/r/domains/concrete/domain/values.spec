@@ -1,4 +1,4 @@
-require File.expand_path('../../../fixtures', __FILE__)
+require File.expand_path('../../fixtures', __FILE__)
 describe "R::Domain.values" do
   
   it "should have expected domains" do

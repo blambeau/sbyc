@@ -1,4 +1,4 @@
-require File.expand_path('../../../fixtures', __FILE__)
+require File.expand_path('../../fixtures', __FILE__)
 describe "R::Domain.parse_literal" do
   
   SByC::Fixtures::R::DOMAINS.each{|i|
