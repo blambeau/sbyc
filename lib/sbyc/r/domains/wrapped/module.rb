@@ -26,6 +26,6 @@ module SByC
       end
       
     end # module ModuleDomain
-    Module = R::CreateDomain(:Module, ModuleDomain)
+    Module = R::RefineUnionDomain(:Module, Alpha, ModuleDomain)
   end # module R
 end # module SByC

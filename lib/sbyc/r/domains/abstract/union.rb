@@ -1,7 +1,7 @@
 module SByC
   module R
-    module Domains
-      module UnionDomain
+    module AbstractDomain
+      module Union
 
         # Returns true if a given value belongs to this domain,
         # false otherwise
@@ -28,7 +28,7 @@ module SByC
           sub ? sub.to_literal(value) : __not_a_literal__!(self, value)
         end
 
-      end # module UnionDomain
-    end # module Domains
+      end # module Union
+    end # module AbstractDomain
   end # module R
 end # module SByC

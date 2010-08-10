@@ -1,7 +1,6 @@
 module SByC
   module R
     module DomainDomain
-      include SByC::R::Domains::AbstractDomain
       
       RUBY_TO_R = {
         'Fixnum'     => :Integer,
@@ -54,6 +53,6 @@ module SByC
       end
         
     end # module DomainDomain
-    Domain = R::CreateDomain(:Domain, DomainDomain)
+    Domain = R::RefineUnionDomain(:Domain, Alpha, DomainDomain)
   end # module R
 end # module SByC

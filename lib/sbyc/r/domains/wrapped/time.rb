@@ -30,6 +30,6 @@ module SByC
       end
       
     end # module TimeDomain
-    Time = R::CreateDomain(:Time, TimeDomain)
+    Time = R::RefineUnionDomain(:Time, Alpha, TimeDomain)
   end # module R
 end # module SByC

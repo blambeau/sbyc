@@ -1,7 +1,6 @@
 module SByC
   module R
     module AlphaDomain
-      include Domains::UnionDomain
       
       # Returns the domain of a value
       def most_specific_domain_of(value)
@@ -9,6 +8,6 @@ module SByC
       end
     
     end # module AlphaDomain
-    Alpha = R::CreateDomain(:Alpha, AlphaDomain)
+    Alpha = R::CreateUnionDomain(:Alpha, AlphaDomain)
   end # module R
 end # module SByC

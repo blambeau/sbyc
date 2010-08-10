@@ -30,6 +30,6 @@ module SByC
       end
       
     end # module SymbolDomain
-    Symbol = R::CreateDomain(:Symbol, SymbolDomain)
+    Symbol = R::RefineUnionDomain(:Symbol, Alpha, SymbolDomain)
   end # module R
 end # module SByC

@@ -1,13 +1,13 @@
 module SByC
   module R
-    module Domains
-      module AbstractDomain
+    module AbstractDomain
+      module Domain
         include SByC::R::Robustness
         
         #######################################################################
         ### About itself
         #######################################################################
-        
+                
         # Returns the domain of this domain
         def domain
           R::Domain
@@ -55,7 +55,11 @@ module SByC
         
         # Checks if a domain is a super domain of this one 
         def has_super_domain?(super_domain)
-          super_domains.include?(super_domain)
+          if super_domains.include?(super_domain)
+            true
+          else
+            super_domains.any?{|dom| dom.has_super_domain?(super_domain)}
+          end
         end
         alias :sub_domain_of? :has_super_domain?
       
@@ -103,7 +107,7 @@ module SByC
           end
         end
         
-      end # module AbstractDomain
-    end # module Domains
+      end # module Domain
+    end # module AbstractDomain
   end # module R
 end # module SByC

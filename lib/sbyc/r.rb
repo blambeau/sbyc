@@ -8,7 +8,7 @@ module SByC
     extend R::System
     
     def domains
-      R::Alpha::sub_domains
+      @__domains__ ||= []
     end
     
     # Creates a domain
@@ -16,22 +16,23 @@ module SByC
       
       # Create the domain and builds it
       c = Class.new
-      [ R::Domains::AbstractDomain, class_methods ].flatten.each{|mod| 
-        c.extend(mod)
-      }
-      
-      # Adds it to known domain
-      if const_defined?(:Alpha)
-        R::Alpha.add_sub_domain(c)
-        c.add_super_domain(R::Alpha)
-      end
+      [ AbstractDomain::Domain, 
+        class_methods ].flatten.each{|mod| c.extend(mod)}
+        
+      # Trace it
+      domains << c
       
       # Returns it
       c
     end
     
     def CreateUnionDomain(name, class_methods)
-      CreateDomain(name, [ R::Domains::UnionDomain, class_methods ])
+      c = CreateDomain(name, [ AbstractDomain::Union, class_methods ])
+      unless name == :Alpha
+        R::Alpha.add_sub_domain(c)
+        c.add_super_domain(R::Alpha)
+      end
+      c
     end
     
     def RefineUnionDomain(name, union_domain, class_methods)
@@ -44,7 +45,6 @@ module SByC
     extend(R)
   end # module R
 end # module SByC
-
 
 require 'sbyc/r/domains'
 require 'sbyc/r/structures'
