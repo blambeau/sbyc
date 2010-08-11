@@ -56,10 +56,11 @@ require 'sbyc/r/operators'
 require 'sbyc/r/operator'
 
 require 'sbyc/r/system/alpha'
-
-require 'sbyc/r/system/numeric_op'
-require 'sbyc/r/system/integer_op'
-require 'sbyc/r/system/float_op'
-
 require 'sbyc/r/system/boolean'
 require 'sbyc/r/system/string'
+require 'sbyc/r/system/numeric'
+require 'sbyc/r/system/integer'
+require 'sbyc/r/system/float'
+
+require 'sbyc/r/system/numeric_op'
+

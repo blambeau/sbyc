@@ -53,19 +53,20 @@ module SByC
 
           # Find an operator that matches a given signature
           def find_operator(name, signature)
-            ops = operators
-            if ops.key?(name) 
-              op = ops[name]
-              op.signature_matches?(signature) ? op : nil
-            elsif @__domain__
+            # first case, an operator with that name exists
+            if operators.key?(name) 
+              op = operators[name]
+              return op if op.signature_matches?(signature)
+            end
+            # not exists or no match
+            if @__domain__
               @__domain__.super_domains.each{|dom|
                 op = dom::Operators.find_operator(name, signature)
                 return op unless op.nil?
               }
-              nil
-            else
-              nil
             end
+            # nothing found
+            nil
           end
 
         end

@@ -3,17 +3,25 @@
         (eq false))
 (should (equals? 12, 12),
         (eq true))
-# plus
+# addition
+(should (addition 12, 13),
+        (eq 25))
+(should (addition 1, 2, 3, 4),
+        (eq 10))
 (should (plus 12, 13),
         (eq 25))
-(should (plus 1, 2, 3, 4),
-        (eq 10))
-# minus
+# substraction
+(should (substraction 25, 13),
+        (eq 12))
 (should (minus 25, 13),
         (eq 12))
-# times
-(should (times 5, 5),
+# multiplication
+(should (multiplication 5, 5),
         (eq 25))
+(should (multiplication 2, 2, 2, 2),
+        (eq 16))
+(should (multiply 2, 2, 2, 2),
+        (eq 16))
 (should (times 2, 2, 2, 2),
         (eq 16))
 
