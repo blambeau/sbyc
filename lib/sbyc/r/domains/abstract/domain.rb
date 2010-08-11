@@ -99,7 +99,32 @@ module SByC
           structures.include?(structure)
         end
       
-      
+        #######################################################################
+        ### About operators
+        #######################################################################
+        
+        # Finds an operator by signature
+        def find_operator(name, signature, requester = self)
+          # first case: a matching operator exists in domain own operators
+          op = self::Operators::find_operator(name, signature, requester)
+          return op unless op.nil?
+          
+          # third case: a matching operator exists in a structure
+          each_structure{|struct|
+            op = struct.find_operator(name, signature, requester)
+            return op unless op.nil?
+          }
+          
+          # second case: a matching operator exists in a super domain
+          each_super_domain{|dom|
+            op = dom.find_operator(name, signature, requester)
+            return op unless op.nil?
+          }
+          
+          # nothing found
+          nil
+        end
+        
       
         #######################################################################
         ### About coercion
