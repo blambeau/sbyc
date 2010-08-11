@@ -5,10 +5,17 @@ module SByC
         
         # Factors an operator set
         def self.factor(domain)
-          Class.new.extend(ClassMethods)
+          c = Class.new.extend(ClassMethods)
+          c.__set_domain__(domain)
+          c
         end
 
         module ClassMethods
+
+          # Sets the domain
+          def __set_domain__(domain)
+            @__domain__ = domain
+          end
 
           # Returns installed operators
           def operators
@@ -50,6 +57,12 @@ module SByC
             if ops.key?(name) 
               op = ops[name]
               op.signature_matches?(signature) ? op : nil
+            elsif @__domain__
+              @__domain__.super_domains.each{|dom|
+                op = dom::Operators.find_operator(name, signature)
+                return op unless op.nil?
+              }
+              nil
             else
               nil
             end

@@ -53,7 +53,8 @@ require 'sbyc/r/structures'
 require 'sbyc/r/operators'
 require 'sbyc/r/operator'
 
-require 'sbyc/r/system/alpha_op'
+require 'sbyc/r/system/alpha'
+
 require 'sbyc/r/system/string_op'
 require 'sbyc/r/system/numeric_op'
 require 'sbyc/r/system/integer_op'
