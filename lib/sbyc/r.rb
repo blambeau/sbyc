@@ -50,7 +50,6 @@ module SByC
 end # module SByC
 
 require 'sbyc/r/domains'
-require 'sbyc/r/operators'
 require 'sbyc/r/operator'
 
 require 'sbyc/r/structures'
