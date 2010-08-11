@@ -140,7 +140,7 @@ module SByC
         def coerce(value)
           if is_value?(value)
             return value
-          elsif value.kind_of?(String) 
+          elsif value.kind_of?(::String) 
             str_coerce(value) 
           else
             ruby_coerce(value)

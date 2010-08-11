@@ -33,7 +33,7 @@ module SByC
       # Raises a TypeError with a message explaining that _value_
       # cannot be coerced to a given domain
       def __not_a_valid_value__!(domain, value, cal = caller)
-        raise ::SByC::TypeError, "Unable to coerce #{value.inspect} to #{domain.name}", cal
+        raise ::SByC::TypeError, "Unable to coerce #{value.inspect} (#{value.class}) to #{domain.name}", cal
       end
     
       # Rauses a TypeCheckError with a specific message
