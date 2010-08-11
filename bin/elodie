@@ -11,7 +11,7 @@ else
   while !stop
     str = Readline.readline("elodie# ", true)
     case str 
-      when /q(uit?)/
+      when /^q(uit)?$/
         stop = true
       else
         begin
