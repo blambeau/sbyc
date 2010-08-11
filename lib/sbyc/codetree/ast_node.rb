@@ -1,7 +1,13 @@
 module SByC
   module CodeTree
     class AstNode
-    
+      
+      # Source interval for this ast node
+      attr_accessor :source_interval
+      def source; source_interval.source; end
+      def start_index; source_interval.start_index end
+      def stop_index; source_interval.stop_index end
+      
       # Name of the method call
       attr_accessor :name
       alias :function :name

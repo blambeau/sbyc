@@ -1,6 +1,8 @@
 module SByC
   module CodeTree
 
+    class ParseError < StandardError; end
+
     # Operator names
     OPERATOR_NAMES = {
       :'?' => :varref,
@@ -85,4 +87,5 @@ require 'sbyc/codetree/producing'
 require 'sbyc/codetree/matching'
 require 'sbyc/codetree/rewriting'
 require 'sbyc/codetree/name2x'
+require 'sbyc/codetree/source_interval'
 require 'sbyc/codetree/parsing'
