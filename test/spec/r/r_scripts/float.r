@@ -6,8 +6,9 @@
 #
 (should (multiplication 5.0, 5.0),
         (eq 25.0))
-# gt
-(should (gt 5.0, 25.0),
-        (eq false))
-(should (gt 25.0, 5.0),
-        (eq true))
+
+# # gt
+# (should (gt 5.0, 25.0),
+#         (eq false))
+# (should (gt 25.0, 5.0),
+#         (eq true))

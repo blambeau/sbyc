@@ -4,14 +4,20 @@ module SByC
       module OperatorSet
         
         # Factors an operator set
-        def self.factor(domain)
+        def self.factor(domain = nil, &block)
           c = ::Module.new
           c.extend(ClassMethods)
           c.__prepare__(domain)
+          c.define(&block) if block
           c
         end
 
         module ClassMethods
+
+          # Returns unbound
+          def _
+            lambda{ @__domain__ }
+          end
 
           # Sets the domain
           def __prepare__(domain)
@@ -55,18 +61,27 @@ module SByC
 
           # Find an operator that matches a given signature
           def find_operator(name, signature)
-            # first case, an operator with that name exists
+            # first case, an operator with that name exists in
+            # the operators themselve
             if operators.key?(name) 
               op = operators[name]
               return op if op.signature_matches?(signature)
             end
-            # not exists or no match
-            if @__domain__
-              @__domain__.super_domains.each{|dom|
-                op = dom::Operators.find_operator(name, signature)
-                return op unless op.nil?
-              }
-            end
+            
+            # if there is no attached domain, the operator does 
+            # not exist (on structures, typically)
+            return nil unless @__domain__
+            
+            # second case, an operator with that name exists
+            # in a domain structure
+            @__domain__.each_structure{|structure|
+            }
+            
+            # third case, the operator exists in a super domain
+            @__domain__.each_super_domain{|dom|
+              op = dom::Operators.find_operator(name, signature)
+              return op unless op.nil?
+            }
             # nothing found
             nil
           end

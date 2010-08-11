@@ -3,26 +3,6 @@ module SByC
     module System
     
       #######################################################################
-      ### About installation
-      #######################################################################
-
-      def install(&block)
-        block.call(self)
-      end
-      
-      def wrap_operator(*args, &block)
-        operators.wrap_operator(*args, &block)
-      end
-      
-      def aggregate_operator(*args, &block)
-        operators.aggregate_operator(*args, &block)
-      end
-    
-      def add_structure(domain, structure)
-        structure.install(self, domain)
-      end
-    
-      #######################################################################
       ### About domains
       #######################################################################
     
@@ -67,15 +47,9 @@ module SByC
       ### About operators
       #######################################################################
       
-      # Returns the collection of operators
-      def operators
-        @operators ||= R::Operators.new
-      end 
-      
       # Returns an operator for a given name and signature
       def find_operator_by_signature(name, signature)
-        signature[0]::Operators.find_operator(name, signature) ||
-        operators.find_operator(name, signature)
+        signature[0]::Operators.find_operator(name, signature)
       end
       
       # Returns an operator for a given name and args

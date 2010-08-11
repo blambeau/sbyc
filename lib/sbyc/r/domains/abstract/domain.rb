@@ -29,6 +29,11 @@ module SByC
         def sub_domains
           @sub_domains ||= []
         end
+        
+        # Yields the block with each sub domain
+        def each_sub_domain(&block)
+          sub_domains.each(&block)
+        end
 
         # Adds a sub domain
         def add_sub_domain(subdomain)
@@ -51,6 +56,11 @@ module SByC
         def add_super_domain(super_domain)
           super_domains << super_domain
           self
+        end
+        
+        # Yields the block with each super domain
+        def each_super_domain(&block)
+          super_domains.each(&block)
         end
         
         # Checks if a domain is a super domain of this one 
@@ -77,6 +87,11 @@ module SByC
         def add_structure(structure)
           structures << structure
           self
+        end
+        
+        # Yields the block with each structure
+        def each_structure(&block)
+          structures.each(&block)
         end
         
         # Checks if a domain has a given structure

@@ -28,3 +28,4 @@ SByC::R::Numeric::Operators.define{
   def multiplication(operands); operands.inject(1.0){|memo, op| memo * op}; end
   
 }
+SByC::R::Numeric.add_structure SByC::R::Structure::TotalOrder
