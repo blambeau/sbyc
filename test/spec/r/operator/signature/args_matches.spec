@@ -74,4 +74,18 @@ describe "R::Operator::Signature.arg_matches?" do
     
   end
 
+  describe 'on an incomplete signature' do
+
+    let(:sign){ R::Operator::Signature.new([R::String, R::Operator::Signature::MATCHING_TERM]) }
+    
+    it 'should match on correct signature if good requester' do
+      sign.arg_matches?(["hello", "world"], R::String).should be_true
+    end
+    
+    it 'should not match on correct signature if not good requester' do
+      sign.arg_matches?(["hello", "world"], R::Integer).should be_false
+    end
+    
+  end
+
 end

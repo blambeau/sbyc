@@ -16,7 +16,7 @@ module SByC
 
           # Returns unbound
           def _
-            lambda{ @__domain__ }
+            R::Operator::Signature::MATCHING_TERM
           end
 
           # Sets the domain
@@ -61,12 +61,8 @@ module SByC
 
           # Find an operator that matches a given signature
           def find_operator(name, signature, requester = nil)
-            if operators.key?(name) 
-              op = operators[name]
-              return op if op.signature_matches?(signature)
-            else
-              nil
-            end
+            (op = operators[name]) && 
+              op.signature_matches?(signature, requester) ? op : nil
           end
 
         end

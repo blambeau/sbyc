@@ -68,13 +68,13 @@ module SByC
       #########################################################################
       
       # Does the signature matches some arguments?
-      def arg_matches?(args)
-        @signature.arg_matches?(args)
+      def arg_matches?(args, requester = nil)
+        @signature.arg_matches?(args, requester)
       end
       
       # Does the signature matches another signature?
-      def signature_matches?(args)
-        @signature.domain_matches?(args)
+      def signature_matches?(args, requester = nil)
+        @signature.domain_matches?(args, requester)
       end
       
       # Returns resulting domain when applied to a heading
