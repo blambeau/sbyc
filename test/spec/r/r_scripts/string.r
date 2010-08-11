@@ -45,7 +45,7 @@
         (eq "HELLO"))
 
 # at
-(pending \
+(pending
   (should (at "hello", 0),
           (eq "h")),
   (should (at "hello", 4),
@@ -71,7 +71,7 @@
         (eq false))
 
 # matches?       
-(pending \
+(pending
   (should (matches? "hello", /ll/),
           (eq true))
 )
