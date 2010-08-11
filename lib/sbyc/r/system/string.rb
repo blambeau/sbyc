@@ -10,6 +10,15 @@ SByC::R::String::Operators.define{
   def capitalize(operand) operand.capitalize; end
 
   operator{|op|
+    op.description = %Q{ Concatenates strings }
+    op.signature   = SByC::R::Operator::Signature::aggregate(SByC::R::String)
+    op.argnames    = :operands
+    op.returns     = SByC::R::String
+    op.aliases     = [:concat, :+]
+  }
+  def concat(operands) operands.inject(""){|memo,op| memo + op}; end
+
+  operator{|op|
     op.description = %Q{ Puts a string in downcase }
     op.signature   = [SByC::R::String]
     op.argnames    = :operand

@@ -59,4 +59,19 @@ describe "R::Operator::Signature.arg_matches?" do
     
   end
 
+  describe "on a complex signature" do
+  
+    let(:op){ R::Operator::Signature.new([R::Numeric, R::Integer]) }
+    
+    it "should match on valid args" do
+      op.arg_matches?([1, 1]).should == true
+      op.arg_matches?([1.0, 1]).should == true
+    end
+    
+    it "should not match on invalid args" do
+      op.arg_matches?([5, 5.0]).should == false
+    end
+    
+  end
+
 end

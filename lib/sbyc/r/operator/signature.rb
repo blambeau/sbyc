@@ -23,6 +23,10 @@ module SByC
           end
         end
         
+        def self.aggregate(domain)
+          AggregateSignature.new(domain)
+        end
+        
         # Checks if this signature matches a list of
         # domains
         def domain_matches?(domains)
