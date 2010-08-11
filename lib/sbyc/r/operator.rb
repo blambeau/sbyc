@@ -43,7 +43,7 @@ module SByC
 
       # Call the operator
       def call(args, &block)
-        method.call(*args, &block)
+        signature.make_operator_call(method, args, &block)
       end
       
     end # class Operator

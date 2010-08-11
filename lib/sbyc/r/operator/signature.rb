@@ -39,6 +39,11 @@ module SByC
           self.domains.zip(args).all?{|pair| pair[0].is_value?(pair[1])}
         end
         
+        # Makes an operator call on some arguments
+        def make_operator_call(callable, args, &block)
+          callable.call(*args, &block)
+        end
+        
       end # class Signature
     end # class Operator
   end # module R
