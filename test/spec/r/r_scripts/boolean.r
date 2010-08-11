@@ -1,3 +1,7 @@
+(should (Boolean true),
+        (eq true))
+(should (Boolean false),
+        (eq false))
 # equality
 (should (equals? true, true),
         (eq true))
