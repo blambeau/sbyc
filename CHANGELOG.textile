@@ -1,5 +1,10 @@
 h1. CHANGELOG
 
+h2. Version 0.2.0
+
+* Proc parser has been moved in CodeTree::Parsing
+* A new TextParser with additional abilities is written
+
 h2. Version 0.1.4
 
 * Added TypeSystem::Ruby::Boolean marker module

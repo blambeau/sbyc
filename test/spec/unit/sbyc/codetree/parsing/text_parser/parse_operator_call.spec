@@ -1,7 +1,7 @@
 require File.expand_path('../../../../../../spec_helper', __FILE__)
-describe "CodeTree::Parsing::Parser#parse_operator_call" do
+describe "CodeTree::Parsing::TextParser#parse_operator_call" do
   
-  let(:parser){ CodeTree::Parsing::Parser.new(text) }
+  let(:parser){ CodeTree::Parsing::TextParser.new(text) }
   subject{ parser.parse_operator_call }
   
   describe "on a typical operator call" do

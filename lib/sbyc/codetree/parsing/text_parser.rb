@@ -1,7 +1,7 @@
 module SByC
   module CodeTree
     module Parsing
-      class Parser
+      class TextParser
         
         # Keywords
         KEYWORDS = ['true', 'false']
@@ -50,6 +50,15 @@ module SByC
           @index = 0
         end
         
+        def self.parse(code, options)
+          p = TextParser.new(code)
+          if options[:multiline]
+            p.collect{|x| x}
+          else
+            p.parse_statement
+          end
+        end
+        
         ### Utilities
         
         def current_char
@@ -74,14 +83,6 @@ module SByC
           str[0...index].count("\n") + 1
         end
 
-        def parse_failure!(expected)
-          got = (@index >= @source_text.length) ? "EOF" : @source_text[@index, 10]
-          got.gsub! /\t/, '\t'
-          got.gsub! /\n/, '\n'
-          msg = "Expected #{expected} at #{line}:#{column}, got '#{got}'"
-          raise CodeTree::ParseError, msg, caller
-        end
-        
         def literal_node(literal)
           AstNode.new(:_, [ literal ])
         end
@@ -96,6 +97,14 @@ module SByC
         end
         
         ### parsing methods
+        
+        def parse_failure!(expected)
+          got = (@index >= @source_text.length) ? "EOF" : @source_text[@index, 10]
+          got.gsub! /\t/, '\t'
+          got.gsub! /\n/, '\n'
+          msg = "Expected #{expected} at #{line}:#{column}, got '#{got}'"
+          raise CodeTree::ParseError, msg, caller
+        end
         
         def parse_regexp(rx, expected = nil)
           if @source_text.index(rx,@index)==@index
@@ -125,13 +134,18 @@ module SByC
         # Yields the block with each statement in turn
         def each
           until eof?
-            char = current_char
-            if char == '('
-              yield(parse_operator_call)
-            else
-              yield(parse_literal)
-            end
+            yield(parse_statement)
             eat_spaces
+          end
+        end
+        
+        # Parses a single statement
+        def parse_statement
+          char = current_char
+          if char == '('
+            parse_operator_call
+          else
+            parse_literal
           end
         end
         
@@ -276,7 +290,7 @@ module SByC
           variable_node(str.to_sym)
         end
         
-      end # class Parser
+      end # class TextParser
     end # module Parsing
   end # module CodeTree
 end # module SByC

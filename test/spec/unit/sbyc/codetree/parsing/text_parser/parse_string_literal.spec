@@ -1,7 +1,7 @@
 require File.expand_path('../../../../../../spec_helper', __FILE__)
-describe "CodeTree::Parsing::Parser#parse_string_literal" do
+describe "CodeTree::Parsing::TextParser#parse_string_literal" do
   
-  let(:parser){ CodeTree::Parsing::Parser.new(text) }
+  let(:parser){ CodeTree::Parsing::TextParser.new(text) }
   subject{ parser.parse_string_literal }
   
   describe "with 'hello world'" do

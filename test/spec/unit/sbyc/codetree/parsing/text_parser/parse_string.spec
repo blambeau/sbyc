@@ -1,7 +1,7 @@
 require File.expand_path('../../../../../../spec_helper', __FILE__)
-describe "CodeTree::Parsing::Parser#parse_string" do
+describe "CodeTree::Parsing::TextParser#parse_string" do
   
-  let(:parser){ CodeTree::Parsing::Parser.new(text) }
+  let(:parser){ CodeTree::Parsing::TextParser.new(text) }
   
   describe "when the string is present and no eat spaces" do
     let(:text){ "hello   " }

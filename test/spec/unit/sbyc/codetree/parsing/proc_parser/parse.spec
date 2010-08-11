@@ -1,8 +1,8 @@
-require File.expand_path('../../../../../spec_helper', __FILE__)
+require File.expand_path('../../../../../../spec_helper', __FILE__)
 
-describe "CodeTree::ProcParser#parse" do
+describe "CodeTree::Parsing::ProcParser#parse" do
   
-  subject { CodeTree::ProcParser::parse(code) }
+  subject { CodeTree::Parsing::ProcParser::parse(code) }
 
   context "when called with an argument" do 
     let(:expected)   { "(+ (? (_ :a)), (_ 12))" }
@@ -83,7 +83,7 @@ describe "CodeTree::ProcParser#parse" do
   context "when called with a multiline option set to false" do
     let(:expected) { "(puts (to_s (? (_ :x))))" }
     let(:code)     { lambda { (puts (to_s x)) } }
-    subject { CodeTree::ProcParser::parse(code, :multiline => false) }
+    subject { CodeTree::Parsing::ProcParser::parse(code, :multiline => false) }
     specify{
       subject.inspect.should == expected
     }
@@ -92,7 +92,7 @@ describe "CodeTree::ProcParser#parse" do
   context "when called with a multiline option set to true" do
     let(:expected) { "(puts (to_s (? (_ :x))))" }
     let(:code)     { lambda { (puts (to_s x)) } }
-    subject { CodeTree::ProcParser::parse(code, :multiline => true) }
+    subject { CodeTree::Parsing::ProcParser::parse(code, :multiline => true) }
     specify{
       subject.should be_kind_of(Array)
       subject[0].inspect.should == expected
@@ -104,7 +104,7 @@ describe "CodeTree::ProcParser#parse" do
       (puts (to_s x)) 
       (say "hello")
     } }
-    subject { CodeTree::ProcParser::parse(code, :multiline => true) }
+    subject { CodeTree::Parsing::ProcParser::parse(code, :multiline => true) }
     specify{
       subject.should be_kind_of(Array)
       subject.size.should == 2

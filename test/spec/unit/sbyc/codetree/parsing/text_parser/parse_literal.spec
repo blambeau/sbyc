@@ -1,5 +1,5 @@
 require File.expand_path('../../../../../../spec_helper', __FILE__)
-describe "CodeTree::Parsing::Parser#parse_domain_literal" do
+describe "CodeTree::Parsing::TextParser#parse_domain_literal" do
   
   [
     [ 'true',  true ],
@@ -18,7 +18,7 @@ describe "CodeTree::Parsing::Parser#parse_domain_literal" do
     [ ':hello', :hello ],
   ].each{|example|
     it "should decode #{example[0].inspect} correctly" do
-      p = CodeTree::Parsing::Parser.new(example[0])
+      p = CodeTree::Parsing::TextParser.new(example[0])
       p.parse_literal.should == CodeTree::parse{ example[1] }
     end
   }

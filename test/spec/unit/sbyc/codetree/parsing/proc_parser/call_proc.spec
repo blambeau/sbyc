@@ -1,7 +1,7 @@
-require File.expand_path('../../../../../spec_helper', __FILE__)
-describe "CodeTree::ProcParser#call_proc" do
+require File.expand_path('../../../../../../spec_helper', __FILE__)
+describe "CodeTree::Parsing::ProcParser#call_proc" do
   
-  subject{ CodeTree::ProcParser::call_proc(proc).__to_functional_code }
+  subject{ CodeTree::Parsing::ProcParser::call_proc(proc).__to_functional_code }
   
   describe "When the proc has one argument and something is done" do
     let(:proc){ lambda{|t| t.name} }

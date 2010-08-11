@@ -1,8 +1,8 @@
-require File.expand_path('../../../../../spec_helper', __FILE__)
+require File.expand_path('../../../../../../spec_helper', __FILE__)
 
-describe "CodeTree::ProcParser::Expr" do
+describe "CodeTree::Parsing::ProcParser::Expr" do
 
-  let(:the_expr) { CodeTree::ProcParser::Expr.new(nil, nil, nil) }
+  let(:the_expr) { CodeTree::Parsing::ProcParser::Expr.new(nil, nil, nil) }
 
   describe("should not have access to Kernel methods") do
     specify{ 

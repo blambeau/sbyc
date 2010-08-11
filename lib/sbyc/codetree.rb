@@ -36,8 +36,7 @@ module SByC
 
     # Parses some code or block
     def parse(code = nil, options = nil, &block)
-      code, options = nil, code if code.kind_of?(Hash) and options.nil?
-      ProcParser::parse(code, options || {}, &block)
+      Parsing::parse(code, options, &block)
     end
     module_function :parse
 
@@ -81,10 +80,9 @@ module SByC
   end # module CodeTree
 end # module SByC
 require 'sbyc/codetree/ast_node'
-require 'sbyc/codetree/proc_parser'
+require 'sbyc/codetree/parsing'
 require 'sbyc/codetree/eval'
 require 'sbyc/codetree/producing'
 require 'sbyc/codetree/matching'
 require 'sbyc/codetree/rewriting'
 require 'sbyc/codetree/name2x'
-require 'sbyc/codetree/parsing'
