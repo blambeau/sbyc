@@ -3,7 +3,7 @@ SByC::R::String::Operators.define{
   operator{|op|
     op.description = %Q{ Capitalizes a string }
     op.signature   = [SByC::R::String]
-    op.argnames    = :operand
+    op.argnames    = [:operand]
     op.returns     = SByC::R::String
     op.aliases     = [:capitalize]
   }
@@ -11,8 +11,8 @@ SByC::R::String::Operators.define{
 
   operator{|op|
     op.description = %Q{ Concatenates strings }
-    op.signature   = SByC::R::Operator::Signature::aggregate(SByC::R::String)
-    op.argnames    = :operands
+    op.signature   = SByC::R::aggregate_signature(SByC::R::String)
+    op.argnames    = [:operands]
     op.returns     = SByC::R::String
     op.aliases     = [:concat, :+]
   }
@@ -21,7 +21,7 @@ SByC::R::String::Operators.define{
   operator{|op|
     op.description = %Q{ Puts a string in downcase }
     op.signature   = [SByC::R::String]
-    op.argnames    = :operand
+    op.argnames    = [:operand]
     op.returns     = SByC::R::String
     op.aliases     = [:downcase]
   }
@@ -30,7 +30,7 @@ SByC::R::String::Operators.define{
   operator{|op|
     op.description = %Q{ Checks if a string is empty? }
     op.signature   = [SByC::R::String]
-    op.argnames    = :operand
+    op.argnames    = [:operand]
     op.returns     = SByC::R::Boolean
     op.aliases     = [:empty?]
   }
@@ -39,7 +39,7 @@ SByC::R::String::Operators.define{
   operator{|op|
     op.description = %Q{ Returns length of a string }
     op.signature   = [SByC::R::String]
-    op.argnames    = :operand
+    op.argnames    = [:operand]
     op.returns     = SByC::R::Integer
     op.aliases     = [:length]
   }
@@ -48,7 +48,7 @@ SByC::R::String::Operators.define{
   operator{|op|
     op.description = %Q{ Reverses a string }
     op.signature   = [SByC::R::String]
-    op.argnames    = :operand
+    op.argnames    = [:operand]
     op.returns     = SByC::R::String
     op.aliases     = [:reverse]
   }
@@ -57,7 +57,7 @@ SByC::R::String::Operators.define{
   operator{|op|
     op.description = %Q{ Strips the end of a string }
     op.signature   = [SByC::R::String]
-    op.argnames    = :operand
+    op.argnames    = [:operand]
     op.returns     = SByC::R::String
     op.aliases     = [:rstrip]
   }
@@ -66,7 +66,7 @@ SByC::R::String::Operators.define{
   operator{|op|
     op.description = %Q{ Strips a string }
     op.signature   = [SByC::R::String]
-    op.argnames    = :operand
+    op.argnames    = [:operand]
     op.returns     = SByC::R::String
     op.aliases     = [:strip]
   }
@@ -75,7 +75,7 @@ SByC::R::String::Operators.define{
   operator{|op|
     op.description = %Q{ Returns the string }
     op.signature   = [SByC::R::String]
-    op.argnames    = :operand
+    op.argnames    = [:operand]
     op.returns     = SByC::R::String
     op.aliases     = [:to_s]
   }
@@ -84,7 +84,7 @@ SByC::R::String::Operators.define{
   operator{|op|
     op.description = %Q{ Puts a string in upcase }
     op.signature   = [SByC::R::String]
-    op.argnames    = :operand
+    op.argnames    = [:operand]
     op.returns     = SByC::R::String
     op.aliases     = [:upcase]
   }
@@ -93,7 +93,7 @@ SByC::R::String::Operators.define{
   operator{|op|
     op.description = %Q{ Centers a string }
     op.signature   = [SByC::R::String, SByC::R::Integer]
-    op.argnames    = :operand, :length
+    op.argnames    = [:operand, :length]
     op.returns     = SByC::R::String
     op.aliases     = [:center]
   }
@@ -102,7 +102,7 @@ SByC::R::String::Operators.define{
   operator{|op|
     op.description = %Q{ Centers a string }
     op.signature   = [SByC::R::String, SByC::R::String]
-    op.argnames    = :operand, :substr
+    op.argnames    = [:operand, :substr]
     op.returns     = SByC::R::Boolean
     op.aliases     = [:include?]
   }
@@ -111,7 +111,7 @@ SByC::R::String::Operators.define{
   operator{|op|
     op.description = %Q{ Centers a string }
     op.signature   = [SByC::R::String, SByC::R::Integer]
-    op.argnames    = :operand, :nb
+    op.argnames    = [:operand, :nb]
     op.returns     = SByC::R::String
     op.aliases     = [:times, :*]
   }

@@ -10,9 +10,25 @@ SByC::R::Alpha::Operators.define{
   def equals?(left, right) left == right; end
   
   operator{|op|
+    op.description = %Q{ Value equality (aggregate) }
+    op.signature   = SByC::R::aggregate_signature(SByC::R::Alpha)
+    op.argnames    = [:operands]
+    op.returns     = SByC::R::Boolean
+    op.aliases     = [:equal]
+  }
+  def equal(operands) 
+    if operands.empty?
+      true
+    else
+      first = operands.shift
+      operands.all?{|op| equals?(first, op)}
+    end
+  end
+  
+  operator{|op|
     op.description = %Q{ Returns domain of a value }
     op.signature   = [SByC::R::Alpha]
-    op.argnames    = :operand
+    op.argnames    = [:operand]
     op.returns     = SByC::R::Domain
     op.aliases     = [:domain]
   }

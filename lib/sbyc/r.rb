@@ -2,10 +2,12 @@ require 'time'
 require 'date'
 require 'sbyc/r/robustness'
 require 'sbyc/r/system'
+require 'sbyc/r/factory'
 module SByC
   module R
     extend R::Robustness
     extend R::System
+    extend R::Factory
     
     def domains
       @__domains__ ||= []

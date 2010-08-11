@@ -3,7 +3,7 @@ SByC::R::Boolean::Operators.define{
   operator {|op|
     op.description = %Q{ Computes boolean complement }
     op.signature   = [SByC::R::Boolean]
-    op.argnames    = :operand
+    op.argnames    = [:operand]
     op.returns     = SByC::R::Boolean
     op.aliases     = [:complement, :'!', :'~', :not]
   }

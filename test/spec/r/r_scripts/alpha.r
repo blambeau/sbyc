@@ -6,6 +6,14 @@
 (should (equals? true, ""),
         (eq false))
 
+# equal
+(should (equal true, false),
+        (eq false))
+(should (equal true, true, true),
+        (eq true))
+(should (equal true, false, true),
+        (eq false))
+
 # domain
 (should (domain true),
         (eq R::Boolean))
