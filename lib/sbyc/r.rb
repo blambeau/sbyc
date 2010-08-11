@@ -82,7 +82,7 @@ end # module SByC
 
 require 'sbyc/r/domains'
 require 'sbyc/r/system/install_domains'
-require 'sbyc/r/structures'
+require 'sbyc/r/system/install_structures'
 require 'sbyc/r/system/alpha'
 require 'sbyc/r/system/boolean'
 require 'sbyc/r/system/string'
