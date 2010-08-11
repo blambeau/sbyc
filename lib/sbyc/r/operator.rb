@@ -1,3 +1,4 @@
+require 'sbyc/r/operator/signature'
 module SByC
   module R
     class Operator
@@ -6,7 +7,7 @@ module SByC
       attr_accessor :description
       
       # Operator's signature
-      attr_accessor :signature
+      attr_reader :signature
       
       # Operator's argument names
       attr_accessor :argnames
@@ -20,18 +21,19 @@ module SByC
       # Ruby method implementing the operator
       attr_accessor :method
       
+      # Sets operator signature
+      def signature=(sign)
+        @signature = Signature::coerce(sign)
+      end
+      
       # Does the signature matches some arguments?
       def arg_matches?(args)
-        (signature.size == args.size) &&
-        signature.zip(args).all?{|pair| pair[0].is_value?(pair[1])}
+        @signature.arg_matches?(args)
       end
       
       # Does the signature matches another signature?
       def signature_matches?(args)
-        (signature.size == args.size) &&
-        signature.zip(args).all?{|pair| declared, actual = pair;
-          (actual == declared) || (actual.has_super_domain?(declared))
-        }
+        @signature.domain_matches?(args)
       end
       
       # Returns resulting domain when applied to a heading
