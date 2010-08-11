@@ -19,7 +19,7 @@ module SByC
         SYMBOL_REGEXP = /[:]([^\s:\(\),]+)/
         
         # Regular expression for domains
-        DOMAIN_REGEXP = /([A-Z][A-Z0-9a-z_]+)(::[A-Z][A-Z0-9a-z_]+)*/
+        DOMAIN_REGEXP = /([A-Z][A-Z0-9a-z_]*)(::[A-Z][A-Z0-9a-z_]*)*/
         
         # Regular expression for strings
         SINGLE_QUOTED_STRING_REGEXP = /['](([\\][']|[^'])*?)[']/
@@ -53,7 +53,9 @@ module SByC
         def self.parse(code, options)
           p = TextParser.new(code)
           if options[:multiline]
-            p.collect{|x| x}
+            collected = []
+            p.each{|x| collected << x}
+            collected
           else
             p.parse_statement
           end
@@ -141,6 +143,7 @@ module SByC
         
         # Parses a single statement
         def parse_statement
+          eat_spaces
           char = current_char
           if char == '('
             parse_operator_call
@@ -221,20 +224,20 @@ module SByC
         end
         
         def parse_integer_literal
-          literal_node(parse_regexp(INTEGER_REGEXP).to_i)
+          literal_node(parse_regexp(INTEGER_REGEXP, "integer").to_i)
         end
         
         def parse_float_literal
-          literal_node(parse_regexp(FLOAT_REGEXP).to_f)
+          literal_node(parse_regexp(FLOAT_REGEXP, "float").to_f)
         end
         
         def parse_domain_literal
-          literal_node(resolve_domain(parse_regexp(DOMAIN_REGEXP)))
+          literal_node(resolve_domain(parse_regexp(DOMAIN_REGEXP, "domain")))
         end
         
         def parse_symbol_literal
           begin
-            literal_node(Kernel.eval(parse_regexp(SYMBOL_REGEXP)))
+            literal_node(Kernel.eval(parse_regexp(SYMBOL_REGEXP, "symbol")))
           rescue CodeTree::ParseError
             raise
           rescue Exception => ex
@@ -245,9 +248,9 @@ module SByC
         def parse_string_literal
           char = current_char
           str = if char == '"'
-            parse_regexp(DOUBLE_QUOTED_STRING_REGEXP)
+            parse_regexp(DOUBLE_QUOTED_STRING_REGEXP, "string literal")
           elsif char == "'"
-            parse_regexp(SINGLE_QUOTED_STRING_REGEXP)
+            parse_regexp(SINGLE_QUOTED_STRING_REGEXP, "string literal")
           else
             parse_failure!("string literal")
           end
@@ -260,7 +263,7 @@ module SByC
         
         def parse_regexp_literal
           begin
-            literal_node(Kernel.eval(parse_regexp(REGEXP_REGEXP)))
+            literal_node(Kernel.eval(parse_regexp(REGEXP_REGEXP, "regular expression")))
           rescue CodeTree::ParseError
             raise
           rescue Exception => ex
@@ -277,12 +280,12 @@ module SByC
         end
           
         def parse_boolean_literal
-          literal_node(parse_regexp(BOOLEAN_REGEXP) == "true" ? true : false)
+          literal_node(parse_regexp(BOOLEAN_REGEXP, "boolean") == "true" ? true : false)
         end
         
         def parse_variable_literal
           index = @index
-          str = parse_regexp(VARIABLE_NAME_REGEXP)
+          str = parse_regexp(VARIABLE_NAME_REGEXP, "variable")
           if KEYWORDS.include?(str)
             @index = index
             parse_failure!("variable") 
