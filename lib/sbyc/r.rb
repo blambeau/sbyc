@@ -18,6 +18,7 @@ module SByC
       c = Class.new
       [ AbstractDomain::Domain, 
         class_methods ].flatten.each{|mod| c.extend(mod)}
+      c.const_set(:Operators, R::AbstractDomain::OperatorSet.factor(c))
         
       # Trace it
       domains << c
@@ -53,8 +54,10 @@ require 'sbyc/r/operators'
 require 'sbyc/r/operator'
 
 require 'sbyc/r/system/alpha_op'
-require 'sbyc/r/system/bool_op'
 require 'sbyc/r/system/string_op'
 require 'sbyc/r/system/numeric_op'
 require 'sbyc/r/system/integer_op'
 require 'sbyc/r/system/float_op'
+
+require 'sbyc/r/system/boolean'
+require 'sbyc/r/system/string'

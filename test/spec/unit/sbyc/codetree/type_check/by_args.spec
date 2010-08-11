@@ -11,7 +11,7 @@ describe "CodeTree::AstNode#type_check" do
     args = {:x => "hello"}
     CodeTree::type_check(args){ (empty? x) }.should == R::Boolean
     CodeTree::type_check(args){ (length x) }.should == R::Integer
-    CodeTree::type_check(args){ (to_f x) }.should == R::Float
+    CodeTree::type_check(args){ (reverse x) }.should == R::String
   end
   
   it "should raise TypeCheck error on invalid expressions" do

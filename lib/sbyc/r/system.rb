@@ -74,12 +74,13 @@ module SByC
       
       # Returns an operator for a given name and signature
       def find_operator_by_signature(name, signature)
+        signature[0]::Operators.find_operator(name, signature) ||
         operators.find_operator(name, signature)
       end
       
       # Returns an operator for a given name and args
       def find_operator_by_args(name, args)
-        operators.find_operator(name, args.collect{|arg| domain_of(arg)})
+        find_operator_by_signature(name, args.collect{|arg| domain_of(arg)})
       end
       
       #######################################################################

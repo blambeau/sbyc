@@ -36,16 +36,6 @@
 (should (strip "  hello  "),
         (eq "hello"))
 
-# to_i
-(should (to_i "123"),
-        (eq 123))
-
-# to_f
-(should (to_f "123"),
-        (eq 123.0))
-(should (to_f "123.5"),
-        (eq 123.5))
-
 # to_s
 (should (to_s "hello"),
         (eq "hello"))
@@ -65,6 +55,8 @@
 # center
 (should (center "hello", 10),
         (eq "  hello   "))
+(should (center "hello", 2),
+        (eq "hello"))
         
 # concat 
 (should (concat "hello", " world"),
