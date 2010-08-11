@@ -1,6 +1,6 @@
 module SByC
   module R
-    module System
+    module ClassMethods
     
       #######################################################################
       ### About domains
@@ -123,6 +123,6 @@ module SByC
         result
       end
       
-    end # module System
+    end # module ClassMethods
   end # module R
 end # module SByC

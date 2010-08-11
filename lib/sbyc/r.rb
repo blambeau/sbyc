@@ -1,14 +1,13 @@
 require 'time'
 require 'date'
 require 'sbyc/r/robustness'
-require 'sbyc/r/system'
+require 'sbyc/r/class_methods'
 require 'sbyc/r/factory'
 require 'sbyc/r/operator'
-require 'sbyc/r/domains'
 module SByC
   module R
     extend R::Robustness
-    extend R::System
+    extend R::ClassMethods
     extend R::Factory
     
     def domains
@@ -81,6 +80,7 @@ module SByC
   end # module R
 end # module SByC
 
+require 'sbyc/r/domains'
 require 'sbyc/r/system/install_domains'
 require 'sbyc/r/structures'
 require 'sbyc/r/system/alpha'
