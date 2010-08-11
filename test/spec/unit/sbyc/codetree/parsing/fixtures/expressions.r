@@ -14,3 +14,10 @@
                  (returns String)
   (puts 'hello')
 )
+
+(operator {- name:         :domain
+             description:  "Uri's domain"
+             signature:    {- operand: String -}
+             returns:      String -}
+  (send (unwrap operand) :domain) 
+)

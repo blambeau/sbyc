@@ -37,7 +37,7 @@ module SByC
         OPERATOR_NAME_REGEXP = /[^\s:\(\),]+/
         
         # Regular expression for variable name
-        VARIABLE_NAME_REGEXP = /[a-z][^\s\(\),]*/
+        VARIABLE_NAME_REGEXP = /[a-z][^\s\(\),:]*/
         
         # Source text
         attr_reader :source_text
@@ -91,6 +91,10 @@ module SByC
         
         def variable_node(name)
           AstNode.new(:'?', [literal_node(name)])
+        end
+        
+        def args_node(names, values)
+          AstNode.new(:args, [literal_node(names), literal_node(values)])
         end
         
         # Resolves a given domain
@@ -201,6 +205,7 @@ module SByC
              [':'].each{|x| LITERALS_LOOKUP[x]      = :parse_symbol_literal    }
         ['"', "'"].each{|x| LITERALS_LOOKUP[x]      = :parse_string_literal    }
              ['/'].each{|x| LITERALS_LOOKUP[x]      = :parse_regexp_literal    }
+             ['{'].each{|x| LITERALS_LOOKUP[x]      = :parse_args_literal      }
         
         
         def parse_literal
@@ -291,6 +296,30 @@ module SByC
             parse_failure!("variable") 
           end
           variable_node(str.to_sym)
+        end
+
+        def parse_args_literal
+          parse_string('{-', true)
+          names, values = [], []
+          while (char = current_char) != '-'
+            name, value = parse_arg_literal
+            names << name
+            values << value
+            eat_spaces
+            if current_char == ','
+              @index += 1
+              eat_spaces
+            end
+          end
+          parse_string('-}')
+          args_node(names, values)
+        end
+        
+        def parse_arg_literal
+          name = parse_variable_literal.literal
+          parse_string(':', true)
+          value = parse_literal.literal
+          [name, value]
         end
         
       end # class TextParser
