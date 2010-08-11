@@ -1,0 +1,98 @@
+module SByC
+  module CodeTree
+    grammar Parsing
+
+      ### Main rules ####################################################
+      rule main
+        spacing?
+        (statement newline)+
+        spacing?
+      end
+      
+      rule statement 
+        literal / opcall
+      end
+
+      ### Operator call #################################################
+      
+      rule opcall
+        '(' name:opname spacing args:opargs ')'                    <:opcall>
+      end
+      
+      rule opname
+          [\w]+ (':' [\w]+)*                                       <:opname>
+        / (![\s:] .)+ ([:] (![\s:] .)+)*                           <:opname>
+      end
+      
+      rule opargs 
+        head:oparg tail:(opspacing oparg)*
+      end
+      
+      rule oparg
+        literal / opcall
+      end
+      
+      rule opspacing
+        [ \t\n]+ [,]? [ \t\n]*
+      end
+      
+      ### Literals ######################################################
+      rule literal  
+        boolean_literal /
+        string_literal  /
+        float_literal   /
+        integer_literal /
+        regexp_literal  /
+        domain_literal  /
+        symbol_literal
+      end
+      
+      rule boolean_literal 
+        'true' / 'false'                                         <:boolean_literal>
+      end
+      
+      rule string_literal 
+          '"' string:(!'"' ("\\\\" / '\"' / .))* '"'             <:string_literal>
+        / "'" string:(!"'" ("\\\\" / "\\'" / .))* "'"            <:string_literal>
+      end
+      
+      rule float_literal
+        ([0] / [1-9]*) '.' [0-9]+                                <:float_literal>
+      end
+      
+      rule integer_literal
+        '0' / [1-9]+                                             <:integer_literal>
+      end
+      
+      rule regexp_literal
+        '/' (!'/' .)+ '/'                                        <:regexp_literal>
+      end
+      
+      rule domain_literal
+        ruby_constant_literal ('::' ruby_constant_literal)*      <:domain_literal>
+      end
+      
+      rule ruby_constant_literal
+        [A-Z] [a-z0-9_]*
+      end
+      
+      rule symbol_literal
+        ':' (![\s:] .)+                                          <:symbol_literal>
+      end
+
+      ### Spaces ########################################################
+      rule spacing
+        # eat all spaces
+        [ \t\n]*           
+      end
+      rule newline
+        [\n]
+      end
+      rule spaces_or_eof
+        # at least one space, a parenthesis, or EOF
+        [ \t]+ / ![a-zA-Z0-9_] / !.
+      end
+
+    end
+  end
+end
