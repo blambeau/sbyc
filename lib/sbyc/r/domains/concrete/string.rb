@@ -39,6 +39,5 @@ module SByC
       end
       
     end # module StringDomain
-    String = R::RefineUnionDomain(:String, Alpha, StringDomain)
   end # module R
 end # module SByC

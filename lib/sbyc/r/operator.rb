@@ -21,6 +21,11 @@ module SByC
       
       # Ruby method implementing the operator
       attr_reader :method
+
+      # Creates an operator instance      
+      def initialize
+        yield(self) if block_given?
+      end
       
       #########################################################################
       ### Setters
@@ -45,7 +50,7 @@ module SByC
       
       # Sets operator return type
       def returns=(returns)
-        raise ArgumentError, "Invalid operator returns" unless R::domain_of(returns) == R::Domain
+        raise ArgumentError, "Invalid operator returns" unless returns.kind_of?(::Class)
         @returns = returns
       end
 
@@ -57,8 +62,10 @@ module SByC
 
       # Sets operator method
       def method=(method)
-        unless method.kind_of?(::Method) or method.kind_of?(::UnboundMethod)
-          raise ArgumentError, "Invalid operator method" 
+        unless method.kind_of?(::Method) or 
+               method.kind_of?(::UnboundMethod) or
+               method.kind_of?(::Proc)
+          raise ArgumentError, "Invalid operator method #{method} : #{method.class}" 
         end
         @method = method
       end
@@ -78,8 +85,8 @@ module SByC
       end
       
       # Returns resulting domain when applied to a heading
-      def result_domain_by_heading(args)
-        self.returns
+      def result_domain_by_heading(args, requester = nil)
+        self.returns || requester
       end
 
       # Call the operator

@@ -32,6 +32,5 @@ module SByC
       end
     
     end # module IntegerDomain
-    Integer = R::RefineUnionDomain(:Integer, R::Numeric, IntegerDomain)
   end # module R
 end # module SByC

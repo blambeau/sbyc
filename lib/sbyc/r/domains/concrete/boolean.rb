@@ -33,6 +33,5 @@ module SByC
       end
       
     end # module BooleanDomain
-    Boolean = R::RefineUnionDomain(:Boolean, Alpha, BooleanDomain)
   end # module R
 end # module SByC

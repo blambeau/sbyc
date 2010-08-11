@@ -30,6 +30,11 @@ module SByC
           end
         
           ### About operator definition #########################################
+          
+          # Adds an operator
+          def add_operator(op)
+            op.aliases.each{|name| operators[name] = op}
+          end
         
           # Installs the informations about the next operator to add
           def operator(&block)
@@ -52,7 +57,7 @@ module SByC
           def method_added(p)
             if @op
               @op.method = instance_method(p)
-              @op.aliases.each{|name| operators[name] = @op}
+              add_operator(@op)
               @op = nil
             end
           end

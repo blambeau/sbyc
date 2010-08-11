@@ -39,6 +39,5 @@ module SByC
       end
       
     end # module RegexpDomain
-    Regexp = R::RefineUnionDomain(:Regexp, Alpha, RegexpDomain)
   end # module R
 end # module SByC

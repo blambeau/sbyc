@@ -58,6 +58,5 @@ module SByC
       end
         
     end # module DomainDomain
-    Domain = R::RefineUnionDomain(:Domain, Alpha, DomainDomain)
   end # module R
 end # module SByC

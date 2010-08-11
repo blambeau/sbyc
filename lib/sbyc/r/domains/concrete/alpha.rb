@@ -8,6 +8,5 @@ module SByC
       end
     
     end # module AlphaDomain
-    Alpha = R::CreateUnionDomain(:Alpha, AlphaDomain)
   end # module R
 end # module SByC

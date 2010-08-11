@@ -35,6 +35,5 @@ module SByC
       end
       
     end # module DateDomain
-    Date = R::RefineUnionDomain(:Date, Alpha, DateDomain)
   end # module R
 end # module SByC
