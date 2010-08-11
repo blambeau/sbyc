@@ -1,31 +1,26 @@
 module SByC
   module R
     module AbstractDomain
-      class OperatorSet
+      module OperatorSet
         
         # Factors an operator set
         def self.factor(domain)
-          c = Class.new.extend(ClassMethods)
-          c.__set_domain__(domain)
+          c = ::Module.new
+          c.extend(ClassMethods)
+          c.__prepare__(domain)
           c
         end
 
         module ClassMethods
 
           # Sets the domain
-          def __set_domain__(domain)
+          def __prepare__(domain)
             @__domain__ = domain
           end
 
           # Returns installed operators
           def operators
             @operators ||= {}
-          end
-        
-          # Returns an instance of self for binding operator
-          # methods
-          def instance
-            @instance ||= self.new
           end
         
           ### About operator definition #########################################
@@ -38,12 +33,19 @@ module SByC
           # Defines a set of operators
           def define(&block)
             module_eval(&block)
+            extend(self)
+            operators.each_pair{|name, op| 
+              if op.method.kind_of?(::UnboundMethod)
+                op.method = op.method.bind(self)
+              end
+            }
+            self
           end
 
           # Callback when a new operator is installed
           def method_added(p)
             if @op
-              @op.method = instance_method(p).bind(self.instance)
+              @op.method = instance_method(p)
               @op.aliases.each{|name| operators[name] = @op}
               @op = nil
             end

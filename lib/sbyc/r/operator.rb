@@ -57,7 +57,9 @@ module SByC
 
       # Sets operator method
       def method=(method)
-        raise ArgumentError, "Invalid operator method" unless method.kind_of?(::Method)
+        unless method.kind_of?(::Method) or method.kind_of?(::UnboundMethod)
+          raise ArgumentError, "Invalid operator method" 
+        end
         @method = method
       end
       
