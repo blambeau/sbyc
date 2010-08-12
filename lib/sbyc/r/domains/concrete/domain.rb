@@ -12,8 +12,7 @@ module SByC
           domain.instance_eval{ include(mod) }
         }
         domain.const_set(:Operators, R::Operator::Set.factor)
-        R::domains << domain
-        domain
+        R::domain_created(name, domain)
       end
       
       def exemplars

@@ -27,65 +27,27 @@ module SByC
       @__domains__ ||= []
     end
     
-    # Creates a domain
-    def CreateDomain(name, class_methods, instance_methods = nil)
-      
-      # Create the domain
-      c = Class.new
-      
-      # Build the class
-      [ R::AbstractDomain,
-        class_methods ].flatten.each{|mod| c.extend(mod)}
-      c.const_set(:Operators, R::Operator::Set.factor(c))
-      
-      # Build the instances
-      if instance_methods
-        [ instance_methods ].flatten.each{|mod|
-          c.instance_eval{ include(mod) }
-        }
-      end
-        
-      # Trace it
-      domains << c
-      
+    # Feedback from DomainDomain when a domain has been created
+    def domain_created(name, domain)
+      domains << domain
+
       # Install the selector
       if const_defined?(:Alpha)
         op = R::Operator.new{|op|
           op.description = %Q{ Selector for #{name} }
           op.signature   = [SByC::R::Alpha]
           op.argnames    = [:operand]
-          op.returns     = c
+          op.returns     = domain
           op.aliases     = [name]
-          op.method      = lambda{|x| c.coerce(x)}
+          op.method      = lambda{|x| domain.coerce(x)}
         }
         R::Alpha::Operators.add_operator(op)
       end
       
-      # Returns it
-      c
+      # Returns created domain
+      domain
     end
-    
-    # Creates a domain by reusing a ruby class
-    def CreateReuseDomain(name, ruby_class)
-      c = CreateDomain(name, AbstractDomain::Reuse::ClassMethods, 
-                             AbstractDomain::Reuse::InstanceMethods)
-      c.reused_class = ruby_class
-      c
-    end
-    
-    def CreateUnionDomain(name, class_methods)
-      c = CreateDomain(name, [ AbstractDomain::Union, class_methods ])
-      unless name == :Alpha
-        R::Alpha.add_immediate_sub_domain(c)
-        c.add_immediate_super_domain(R::Alpha)
-      end
-      c
-    end
-    
-    def RefineUnionDomain(name, union_domain, class_methods)
-      union_domain.immediate_refine(CreateDomain(name, class_methods))
-    end
-    
+        
     extend(R)
   end # module R
 end # module SByC

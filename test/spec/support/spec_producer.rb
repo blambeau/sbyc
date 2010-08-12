@@ -31,7 +31,7 @@ module SByC
               @failures << [node, value]
             end
           rescue StandardError => ex
-            @failures << [node, ex.message]
+            @failures << [node, ex.message + "\n" + ex.backtrace[0]]
           end
         end
 
