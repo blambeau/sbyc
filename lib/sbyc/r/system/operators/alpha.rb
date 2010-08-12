@@ -52,9 +52,7 @@ SByC::R::Alpha::Operators.define{
                      }
     op.aliases     = [:coerce]
   }
-  def coerce(operand, domain)
-    domain.coerce(operand)
-  end
+  def coerce(operand, domain); domain.coerce(operand); end
 
   operator{|op|
     op.description = %Q{ Returns a literal for a given value }
@@ -63,8 +61,6 @@ SByC::R::Alpha::Operators.define{
     op.returns     = SByC::R::String
     op.aliases     = [:to_literal]
   }
-  def to_literal(operand)
-    domain(operand).to_literal(operand)
-  end
+  def to_literal(operand) domain(operand).to_literal(operand) end
 
 }

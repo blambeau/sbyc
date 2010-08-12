@@ -3,19 +3,6 @@ module SByC
     module ClassMethods
     
       #######################################################################
-      ### About coercions
-      #######################################################################
-      
-      # Coerces a value
-      def coerce(value, domain = nil)
-        if domain.nil?
-          R::Domain::coerce(value.class).coerce(value)
-        else
-          R::Domain::coerce(domain).coerce(value)
-        end
-      end
-    
-      #######################################################################
       ### About operators
       #######################################################################
       
