@@ -14,7 +14,7 @@ shared_examples_for("A domain") do
   it "should have Alpha as super domain" do
     unless subject == R::Alpha
       subject.has_super_domain?(R::Alpha).should be_true
-      subject.sub_domain_of?(R::Alpha).should be_true
+      subject.is_sub_domain_of?(R::Alpha).should be_true
     end
   end
   

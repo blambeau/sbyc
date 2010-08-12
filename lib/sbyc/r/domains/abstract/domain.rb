@@ -70,7 +70,7 @@ module SByC
             super_domains.any?{|dom| dom.has_super_domain?(super_domain)}
           end
         end
-        alias :sub_domain_of? :has_super_domain?
+        alias :is_sub_domain_of? :has_super_domain?
       
 
         #######################################################################
