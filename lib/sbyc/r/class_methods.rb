@@ -61,21 +61,7 @@ module SByC
       
       # Evaluates an expression inside a given context
       def evaluate(context = {}, expr = nil, &block)
-        ast = parse(expr || block)
-        type_check_by_args(context, ast)
-        result = ast.visit{|node, collected|
-          case f = node.function
-            when :'?'
-              context[node.literal]
-            when :'_'
-              node.literal
-            else
-              sign = collected.collect{|v| R::Alpha::domain_of(v)}
-              op = find_operator_by_signature(f, sign)
-              op.call(collected)
-          end
-        }
-        result
+        R::Evaluator.new(parse(expr || block)).evaluate(context)
       end
       
     end # module ClassMethods

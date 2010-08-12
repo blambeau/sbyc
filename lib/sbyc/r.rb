@@ -31,3 +31,4 @@ module SByC
   end # module R
 end # module SByC
 require 'sbyc/r/system'
+require 'sbyc/r/running'
