@@ -3,19 +3,6 @@ module SByC
     module ClassMethods
     
       #######################################################################
-      ### About domains
-      #######################################################################
-    
-      # Returns the domain of a value
-      def domain_of(value)
-        if value.respond_to?(:sbyc_domain)
-          value.sbyc_domain
-        else
-          R::Domain::coerce(value.class)
-        end
-      end
-    
-      #######################################################################
       ### About literals
       #######################################################################
       
@@ -53,7 +40,7 @@ module SByC
       
       # Returns an operator for a given name and args
       def find_operator_by_args(name, args)
-        find_operator_by_signature(name, args.collect{|arg| domain_of(arg)})
+        find_operator_by_signature(name, args.collect{|arg| R::Alpha::domain_of(arg)})
       end
       
       #######################################################################
@@ -72,7 +59,7 @@ module SByC
                 __type_check_error__!("No such variable #{var_name}")
               end
             when :'_'
-              domain_of(node.literal)
+              R::Alpha::domain_of(node.literal)
             else
               op = find_operator_by_signature(f, collected)
               if op
@@ -89,7 +76,7 @@ module SByC
       # Returns the of an expression
       def type_check_by_args(args, expr = nil, &block)
         heading = {}
-        args.each_pair{|name, value| heading[name] = domain_of(value)}
+        args.each_pair{|name, value| heading[name] = R::Alpha::domain_of(value)}
         result_domain_by_heading(heading, expr, &block)
       end
       alias :type_check :type_check_by_args
@@ -110,7 +97,7 @@ module SByC
             when :'_'
               node.literal
             else
-              sign = collected.collect{|v| domain_of(v)}
+              sign = collected.collect{|v| R::Alpha::domain_of(v)}
               op = find_operator_by_signature(f, sign)
               op.call(collected)
           end
