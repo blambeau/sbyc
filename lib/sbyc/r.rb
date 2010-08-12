@@ -83,10 +83,7 @@ module SByC
     end
     
     def RefineUnionDomain(name, union_domain, class_methods)
-      c = CreateDomain(name, class_methods)
-      union_domain.add_immediate_sub_domain(c)
-      c.add_immediate_super_domain(union_domain)
-      c
+      union_domain.immediate_refine(CreateDomain(name, class_methods))
     end
     
     extend(R)

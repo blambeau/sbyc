@@ -1,4 +1,4 @@
-SByC::R::Alpha   = SByC::R::CreateUnionDomain(:Alpha,   SByC::R::AlphaDomain)
+SByC::R::Alpha   = SByC::R::AlphaDomain.factor
 SByC::R::Domain  = SByC::R::RefineUnionDomain(:Domain,  SByC::R::Alpha,   SByC::R::DomainDomain)
 SByC::R::Boolean = SByC::R::RefineUnionDomain(:Boolean, SByC::R::Alpha,   SByC::R::BooleanDomain)
 SByC::R::Numeric = SByC::R::CreateUnionDomain(:Numeric, SByC::R::NumericDomain)
