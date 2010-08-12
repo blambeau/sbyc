@@ -3,7 +3,7 @@ module SByC
     module TimeDomain
       
       def exemplars
-        [ Time.at(0), Time.utc(2010, 8, 5, 12, 15, 00) ]
+        [ ::Time.at(0), ::Time.utc(2010, 8, 5, 12, 15, 00) ]
       end
 
       def is_value?(value)

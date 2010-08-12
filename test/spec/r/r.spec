@@ -11,8 +11,10 @@ describe "R" do
   end
   
   R::domains.each{|i|
-    subject{ i }
-    it_should_behave_like("A domain")
+    describe "Domain #{i}" do
+      let(:subject){ i }
+      it_should_behave_like("A domain")
+    end
   }
   
   Dir[File.expand_path('../r_scripts/**/*.r', __FILE__)].each{|f|

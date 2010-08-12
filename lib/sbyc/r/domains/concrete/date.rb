@@ -4,7 +4,7 @@ module SByC
       
       # Returns exemplars
       def exemplars
-        [ Date.today ]
+        [ ::Date.today ]
       end
       
       # Returns true if a given value belongs to this domain,

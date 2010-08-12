@@ -1,5 +1,6 @@
 require 'sbyc/r/domains/concrete/alpha'
 require 'sbyc/r/domains/concrete/domain'
+require 'sbyc/r/domains/concrete/expression'
 require 'sbyc/r/domains/concrete/boolean'
 require 'sbyc/r/domains/concrete/numeric'
 require 'sbyc/r/domains/concrete/integer'
