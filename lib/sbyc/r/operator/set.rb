@@ -59,9 +59,15 @@ module SByC
           ### About operator retrieval ##########################################
 
           # Find an operator that matches a given signature
-          def find_operator(name, signature, requester = nil)
+          def find_operator_by_signature(name, signature, requester = nil)
             (op = operators[name]) && 
               op.signature_matches?(signature, requester) ? op : nil
+          end
+
+          # Find an operator that matches a given signature
+          def find_operator_by_args(name, args, requester = nil)
+            (op = operators[name]) && 
+              op.arg_matches?(args, requester) ? op : nil
           end
 
         end # module ClassMethods

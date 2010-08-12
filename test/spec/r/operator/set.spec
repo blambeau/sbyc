@@ -19,15 +19,15 @@ describe "R::Operator::Set" do
   }
   
   it "should support installing methods" do
-    (op = SByCFixturesOperatorSetFoo.find_operator(:hello, [R::String])).should_not be_nil
+    (op = SByCFixturesOperatorSetFoo.find_operator_by_signature(:hello, [R::String])).should_not be_nil
     op.call("elodie").should == "Hello elodie"
-    (op2 = SByCFixturesOperatorSetBar.find_operator(:hello2, [R::String])).should_not be_nil
+    (op2 = SByCFixturesOperatorSetBar.find_operator_by_signature(:hello2, [R::String])).should_not be_nil
     op2.call("elodie").should == "Hello too elodie"
   end
   
   it 'should avoid collisions' do
-    SByCFixturesOperatorSetFoo.find_operator(:hello2, [R::String]).should be_nil
-    SByCFixturesOperatorSetBar.find_operator(:hello, [R::String]).should be_nil
+    SByCFixturesOperatorSetFoo.find_operator_by_signature(:hello2, [R::String]).should be_nil
+    SByCFixturesOperatorSetBar.find_operator_by_signature(:hello, [R::String]).should be_nil
   end
   
 end
