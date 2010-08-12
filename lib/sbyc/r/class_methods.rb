@@ -6,11 +6,6 @@ module SByC
       ### About domains
       #######################################################################
     
-      # Ensures a domain on x
-      def coerce_domain!(x)
-        R::Domain::coerce(x)
-      end
-      
       # Returns the domain of a value
       def domain_of(value)
         if value.respond_to?(:sbyc_domain)
@@ -41,9 +36,9 @@ module SByC
       # Coerces a value
       def coerce(value, domain = nil)
         if domain.nil?
-          coerce_domain!(value.class).coerce(value)
+          R::Domain::coerce(value.class).coerce(value)
         else
-          coerce_domain!(domain).coerce(value)
+          R::Domain::coerce(domain).coerce(value)
         end
       end
     
@@ -72,7 +67,7 @@ module SByC
             when :'?'
               var_name = node.literal
               if heading.key?(node.literal)
-                coerce_domain!(heading[node.literal])
+                R::Domain::coerce(heading[node.literal])
               else
                 __type_check_error__!("No such variable #{var_name}")
               end
