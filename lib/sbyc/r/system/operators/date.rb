@@ -5,7 +5,7 @@ SByC::R::Numeric::Operators.define{
     op.signature   = [SByC::R::Date, SByC::R::Integer]
     op.argnames    = [:operand, :nb_days]
     op.returns     = SByC::R::Date
-    op.aliases     = [:add_days, :+]
+    op.aliases     = [:'days+', :+]
   }
   def add_days(operand, nb_days); operand + nb_days; end
 

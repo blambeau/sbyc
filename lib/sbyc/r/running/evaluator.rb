@@ -4,9 +4,9 @@ module SByC
     class Evaluator
       
       # Creates an evaluator instance
-      def initialize(ast, special_functions = nil)
+      def initialize(ast, global_operators = SByC::R::GlobalOperators)
         @ast = ast
-        @special_functions = special_functions
+        @global_operators = global_operators
       end
       
       def __undefined__(var_name, node)
@@ -24,8 +24,8 @@ module SByC
       end
       
       # Checks if a special function exists
-      def has_special_function?(func)
-        false
+      def global_operator(func, args)
+        @global_operators.find_operator_by_args(func, args)
       end
       
       # Finds an operator by name and specific arguments
@@ -47,6 +47,8 @@ module SByC
             var_name = node.literal
             if context.has_key?(var_name)
               context[var_name]
+            elsif f = global_operator(var_name, [])
+              f.call([])
             else
               __undefined__(var_name, node)
             end
@@ -57,12 +59,9 @@ module SByC
             
           # Resolving other functions
           else
-            if sp = has_special_function?(func)
-            else
-              # evaluate the children and come back
-              args = node.children.collect{|c| evaluate(context, c)}
-              find_operator_by_args(func, args).call(args)
-            end
+            # evaluate the children and come back
+            args = node.children.collect{|c| evaluate(context, c)}
+            find_operator_by_args(func, args).call(args)
         end
       end
       
