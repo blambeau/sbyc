@@ -40,7 +40,7 @@ module SByC
           if @to_check == expected
             [true, expected]
           else
-            [false, "Expected #{R::to_literal(expected)}, got #{R::to_literal(@to_check)}"]
+            [false, "Expected #{R::Alpha::to_literal(expected)}, got #{R::Alpha::to_literal(@to_check)}"]
           end
         end
       end

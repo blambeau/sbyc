@@ -3,20 +3,6 @@ module SByC
     module ClassMethods
     
       #######################################################################
-      ### About literals
-      #######################################################################
-      
-      # Converts a value to a literal
-      def to_literal(value)
-        R::Alpha::to_literal(value)
-      end
-    
-      # Parses a literal
-      def parse_literal(literal)
-        R::Alpha.parse_literal(literal)
-      end
-      
-      #######################################################################
       ### About coercions
       #######################################################################
       
