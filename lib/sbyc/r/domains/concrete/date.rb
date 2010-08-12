@@ -17,7 +17,7 @@ module SByC
       # a value
       def parse_literal(str)
         str = str.to_s.strip
-        if str =~ /^Date\((.*)\)$/
+        if str =~ /^\(Date (.*)\)$/
           ::Date::parse($1)
         else
           __not_a_literal__!(self, str)
@@ -26,7 +26,7 @@ module SByC
   
       # Converts a value to a literal
       def to_literal(value)
-        "Date(#{value.to_s.inspect})"
+        "(Date #{value.to_s.inspect})"
       end
       
       # Coerces a string to a time

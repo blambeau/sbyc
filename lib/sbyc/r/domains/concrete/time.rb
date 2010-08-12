@@ -12,7 +12,7 @@ module SByC
   
       def parse_literal(str)
         str = str.to_s.strip
-        if str =~ /^Time\((.*)\)$/
+        if str =~ /^\(Time (.*)\)$/
           ::Time::parse($1)
         else
           __not_a_literal__!(self, str)
@@ -20,7 +20,7 @@ module SByC
       end
   
       def to_literal(value)
-        "Time(#{value.inspect.inspect})"
+        "(Time #{value.inspect.inspect})"
       end
       
       def coerce(x)

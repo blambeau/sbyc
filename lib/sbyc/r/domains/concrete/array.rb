@@ -24,7 +24,7 @@ module SByC
         lit = literal.to_s.strip
         if lit =~ /^\[(.*)\]$/ 
           R::evaluate({}, "(Array #{$1})")
-        elsif lit =~ /^Array\((.*)\)$/
+        elsif lit =~ /^\(Array (.*)\)$/
           R::evaluate({}, lit)
         else
           __not_a_literal__!(self, literal)
@@ -33,7 +33,7 @@ module SByC
     
       def to_literal(value)
         literals = value.collect{|x| R::Alpha.domain_of(x).to_literal(x)}
-        "[" + literals.join(', ') + "]"
+        "(Array " + literals.join(', ') + ")"
       end
     
       def coerce(x)

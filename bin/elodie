@@ -15,8 +15,11 @@ else
         stop = true
       else
         begin
-          ast = ::SByC::R::parse(str)
-          puts ::SByC::R::evaluate({}, ast)
+          ast   = ::SByC::R::parse(str)
+          value = ::SByC::R::evaluate({}, ast)
+          dom   = R::Alpha::domain_of(value)
+          lit   = dom.to_literal(value)
+          puts lit
         rescue Exception => ex
           puts ex.message
           puts ex.backtrace.join("\n")
