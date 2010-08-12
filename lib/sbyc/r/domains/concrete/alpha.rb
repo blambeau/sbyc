@@ -4,15 +4,7 @@ module SByC
       
       # Creates the Alpha domain
       def self.factor
-        alpha = Class.new
-        [R::AbstractDomain, 
-         AbstractDomain::Union, 
-         R::AlphaDomain].each{|mod|
-           alpha.extend(mod)
-        }
-        alpha.const_set(:Operators, R::Operator::Set.factor)
-        R::domains << alpha
-        alpha
+        R::DomainDomain.create(:Alpha, [AbstractDomain::Union, R::AlphaDomain])
       end
       
     end # module AlphaDomain

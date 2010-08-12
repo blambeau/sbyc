@@ -2,6 +2,20 @@ module SByC
   module R
     module DomainDomain
       
+      # Creates a domain instance
+      def self.create(name, class_methods = [], instance_methods = [])
+        domain = Class.new
+        ([R::AbstractDomain] + class_methods).flatten.each{|mod|
+          domain.extend(mod)
+        }
+        (instance_methods).flatten.each{|mod|
+          domain.instance_eval{ include(mod) }
+        }
+        domain.const_set(:Operators, R::Operator::Set.factor)
+        R::domains << domain
+        domain
+      end
+      
       def exemplars
         [ R::Alpha, R::Domain, R::Boolean ]
       end
