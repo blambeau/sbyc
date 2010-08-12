@@ -9,10 +9,9 @@ module SByC
         #######################################################################
                 
         # Returns the domain of this domain
-        def domain
+        def sbyc_domain
           R::Domain
         end
-        alias :sbyc_domain :domain
 
         # Returns short name
         def short_name

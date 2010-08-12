@@ -60,7 +60,7 @@ module SByC
           end
           
           # Returns domain 
-          def domain
+          def sbyc_domain
             self.class
           end
           

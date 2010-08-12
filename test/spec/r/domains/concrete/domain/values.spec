@@ -7,7 +7,7 @@ describe "R::Domain.values" do
   
   it "should have domains only" do
     R::Domain.values.each{|d| 
-      d.domain.should == R::Domain
+      d.sbyc_domain.should == R::Domain
       R::Domain.is_value?(d).should be_true
     }
   end
