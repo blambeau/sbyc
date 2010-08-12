@@ -48,6 +48,11 @@ module SByC
           @ast = ast
         end
         
+        # Evaluates this expression on a given context
+        def evaluate(context = {})
+          R::Evaluator.new(ast).evaluate(context)
+        end
+        
         def to_s
           ast.to_s
         end
