@@ -2,19 +2,14 @@ module SByC
   module R
     module TimeDomain
       
-      # Returns exemplars
       def exemplars
         [ Time.at(0), Time.utc(2010, 8, 5, 12, 15, 00) ]
       end
 
-      # Returns true if a given value belongs to this domain,
-      # false otherwise
       def is_value?(value)
         value.kind_of?(::Time)
       end
   
-      # Parses a literal from the domain and returns
-      # a value
       def parse_literal(str)
         str = str.to_s.strip
         if str =~ /^Time\((.*)\)$/
@@ -24,14 +19,22 @@ module SByC
         end
       end
   
-      # Converts a value to a literal
       def to_literal(value)
         "Time(#{value.inspect.inspect})"
       end
       
-      # Coerces a string to a time
-      def str_coerce(str)
-        ::Time::parse(str)
+      def coerce(x)
+        if is_value?(x)
+          x
+        elsif x.kind_of?(::String)
+          begin
+            ::Time::parse(x)
+          rescue 
+            parse_literal(x)
+          end
+        else
+          super
+        end
       end
       
     end # module TimeDomain

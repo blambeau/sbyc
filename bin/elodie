@@ -15,7 +15,7 @@ else
         stop = true
       else
         begin
-          ast = ::SByC::CodeTree::parse(str)
+          ast = ::SByC::R::parse(str)
           puts ::SByC::R::evaluate({}, ast)
         rescue Exception => ex
           puts ex.message

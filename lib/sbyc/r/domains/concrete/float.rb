@@ -23,7 +23,6 @@ module SByC
           __not_a_literal__!(self, str)
         end
       end
-      alias :str_coerce :parse_literal
   
       # Converts a value to a literal
       def to_literal(value)

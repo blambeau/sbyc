@@ -30,8 +30,18 @@ module SByC
       end
       
       # Coerces a string to a time
-      def str_coerce(str)
-        ::Date::parse(str)
+      def coerce(x)
+        if is_value?(x)
+          x
+        elsif x.kind_of?(::String)
+          begin 
+            ::Date::parse(x)
+          rescue 
+            parse_literal(x)
+          end
+        else
+          super
+        end
       end
       
     end # module DateDomain

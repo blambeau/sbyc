@@ -1,9 +1,9 @@
 require File.expand_path('../../fixtures', __FILE__)
-describe "R::Time.parse_literal" do
+describe "R::Date.coerce" do
   
-  SByC::Fixtures::R::TIMES.each{|i|
+  SByC::Fixtures::R::DATES.each{|i|
     it "should not raise error on #{i.inspect}" do
-      R::Time.str_coerce(i.inspect).should == i
+      R::Date.coerce(i.to_s).should == i
     end
   }
     

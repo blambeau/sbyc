@@ -13,7 +13,11 @@ module SByC
       
       # Returns the domain of a value
       def domain_of(value)
-        R::Alpha::most_specific_domain_of(value)
+        if value.respond_to?(:sbyc_domain)
+          value.sbyc_domain
+        else
+          R::Domain::coerce(value.class)
+        end
       end
     
       #######################################################################
@@ -63,7 +67,7 @@ module SByC
       
       # Returns the of an expression
       def type_check_by_heading(heading, expr = nil, &block)
-        CodeTree::coerce(expr || block).visit{|node, collected|
+        parse(expr || block).visit{|node, collected|
           case f = node.function
             when :'?'
               var_name = node.literal
@@ -100,13 +104,9 @@ module SByC
       ### About execution
       #######################################################################
       
-      def parse(expr = nil, &block)
-        CodeTree::coerce(expr || block)
-      end
-      
       # Evaluates an expression inside a given context
       def evaluate(context = {}, expr = nil, &block)
-        ast = CodeTree::coerce(expr || block)
+        ast = parse(expr || block)
         type_check_by_args(context, ast)
         result = ast.visit{|node, collected|
           case f = node.function

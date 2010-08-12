@@ -32,11 +32,6 @@ module SByC
       def to_literal(value)
         value.inspect
       end
-  
-      # Coerces a string to a value of the domain 
-      def str_coerce(str)
-        str
-      end
       
     end # module StringDomain
   end # module R

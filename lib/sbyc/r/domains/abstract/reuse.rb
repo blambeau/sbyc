@@ -30,7 +30,6 @@ module SByC
             end
             __not_a_literal__!(self, str)
           end
-          alias :str_coerce :parse_literal
           
           # Returns a literal
           def to_literal(value)
@@ -38,11 +37,15 @@ module SByC
           end
           
           # Coerces a ruby value
-          def ruby_coerce(value)
-            if value.class == reused_class
-              self.new(value)
+          def coerce(x)
+            if is_value?(x)
+              x
+            elsif x.class == reused_class
+              self.new(x)
+            elsif x.kind_of(::String)
+              parse_literal(x)
             else
-              __not_a_valid_value__!(self, value)
+              super
             end
           end
           

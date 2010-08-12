@@ -2,19 +2,14 @@ module SByC
   module R
     module RegexpDomain
       
-      # Returns exemplars
       def exemplars
         [ /a-z/, /^$/, /\s*/, /[a-z]{15}/ ]
       end
       
-      # Returns true if a given value belongs to this domain,
-      # false otherwise
       def is_value?(value)
         value.kind_of?(::Regexp)
       end
   
-      # Parses a literal from the domain and returns
-      # a value
       def parse_literal(str)
         str = str.to_s.strip
         if str =~ /^\/(.*)\/$/
@@ -28,14 +23,22 @@ module SByC
         end
       end
   
-      # Converts a value to a literal
       def to_literal(value)
         value.inspect
       end
       
-      # Coerces a regular expression from a string
-      def str_coerce(str)
-        ::Regexp::compile(str)
+      def coerce(x)
+        if is_value?(x)
+          x
+        elsif x.kind_of?(::String)
+          begin
+            ::Regexp::compile(x)
+          rescue
+            parse_literal(x)
+          end
+        else
+          super
+        end
       end
       
     end # module RegexpDomain

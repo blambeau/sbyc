@@ -85,7 +85,13 @@ module SByC
         #       is true
         #
         def coerce(x)
-          raise NotImplementedError
+          if is_value?(x)
+            x
+          elsif x.kind_of?(::String)
+            parse_literal(x)
+          else
+            __not_a_literal__!(self, str)
+          end
         end
         
       end # module Contract

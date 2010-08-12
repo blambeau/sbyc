@@ -51,13 +51,16 @@ module SByC
         end
         
         def self.parse(code, options)
-          p = TextParser.new(code)
+          p = TextParser.new(code).parse(options)
+        end
+        
+        def parse(options)
           if options[:multiline]
             collected = []
-            p.each{|x| collected << x}
+            each{|x| collected << x}
             collected
           else
-            p.parse_statement
+            parse_statement
           end
         end
         

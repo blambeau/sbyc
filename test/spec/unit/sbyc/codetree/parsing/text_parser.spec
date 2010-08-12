@@ -6,7 +6,10 @@ describe "CodeTree::Parsing::TextParser#each" do
   let(:parser){ CodeTree::Parsing::TextParser.new(expressions) }
   
   it "should yield expressions" do
-    parser.each{|expr| expr.should be_kind_of(CodeTree::AstNode) }
+    parser.each{|expr| 
+      #puts expr.inspect
+      expr.should be_kind_of(CodeTree::AstNode) 
+    }
   end
   
 end

@@ -2,19 +2,14 @@ module SByC
   module R
     module SymbolDomain
       
-      # Returns exemplars
       def exemplars
         [ :var, :something_with_underscores, :'s#', :hello, :"s-b-y-c", :"12" ]
       end
 
-      # Returns true if a given value belongs to this domain,
-      # false otherwise
       def is_value?(value)
         value.kind_of?(::Symbol)
       end
   
-      # Parses a literal from the domain and returns
-      # a value
       def parse_literal(str)
         str = str.to_s.strip
         if str =~ /^:[^\s]+$/
@@ -27,11 +22,23 @@ module SByC
           __not_a_literal__!(self, str)
         end
       end
-      alias :str_coerce :parse_literal
   
-      # Converts a value to a literal
       def to_literal(value)
         value.inspect
+      end
+      
+      def coerce(x)
+        if is_value?(x)
+          x
+        elsif x.kind_of?(::String)
+          if x[0, 1] == ':'
+            parse_literal(x)
+          else
+            x.to_sym
+          end
+        else
+          super
+        end
       end
       
     end # module SymbolDomain

@@ -1,3 +1,5 @@
+(domain (coerce "2010-08-17" SByC::R::Date))
+
 (ite (> x 10) 
      (say 'hello world') 
      (say 'good bye'))
@@ -21,3 +23,5 @@
              returns:      String -}
   (send (unwrap operand) :domain) 
 )
+
+

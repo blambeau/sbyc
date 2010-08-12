@@ -51,7 +51,9 @@ module SByC
       
       # Sets operator return type
       def returns=(returns)
-        raise ArgumentError, "Invalid operator returns" unless returns.kind_of?(::Class)
+        unless returns.kind_of?(::Class) or returns.kind_of?(Proc)
+          raise ArgumentError, "Invalid operator returns" 
+        end
         @returns = returns
       end
 
@@ -87,7 +89,14 @@ module SByC
       
       # Returns resulting domain when applied to a heading
       def result_domain_by_heading(args, requester = nil)
-        self.returns || requester
+        case x = self.returns
+          when NilClass 
+            requester
+          when Proc
+            returns.call(self, args, nil, requester)
+          else
+            x
+        end
       end
 
       # Call the operator

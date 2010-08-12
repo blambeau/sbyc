@@ -25,12 +25,21 @@ module SByC
           }
           __not_a_literal__!(self, str)
         end
-        alias :str_coerce :parse_literal
   
         # Converts a value to a literal
         def to_literal(value)
           sub = immediate_sub_domains.find{|sub| sub.is_value?(value)}
           sub ? sub.to_literal(value) : __not_a_literal__!(self, value)
+        end
+        
+        def coerce(x)
+          immediate_sub_domains.each{|sub|
+            begin
+              return sub.coerce(x)
+            rescue SByC::TypeError
+            end
+          }
+          __not_a_literal__!(self, x)
         end
 
       end # module Union
