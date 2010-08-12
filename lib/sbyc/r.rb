@@ -21,7 +21,7 @@ module SByC
       c = Class.new
       
       # Build the class
-      [ AbstractDomain::Domain, 
+      [ R::AbstractDomain, AbstractDomain::Domain, 
         class_methods ].flatten.each{|mod| c.extend(mod)}
       c.const_set(:Operators, R::AbstractDomain::OperatorSet.factor(c))
       
@@ -63,16 +63,16 @@ module SByC
     def CreateUnionDomain(name, class_methods)
       c = CreateDomain(name, [ AbstractDomain::Union, class_methods ])
       unless name == :Alpha
-        R::Alpha.add_sub_domain(c)
-        c.add_super_domain(R::Alpha)
+        R::Alpha.add_immediate_sub_domain(c)
+        c.add_immediate_super_domain(R::Alpha)
       end
       c
     end
     
     def RefineUnionDomain(name, union_domain, class_methods)
       c = CreateDomain(name, class_methods)
-      union_domain.add_sub_domain(c)
-      c.add_super_domain(union_domain)
+      union_domain.add_immediate_sub_domain(c)
+      c.add_immediate_super_domain(union_domain)
       c
     end
     

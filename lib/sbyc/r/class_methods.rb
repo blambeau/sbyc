@@ -79,7 +79,7 @@ module SByC
               if op
                 op.result_domain_by_heading(collected)
               else
-                types_str = collected.collect{|x| x.short_name}.join(', ')
+                types_str = collected.collect{|x| R::Domain.to_literal(x)}.join(', ')
                 __type_check_error__!("No such operator #{f}(#{types_str})")
               end
           end

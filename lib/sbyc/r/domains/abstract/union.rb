@@ -5,19 +5,19 @@ module SByC
 
         # Returns exemplars
         def exemplars
-          sub_domains.collect{|dom| dom.exemplars}.flatten
+          immediate_sub_domains.collect{|dom| dom.exemplars}.flatten
         end
       
         # Returns true if a given value belongs to this domain,
         # false otherwise
         def is_value?(value)
-          sub_domains.any?{|sub| sub.is_value?(value)}
+          immediate_sub_domains.any?{|sub| sub.is_value?(value)}
         end
   
         # Parses a literal from the domain and returns
         # a value
         def parse_literal(str)
-          sub_domains.each{|sub|
+          immediate_sub_domains.each{|sub|
             begin
               return sub.parse_literal(str)
             rescue SByC::TypeError
@@ -29,7 +29,7 @@ module SByC
   
         # Converts a value to a literal
         def to_literal(value)
-          sub = sub_domains.find{|sub| sub.is_value?(value)}
+          sub = immediate_sub_domains.find{|sub| sub.is_value?(value)}
           sub ? sub.to_literal(value) : __not_a_literal__!(self, value)
         end
 
