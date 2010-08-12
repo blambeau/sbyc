@@ -24,14 +24,10 @@ module SByC
     end
     
     def domains
-      R::DomainGenerator::Builtin.instance.domains
+      Builtin.domains + Array.domains
     end
         
     extend(R)
   end # module R
 end # module SByC
-
-require 'sbyc/r/domains'
-require 'sbyc/r/system/install_domains'
-require 'sbyc/r/system/install_structures'
-require 'sbyc/r/system/install_operators'
+require 'sbyc/r/system'

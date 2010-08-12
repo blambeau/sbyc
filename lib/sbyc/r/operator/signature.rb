@@ -19,10 +19,10 @@ module SByC
           case sign
             when Signature
               sign
-            when Array
+            when ::Array
               Signature.new(sign)
             else
-              raise ArgumentError, "Unable to coerce #{sign.inspect} to a signature"
+              raise ArgumentError, "Unable to coerce #{sign.inspect} #{sign.class} to a signature"
           end
         end
         

@@ -11,3 +11,5 @@ require 'sbyc/r/domains/concrete/date'
 require 'sbyc/r/domains/concrete/symbol'
 require 'sbyc/r/domains/concrete/regexp'
 require 'sbyc/r/domains/concrete/module'
+
+require 'sbyc/r/domains/concrete/array'

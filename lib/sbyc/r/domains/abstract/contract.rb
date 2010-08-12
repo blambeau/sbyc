@@ -3,6 +3,11 @@ module SByC
     module AbstractDomain
       module Contract
 
+        # Returns domain name
+        def domain_name
+          (name.to_s =~ /^SByC::R::(.*)$/) ? $1 : name.to_s
+        end
+
         # 
         # Returns the domain of the domain. Most probably the answer should 
         # be R::Domain.
@@ -90,7 +95,7 @@ module SByC
           elsif x.kind_of?(::String)
             parse_literal(x)
           else
-            __not_a_literal__!(self, str)
+            __not_a_literal__!(self, x)
           end
         end
         

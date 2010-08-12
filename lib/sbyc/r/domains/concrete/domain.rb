@@ -33,14 +33,15 @@ module SByC
         'Fixnum'     => :Integer,
         'Bignum'     => :Integer,
         'FalseClass' => :Boolean,
-        'TrueClass'  => :Boolean
+        'TrueClass'  => :Boolean,
+        'Array'      => :ArrayOfAlpha
       }
       def coerce(x)
         if is_value?(x)
           return x 
         elsif x.kind_of?(::Class)
           parse_literal(RUBY_TO_R[x.name.to_s] || x.name)
-        elsif value.kind_of?(::String)
+        elsif x.kind_of?(::String)
           parse_literal(RUBY_TO_R[x] || x)
         else 
           super
