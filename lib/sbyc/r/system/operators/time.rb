@@ -1,0 +1,1 @@
+SByC::R::Time.add_immediate_structure SByC::R::TotalOrder
