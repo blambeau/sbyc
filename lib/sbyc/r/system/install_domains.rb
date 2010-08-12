@@ -1,4 +1,6 @@
-SByC::R::Alpha      = SByC::R::AlphaDomain.factor
+builtin = SByC::R::DomainGenerator::Builtin.instance
+
+SByC::R::Alpha      = builtin.generate(:Alpha, [SByC::R::AbstractDomain::Union, SByC::R::AlphaDomain])
 SByC::R::Domain     = SByC::R::Alpha.refine(:Domain,     SByC::R::DomainDomain)
 
 SByC::R::Boolean = SByC::R::Alpha.refine(:Boolean, SByC::R::BooleanDomain)

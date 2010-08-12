@@ -3,6 +3,9 @@ module SByC
     module AbstractDomain
       module Factory
 
+        # Generator that created this domain
+        attr_accessor :domain_generator
+
         # Refines the domain with a sub domain
         def refine(*args)
           if args.size==1 and args[0].kind_of?(::Class)
@@ -29,7 +32,7 @@ module SByC
             }
             
             # create the domain and refine
-            refine(DomainDomain.create(name, class_modules, instance_modules))
+            refine(domain_generator.generate(name, class_modules, instance_modules))
           end
         end
         
