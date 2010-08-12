@@ -1,8 +1,8 @@
-require File.expand_path('../../../fixtures', __FILE__)
-describe "R::AbstractDomain::OperatorSet" do
+require File.expand_path('../../fixtures', __FILE__)
+describe "R::Operator::Set" do
   
-  SByCFixturesOperatorSetFoo = R::AbstractDomain::OperatorSet.factor(R::Boolean)
-  SByCFixturesOperatorSetBar = R::AbstractDomain::OperatorSet.factor(R::String)
+  SByCFixturesOperatorSetFoo = R::Operator::Set.factor(R::Boolean)
+  SByCFixturesOperatorSetBar = R::Operator::Set.factor(R::String)
   SByCFixturesOperatorSetFoo.define{ 
     operator{|op| 
       op.aliases   = [:hello] 

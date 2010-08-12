@@ -1,5 +1,6 @@
 require 'sbyc/r/operator/signature'
 require 'sbyc/r/operator/aggregate_signature'
+require 'sbyc/r/operator/set'
 module SByC
   module R
     class Operator

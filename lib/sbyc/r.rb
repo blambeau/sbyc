@@ -23,7 +23,7 @@ module SByC
       # Build the class
       [ R::AbstractDomain, AbstractDomain::Domain, 
         class_methods ].flatten.each{|mod| c.extend(mod)}
-      c.const_set(:Operators, R::AbstractDomain::OperatorSet.factor(c))
+      c.const_set(:Operators, R::Operator::Set.factor(c))
       
       # Build the instances
       if instance_methods

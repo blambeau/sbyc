@@ -1,4 +1,4 @@
-SByC::R::TotalOrder = SByC::R::AbstractDomain::OperatorSet.factor{
+SByC::R::TotalOrder = SByC::R::Operator::Set.factor{
 
   operator {|op|
     op.description = %Q{ Compares two values }

@@ -1,13 +1,12 @@
 module SByC
   module R
-    module AbstractDomain
-      module OperatorSet
+    class Operator
+      module Set
         
         # Factors an operator set
         def self.factor(domain = nil, &block)
           c = ::Module.new
           c.extend(ClassMethods)
-          c.__prepare__(domain)
           c.define(&block) if block
           c
         end
@@ -17,11 +16,6 @@ module SByC
           # Returns unbound
           def _
             R::Operator::Signature::MATCHING_TERM
-          end
-
-          # Sets the domain
-          def __prepare__(domain)
-            @__domain__ = domain
           end
 
           # Returns installed operators
@@ -70,9 +64,9 @@ module SByC
               op.signature_matches?(signature, requester) ? op : nil
           end
 
-        end
+        end # module ClassMethods
         
-      end # module OperatorSet
-    end # module AbstractDomain
+      end # module Set
+    end # class Operator
   end # module R
 end # module SByC
