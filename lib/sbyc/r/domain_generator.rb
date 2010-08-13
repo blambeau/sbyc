@@ -52,4 +52,4 @@ module SByC
 end # module SByc
 require 'sbyc/r/domain_generator/builtin'
 require 'sbyc/r/domain_generator/array'
-require 'sbyc/r/domain_generator/union'
+require 'sbyc/r/domain_generator/tools'

@@ -1,11 +1,11 @@
 SByC::R::Builtin = SByC::R::DomainGenerator::Builtin.new
     
-SByC::R::Alpha      = SByC::R::Builtin[:Alpha, [SByC::R::AbstractDomain::Union, SByC::R::AlphaDomain]]
+SByC::R::Alpha      = SByC::R::Builtin[:Alpha, [SByC::R::DomainGenerator::Tools::UnionDomain, SByC::R::AlphaDomain]]
 SByC::R::Domain     = SByC::R::Alpha.refine(:Domain, SByC::R::DomainDomain)
 
 SByC::R::Boolean = SByC::R::Alpha.refine(:Boolean, SByC::R::BooleanDomain)
 
-SByC::R::Numeric = SByC::R::Alpha.refine(:Numeric, SByC::R::AbstractDomain::Union, SByC::R::NumericDomain)
+SByC::R::Numeric = SByC::R::Alpha.refine(:Numeric, SByC::R::DomainGenerator::Tools::UnionDomain, SByC::R::NumericDomain)
   SByC::R::Integer = SByC::R::Numeric.refine(:Integer, SByC::R::IntegerDomain)
   SByC::R::Float   = SByC::R::Numeric.refine(:Float,   SByC::R::FloatDomain)
 
