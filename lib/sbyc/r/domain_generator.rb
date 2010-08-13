@@ -21,7 +21,7 @@ module SByC
       
       # Factors a domain class
       def factor_domain_class(class_methods = [], instance_methods = [])
-        clazz = factor_class(class_methods, instance_methods)
+        clazz = factor_class([R::AbstractDomain] + class_methods, instance_methods)
         clazz.domain_generator = self
         clazz.const_set(:Operators, R::Operator::Set.factor)
         clazz

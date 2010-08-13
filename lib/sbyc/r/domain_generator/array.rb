@@ -24,7 +24,7 @@ module SByC
         end
         
         def generate(sub_domain)
-          domain = factor_domain_class([R::AbstractDomain, ArrayDomain])
+          domain = factor_domain_class([Array::ArrayDomain])
           domain.of_domain = sub_domain
           domain_created(domain_name_of(domain), domain)
         end
