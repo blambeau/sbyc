@@ -26,14 +26,9 @@ module SByC
         end
         
         def generate(sub_domain)
-          domain = Class.new
-          [R::AbstractDomain, R::ArrayDomain].each{|mod|
-            domain.extend(mod)
-          }
-          domain.domain_generator = self
+          domain = factor_domain_class([R::AbstractDomain, ArrayDomain])
           domain.of_domain = sub_domain
-          domain.const_set(:Operators, R::Operator::Set.factor)
-          domain_created(:"Array<#{sub_domain.domain_name}>", domain)
+          domain_created(domain_name_of(domain), domain)
         end
         alias :[] :generate
         

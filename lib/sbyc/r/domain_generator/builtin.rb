@@ -27,15 +27,7 @@ module SByC
         end
         
         def generate(name, class_methods = [], instance_methods = [])
-          domain = Class.new
-          ([R::AbstractDomain] + class_methods).flatten.each{|mod|
-            domain.extend(mod)
-          }
-          (instance_methods).flatten.each{|mod|
-            domain.instance_eval{ include(mod) }
-          }
-          domain.domain_generator = self
-          domain.const_set(:Operators, R::Operator::Set.factor)
+          domain = factor_domain_class([R::AbstractDomain] + class_methods, instance_methods)
           domain_created(name, domain)
         end
         alias :[] :generate
