@@ -13,13 +13,33 @@ class SByC::R::DomainGenerator::Builtin
       R::domains
     end
 
+    def decode_domain_generation(str)
+      R::parse(str, :parse_method => :parse_domain_generation_literal).visit{|node, collected|
+        case f = node.function
+          when :'_'
+            node.literal
+          when :'generate-domain'
+            generator = collected.shift
+            generator.domain_generator.generate(str, *collected)
+          else
+            __not_a_literal__!(self, str)
+        end
+      }
+    rescue
+      __not_a_literal__!(self, str)
+    end
+
     def parse_literal(str)
-      found = __find_ruby_module__(str, SByC::R)
-      found = __find_ruby_module__(str) unless found
-      if found and is_value?(found) 
-        found
+      if str.to_s[-1, 1] == ">"
+        decode_domain_generation(str)
       else
-        __not_a_literal__!(self, str)
+        found = __find_ruby_module__(str, SByC::R)
+        found = __find_ruby_module__(str) unless found
+        if found and is_value?(found) 
+          found
+        else
+          __not_a_literal__!(self, str)
+        end
       end
     end
 

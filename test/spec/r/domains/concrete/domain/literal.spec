@@ -1,17 +1,20 @@
 require File.expand_path('../../fixtures', __FILE__)
 describe "R::Domain.parse_literal" do
   
+  it "should support resolving R simple domains by name" do
+    R::Domain.parse_literal('Boolean').should == R::Boolean
+  end
+  
+  it "should support resolving R generated domains" do
+    decoded = R::Domain.parse_literal('Array<Boolean>')
+    decoded.should_not be_nil
+    decoded.sbyc_domain.should == R::Domain
+    decoded.domain_generator.class.should == SByC::R::DomainGenerator::Array
+  end
+  
   SByC::Fixtures::R::DOMAINS.each{|i|
-    if i == R::Array
-      it "should support Array" do
-        pending{ 
-          R::Domain.parse_literal(R::Domain.to_literal(i)).should == i
-        }
-      end
-    else
-      it "should not raise error on #{i.inspect}" do
-        R::Domain.parse_literal(R::Domain.to_literal(i)).should == i
-      end
+    it "should not raise error on #{i.inspect}" do
+      R::Domain.parse_literal(R::Domain.to_literal(i)).should == i
     end
   }
   

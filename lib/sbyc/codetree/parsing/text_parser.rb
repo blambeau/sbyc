@@ -19,11 +19,13 @@ module SByC
           TextParser.new(code).parse(options)
         end
         
-        def parse(options)
+        def parse(options = {})
           result = if options[:multiline]
             collected = []
-            each{|x| collected << x}
+            each(options){|x| collected << x}
             collected
+          elsif m = options[:parse_method]
+            self.send(m)
           else
             parse_statement
           end
@@ -32,6 +34,19 @@ module SByC
           end
           result
         end
+
+        # Yields the block with each statement in turn
+        def each(options = {})
+          until eof?
+            if m = options[:parse_method]
+              self.send(m)
+            else
+              yield(parse_statement)
+            end
+            eat_spaces
+          end
+        end
+        
         
         ### Utilities
         
@@ -124,14 +139,6 @@ module SByC
         end
 
         ### statements
-        
-        # Yields the block with each statement in turn
-        def each
-          until eof?
-            yield(parse_statement)
-            eat_spaces
-          end
-        end
         
         # Parses a single statement
         def parse_statement

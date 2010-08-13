@@ -2,11 +2,6 @@ module SByC
   module R
     class DomainGenerator
       
-      # Creates a generator instance
-      def initialize
-        @domains_hash = {}
-      end
-      
       # Factors a class with class methods and instance methods
       def factor_class(class_methods = [], instance_methods = [])
         clazz = Class.new
@@ -73,11 +68,6 @@ module SByC
       #
       def domain_name_of(domain)
         raise NotImplementedError
-      end
-        
-      # Returns known domains
-      def domains
-        @domains_hash.values
       end
       
     end # class DomainGenerator

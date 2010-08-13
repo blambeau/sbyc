@@ -14,17 +14,9 @@ describe "R::Alpha's literal methods" do
   }
   
   SByC::Fixtures::R.each_value{|i|
-    if i == R::Array
-      it "should support Array" do
-        pending{ 
-          R::Alpha::parse_literal(R::Alpha::to_literal(i)).should == i
-        }
-      end
-    else
-      it "should correctly handle literal #{i}" do
-        R::Alpha::to_literal(i).should be_kind_of(String)
-        R::Alpha::parse_literal(R::Alpha::to_literal(i)).should == i
-      end
+    it "should correctly handle literal #{i}" do
+      R::Alpha::to_literal(i).should be_kind_of(String)
+      R::Alpha::parse_literal(R::Alpha::to_literal(i)).should == i
     end
   }
   
