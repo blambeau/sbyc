@@ -1,3 +1,4 @@
+require 'sbyc/codetree/parsing/utils'
 require 'sbyc/codetree/parsing/text_parser'
 require 'sbyc/codetree/parsing/proc_parser'
 module SByC
