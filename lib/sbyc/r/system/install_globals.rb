@@ -1,4 +1,4 @@
-SByC::R::GlobalOperators = SByC::R::Operator::Set.factor{
+SByC::R::GlobalOperators.define{
  
   operator{|op|
     op.description = %Q{ Returns date of today }

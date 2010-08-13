@@ -7,24 +7,9 @@ module SByC
           (domain.name.to_s =~ /^SByC::R::(.*)$/) ? $1 : domain.name.to_s
         end
         
-        def domain_created(name, domain)
-          unless name == :Alpha
-            op = R::Operator.new{|op|
-              op.description = %Q{ Selector for #{name} }
-              op.signature   = [SByC::R::Alpha]
-              op.argnames    = [:operand]
-              op.returns     = domain
-              op.aliases     = [name]
-              op.method      = lambda{|x| domain.coerce(x)}
-            }
-            R::Alpha::Operators.add_operator(op)
-          end
-          super
-        end
-        
         def generate(name, modules = [])
           modules = [ self.class.const_get(:"#{name}Domain") ] + modules
-          domain_created(name, factor_domain_class(modules))
+          factor_domain_class(modules)
         end
         
       end # class Builtin

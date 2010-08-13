@@ -35,7 +35,12 @@ module SByC
           op  = dom.find_operator_by_args(name, args)
           return op unless op.nil?
         }
-        __no_such_operator_for_args__(name, args)
+        op = global_operator(name, args)
+        if op
+          op
+        else
+          __no_such_operator_for_args__(name, args)
+        end
       end
       
       # Lauches evaluation

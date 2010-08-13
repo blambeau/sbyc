@@ -8,19 +8,18 @@ module SByC
         end
         
         def domain_created(name, domain)
-          of_domain = domain.of_domain
-          if of_domain == R::Alpha
-            op = R::Operator.new{|op|
-              op.description = %Q{ Selector for #{name} }
-              op.signature   = SByC::R::aggregate_signature(of_domain)
-              op.argnames    = [:operands]
-              op.returns     = domain
-              op.aliases     = [:Array]
-              op.method      = lambda{|x| x.collect{|x| of_domain.coerce(x)}}
-            }
-            of_domain::Operators.add_operator(op)
-          end
-          super
+          # of_domain = domain.of_domain
+          # if of_domain == R::Alpha
+          #   op = R::Operator.new{|op|
+          #     op.description = %Q{ Selector for #{name} }
+          #     op.signature   = SByC::R::aggregate_signature(of_domain)
+          #     op.argnames    = [:operands]
+          #     op.returns     = domain
+          #     op.aliases     = [:Array]
+          #     op.method      = lambda{|x| x.collect{|x| of_domain.coerce(x)}}
+          #   }
+          #   of_domain::Operators.add_operator(op)
+          # end
         end
         
         def generate(sub_domain)
