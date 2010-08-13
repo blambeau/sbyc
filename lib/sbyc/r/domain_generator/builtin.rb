@@ -8,8 +8,7 @@ module SByC
         end
         
         def domain_created(name, domain)
-          # Install the selector
-          if R::const_defined?(:Alpha)
+          unless name == :Alpha
             op = R::Operator.new{|op|
               op.description = %Q{ Selector for #{name} }
               op.signature   = [SByC::R::Alpha]
@@ -20,57 +19,19 @@ module SByC
             }
             R::Alpha::Operators.add_operator(op)
           end
-      
           super
         end
         
-        def generate(name, class_methods = [], instance_methods = [])
-          domain = factor_domain_class(class_methods, instance_methods)
-          domain_created(name, domain)
+        def generate(name, modules = [])
+          domain_created(name, factor_domain_class(modules))
         end
         alias :[] :generate
-        
-        def refine(domain, *args)
-          if args.size==1 and args[0].kind_of?(::Class)
-            #
-            # first case: the subdomain has already been created. Domain 
-            # is probably a union domain ...
-            #
-            sub_domain = args[0]
-            domain.add_immediate_sub_domain(sub_domain)
-            sub_domain.add_immediate_super_domain(domain)
-            sub_domain
-          else
-            #
-            # Second case: a name and modules. Modules are split against
-            # ClassMethods and InstanceMethods submodules. Module that do
-            # not make the distinction are considered class modules.
-            #
-            name, modules = args.shift, args
-            
-            # split against ClassMethods/InstanceMethods distinction
-            class_modules, instance_modules = [], []
-            modules.each{|mod|
-              if mod.const_defined?(:ClassMethods)
-                class_modules << mod.const_get(:ClassMethods)
-                if mod.const_defined?(:InstanceMethods)
-                  instance_modules << mod.const_get(:InstanceMethods)
-                end
-              else
-                class_modules << mod
-              end
-            }
-            
-            # create the domain and refine
-            refine(domain, generate(name, class_modules, instance_modules))
-          end
-        end
         
       end # class Builtin
     end # class DomainGenerator
   end # module R
 end # module SByC
-require 'sbyc/r/domain_generator/builtin/alpha'
+require 'sbyc/r/domain_generator/builtin/alpha_domain'
 require 'sbyc/r/domain_generator/builtin/domain'
 require 'sbyc/r/domain_generator/builtin/expression'
 require 'sbyc/r/domain_generator/builtin/boolean'
