@@ -83,6 +83,10 @@ module SByC
       # Tracks creation of domains
       def domain_created(name, domain)
         @domains_hash[name] = domain
+        if name.to_s =~ /^[A-Z][a-z]+$/
+          SByC::R::const_set(name, domain)
+        end
+        domain
       end
         
     end # class DomainGenerator
