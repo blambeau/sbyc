@@ -3,11 +3,52 @@ module SByC
     module AbstractDomain
       module Contract
 
-        # Returns domain name
-        def domain_name
-          (name.to_s =~ /^SByC::R::(.*)$/) ? $1 : name.to_s
+        #######################################################################
+        ### About the domain generator and delegation to it
+        #######################################################################
+        
+        #
+        # Sets the domain generator.
+        #
+        # This method is considered private and should be used by the generator
+        # only!
+        #
+        def domain_generator=(generator)
+          @domain_generator = generator
         end
-
+        
+        #
+        # Returns the generator that created this domain.
+        #
+        # @return [DomainGenerator] a generator instance
+        #
+        def domain_generator
+          @domain_generator
+        end
+ 
+        #
+        # Returns the domain name.
+        #
+        # @return [String] domain's name
+        #
+        def domain_name
+          @domain_generator.domain_name_of(self)
+        end
+        
+        #
+        # Refines the domain.
+        #
+        # @see DomainGenerator#refine
+        #
+        def refine(*args)
+          @domain_generator.refine(self, *args)
+        end
+        
+    
+        #######################################################################
+        ### About domain's domain and values
+        #######################################################################
+ 
         # 
         # Returns the domain of the domain. Most probably the answer should 
         # be R::Domain.
@@ -21,7 +62,7 @@ module SByC
         def sbyc_domain
           R::Domain
         end
-    
+        
         #
         # Returns an array with domain exemplars. Complex domains are allowed 
         # to return an empty array.
@@ -50,6 +91,10 @@ module SByC
           raise NotImplementedError
         end
       
+        #######################################################################
+        ### About literals and coercion
+        #######################################################################
+ 
         # 
         # Parses a literal and returns a value belonging to this domain.
         #
@@ -99,7 +144,19 @@ module SByC
           end
         end
         
+        #######################################################################
+        ### About operators
+        ###
+        ### Following methods relies on the following additional methods to
+        ### be implemented by concrete domains:
+        ###   - each_immediate_structure
+        ###   - each_immediate_super_domain
+        ###
+        #######################################################################
+ 
+        #
         # Finds an operator by signature
+        #
         def find_operator_by_signature(name, signature, requester = self)
           # first case: a matching operator exists in domain own operators
           op = self::Operators::find_operator_by_signature(name, signature, requester)

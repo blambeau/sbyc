@@ -1,5 +1,4 @@
 require 'sbyc/r/domains/abstract/hierarchy'
-require 'sbyc/r/domains/abstract/factory'
 require 'sbyc/r/domains/abstract/union'
 module SByC
   module R
@@ -7,7 +6,6 @@ module SByC
       include R::Robustness
       include R::AbstractDomain::Contract
       include R::AbstractDomain::Hierarchy
-      include R::AbstractDomain::Factory
     end
   end
 end
