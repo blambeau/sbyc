@@ -49,13 +49,7 @@ module SByC
           op.argnames    = [:operand]
           op.returns     = domain
           op.aliases     = [name]
-          op.method      = lambda{|x|
-            begin
-              domain.coerce(x)
-            rescue => ex
-              raise SByC::TypeError, "No such selector (#{domain.domain_name} #{x.join(' ')})"
-            end
-          }
+          op.method      = lambda{|x| domain.coerce(x)}
         }
         GlobalOperators.add_operator(op)
       end

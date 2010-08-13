@@ -39,7 +39,7 @@ SByC::R::Alpha::Operators.define{
     op.signature   = [SByC::R::Alpha, SByC::R::Domain]
     op.argnames    = [:operand, :domain]
     op.returns     = SByC::R::Boolean
-    op.aliases     = [:domain?]
+    op.aliases     = [:'is-a?', :domain?]
   }
   def domain?(operand, domain) domain.is_value?(operand); end
   

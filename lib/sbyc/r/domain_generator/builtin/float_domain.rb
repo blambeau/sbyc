@@ -28,5 +28,17 @@ class SByC::R::DomainGenerator::Builtin
       value.inspect
     end
     
+    def coerce(x)
+      if is_value?(x)
+        x
+      elsif x.kind_of?(Integer)
+        x.to_f
+      elsif x.kind_of?(String)
+        parse_literal(x)
+      else
+        super
+      end
+    end
+    
   end # module FloatDomain
 end # class SByC::R::DomainGenerator::Builtin

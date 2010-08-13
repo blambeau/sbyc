@@ -1,5 +1,7 @@
 (should (Float 12.0)
         (eq 12.0))
+(should (Float 12)
+        (eq 12.0))
 (should (Float "12.0")
         (eq 12.0))
 
