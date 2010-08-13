@@ -40,7 +40,7 @@ module SByC
           (self.domains.size == domains.size) &&
           self.domains.zip(domains).all?{|pair| 
             declared, actual = (pair[0] || requester), pair[1]
-            (actual == declared) || (actual.has_super_domain?(declared))
+            actual.has_super_domain?(declared)
           }
         end
 

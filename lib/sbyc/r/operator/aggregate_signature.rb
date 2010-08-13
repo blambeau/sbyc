@@ -12,7 +12,7 @@ module SByC
         # domains
         def domain_matches?(domains, requester = nil)
           declared = self.domains.first || requester
-          domains.all?{|dom| (dom == declared) || (dom.has_super_domain?(declared))}
+          domains.all?{|dom| dom.has_super_domain?(declared)}
         end
 
         # Does the signature matches some arguments?
