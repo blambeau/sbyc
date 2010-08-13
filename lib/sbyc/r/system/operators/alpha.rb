@@ -39,9 +39,9 @@ SByC::R::Alpha::Operators.define{
     op.signature   = [SByC::R::Alpha, SByC::R::Domain]
     op.argnames    = [:operand, :domain]
     op.returns     = SByC::R::Boolean
-    op.aliases     = [:'is-a?', :domain?]
+    op.aliases     = [:'is-a?']
   }
-  def domain?(operand, domain) domain.is_value?(operand); end
+  def is_a?(operand, domain) domain.is_value?(operand); end
   
   operator{|op|
     op.description = %Q{ Coerces a value to a given domain }

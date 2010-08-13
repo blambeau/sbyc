@@ -26,6 +26,6 @@
 (should (domain-of "hello"),
         (eq R::String))
         
-# domain?
-(should (domain? true, R::Boolean),
+# is-a?
+(should (is-a? R::Boolean true),
         (eq true))
