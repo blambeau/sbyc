@@ -2,7 +2,6 @@ require 'sbyc/r/domains/abstract/hierarchy'
 require 'sbyc/r/domains/abstract/factory'
 require 'sbyc/r/domains/abstract/operators'
 require 'sbyc/r/domains/abstract/union'
-require 'sbyc/r/domains/abstract/reuse'
 module SByC
   module R
     module AbstractDomain
