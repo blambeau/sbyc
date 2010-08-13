@@ -1,9 +1,9 @@
 SByC::R::Builtin = SByC::R::DomainGenerator::Builtin.new
     
-SByC::R::Builtin.generate(:Alpha, [SByC::R::DomainGenerator::Tools::UnionDomain, SByC::R::DomainGenerator::Builtin::AlphaDomain])
+SByC::R::Builtin.generate(:Alpha, [SByC::R::DomainGenerator::Tools::UnionDomain])
 SByC::R::Alpha.refine(:Domain)
 SByC::R::Alpha.refine(:Boolean)
-SByC::R::Alpha.refine(:Numeric, SByC::R::DomainGenerator::Tools::UnionDomain, SByC::R::DomainGenerator::Builtin::NumericDomain)
+SByC::R::Alpha.refine(:Numeric, [SByC::R::DomainGenerator::Tools::UnionDomain])
   SByC::R::Numeric.refine(:Integer)
   SByC::R::Numeric.refine(:Float)
 SByC::R::Alpha.refine(:String)

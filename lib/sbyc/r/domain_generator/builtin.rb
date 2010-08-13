@@ -23,10 +23,7 @@ module SByC
         end
         
         def generate(name, modules = [])
-          if modules.empty?
-            modules = [ self.class.const_get("#{name}Domain".to_sym) ]
-            raise "Unable to find #{name}Domain" if modules.empty?
-          end
+          modules = [ self.class.const_get(:"#{name}Domain") ] + modules
           domain_created(name, factor_domain_class(modules))
         end
         
