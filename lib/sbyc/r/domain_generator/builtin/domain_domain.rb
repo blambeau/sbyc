@@ -2,7 +2,7 @@ class SByC::R::DomainGenerator::Builtin
   module DomainDomain
     
     def exemplars
-      [ R::Alpha, R::Domain, R::Boolean ]
+      [ SByC::R::Alpha, SByC::R::Domain, SByC::R::Boolean ]
     end
     
     def is_value?(value)

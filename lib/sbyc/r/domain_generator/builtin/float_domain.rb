@@ -31,9 +31,9 @@ class SByC::R::DomainGenerator::Builtin
     def coerce(x)
       if is_value?(x)
         x
-      elsif x.kind_of?(Integer)
+      elsif x.kind_of?(::Integer)
         x.to_f
-      elsif x.kind_of?(String)
+      elsif x.kind_of?(::String)
         parse_literal(x)
       else
         super

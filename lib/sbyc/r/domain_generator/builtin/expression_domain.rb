@@ -27,7 +27,7 @@ class SByC::R::DomainGenerator::Builtin
       def coerce(x)
         if is_value?(x)
           x
-        elsif x.kind_of?(String)
+        elsif x.kind_of?(::String)
           parse_literal(x)
         elsif x.kind_of?(CodeTree::AstNode)
           self.new(x)

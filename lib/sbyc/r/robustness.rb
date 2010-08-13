@@ -5,6 +5,9 @@ module SByC
       # Raised when a type error occurs
       class ::SByC::TypeError < ::SByC::Error; end
   
+      # Raised when a nil value occurs
+      class ::SByC::NilError < ::SByC::Error; end
+  
       # Raised when a type checking error occurs
       class ::SByC::TypeCheckError < ::SByC::Error; end
   
@@ -24,6 +27,11 @@ module SByC
         end
       end
   
+      # Raises a NilError with a given message
+      def __nil_error__(msg, cal = caller)
+        raise ::SByC::NilError, msg, cal
+      end
+      
       # Raises a TypeError with a message explaining that _str_
       # is not a literal for _domain_
       def __not_a_literal__!(domain, str, cal = caller)

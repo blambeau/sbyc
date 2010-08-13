@@ -13,6 +13,7 @@ SByC::R::DomainGenerator::Builder.new(SByC::R){
     Builtin(:Regexp)
     Builtin(:Date)
     Builtin(:Time)
+    Builtin(:Heading)
     Builtin(:Module)
     Builtin(:Expression)
     ArrayOf(:Alpha)
