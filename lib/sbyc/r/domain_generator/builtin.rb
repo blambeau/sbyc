@@ -80,3 +80,16 @@ module SByC
     end # class DomainGenerator
   end # module R
 end # module SByC
+require 'sbyc/r/domain_generator/builtin/alpha'
+require 'sbyc/r/domain_generator/builtin/domain'
+require 'sbyc/r/domain_generator/builtin/expression'
+require 'sbyc/r/domain_generator/builtin/boolean'
+require 'sbyc/r/domain_generator/builtin/numeric'
+require 'sbyc/r/domain_generator/builtin/integer'
+require 'sbyc/r/domain_generator/builtin/float'
+require 'sbyc/r/domain_generator/builtin/string'
+require 'sbyc/r/domain_generator/builtin/time'
+require 'sbyc/r/domain_generator/builtin/date'
+require 'sbyc/r/domain_generator/builtin/symbol'
+require 'sbyc/r/domain_generator/builtin/regexp'
+require 'sbyc/r/domain_generator/builtin/module'

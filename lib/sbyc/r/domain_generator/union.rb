@@ -1,0 +1,1 @@
+require 'sbyc/r/domain_generator/union/union_domain'

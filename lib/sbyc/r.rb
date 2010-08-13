@@ -5,6 +5,8 @@ require 'sbyc/r/parser'
 require 'sbyc/r/class_methods'
 require 'sbyc/r/factory'
 require 'sbyc/r/operator'
+require 'sbyc/r/abstract_domain'
+require 'sbyc/r/domain_generator'
 module SByC
   module R
     extend R::Robustness

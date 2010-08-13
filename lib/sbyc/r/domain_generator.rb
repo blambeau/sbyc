@@ -31,5 +31,6 @@ module SByC
     end # class DomainGenerator
   end # module R
 end # module SByc
-require 'sbyc/r/domains/generator/builtin'
-require 'sbyc/r/domains/generator/array'
+require 'sbyc/r/domain_generator/builtin'
+require 'sbyc/r/domain_generator/array'
+require 'sbyc/r/domain_generator/union'

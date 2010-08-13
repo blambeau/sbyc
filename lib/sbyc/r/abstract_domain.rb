@@ -1,5 +1,5 @@
-require 'sbyc/r/domains/abstract/hierarchy'
-require 'sbyc/r/domains/abstract/union'
+require 'sbyc/r/abstract_domain/contract'
+require 'sbyc/r/abstract_domain/hierarchy'
 module SByC
   module R
     module AbstractDomain

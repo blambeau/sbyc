@@ -45,3 +45,4 @@ module SByC
     end # class DomainGenerator
   end # module R
 end # module SByC
+require 'sbyc/r/domain_generator/array/array_domain'
