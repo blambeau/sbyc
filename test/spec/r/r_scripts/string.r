@@ -1,3 +1,6 @@
+(should (String "hello"),
+        (eq "hello"))
+
 # equals?
 (should (equals? "hello", "hello"),
         (eq true))

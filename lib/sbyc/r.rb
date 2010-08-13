@@ -40,20 +40,26 @@ module SByC
       # Install constants and global selectors
       if name.to_s =~ /^[A-Z][a-z]+$/
         const_set(name, domain)
-
-        unless name == :Alpha
-          op = Operator.new{|op|
-            op.description = %Q{ Selector for #{name} }
-            op.signature   = [Alpha]
-            op.argnames    = [:operand]
-            op.returns     = domain
-            op.aliases     = [name]
-            op.method      = lambda{|x| domain.coerce(x)}
-          }
-          GlobalOperators.add_operator(op)
-        end
-         
       end
+
+      unless name == :Alpha
+        op = Operator.new{|op|
+          op.description = %Q{ Selector for #{name} }
+          op.signature   = domain.selector_signature
+          op.argnames    = [:operand]
+          op.returns     = domain
+          op.aliases     = [name]
+          op.method      = lambda{|x|
+            begin
+              domain.coerce(x)
+            rescue => ex
+              raise SByC::TypeError, "No such selector (#{domain.domain_name} #{x.join(' ')})"
+            end
+          }
+        }
+        GlobalOperators.add_operator(op)
+      end
+
       domain
     end
         

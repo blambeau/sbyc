@@ -4,7 +4,7 @@ module SByC
       
       # Factors a signature instance
       def signature(*domains)
-        R::Operator::Signature.new(domain)
+        R::Operator::Signature.new(domains)
       end
       
       # Factors a signature instance

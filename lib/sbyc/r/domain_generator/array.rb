@@ -7,25 +7,20 @@ module SByC
           "Array<#{domain.of_domain.domain_name}>"
         end
         
-        def domain_created(name, domain)
-          # of_domain = domain.of_domain
-          # if of_domain == R::Alpha
-          #   op = R::Operator.new{|op|
-          #     op.description = %Q{ Selector for #{name} }
-          #     op.signature   = SByC::R::aggregate_signature(of_domain)
-          #     op.argnames    = [:operands]
-          #     op.returns     = domain
-          #     op.aliases     = [:Array]
-          #     op.method      = lambda{|x| x.collect{|x| of_domain.coerce(x)}}
-          #   }
-          #   of_domain::Operators.add_operator(op)
-          # end
+        #
+        # Returns the signature to use for the selector of a given
+        # domain.
+        #
+        # @returns [Signature] a signature.
+        #
+        def selector_signature(domain)
+          R::Operator::AggregateSignature.new(R::Alpha)
         end
         
-        def generate(sub_domain)
+        def generate(name, sub_domain)
           domain = factor_domain_class([Array::ArrayDomain])
           domain.of_domain = sub_domain
-          domain_created(domain_name_of(domain), domain)
+          domain
         end
         
         def refine(domain, *args)

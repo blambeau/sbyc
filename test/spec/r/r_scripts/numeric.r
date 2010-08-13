@@ -1,3 +1,12 @@
+(should (Numeric 12)
+        (eq 12))
+(should (Numeric "12")
+        (eq 12))
+(should (Numeric 12.0)
+        (eq 12.0))
+(should (Numeric "12.0")
+        (eq 12.0))
+
 (should (addition 12, 13.0),
         (eq 25.0))
 (should (addition 12.0, 13),

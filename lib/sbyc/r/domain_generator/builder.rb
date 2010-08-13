@@ -39,6 +39,12 @@ module SByC
           generate(@builtin, name, args, &block)
         end
         
+        def ArrayOf(subdomain_name)
+          subdomain = @system.const_get(subdomain_name)
+          name = (subdomain_name == :Alpha) ? :Array : :"Array<#{subdomain_name}>"
+          generate(@array, name, subdomain)
+        end
+        
       end # class Builder
     end # class DomainGenerator
   end # module R

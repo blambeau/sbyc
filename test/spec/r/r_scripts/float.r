@@ -1,3 +1,8 @@
+(should (Float 12.0)
+        (eq 12.0))
+(should (Float "12.0")
+        (eq 12.0))
+
 (should (addition 12.0, 13.0),
         (eq 25.0))
 #

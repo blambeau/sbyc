@@ -4,11 +4,6 @@ class SByC::R::DomainGenerator::Array
     # Array of what?
     attr_accessor :of_domain
     
-    # Returns domain name
-    def domain_name
-      "Array[#{of_domain.domain_name}]"
-    end
-
     def exemplars
       [ coerce( [ 12 ] ) ]
     end
@@ -44,7 +39,7 @@ class SByC::R::DomainGenerator::Array
       elsif x.kind_of?(::String)
         parse_literal(x)
       else
-        __not_a_literal__!(self, str)
+        __not_a_literal__!(self, x)
       end
     end
     

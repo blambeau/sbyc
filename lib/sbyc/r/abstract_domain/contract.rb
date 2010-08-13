@@ -25,6 +25,15 @@ module SByC
         def domain_generator
           @domain_generator
         end
+        
+        #
+        # Returns the signature to use for the selector.
+        #
+        # @returns [Signature] a signature.
+        #
+        def selector_signature
+          @domain_generator.selector_signature(self)
+        end
  
         #
         # Returns the domain name.

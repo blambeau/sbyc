@@ -3,6 +3,16 @@ module SByC
     class DomainGenerator
       class Builtin < DomainGenerator
         
+        #
+        # Returns the signature to use for the selector of a given
+        # domain.
+        #
+        # @returns [Signature] a signature.
+        #
+        def selector_signature(domain)
+          R::Operator::Signature.new([R::Alpha])
+        end
+        
         def domain_name_of(domain)
           (domain.name.to_s =~ /^SByC::R::(.*)$/) ? $1 : domain.name.to_s
         end

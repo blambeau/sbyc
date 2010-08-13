@@ -1,3 +1,8 @@
+(should (Integer 12)
+        (eq 12))
+(should (Integer "12")
+        (eq 12))
+
 # equality
 (should (equals? 12, 13),
         (eq false))

@@ -36,11 +36,7 @@ module SByC
           return op unless op.nil?
         }
         op = global_operator(name, args)
-        if op
-          op
-        else
-          __no_such_operator_for_args__(name, args)
-        end
+        op ? op : __no_such_operator_for_args__(name, args)
       end
       
       # Lauches evaluation

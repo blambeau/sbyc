@@ -33,7 +33,7 @@ class SByC::R::DomainGenerator::Builtin
       'Bignum'     => :Integer,
       'FalseClass' => :Boolean,
       'TrueClass'  => :Boolean,
-      'Array'      => :ArrayOfAlpha
+      'Array'      => :Array
     }
     def coerce(x)
       if is_value?(x)
