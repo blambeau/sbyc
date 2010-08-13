@@ -1,9 +1,7 @@
-require 'singleton'
 module SByC
   module R
     class DomainGenerator
       class Builtin < DomainGenerator
-        include Singleton
         
         def domain_name_of(domain)
           (domain.name.to_s =~ /^SByC::R::(.*)$/) ? $1 : domain.name.to_s

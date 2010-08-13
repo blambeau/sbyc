@@ -1,9 +1,7 @@
-require 'singleton'
 module SByC
   module R
     class DomainGenerator
       class Array < DomainGenerator
-        include Singleton
         
         def domain_name_of(domain)
           "Array<#{domain.of_domain.domain_name}>"

@@ -1,4 +1,4 @@
-SByC::R::Builtin = SByC::R::DomainGenerator::Builtin.instance
+SByC::R::Builtin = SByC::R::DomainGenerator::Builtin.new
     
 SByC::R::Alpha      = SByC::R::Builtin[:Alpha, [SByC::R::AbstractDomain::Union, SByC::R::AlphaDomain]]
 SByC::R::Domain     = SByC::R::Alpha.refine(:Domain, SByC::R::DomainDomain)
@@ -18,5 +18,5 @@ SByC::R::Module  = SByC::R::Alpha.refine(:Module, SByC::R::ModuleDomain)
 
 SByC::R::Expression = SByC::R::Alpha.refine(:Expression, SByC::R::ExpressionDomain)
 
-SByC::R::Array        = SByC::R::DomainGenerator::Array.instance
+SByC::R::Array        = SByC::R::DomainGenerator::Array.new
 SByC::R::ArrayOfAlpha = SByC::R::Alpha.refine(SByC::R::Array[SByC::R::Alpha])
