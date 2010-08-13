@@ -57,6 +57,10 @@ module SByC
           str[0...index].count("\n") + 1
         end
 
+        def node(function, children)
+          AstNode.new(function, children)
+        end
+
         def literal_node(literal)
           AstNode.new(:_, [ literal ])
         end
@@ -99,6 +103,14 @@ module SByC
         
         def eat_spaces
           parse_regexp(SPACES_REGEXP)
+        end
+        
+        def eat_spaces_or_comma
+          eat_spaces
+          while current_char == ','
+            @index += 1
+            eat_spaces
+          end
         end
         
         def parse_string(s, eat_s = false)
@@ -146,7 +158,7 @@ module SByC
             parse_string('<', true)
             args = parse_operator_args
             parse_string('>', true)
-            AstNode.new(:'generate-domain', [ generator ] + args)
+            node(:'generate-domain', [ generator ] + args)
           rescue ParseError
             @index = index_backup
             raise
@@ -163,7 +175,7 @@ module SByC
           args = parse_operator_args
           eat_spaces
           parse_string(')', true)
-          AstNode.new(name, args)
+          node(name, args)
         end
         
         def parse_operator_name
@@ -175,11 +187,7 @@ module SByC
           while true
             begin
               args << parse_statement
-              eat_spaces
-              if current_char == ','
-                @index += 1
-                eat_spaces
-              end
+              eat_spaces_or_comma
             rescue ParseError
               break
             end
@@ -230,6 +238,39 @@ module SByC
         
         def parse_domain_literal
           literal_node(resolve_domain(parse_regexp(DOMAIN_REGEXP, "domain")))
+        end
+        
+        def parse_domain_generation_literal
+          index_backup = @index
+          begin
+            generator = resolve_domain(parse_regexp(DOMAIN_REGEXP, "domain"))
+            if current_char != '<'
+              literal_node(generator)
+            else
+              parse_string('<', true)
+              args = parse_domain_generation_commalist
+              parse_string('>', true)
+              node(:'generate-domain', [ literal_node(generator) ] + args)
+            end
+          rescue ParseError
+            @index = index_backup
+            raise
+          end
+        end
+        
+        def parse_domain_generation_commalist
+          args = []
+          args << parse_domain_generation_literal
+          eat_spaces_or_comma
+          while true
+            begin
+              args << parse_domain_generation_literal
+              eat_spaces_or_comma
+            rescue ParseError
+              break
+            end
+          end
+          args
         end
         
         def parse_symbol_literal
@@ -297,11 +338,7 @@ module SByC
             name, value = parse_arg_literal
             names << name
             values << value
-            eat_spaces
-            if current_char == ','
-              @index += 1
-              eat_spaces
-            end
+            eat_spaces_or_comma
           end
           parse_string('-}')
           args_node(names, values)
