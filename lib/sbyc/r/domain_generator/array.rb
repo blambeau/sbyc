@@ -28,7 +28,6 @@ module SByC
           domain.of_domain = sub_domain
           domain_created(domain_name_of(domain), domain)
         end
-        alias :[] :generate
         
         def refine(domain, *args)
           raise NotImplementedError, "Unable to refine array domains"
