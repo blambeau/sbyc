@@ -26,7 +26,7 @@ SByC::R::Domain::Operators.define{
     op.aliases     = [:'is-sub-domain-of?']
   }
   def is_sub_domain_of?(subdomain, domain)
-    (subdomain == domain) || subdomain.is_sub_domain_of?(domain)
+    subdomain.is_sub_domain_of?(domain)
   end
   
   operator{|op|
@@ -37,7 +37,7 @@ SByC::R::Domain::Operators.define{
     op.aliases     = [:'is-proper-sub-domain-of?']
   }
   def is_proper_sub_domain_of?(subdomain, domain)
-    (subdomain != domain) && subdomain.is_sub_domain_of?(domain)
+    subdomain.is_proper_sub_domain_of?(domain)
   end
   
   operator{|op|

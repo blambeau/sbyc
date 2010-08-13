@@ -17,6 +17,7 @@ module SByC
         # @pre <code>R::Domain.is_value(super_domain)</code> is true
         #
         def has_super_domain?(super_domain)
+          return true if (self == super_domain)
           res = @immediate_super_domains && (
             @immediate_super_domains.include?(super_domain) ||
             @immediate_super_domains.any?{|dom| dom.has_super_domain?(super_domain)}
@@ -24,6 +25,11 @@ module SByC
           !!res
         end
         alias :is_sub_domain_of? :has_super_domain?
+        
+        def has_proper_super_domain?(super_domain)
+          (self != super_domain) && has_super_domain?(super_domain)
+        end
+        alias :is_proper_sub_domain_of? :has_proper_super_domain?
       
         #
         # Yields the block with each immediate super domain.
@@ -46,6 +52,7 @@ module SByC
         # @pre <code>R::Domain.is_value(sub_domain)</code> is true
         #
         def has_sub_domain?(sub_domain)
+          return true if (self == sub_domain)
           res = @immediate_sub_domains && (
             @immediate_sub_domains.include?(sub_domain) ||
             @immediate_sub_domains.any?{|dom| dom.has_sub_domain?(sub_domain)}
@@ -54,6 +61,11 @@ module SByC
         end
         alias :is_super_domain_of? :has_sub_domain?
       
+        def has_proper_sub_domain?(sub_domain)
+          (self != sub_domain) && has_sub_domain?(super_domain)
+        end
+        alias :is_proper_super_domain_of? :has_proper_sub_domain?
+        
         #
         # Yields the block with each immediate sub domain.
         #
