@@ -1,6 +1,4 @@
-module SByC
-  module R
-    module NumericDomain
-    end # module NumericDomain
-  end # module R
-end # module SByC
+class SByC::R::DomainGenerator::Builtin
+  module NumericDomain
+  end # module NumericDomain
+end # class SByC::R::DomainGenerator::Builtin

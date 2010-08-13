@@ -1,22 +1,22 @@
 SByC::R::Builtin = SByC::R::DomainGenerator::Builtin.new
     
-SByC::R::Builtin[:Alpha, [SByC::R::DomainGenerator::Tools::UnionDomain, SByC::R::AlphaDomain]]
-SByC::R::Alpha.refine(:Domain, SByC::R::DomainDomain)
+SByC::R::Builtin[:Alpha, [SByC::R::DomainGenerator::Tools::UnionDomain, SByC::R::DomainGenerator::Builtin::AlphaDomain]]
+SByC::R::Alpha.refine(:Domain, SByC::R::DomainGenerator::Builtin::DomainDomain)
 
-SByC::R::Alpha.refine(:Boolean, SByC::R::BooleanDomain)
+SByC::R::Alpha.refine(:Boolean, SByC::R::DomainGenerator::Builtin::BooleanDomain)
 
-SByC::R::Alpha.refine(:Numeric, SByC::R::DomainGenerator::Tools::UnionDomain, SByC::R::NumericDomain)
-  SByC::R::Numeric.refine(:Integer, SByC::R::IntegerDomain)
-  SByC::R::Numeric.refine(:Float,   SByC::R::FloatDomain)
+SByC::R::Alpha.refine(:Numeric, SByC::R::DomainGenerator::Tools::UnionDomain, SByC::R::DomainGenerator::Builtin::NumericDomain)
+  SByC::R::Numeric.refine(:Integer, SByC::R::DomainGenerator::Builtin::IntegerDomain)
+  SByC::R::Numeric.refine(:Float,   SByC::R::DomainGenerator::Builtin::FloatDomain)
 
-SByC::R::Alpha.refine(:String, SByC::R::StringDomain)
-SByC::R::Alpha.refine(:Time,   SByC::R::TimeDomain)
-SByC::R::Alpha.refine(:Date,   SByC::R::DateDomain)
-SByC::R::Alpha.refine(:Symbol, SByC::R::SymbolDomain)
-SByC::R::Alpha.refine(:Regexp, SByC::R::RegexpDomain)
-SByC::R::Alpha.refine(:Module, SByC::R::ModuleDomain)
+SByC::R::Alpha.refine(:String, SByC::R::DomainGenerator::Builtin::StringDomain)
+SByC::R::Alpha.refine(:Time,   SByC::R::DomainGenerator::Builtin::TimeDomain)
+SByC::R::Alpha.refine(:Date,   SByC::R::DomainGenerator::Builtin::DateDomain)
+SByC::R::Alpha.refine(:Symbol, SByC::R::DomainGenerator::Builtin::SymbolDomain)
+SByC::R::Alpha.refine(:Regexp, SByC::R::DomainGenerator::Builtin::RegexpDomain)
+SByC::R::Alpha.refine(:Module, SByC::R::DomainGenerator::Builtin::ModuleDomain)
 
-SByC::R::Alpha.refine(:Expression, SByC::R::ExpressionDomain)
+SByC::R::Alpha.refine(:Expression, SByC::R::DomainGenerator::Builtin::ExpressionDomain)
 
 SByC::R::Array        = SByC::R::DomainGenerator::Array.new
 SByC::R::ArrayOfAlpha = SByC::R::Alpha.refine(SByC::R::Array[SByC::R::Alpha])

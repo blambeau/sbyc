@@ -1,34 +1,32 @@
-module SByC
-  module R
-    module ModuleDomain
-      
-      # Returns exemplars
-      def exemplars
-        [ SByC, SByC::R::Boolean ]
+class SByC::R::DomainGenerator::Builtin
+  module ModuleDomain
+    
+    # Returns exemplars
+    def exemplars
+      [ SByC, SByC::R::Boolean ]
+    end
+    
+    # Returns true if a given value belongs to this domain,
+    # false otherwise
+    def is_value?(value)
+      value.kind_of?(::Module)
+    end
+
+    # Parses a literal from the domain and returns
+    # a value
+    def parse_literal(str)
+      found = __find_ruby_module__(str)
+      if found and is_value?(found) 
+        found
+      else
+        __not_a_literal__!(self, str)
       end
-      
-      # Returns true if a given value belongs to this domain,
-      # false otherwise
-      def is_value?(value)
-        value.kind_of?(::Module)
-      end
-  
-      # Parses a literal from the domain and returns
-      # a value
-      def parse_literal(str)
-        found = __find_ruby_module__(str)
-        if found and is_value?(found) 
-          found
-        else
-          __not_a_literal__!(self, str)
-        end
-      end
-  
-      # Converts a value to a literal
-      def to_literal(value)
-        value.name
-      end
-      
-    end # module ModuleDomain
-  end # module R
-end # module SByC
+    end
+
+    # Converts a value to a literal
+    def to_literal(value)
+      value.name
+    end
+    
+  end # module ModuleDomain
+end # class SByC::R::DomainGenerator::Builtin
