@@ -1,4 +1,3 @@
-require 'sbyc/r/domains/abstract/contract'
 require 'sbyc/r/domains/abstract/hierarchy'
 require 'sbyc/r/domains/abstract/factory'
 require 'sbyc/r/domains/abstract/operators'
