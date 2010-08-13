@@ -92,6 +92,6 @@ module SByC
     end # class DomainGenerator
   end # module R
 end # module SByc
+require 'sbyc/r/domain_generator/tools'
 require 'sbyc/r/domain_generator/builtin'
 require 'sbyc/r/domain_generator/array'
-require 'sbyc/r/domain_generator/tools'
