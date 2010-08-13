@@ -1,6 +1,18 @@
 (should (String "hello"),
         (eq "hello"))
 
+# at
+(should (at "hello", 0),
+        (eq "h"))
+(should (at "hello", 4),
+        (eq "o"))
+(should ([] "hello", 4),
+        (eq "o"))
+(should (at "hello", 5),
+        (eq ""))
+(should ([] "hello", 5),
+        (eq ""))
+
 # equals?
 (should (equals? "hello", "hello"),
         (eq true))
@@ -47,14 +59,6 @@
 (should (upcase "hello"),
         (eq "HELLO"))
 
-# at
-(pending
-  (should (at "hello", 0),
-          (eq "h")),
-  (should (at "hello", 4),
-          (eq "o"))
-)
-
 # center
 (should (center "hello", 10),
         (eq "  hello   "))
@@ -74,10 +78,10 @@
         (eq false))
 
 # matches?       
-(pending
-  (should (matches? "hello", /ll/),
-          (eq true))
-)
+(should (matches? "hello", /ll/),
+        (eq true))
+(should (matches? "hello", /x/),
+        (eq false))
 
 # times
 (should (times "hello", 3),

@@ -1,6 +1,15 @@
 SByC::R::String::Operators.define{
   
   operator{|op|
+    op.description = %Q{ Returns the substring at a given position }
+    op.signature   = [SByC::R::String, SByC::R::Integer]
+    op.argnames    = [:operand, :at]
+    op.returns     = SByC::R::String
+    op.aliases     = [:at, :[]]
+  }
+  def at(operand, at) operand[at, 1] || ""; end
+  
+  operator{|op|
     op.description = %Q{ Capitalizes a string }
     op.signature   = [SByC::R::String]
     op.argnames    = [:operand]
@@ -44,6 +53,15 @@ SByC::R::String::Operators.define{
     op.aliases     = [:length]
   }
   def length(operand) operand.length; end
+
+  operator{|op|
+    op.description = %Q{ Checks if the string matches a given regular expression }
+    op.signature   = [SByC::R::String, SByC::R::Regexp]
+    op.argnames    = [:operand, :regexp]
+    op.returns     = SByC::R::Boolean
+    op.aliases     = [:matches?, :===]
+  }
+  def matches?(operand, regexp) regexp === operand; end
 
   operator{|op|
     op.description = %Q{ Reverses a string }
