@@ -23,11 +23,23 @@
         (eq true))
 (should (is-sub-domain-of? Integer Float)
         (eq false))
+(should (is-sub-domain-of? Array<Alpha> Array<Alpha>)
+        (eq true))
+(should (is-sub-domain-of? Array<String> Array<Alpha>)
+        (eq true))
+(should (is-sub-domain-of? Array<Alpha> Array<String>)
+        (eq false))
 
 # is-proper-sub-domain-of?
 (should (is-proper-sub-domain-of? Boolean Alpha)
         (eq true))
 (should (is-proper-sub-domain-of? Alpha Alpha)
+        (eq false))
+(should (is-proper-sub-domain-of? Array<Alpha> Array<Alpha>)
+        (eq false))
+(should (is-proper-sub-domain-of? Array<String> Array<Alpha>)
+        (eq true))
+(should (is-proper-sub-domain-of? Array<Alpha> Array<String>)
         (eq false))
         
 # is-super-domain-of?
@@ -43,10 +55,22 @@
         (eq true))
 (should (is-super-domain-of? Float Integer)
         (eq false))
+(should (is-super-domain-of? Array<Alpha> Array<Alpha>)
+        (eq true))
+(should (is-super-domain-of? Array<Alpha> Array<String>)
+        (eq true))
+(should (is-super-domain-of? Array<String> Array<Alpha>)
+        (eq false))
 
 # is-proper-super-domain-of?
 (should (is-proper-super-domain-of? Alpha Boolean)
         (eq true))
 (should (is-proper-super-domain-of? Alpha Alpha)
+        (eq false))
+(should (is-proper-super-domain-of? Array<Alpha> Array<Alpha>)
+        (eq false))
+(should (is-proper-super-domain-of? Array<Alpha> Array<String>)
+        (eq true))
+(should (is-proper-super-domain-of? Array<String> Array<Alpha>)
         (eq false))
         

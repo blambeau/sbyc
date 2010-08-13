@@ -26,7 +26,7 @@ module SByC
         end
         
         def do_generation(name, sub_domain)
-          domain = factor_domain_class([Array::ArrayDomain])
+          domain = factor_domain_class([Array::ArrayDomain, Array::ArrayHierarchy])
           domain.of_domain = sub_domain
           domain
         end
@@ -40,3 +40,4 @@ module SByC
   end # module R
 end # module SByC
 require 'sbyc/r/domain_generator/array/array_domain'
+require 'sbyc/r/domain_generator/array/array_hierarchy'

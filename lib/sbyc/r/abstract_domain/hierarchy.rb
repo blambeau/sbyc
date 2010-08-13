@@ -26,14 +26,6 @@ module SByC
         alias :is_sub_domain_of? :has_super_domain?
       
         #
-        # Returns true if this domain has known super domains, false otherwise.
-        #
-        def has_super_domains?
-          res = @immediate_super_domains && !@immediate_super_domains.empty?
-          !!res
-        end
-        
-        #
         # Yields the block with each immediate super domain.
         #
         def each_immediate_super_domain(&block)
@@ -62,14 +54,6 @@ module SByC
         end
         alias :is_super_domain_of? :has_sub_domain?
       
-        #
-        # Returns true if this domain has known sub domains, false otherwise.
-        #
-        def has_sub_domains?
-          res = @immediate_sub_domains && !@immediate_sub_domains.empty?
-          !!res
-        end
-        
         #
         # Yields the block with each immediate sub domain.
         #

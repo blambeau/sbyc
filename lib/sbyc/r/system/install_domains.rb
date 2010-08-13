@@ -18,8 +18,3 @@ SByC::R::DomainGenerator::Builder.new(SByC::R){
     ArrayOf(:Alpha)
   }
 }
-
-# SByC::R::Array        = SByC::R::DomainGenerator::Array.new
-# SByC::R::ArrayOfAlpha = SByC::R::Alpha.refine(SByC::R::Array.generate(SByC::R::Alpha))
-
-
