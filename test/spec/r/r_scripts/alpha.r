@@ -15,15 +15,15 @@
         (eq false))
 
 # domain
-(should (domain true),
+(should (domain-of true),
         (eq R::Boolean))
-(should (domain R::Alpha),
+(should (domain-of R::Alpha),
         (eq R::Domain))
-(should (domain R::Boolean),
+(should (domain-of R::Boolean),
         (eq R::Domain))
-(should (domain R::Domain),
+(should (domain-of R::Domain),
         (eq R::Domain))
-(should (domain "hello"),
+(should (domain-of "hello"),
         (eq R::String))
         
 # domain?

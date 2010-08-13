@@ -6,7 +6,7 @@ class SByC::R::DomainGenerator::Builtin
     end
     
     def is_value?(value)
-      R::domains.include?(value)
+      value.respond_to?(:sbyc_domain) and value.sbyc_domain == self
     end
     
     def values
@@ -24,7 +24,7 @@ class SByC::R::DomainGenerator::Builtin
     end
 
     def to_literal(value)
-      name = value.name.to_s
+      name = value.domain_name.to_s
       (name =~ /^SByC::R::(.*)$/) ? $1 : name
     end
 

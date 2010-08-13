@@ -4,7 +4,7 @@ module SByC
       class Array < DomainGenerator
         
         def domain_name_of(domain)
-          "Array<#{domain.of_domain.domain_name}>"
+          :"Array<#{domain.of_domain.domain_name}>"
         end
         
         #

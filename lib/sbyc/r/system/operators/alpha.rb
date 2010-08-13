@@ -30,9 +30,9 @@ SByC::R::Alpha::Operators.define{
     op.signature   = [SByC::R::Alpha]
     op.argnames    = [:operand]
     op.returns     = SByC::R::Domain
-    op.aliases     = [:domain]
+    op.aliases     = [:'domain-of']
   }
-  def domain(operand) SByC::R::Alpha::domain_of(operand); end
+  def domain_of(operand) SByC::R::Alpha::domain_of(operand); end
   
   operator{|op|
     op.description = %Q{ Checks if a value belongs to a domain }
@@ -61,6 +61,6 @@ SByC::R::Alpha::Operators.define{
     op.returns     = SByC::R::String
     op.aliases     = [:to_literal]
   }
-  def to_literal(operand) domain(operand).to_literal(operand) end
+  def to_literal(operand) domain_of(operand).to_literal(operand) end
 
 }

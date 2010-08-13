@@ -24,4 +24,4 @@
   (send (unwrap operand) :domain) 
 )
 
-
+Array<String>

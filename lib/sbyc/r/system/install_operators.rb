@@ -1,5 +1,6 @@
 require 'sbyc/r/system/operators/alpha'
 require 'sbyc/r/system/operators/boolean'
+require 'sbyc/r/system/operators/domain'
 require 'sbyc/r/system/operators/string'
 require 'sbyc/r/system/operators/numeric'
 require 'sbyc/r/system/operators/integer'

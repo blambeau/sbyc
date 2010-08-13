@@ -31,7 +31,7 @@ module SByC
               @failures << [node, value]
             end
           rescue StandardError => ex
-            @failures << [node, ex.message + "\n" + ex.backtrace[0]]
+            @failures << [node, ex.message + "\n" + ex.backtrace.join("\n")]
           end
         end
 
@@ -47,7 +47,7 @@ module SByC
 
       # Runs on an expression
       def run(expr, &block)
-        ast = CodeTree::coerce(expr || block, :multiline => true)
+        ast = SByC::R::parse(expr || block, :multiline => true)
         apply(ast)
       end
       

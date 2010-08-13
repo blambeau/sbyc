@@ -19,7 +19,10 @@ module SByC
         SYMBOL_REGEXP = /[:]([^\s:\(\),]+)/
         
         # Regular expression for domains
-        DOMAIN_REGEXP = /([A-Z][A-Z0-9a-z_]*)(::[A-Z][A-Z0-9a-z_]*)*/
+        DOMAIN_NAME               = "[A-Z][A-Z0-9a-z_]*"
+        DOMAIN_QUALIFIED_NAME     = "(#{DOMAIN_NAME})(::#{DOMAIN_NAME})*"
+        DOMAIN_REGEXP             = /#{DOMAIN_QUALIFIED_NAME}/
+        DOMAIN_GENERATION_LITERAL = /#{DOMAIN_QUALIFIED_NAME}(<#{DOMAIN_QUALIFIED_NAME}>)/
         
         # Regular expression for strings
         SINGLE_QUOTED_STRING_REGEXP = /['](([\\][']|[^'])*?)[']/
@@ -106,7 +109,11 @@ module SByC
         
         # Resolves a given domain
         def resolve_domain(str)
-          Kernel.eval(str)
+          begin
+            Kernel.eval(str)
+          rescue Exception 
+            str.to_sym
+          end
         end
         
         ### parsing methods
@@ -138,7 +145,7 @@ module SByC
             self.eat_spaces if eat_s
             s
           else
-            parse_failure!(rx)
+            parse_failure!(s)
           end
         end
 
@@ -158,8 +165,29 @@ module SByC
           char = current_char
           if char == '('
             parse_operator_call
+          elsif char >= 'A' and char <= 'Z'
+            begin
+              parse_domain_generation
+            rescue ParseError
+              parse_literal
+            end
           else
             parse_literal
+          end
+        end
+        
+        ### domain generation
+        def parse_domain_generation
+          index_backup = @index
+          begin
+            generator = parse_domain_literal
+            parse_string('<', true)
+            args = parse_operator_args
+            parse_string('>', true)
+            AstNode.new(:'generate-domain', [ generator ] + args)
+          rescue ParseError
+            @index = index_backup
+            raise
           end
         end
         
@@ -182,26 +210,21 @@ module SByC
         
         def parse_operator_args
           args = []
-          while ((char = current_char) != ')')
-            args << parse_operator_arg(char)
-            eat_spaces
-            if current_char == ','
-              @index += 1
+          while true
+            begin
+              args << parse_statement
               eat_spaces
+              if current_char == ','
+                @index += 1
+                eat_spaces
+              end
+            rescue ParseError
+              break
             end
-            #puts "After having read #{args.last} : #{current_char}"
           end
           args
         end
 
-        def parse_operator_arg(char)
-          if char == '('
-            parse_operator_call
-          else
-            parse_literal
-          end
-        end
-        
         ### literals
         
         LITERALS_LOOKUP = {}

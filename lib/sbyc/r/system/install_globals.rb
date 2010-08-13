@@ -1,6 +1,20 @@
 SByC::R::GlobalOperators.define{
  
   operator{|op|
+    op.description = %Q{ Generates a new type trough a generator }
+    op.signature   = [SByC::R::Domain, SByC::R::Domain]
+    op.argnames    = [:domain, :subdomain]
+    op.returns     = SByC::R::Domain
+    op.aliases     = [:'generate-domain']
+  }
+  def generate_domain(domain, subdomain)
+    name = :"#{domain.domain_name}<#{subdomain.domain_name}>"
+    domain.domain_generator.generate(name, subdomain)
+  rescue Exception => ex
+    raise SByC::TypeError, "Unable to generate domain #{name}\n#{ex.message}"
+  end
+ 
+  operator{|op|
     op.description = %Q{ Returns date of today }
     op.signature   = []
     op.argnames    = []

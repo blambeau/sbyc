@@ -14,7 +14,7 @@ module SByC
         end
         
         def domain_name_of(domain)
-          (domain.name.to_s =~ /^SByC::R::(.*)$/) ? $1 : domain.name.to_s
+          (domain.name.to_s =~ /^SByC::R::(.*)$/) ? $1.to_sym : domain.name.to_s.to_sym
         end
         
         def generate(name, modules = [])
