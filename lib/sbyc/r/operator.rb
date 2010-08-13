@@ -101,7 +101,12 @@ module SByC
 
       # Call the operator
       def call(args, &block)
-        signature.make_operator_call(method, args, &block)
+        result = signature.make_operator_call(method, args, &block)
+        if result.nil?
+          raise SByC::TypeError, "Invalid operator implementation #{description}"
+        else
+          result
+        end
       end
       
     end # class Operator

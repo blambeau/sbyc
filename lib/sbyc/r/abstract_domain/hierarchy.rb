@@ -17,10 +17,11 @@ module SByC
         # @pre <code>R::Domain.is_value(super_domain)</code> is true
         #
         def has_super_domain?(super_domain)
-          @immediate_super_domains && (
+          res = @immediate_super_domains && (
             @immediate_super_domains.include?(super_domain) ||
             @immediate_super_domains.any?{|dom| dom.has_super_domain?(super_domain)}
           )
+          !!res
         end
         alias :is_sub_domain_of? :has_super_domain?
       
@@ -28,7 +29,8 @@ module SByC
         # Returns true if this domain has known super domains, false otherwise.
         #
         def has_super_domains?
-          @immediate_super_domains && !@immediate_super_domains.empty?
+          res = @immediate_super_domains && !@immediate_super_domains.empty?
+          !!res
         end
         
         #
@@ -52,10 +54,11 @@ module SByC
         # @pre <code>R::Domain.is_value(sub_domain)</code> is true
         #
         def has_sub_domain?(sub_domain)
-          @immediate_sub_domains && (
+          res = @immediate_sub_domains && (
             @immediate_sub_domains.include?(sub_domain) ||
             @immediate_sub_domains.any?{|dom| dom.has_sub_domain?(sub_domain)}
           )
+          !!res
         end
         alias :is_super_domain_of? :has_sub_domain?
       
@@ -63,7 +66,8 @@ module SByC
         # Returns true if this domain has known sub domains, false otherwise.
         #
         def has_sub_domains?
-          @immediate_sub_domains && !@immediate_sub_domains.empty?
+          res = @immediate_sub_domains && !@immediate_sub_domains.empty?
+          !!res
         end
         
         #
@@ -81,10 +85,11 @@ module SByC
         # Returns true if the domain has a specific structure.
         #
         def has_structure?(structure)
-          (@immediate_structure && 
+          res = (@immediate_structure && 
            @immediate_structure.include?(structure)) ||
           (@immediate_super_domains &&
            @immediate_super_domains.any?{|dom| dom.has_structure?(structure)})
+          !!res
         end
 
         #

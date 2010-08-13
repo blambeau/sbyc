@@ -7,7 +7,11 @@ class SByC::R::DomainGenerator::Builtin
       if value.respond_to?(:sbyc_domain)
         value.sbyc_domain
       else
-        R::Domain::coerce(value.class)
+        begin
+          R::Domain::coerce(value.class)
+        rescue SByC::TypeError
+          raise SByC::TypeError, "Unexpected ruby class #{value.class}"
+        end
       end
     end
     
