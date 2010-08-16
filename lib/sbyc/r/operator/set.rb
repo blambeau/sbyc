@@ -25,14 +25,20 @@ module SByC
 
           # Returns installed operators
           def operators
-            @operators ||= {}
+            @operators ||= Hash.new{|h,k| h[k] = []}
+          end
+          
+          def each_operator
+            @operators.each_pair{|name, ops|
+              ops.each{|op| yield(name, op)}
+            }
           end
         
           ### About operator definition #########################################
           
           # Adds an operator
           def add_operator(op)
-            op.aliases.each{|name| operators[name] = op}
+            op.aliases.each{|name| operators[name] << op}
           end
         
           # Installs the informations about the next operator to add
@@ -44,7 +50,7 @@ module SByC
           def define(&block)
             module_eval(&block)
             extend(self)
-            operators.each_pair{|name, op| 
+            each_operator{|name, op|
               if op.method.kind_of?(::UnboundMethod)
                 op.method = op.method.bind(self)
               end
@@ -65,14 +71,20 @@ module SByC
 
           # Find an operator that matches a given signature
           def find_operator_by_signature(name, signature, requester = nil)
-            (op = operators[name]) && 
-              op.signature_matches?(signature, requester) ? op : nil
+            if operators.key?(name)
+              operators[name].find{|op| op.signature_matches?(signature, requester)}
+            else
+              nil
+            end
           end
 
           # Find an operator that matches a given signature
           def find_operator_by_args(name, args, requester = nil)
-            (op = operators[name]) && 
-              op.arg_matches?(args, requester) ? op : nil
+            if operators.key?(name)
+              operators[name].find{|op| op.arg_matches?(args, requester)}
+            else
+              nil
+            end
           end
 
         end # module ClassMethods
