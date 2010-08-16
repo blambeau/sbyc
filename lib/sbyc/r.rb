@@ -23,6 +23,11 @@ module SByC
       end
     end
     
+    # Returns the set of system operators
+    def operators
+      @operators ||= SByC::R::Operator::Set.factor(self)
+    end
+    
     # Returns the builder
     def builder
       @builder ||= DomainGenerator::Builder.new(self)
@@ -30,7 +35,7 @@ module SByC
     
     # Returns an evaluator
     def evaluator(ast)
-      R::Evaluator.new(ast, self, self::GlobalOperators)
+      R::Evaluator.new(ast, self, self.operators)
     end
     
     def domains_hash
@@ -59,7 +64,7 @@ module SByC
           op.aliases     = [name]
           op.method      = lambda{|x| domain.coerce(x)}
         }
-        GlobalOperators.add_operator(op)
+        operators.add_operator(op)
       end
 
       domain

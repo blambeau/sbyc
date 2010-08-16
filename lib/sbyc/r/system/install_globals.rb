@@ -1,4 +1,4 @@
-SByC::R::GlobalOperators.define{
+SByC::R::operators.define{
  
   operator{|op|
     op.description = %Q{ Generates a new type trough a generator }
