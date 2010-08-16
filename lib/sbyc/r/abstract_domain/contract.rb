@@ -89,7 +89,7 @@ module SByC
         #      is true.
         #
         def exemplars
-          raise NotImplementedError
+          raise NotImplementedError, "Class #{self} should implement exemplars"
         end
 
         #
@@ -104,7 +104,7 @@ module SByC
         #      (is_value?, to_literal, ...)
         #
         def is_value?(value)
-          raise NotImplementedError
+          raise NotImplementedError, "Class #{self} should implement is_value?"
         end
       
         #######################################################################
@@ -121,7 +121,7 @@ module SByC
         #       is true.
         #
         def parse_literal(literal)
-          raise NotImplementedError
+          raise NotImplementedError, "Class #{self} should implement parse_literal"
         end
       
         # 
@@ -137,7 +137,7 @@ module SByC
         #       is true.
         #
         def to_literal(value)
-          raise NotImplementedError
+          raise NotImplementedError, "Class #{self} should implement to_literal"
         end
       
         # 

@@ -1,6 +1,15 @@
 SByC::R.operators.define{
 
   operator{|op|
+    op.description = %Q{ Returns domain exemplars }
+    op.signature   = s(system::Domain)
+    op.argnames    = [:operand]
+    op.returns     = system::Array
+    op.aliases     = [:'exemplars']
+  }
+  def name_of(operand) operand.exemplars; end
+
+  operator{|op|
     op.description = %Q{ Returns name of a domain }
     op.signature   = s(system::Domain)
     op.argnames    = [:operand]

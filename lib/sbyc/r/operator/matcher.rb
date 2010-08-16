@@ -6,12 +6,24 @@ module SByC
         # Coerces to a matcher
         def self.coerce(domain_or_matcher)
           case domain_or_matcher
-            when Class
+            when ::Class
               DomainMatcher.new(domain_or_matcher)
             when Matcher
               domain_or_matcher
+            when ::String
+              system.evaluate({}, str)
+            when ::Array
+              collected = domain_or_matcher.collect{|arg| coerce(arg)}
+              case collected.size
+                when 0
+                  EmptyMatcher.new
+                when 1
+                  collected[0]
+                else
+                  SeqMatcher.new(collected)
+              end
             else
-              raise ArgumentError, "Unable to coerce #{domain_or_matcher} to a matcher"
+              __not_a_literal__!(self, domain_or_matcher)
           end
         end
       

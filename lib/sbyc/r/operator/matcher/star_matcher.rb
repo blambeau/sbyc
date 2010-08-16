@@ -3,6 +3,12 @@ module SByC
     class Operator
       class StarMatcher < Matcher
         
+        attr_reader :delegate
+        
+        def self.exemplars
+          [ StarMatcher.new(DomainMatcher.new(system::String)) ]
+        end
+      
         # Creates a single matcher
         def initialize(delegate)
           @delegate = delegate
@@ -30,6 +36,15 @@ module SByC
           r
         end
         
+        def to_s
+          "(* #{@delegate.to_s})"
+        end
+        
+        def ==(other)
+          other.kind_of?(StarMatcher) && other.delegate == @delegate
+        end
+        
+        protected :delegate
       end # class StarMatcher
     end # class Operator
   end # module R

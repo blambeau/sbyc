@@ -11,7 +11,12 @@ SByC::R::builder.run{
   Builtin(:Date)
   Builtin(:Time)
   Builtin(:Heading)
+  Reuse(:Matcher, SByC::R::Operator::Matcher){
+    Reuse(:DomainMatcher, SByC::R::Operator::DomainMatcher)
+    Reuse(:PlusMatcher, SByC::R::Operator::PlusMatcher)
+    Reuse(:StarMatcher, SByC::R::Operator::StarMatcher)
+    Reuse(:SeqMatcher, SByC::R::Operator::SeqMatcher)
+  }
   Builtin(:Module)
-  Builtin(:Expression)
   ArrayOf(:Alpha)
 }

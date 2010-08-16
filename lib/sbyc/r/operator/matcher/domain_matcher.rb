@@ -3,6 +3,12 @@ module SByC
     class Operator
       class DomainMatcher < Matcher
         
+        attr_reader :domain
+        
+        def self.exemplars
+          [ DomainMatcher.new(system::String) ]
+        end
+      
         # Creates a single matcher
         def initialize(domain)
           @domain = domain
@@ -32,6 +38,15 @@ module SByC
           end
         end
         
+        def to_s
+          "(Matcher #{@domain.domain_name})"
+        end
+        
+        def ==(other)
+          other.kind_of?(DomainMatcher) && other.domain == @domain
+        end
+        
+        protected :domain
       end # class DomainMatcher
     end # class Operator
   end # module R

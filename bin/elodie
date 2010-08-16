@@ -18,6 +18,7 @@ else
           ast   = ::SByC::R::parse(str)
           puts ast.inspect
           value = ::SByC::R::evaluate({}, ast)
+          puts "On #{value}"
           dom   = R::Alpha::domain_of(value)
           lit   = dom.to_literal(value)
           puts lit

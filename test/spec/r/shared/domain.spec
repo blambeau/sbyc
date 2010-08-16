@@ -11,6 +11,10 @@ shared_examples_for("A domain") do
     subject.sbyc_domain.should == R::Domain
   end
   
+  it "should have a generator" do
+    subject.domain_generator.should_not be_nil
+  end
+  
   it "should have Alpha as super domain" do
     unless subject == R::Alpha
       subject.has_super_domain?(R::Alpha).should be_true
@@ -19,13 +23,13 @@ shared_examples_for("A domain") do
   end
   
   it "should have exemplars" do
-    subject.exemplars.should_not be_empty
+    subject.exemplars.should be_kind_of(::Array)
   end
   
   it "should have exemplars that are values" do
     subject.exemplars.all?{|x| subject.is_value?(x)}.should be_true
   end
-  
+
   it "should support to_literal on all exemplars" do
     subject.exemplars.each{|e|
       lambda{ subject.to_literal(e) }.should_not raise_error

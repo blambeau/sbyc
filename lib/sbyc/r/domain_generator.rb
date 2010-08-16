@@ -10,9 +10,7 @@ module SByC
         @system = system
       end
       
-      # Factors a class with class methods and instance methods
-      def factor_class(class_methods = [], instance_methods = [])
-        clazz = Class.new
+      def populate_class(clazz, class_methods = [], instance_methods = [])
         class_methods.flatten.each{|mod| 
           clazz.extend(mod)
         }
@@ -20,6 +18,11 @@ module SByC
           clazz.instance_eval{ include(mod) }
         }
         clazz
+      end
+      
+      # Factors a class with class methods and instance methods
+      def factor_class(class_methods = [], instance_methods = [])
+        populate_class(Class.new, class_methods, instance_methods)
       end
       
       # Split domain modules against ClassMethods/InstanceMethods
@@ -83,5 +86,6 @@ end # module SByc
 require 'sbyc/r/domain_generator/builder'
 require 'sbyc/r/domain_generator/tools'
 require 'sbyc/r/domain_generator/builtin'
+require 'sbyc/r/domain_generator/reuse'
 require 'sbyc/r/domain_generator/array'
 require 'sbyc/r/domain_generator/scalar'

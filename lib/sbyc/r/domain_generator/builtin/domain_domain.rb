@@ -32,6 +32,8 @@ class SByC::R::DomainGenerator::Builtin
     def parse_literal(str)
       if str.to_s[-1, 1] == ">"
         decode_domain_generation(str)
+      elsif str.kind_of?(::String) && !str.empty? && system.domains_hash.key?(str.to_sym)
+        system.domains_hash[str.to_sym]
       else
         found = __find_ruby_module__(str, SByC::R)
         found = __find_ruby_module__(str) unless found

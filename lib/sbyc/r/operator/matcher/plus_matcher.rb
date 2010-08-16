@@ -3,6 +3,12 @@ module SByC
     class Operator
       class PlusMatcher < Matcher
         
+        attr_reader :delegate
+        
+        def self.exemplars
+          [ PlusMatcher.new(DomainMatcher.new(system::String)) ]
+        end
+      
         # Creates a single matcher
         def initialize(delegate)
           @delegate = delegate
@@ -30,6 +36,15 @@ module SByC
           r.empty? ? nil : r
         end
         
+        def to_s
+          "(+ #{@delegate.to_s})"
+        end
+        
+        def ==(other)
+          other.kind_of?(PlusMatcher) && other.delegate == @delegate
+        end
+        
+        protected :delegate
       end # class PlusMatcher
     end # class Operator
   end # module R

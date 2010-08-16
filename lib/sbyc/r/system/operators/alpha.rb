@@ -59,6 +59,6 @@ SByC::R.operators.define{
     op.returns     = system::String
     op.aliases     = [:to_literal]
   }
-  def to_literal(operand) domain_of(operand).to_literal(operand) end
+  def to_literal(operand) domain_of(operand).to_literal(operand); end
 
 }

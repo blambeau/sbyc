@@ -3,6 +3,12 @@ module SByC
     class Operator
       class SeqMatcher < Matcher
         
+        attr_reader :delegates
+        
+        def self.exemplars
+          [ SeqMatcher.new([DomainMatcher.new(system::String), DomainMatcher.new(system::Integer)]) ]
+        end
+      
         # Creates a single matcher
         def initialize(delegates)
           @delegates = delegates
@@ -26,6 +32,15 @@ module SByC
           }
         end
         
+        def to_s
+          "(Matcher #{@delegates.join(', ')})"
+        end
+        
+        def ==(other)
+          other.kind_of?(SeqMatcher) && other.delegates == @delegates
+        end
+        
+        protected :delegates
       end # class SeqMatcher
     end # class Operator
   end # module R

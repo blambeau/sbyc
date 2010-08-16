@@ -18,6 +18,10 @@ module SByC
           []
         end
         
+        def ==(other)
+          other.kind_of?(EmptyMatcher)
+        end
+        
       end # class EmptyMatcher
     end # class Operator
   end # module R

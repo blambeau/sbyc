@@ -7,6 +7,7 @@ module SByC
         def initialize(system, &block)
           @system = system
           @builtin = DomainGenerator::Builtin.new(system)
+          @reuse   = DomainGenerator::Reuse.new(system)
           @array   = DomainGenerator::Array.new(system)
           @scalar  = DomainGenerator::Scalar.new(system)
           @stack   = []
@@ -40,6 +41,10 @@ module SByC
         
         def Builtin(name, *args, &block)
           generate(@builtin, name, args, &block)
+        end
+        
+        def Reuse(name, clazz, &block)
+          generate(@reuse, name, clazz, &block)
         end
         
         def ArrayOf(subdomain_name)
