@@ -28,14 +28,6 @@ module SByC
           end
         end
         
-        def self.aggregate(domain)
-          AggregateSignature.new(domain)
-        end
-        
-        def self.paired(key_domain, value_domain)
-          PairedSignature.new(key_domain, value_domain)
-        end
-        
         # Checks if this signature matches a list of
         # domains
         def domain_matches?(domains, requester = nil)

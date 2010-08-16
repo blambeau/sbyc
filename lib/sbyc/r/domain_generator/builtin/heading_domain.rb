@@ -3,11 +3,12 @@ class SByC::R::DomainGenerator::Builtin
     module ClassMethods
     
       def selector_signature
-        @selector_signature ||= SByC::R::Operator::Signature::paired(SByC::R::Symbol, SByC::R::Domain)
+        s = SByC::R::Operator::Signature
+        @selector_signature ||= s::star(s::matcher(system::Symbol, system::Domain))
       end
  
       def exemplars
-        [ self.new(:name => R::String, :age => R::Integer) ]
+        [ self.new(:name => system::String, :age => system::Integer) ]
       end
     
       def is_value?(value)
@@ -38,13 +39,8 @@ class SByC::R::DomainGenerator::Builtin
       def coerce(x)
         if is_value?(x)
           x
-        elsif x.kind_of?(::Hash)
-          if x.keys.all?{|k| k.kind_of?(::Symbol)} &&
-             x.values.all?{|v| v.kind_of?(::Class)}
-            self.new(x)
-          else
-            super
-          end
+        elsif x.kind_of?(::Array)
+          self.new(::Hash[*x.flatten])
         else
           super
         end
