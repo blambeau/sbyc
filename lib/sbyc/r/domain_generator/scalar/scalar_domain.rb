@@ -37,9 +37,9 @@ class SByC::R::DomainGenerator::Scalar
       def coerce(x)
         if is_value?(x)
           x
-        elsif x.kind_of?(Hash)
+        elsif x.kind_of?(::Hash)
           self.new(x)
-        elsif x.kind_of?(String)
+        elsif x.kind_of?(::String)
           parse_literal(x)
         else
           super

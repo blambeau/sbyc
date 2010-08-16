@@ -19,7 +19,7 @@ module SByC
         # @returns [Signature] a signature.
         #
         def selector_signature(domain)
-          R::Operator::AggregateSignature.new(R::Alpha)
+          R::Operator::Signature::star(system::Alpha)
         end
         
         def generate(name, sub_domain)

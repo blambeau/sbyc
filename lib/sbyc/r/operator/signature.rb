@@ -38,6 +38,18 @@ module SByC
           RegularSignature.new(Matcher.compile(&block))
         end
         
+        def self.single(domain_or_matcher)
+          RegularSignature.new(Matcher.coerce(domain_or_matcher))
+        end
+        
+        def self.star(domain_or_matcher)
+          RegularSignature.new(StarMatcher.new(Matcher.coerce(domain_or_matcher)))
+        end
+        
+        def self.plus(domain_or_matcher)
+          RegularSignature.new(PlusMatcher.new(Matcher.coerce(domain_or_matcher)))
+        end
+        
         # Checks if this signature matches a list of
         # domains
         def domain_matches?(domains, requester = nil)

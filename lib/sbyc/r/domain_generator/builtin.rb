@@ -10,10 +10,11 @@ module SByC
         # @returns [Signature] a signature.
         #
         def selector_signature(domain)
-          R::Operator::Signature.new([R::Alpha])
+          R::Operator::Signature.single(system::Alpha)
         end
         
         def domain_name_of(domain)
+          # TODO: remove this R 
           (domain.name.to_s =~ /^SByC::R::(.*)$/) ? $1.to_sym : domain.name.to_s.to_sym
         end
         

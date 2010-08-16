@@ -3,6 +3,18 @@ module SByC
     class Operator
       class Matcher
       
+        # Coerces to a matcher
+        def self.coerce(domain_or_matcher)
+          case domain_or_matcher
+            when Class
+              SingleMatcher.new(domain_or_matcher)
+            when Matcher
+              domain_or_matcher
+            else
+              raise ArgumentError, "Unable to coerce #{domain_or_matcher} to a matcher"
+          end
+        end
+      
         #
         # Compiles expressions to matchers
         #

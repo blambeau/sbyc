@@ -8,7 +8,7 @@ module SByC
         end
         
         def selector_signature(domain)
-          SByC::R::Operator::Signature::paired(SByC::R::Symbol, SByC::R::Alpha)
+          R::Operator::Signature::regular{ (plus SByC::R::Symbol, SByC::R::Alpha) }
         end
         
         def generate(name, heading)
