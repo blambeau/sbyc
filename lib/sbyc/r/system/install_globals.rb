@@ -2,9 +2,9 @@ SByC::R::GlobalOperators.define{
  
   operator{|op|
     op.description = %Q{ Generates a new type trough a generator }
-    op.signature   = [SByC::R::Domain, SByC::R::Domain]
+    op.signature   = s(system::Domain, system::Domain)
     op.argnames    = [:domain, :subdomain]
-    op.returns     = SByC::R::Domain
+    op.returns     = system::Domain
     op.aliases     = [:'generate-domain']
   }
   def generate_domain(domain, subdomain)
@@ -16,31 +16,31 @@ SByC::R::GlobalOperators.define{
   
   operator{|op|
     op.description = %Q{ Factors a scalar type }
-    op.signature   = s{ (seq SByC::R::Symbol, (plus SByC::R::Symbol, SByC::R::Domain)) }
+    op.signature   = s(system::Symbol) + plus(system::Symbol, system::Domain)
     op.argnames    = [:'domain-name', :heading]
-    op.returns     = SByC::R::Domain
+    op.returns     = system::Domain
     op.aliases     = [:'scalar-domain']
   }
   def scalar_domain(name, heading)
-    SByC::R::builder.Scalar(name, R::Heading.new(Hash[*heading.flatten]))
+    system.builder.Scalar(name, system::Heading.new(::Hash[*heading.flatten]))
   end
  
   operator{|op|
     op.description = %Q{ Returns date of today }
     op.signature   = []
     op.argnames    = []
-    op.returns     = SByC::R::Date
+    op.returns     = system::Date
     op.aliases     = [:today]
   }
-  def today() Date.today; end
+  def today() ::Date.today; end
  
   operator{|op|
     op.description = %Q{ Returns time of now }
     op.signature   = []
     op.argnames    = []
-    op.returns     = SByC::R::Time
+    op.returns     = system::Time
     op.aliases     = [:now]
   }
-  def now() Time.now; end
+  def now() ::Time.now; end
   
 }

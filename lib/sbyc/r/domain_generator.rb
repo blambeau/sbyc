@@ -44,7 +44,7 @@ module SByC
       def factor_domain_class(modules)
         clazz = factor_class(*split_domain_modules([R::AbstractDomain]+modules))
         clazz.domain_generator = self
-        clazz.const_set(:Operators, R::Operator::Set.factor)
+        clazz.const_set(:Operators, R::Operator::Set.factor(system))
         clazz
       end
       

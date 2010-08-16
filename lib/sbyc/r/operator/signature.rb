@@ -1,7 +1,9 @@
+require 'sbyc/r/operator/signature/factory'
 module SByC
   module R
     class Operator
       class Signature
+        extend(Factory)
         
         # Object used for unbounded signatures
         MATCHING_TERM = nil
@@ -32,22 +34,6 @@ module SByC
         
         def self.paired(key_domain, value_domain)
           PairedSignature.new(key_domain, value_domain)
-        end
-        
-        def self.regular(&block)
-          RegularSignature.new(Matcher.compile(&block))
-        end
-        
-        def self.single(domain_or_matcher)
-          RegularSignature.new(Matcher.coerce(domain_or_matcher))
-        end
-        
-        def self.star(domain_or_matcher)
-          RegularSignature.new(StarMatcher.new(Matcher.coerce(domain_or_matcher)))
-        end
-        
-        def self.plus(domain_or_matcher)
-          RegularSignature.new(PlusMatcher.new(Matcher.coerce(domain_or_matcher)))
         end
         
         # Checks if this signature matches a list of

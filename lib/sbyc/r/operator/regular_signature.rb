@@ -33,6 +33,10 @@ module SByC
           call_args = prepare_args_for_call(args)
           matcher.call_with_star? ? callable.call(*call_args) : callable.call(call_args)
         end
+        
+        def +(other)
+          RegularSignature.new(SeqMatcher.new([matcher, other.matcher]))
+        end
 
       end # class RegularSignature
     end # class Operator

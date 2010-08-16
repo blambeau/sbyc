@@ -71,6 +71,10 @@ module SByC
           x = eat_args(args)
           (x.nil? || !args.empty?) ? nil : x
         end
+        
+        def +(other)
+          SeqMatcher.new([self, other])
+        end
       
       end # class Matcher
     end # class Operator

@@ -4,14 +4,19 @@ module SByC
       module Set
         
         # Factors an operator set
-        def self.factor(domain = nil, &block)
+        def self.factor(system, &block)
           c = ::Module.new
           c.extend(ClassMethods)
+          c.system = system
           c.define(&block) if block
           c
         end
 
         module ClassMethods
+          include SByC::R::Operator::Signature::Factory
+          
+          # The system
+          attr_accessor :system
 
           # Returns unbound
           def _
@@ -35,11 +40,6 @@ module SByC
             yield(@op = R::Operator.new) 
           end
           
-          # Builds a regular signature
-          def s(&block)
-            Operator::Signature::regular(&block)
-          end
-
           # Defines a set of operators
           def define(&block)
             module_eval(&block)
