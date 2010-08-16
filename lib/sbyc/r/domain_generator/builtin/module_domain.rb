@@ -3,7 +3,7 @@ class SByC::R::DomainGenerator::Builtin
     
     # Returns exemplars
     def exemplars
-      [ SByC, SByC::R::Boolean ]
+      [ SByC ]
     end
     
     # Returns true if a given value belongs to this domain,

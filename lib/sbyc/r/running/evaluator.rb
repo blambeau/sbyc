@@ -3,9 +3,13 @@ module SByC
     class RuntimeError < StandardError; end
     class Evaluator
       
+      # System that executes this evaluator
+      attr_reader :system
+      
       # Creates an evaluator instance
-      def initialize(ast, global_operators = SByC::R::GlobalOperators)
+      def initialize(ast, system, global_operators)
         @ast = ast
+        @system = system
         @global_operators = global_operators
       end
       
@@ -14,12 +18,12 @@ module SByC
       end
       
       def __no_such_operator_for_signature__(name, sign)
-        signstr = sign.collect{|x| R::Domain.to_literal(x)}.join(' ')
+        signstr = sign.collect{|x| system::Domain.to_literal(x)}.join(' ')
         raise RuntimeError, "No such operator (#{name} #{signstr})"
       end
       
       def __no_such_operator_for_args__(name, args)
-        signature = args.collect{|x| R::Alpha::domain_of(x)}
+        signature = args.collect{|x| system::Alpha::domain_of(x)}
         __no_such_operator_for_signature__(name, signature)
       end
       
@@ -31,7 +35,7 @@ module SByC
       # Finds an operator by name and specific arguments
       def find_operator_by_args(name, args)
         args.each{|arg|
-          dom = R::Alpha::domain_of(arg)
+          dom = system::Alpha::domain_of(arg)
           op  = dom.find_operator_by_args(name, args)
           return op unless op.nil?
         }

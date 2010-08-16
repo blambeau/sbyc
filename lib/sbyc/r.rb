@@ -28,6 +28,11 @@ module SByC
       @builder ||= DomainGenerator::Builder.new(self)
     end
     
+    # Returns an evaluator
+    def evaluator(ast)
+      R::Evaluator.new(ast, self, self::GlobalOperators)
+    end
+    
     def domains_hash
       @domains_hash ||= {}
     end

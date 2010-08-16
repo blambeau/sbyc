@@ -61,7 +61,7 @@ module SByC
       
       # Evaluates an expression inside a given context
       def evaluate(context = {}, expr = nil, &block)
-        R::Evaluator.new(parse(expr || block)).evaluate(context)
+        evaluator(parse(expr || block)).evaluate(context)
       end
       
     end # module ClassMethods

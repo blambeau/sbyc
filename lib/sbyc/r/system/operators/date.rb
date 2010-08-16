@@ -1,4 +1,4 @@
-SByC::R::Numeric::Operators.define{
+SByC::R::Date::Operators.define{
 
   operator {|op|
     op.description = %Q{ Days addition on a date }

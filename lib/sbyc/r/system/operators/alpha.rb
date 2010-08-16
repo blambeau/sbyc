@@ -32,7 +32,7 @@ SByC::R::Alpha::Operators.define{
     op.returns     = system::Domain
     op.aliases     = [:'domain-of']
   }
-  def domain_of(operand) SByC::R::Alpha::domain_of(operand); end
+  def domain_of(operand) system::Alpha::domain_of(operand); end
   
   operator{|op|
     op.description = %Q{ Checks if a value belongs to a domain }

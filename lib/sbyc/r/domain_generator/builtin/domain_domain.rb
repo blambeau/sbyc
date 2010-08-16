@@ -2,7 +2,7 @@ class SByC::R::DomainGenerator::Builtin
   module DomainDomain
     
     def exemplars
-      [ SByC::R::Alpha, SByC::R::Domain, SByC::R::Boolean ]
+      [ system::Alpha, system::Domain, system::Boolean ]
     end
     
     def is_value?(value)
@@ -10,7 +10,7 @@ class SByC::R::DomainGenerator::Builtin
     end
     
     def values
-      R::domains
+      system::domains
     end
 
     def decode_domain_generation(str)

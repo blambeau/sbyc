@@ -49,7 +49,7 @@ class SByC::R::DomainGenerator::Builtin
       
       # Evaluates this expression on a given context
       def evaluate(context = {})
-        R::Evaluator.new(ast).evaluate(context)
+        self.class.system.evaluator(ast).evaluate(context)
       end
       
       def to_s
