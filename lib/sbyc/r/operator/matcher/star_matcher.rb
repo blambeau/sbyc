@@ -13,18 +13,18 @@ module SByC
         end
         
         # Eats arguments
-        def eat_args(args)
+        def eat_args(args, requester)
           r = []
-          until (x = @delegate.eat_args(args)).nil? 
+          until (x = @delegate.eat_args(args, requester)).nil? 
             r << x
           end
           r
         end
         
         # Eats on a signature
-        def eat_signature(sign)
+        def eat_signature(sign, requester)
           r = []
-          until (x = @delegate.eat_signature(sign)).nil? 
+          until (x = @delegate.eat_signature(sign, requester)).nil? 
             r << x
           end
           r

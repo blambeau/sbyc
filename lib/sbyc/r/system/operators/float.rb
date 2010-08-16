@@ -1,4 +1,4 @@
-SByC::R::Float::Operators.define{
+SByC::R.operators.define{
 
   operator {|op|
     op.description = %Q{ Addition on floats }

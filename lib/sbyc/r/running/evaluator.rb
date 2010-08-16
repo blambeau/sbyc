@@ -26,20 +26,10 @@ module SByC
         __no_such_operator_for_signature__(name, signature)
       end
       
-      # Checks if a special function exists
-      def global_operator(func, args)
-        system.operators.find_operator_by_args(func, args)
-      end
-      
       # Finds an operator by name and specific arguments
       def find_operator_by_args(name, args)
-        args.each{|arg|
-          dom = system::Alpha::domain_of(arg)
-          op  = dom.find_operator_by_args(name, args)
-          return op unless op.nil?
-        }
-        op = global_operator(name, args)
-        op ? op : __no_such_operator_for_args__(name, args)
+        system.operators.find_operator_by_args(name, args) ||
+        __no_such_operator_for_args__(name, args)
       end
       
       # Lauches evaluation
@@ -51,7 +41,7 @@ module SByC
             var_name = node.literal
             if context.has_key?(var_name)
               context[var_name]
-            elsif f = global_operator(var_name, [])
+            elsif f = find_operator_by_args(var_name, [])
               f.call([])
             else
               __undefined__(var_name, node)

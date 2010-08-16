@@ -9,18 +9,18 @@ module SByC
         end
         
         # Eats arguments
-        def eat_args(args)
+        def eat_args(args, requester)
           @delegates.collect{|d| 
-            matched = d.eat_args(args)
+            matched = d.eat_args(args, requester)
             return nil if matched.nil?
             matched
           }
         end
         
         # Eats on a signature
-        def eat_signature(sign)
+        def eat_signature(sign, requester)
           @delegates.collect{|d| 
-            matched = d.eat_signature(sign)
+            matched = d.eat_signature(sign, requester)
             return nil if matched.nil?
             matched
           }

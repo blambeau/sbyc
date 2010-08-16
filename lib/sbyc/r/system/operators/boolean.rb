@@ -1,4 +1,4 @@
-SByC::R::Boolean::Operators.define{
+SByC::R.operators.define{
 
   operator {|op|
     op.description = %Q{ Computes boolean complement }

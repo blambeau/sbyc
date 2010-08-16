@@ -8,7 +8,7 @@ module SByC
       
       # Returns an operator for a given name and signature
       def find_operator_by_signature(name, signature)
-        signature[0].find_operator_by_signature(name, signature)
+        operators.find_operator_by_signature(name, signature)
       end
       
       # Returns an operator for a given name and args

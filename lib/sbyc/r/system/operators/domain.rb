@@ -1,14 +1,5 @@
-SByC::R::Domain::Operators.define{
+SByC::R.operators.define{
 
-  operator{|op|
-    op.description = %Q{ Checks if a value belongs to a domain }
-    op.signature   = s(system::Domain, system::Alpha)
-    op.argnames    = [:domain, :operand]
-    op.returns     = system::Boolean
-    op.aliases     = [:'is-a?']
-  }
-  def is_a?(domain, operand) domain.is_value?(operand); end
-  
   operator{|op|
     op.description = %Q{ Returns name of a domain }
     op.signature   = s(system::Domain)

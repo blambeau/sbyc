@@ -1,4 +1,4 @@
-SByC::R::Heading::Operators.define{
+SByC::R.operators.define{
   
   operator{|op|
     op.description = %Q{ Returns domain of an attribute }

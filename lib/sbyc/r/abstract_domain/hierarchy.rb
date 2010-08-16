@@ -74,28 +74,6 @@ module SByC
         end
 
         #######################################################################
-        ### Structures
-        #######################################################################
-        
-        #
-        # Returns true if the domain has a specific structure.
-        #
-        def has_structure?(structure)
-          res = (@immediate_structure && 
-           @immediate_structure.include?(structure)) ||
-          (@immediate_super_domains &&
-           @immediate_super_domains.any?{|dom| dom.has_structure?(structure)})
-          !!res
-        end
-
-        #
-        # Yields the block with each immediate structure.
-        #
-        def each_immediate_structure(&block)
-          @immediate_structures.each(&block) if @immediate_structures
-        end
-        
-        #######################################################################
         ### Private section
         #######################################################################
         
@@ -128,22 +106,6 @@ module SByC
         #
         def add_immediate_super_domain(superdomain)
           immediate_super_domains << superdomain
-          self
-        end
-
-        #
-        # Returns known immediate structures. This method builds an empty array
-        # for structures as a side effect when not already done.
-        #
-        def immediate_structures
-          @immediate_structures ||= []
-        end
-
-        #
-        # Adds an immediate structure and returns self.
-        #
-        def add_immediate_structure(structure)
-          immediate_structures << structure
           self
         end
         

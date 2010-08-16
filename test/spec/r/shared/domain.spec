@@ -44,8 +44,4 @@ shared_examples_for("A domain") do
     }
   end
   
-  it "should have operators" do
-    subject.const_get(:Operators).should_not be_nil
-  end
-  
 end

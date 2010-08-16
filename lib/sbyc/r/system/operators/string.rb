@@ -1,4 +1,4 @@
-SByC::R::String::Operators.define{
+SByC::R.operators.define{
   
   operator{|op|
     op.description = %Q{ Returns the substring at a given position }

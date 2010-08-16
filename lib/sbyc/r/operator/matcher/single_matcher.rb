@@ -9,13 +9,13 @@ module SByC
         end
         
         # Rewrites arguments for a method call
-        def prepare_args_for_call(args)
-          x = eat_args(args)
+        def prepare_args_for_call(args, requester = nil)
+          x = eat_args(args, requester)
           (x.nil? || !args.empty?) ? nil : [ x ]
         end
       
         # Eats arguments
-        def eat_args(args)
+        def eat_args(args, requester)
           if args.size >= 1 && @domain.is_value?(args.first)
             args.shift
           else
@@ -24,7 +24,7 @@ module SByC
         end
         
         # Eats on a signature
-        def eat_signature(sign)
+        def eat_signature(sign, requester)
           if sign.size >= 1 && @domain.is_super_domain_of?(sign.first)
             sign.shift
           else

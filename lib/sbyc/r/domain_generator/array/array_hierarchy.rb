@@ -23,7 +23,7 @@ class SByC::R::DomainGenerator::Array
       # kept in cache. Implementing this naively would generate to many domains.
       # The current implementation remains correct as long as Array operators are 
       # defined on Array<Alpha> itself.
-      block.call(R::Array)
+      block.call(system::Alpha)
     end
     
     #######################################################################

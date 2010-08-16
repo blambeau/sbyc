@@ -1,4 +1,4 @@
-SByC::R::Alpha::Operators.define{
+SByC::R.operators.define{
   
   operator{|op|
     op.description = %Q{ Value equality }
@@ -36,12 +36,12 @@ SByC::R::Alpha::Operators.define{
   
   operator{|op|
     op.description = %Q{ Checks if a value belongs to a domain }
-    op.signature   = seq(system::Alpha, system::Domain)
-    op.argnames    = [:operand, :domain]
+    op.signature   = seq(system::Domain, system::Alpha)
+    op.argnames    = [:domain, :operand]
     op.returns     = system::Boolean
     op.aliases     = [:'is-a?']
   }
-  def is_a?(operand, domain) domain.is_value?(operand); end
+  def is_a?(domain, operand) domain.is_value?(operand); end
   
   operator{|op|
     op.description = %Q{ Coerces a value to a given domain }

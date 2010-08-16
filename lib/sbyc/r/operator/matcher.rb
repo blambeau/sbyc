@@ -55,20 +55,20 @@ module SByC
         end
       
         def domain_matches?(domains, requester = nil)
-          !prepare_signature_for_type_checking(domains.dup).nil?
+          !prepare_signature_for_type_checking(domains.dup, requester).nil?
         end
 
-        def prepare_signature_for_type_checking(sign)
-          x = eat_signature(sign)
+        def prepare_signature_for_type_checking(sign, requester = nil)
+          x = eat_signature(sign, requester)
           (x.nil? || !sign.empty?) ? nil : x
         end
         
         def args_matches?(args, requester = nil)
-          !prepare_args_for_call(args.dup).nil?
+          !prepare_args_for_call(args.dup, requester).nil?
         end
 
-        def prepare_args_for_call(args)
-          x = eat_args(args)
+        def prepare_args_for_call(args, requester = nil)
+          x = eat_args(args, requester)
           (x.nil? || !args.empty?) ? nil : x
         end
         

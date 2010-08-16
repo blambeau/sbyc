@@ -13,8 +13,8 @@ module SByC
         end
 
         # Prepars arguments for a call
-        def prepare_args_for_call(args)
-          matcher.prepare_args_for_call(args)
+        def prepare_args_for_call(args, requester = nil)
+          matcher.prepare_args_for_call(args, requester)
         end
         
         # Checks if this signature matches a list of
@@ -30,7 +30,7 @@ module SByC
         
         # Makes an operator call on some arguments
         def make_operator_call(callable, args, &block)
-          call_args = prepare_args_for_call(args)
+          call_args = prepare_args_for_call(args, nil)
           matcher.call_with_star? ? callable.call(*call_args) : callable.call(call_args)
         end
         
