@@ -43,7 +43,7 @@ module SByC
       domains_hash[name] = domain
       
       # Install constants and global selectors
-      if name.to_s =~ /^[A-Z][a-z]+$/
+      if name.to_s =~ /^[A-Z][a-z]*$/
         const_set(name, domain)
       end
 

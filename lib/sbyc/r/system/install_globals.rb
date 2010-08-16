@@ -16,7 +16,7 @@ SByC::R::GlobalOperators.define{
   
   operator{|op|
     op.description = %Q{ Factors a scalar type }
-    op.signature   = SByC::R::Operator::Signature::regular{ (seq SByC::R::Symbol, (plus SByC::R::Symbol, SByC::R::Domain)) }
+    op.signature   = s{ (seq SByC::R::Symbol, (plus SByC::R::Symbol, SByC::R::Domain)) }
     op.argnames    = [:'domain-name', :heading]
     op.returns     = SByC::R::Domain
     op.aliases     = [:'scalar-domain']

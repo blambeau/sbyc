@@ -27,5 +27,7 @@
         (eq R::String))
         
 # is-a?
+(should (is-a? R::Domain R::Integer)
+        (eq true))
 (should (is-a? R::Boolean true),
         (eq true))

@@ -6,7 +6,7 @@ class SByC::R::DomainGenerator::Scalar
       attr_accessor :heading
     
       def exemplars
-        [ self.new(:name => "blambeau", :age => 30) ]
+        [ ]
       end
     
       def is_value?(value)
@@ -58,6 +58,7 @@ class SByC::R::DomainGenerator::Scalar
       end
       
       def to_s
+        buffer, first = "(#{self.class.domain_name} ", true
         hash.each_pair{|k,v|
           buffer << ", " unless first 
           buffer << k.inspect << " " << self.class.heading.domain_of(k).to_literal(v)

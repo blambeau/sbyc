@@ -34,6 +34,11 @@ module SByC
           def operator(&block)
             yield(@op = R::Operator.new) 
           end
+          
+          # Builds a regular signature
+          def s(&block)
+            Operator::Signature::regular(&block)
+          end
 
           # Defines a set of operators
           def define(&block)
