@@ -76,7 +76,7 @@ module SByC
         #       is true
         #
         def sbyc_domain
-          R::Domain
+          system::Domain
         end
         
         #
