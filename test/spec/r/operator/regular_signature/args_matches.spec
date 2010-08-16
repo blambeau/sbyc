@@ -120,6 +120,14 @@ describe "R::Operator::RegularSignature.arg_matches?" do
     
   end
   
+  describe "on the signature of scalar-domain" do
+    let(:sign){ R::Operator::Signature::regular{ (seq R::Symbol, (plus R::Symbol, R::Domain)) }}
+    
+    it "should match on valid args" do
+      sign.arg_matches?([ :X, :name, R::String, :age, R::Integer ]).should == true
+    end
+  end
+
   # describe 'on an incomplete signature' do
   # 
   #   let(:sign){ R::Operator::Signature.new([R::String, R::Operator::Signature::MATCHING_TERM]) }

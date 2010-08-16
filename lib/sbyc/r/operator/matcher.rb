@@ -21,9 +21,17 @@ module SByC
               when :seq
                 SeqMatcher.new(collected)
               when :plus
-                PlusMatcher.new(collected[0])
+                if collected.size == 1
+                  PlusMatcher.new(collected[0])
+                else
+                  PlusMatcher.new(SeqMatcher.new(collected))
+                end
               when :star
-                StarMatcher.new(collected[0])
+                if collected.size == 1
+                  StarMatcher.new(collected[0])
+                else
+                  StarMatcher.new(SeqMatcher.new(collected))
+                end
               else
                 raise "Unexpected expression #{node.function}"
             end
@@ -35,7 +43,7 @@ module SByC
         end
       
         def domain_matches?(domains, requester = nil)
-          !prepare_signature_for_type_checking(domains).nil?
+          !prepare_signature_for_type_checking(domains.dup).nil?
         end
 
         def prepare_signature_for_type_checking(sign)
@@ -44,7 +52,7 @@ module SByC
         end
         
         def args_matches?(args, requester = nil)
-          !prepare_args_for_call(args).nil?
+          !prepare_args_for_call(args.dup).nil?
         end
 
         def prepare_args_for_call(args)

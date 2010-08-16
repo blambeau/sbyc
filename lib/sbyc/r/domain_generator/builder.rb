@@ -8,6 +8,7 @@ module SByC
           @system = system
           @builtin = DomainGenerator::Builtin.new
           @array   = DomainGenerator::Array.new
+          @scalar  = DomainGenerator::Scalar.new
           run(&block) if block
         end
         
@@ -43,6 +44,10 @@ module SByC
           subdomain = @system.const_get(subdomain_name)
           name = (subdomain_name == :Alpha) ? :Array : :"Array<#{subdomain_name}>"
           generate(@array, name, subdomain)
+        end
+        
+        def Scalar(name, heading)
+          generate(@scalar, name, heading)
         end
         
       end # class Builder

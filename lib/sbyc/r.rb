@@ -25,6 +25,11 @@ module SByC
       end
     end
     
+    # Returns the builder
+    def builder
+      @builder ||= DomainGenerator::Builder.new(self)
+    end
+    
     def domains_hash
       @domains_hash ||= {}
     end

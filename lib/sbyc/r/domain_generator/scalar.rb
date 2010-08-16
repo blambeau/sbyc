@@ -13,7 +13,7 @@ module SByC
         
         def generate(name, heading)
           domain = factor_domain_class([Scalar::ScalarDomain])
-          domain.heading = R::Heading.new(heading)
+          domain.heading = heading
           domain.domain_name = name
           domain
         end

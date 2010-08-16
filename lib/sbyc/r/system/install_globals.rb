@@ -13,6 +13,17 @@ SByC::R::GlobalOperators.define{
   rescue Exception => ex
     raise SByC::TypeError, "Unable to generate domain #{name}\n#{ex.message}"
   end
+  
+  operator{|op|
+    op.description = %Q{ Factors a scalar type }
+    op.signature   = SByC::R::Operator::Signature::regular{ (seq SByC::R::Symbol, (plus SByC::R::Symbol, SByC::R::Domain)) }
+    op.argnames    = [:'domain-name', :heading]
+    op.returns     = SByC::R::Domain
+    op.aliases     = [:'scalar-domain']
+  }
+  def scalar_domain(name, heading)
+    SByC::R::builder.Scalar(name, R::Heading.new(Hash[*heading]))
+  end
  
   operator{|op|
     op.description = %Q{ Returns date of today }

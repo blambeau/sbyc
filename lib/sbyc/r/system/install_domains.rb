@@ -1,6 +1,4 @@
-SByC::R::Builtin = SByC::R::DomainGenerator::Builtin.new
-    
-SByC::R::DomainGenerator::Builder.new(SByC::R){
+SByC::R::builder.run{
   Builtin(:Alpha){
     Builtin(:Domain)
     Builtin(:Boolean)

@@ -1,4 +1,4 @@
-class SByC::R::DomainGenerator::Builtin
+class SByC::R::DomainGenerator::Scalar
   module ScalarDomain
     module ClassMethods
       

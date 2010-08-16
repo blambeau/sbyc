@@ -73,7 +73,7 @@ describe "R::Operator::Signature.arg_matches?" do
     end
     
   end
-
+  
   describe 'on an incomplete signature' do
 
     let(:sign){ R::Operator::Signature.new([R::String, R::Operator::Signature::MATCHING_TERM]) }
