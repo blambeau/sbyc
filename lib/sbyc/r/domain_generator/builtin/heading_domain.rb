@@ -58,6 +58,7 @@ class SByC::R::DomainGenerator::Builtin
       
       # Creates a heading instance
       def initialize(hash)
+        raise ArgumentError, "Hash expected git #{hash.inspect}" unless hash.kind_of?(::Hash)
         @hash = hash
       end
       

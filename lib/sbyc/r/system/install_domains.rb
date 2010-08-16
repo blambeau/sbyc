@@ -1,19 +1,17 @@
 SByC::R::builder.run{
-  Builtin(:Alpha){
-    Builtin(:Domain)
-    Builtin(:Boolean)
-    Builtin(:Symbol)
-    Builtin(:Numeric){
-      Builtin(:Integer)
-      Builtin(:Float)
-    }
-    Builtin(:String)
-    Builtin(:Regexp)
-    Builtin(:Date)
-    Builtin(:Time)
-    Builtin(:Heading)
-    Builtin(:Module)
-    Builtin(:Expression)
-    ArrayOf(:Alpha)
+  Builtin(:Domain)
+  Builtin(:Boolean)
+  Builtin(:Symbol)
+  Builtin(:Numeric){
+    Builtin(:Integer)
+    Builtin(:Float)
   }
+  Builtin(:String)
+  Builtin(:Regexp)
+  Builtin(:Date)
+  Builtin(:Time)
+  Builtin(:Heading)
+  Builtin(:Module)
+  Builtin(:Expression)
+  ArrayOf(:Alpha)
 }

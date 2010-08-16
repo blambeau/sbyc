@@ -9,12 +9,14 @@ module SByC
           @builtin = DomainGenerator::Builtin.new
           @array   = DomainGenerator::Array.new
           @scalar  = DomainGenerator::Scalar.new
+          @stack   = []
+          @alpha   = Builtin(:Alpha)
           run(&block) if block
         end
         
         # Runs a block
         def run(&block)
-          @stack = []
+          @stack = [ @alpha ]
           instance_eval(&block)
         end
         

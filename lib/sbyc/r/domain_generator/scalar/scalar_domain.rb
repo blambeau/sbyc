@@ -34,6 +34,18 @@ class SByC::R::DomainGenerator::Scalar
         value.to_s
       end
       
+      def coerce(x)
+        if is_value?(x)
+          x
+        elsif x.kind_of?(Hash)
+          self.new(x)
+        elsif x.kind_of?(String)
+          parse_literal(x)
+        else
+          super
+        end
+      end
+      
     end
     module InstanceMethods
       
@@ -46,10 +58,9 @@ class SByC::R::DomainGenerator::Scalar
       end
       
       def to_s
-        buffer, first = "(#{self.class.domain_name} ", true
         hash.each_pair{|k,v|
           buffer << ", " unless first 
-          buffer << k.inspect << " " << v.sbyc_domain.to_literal(v)
+          buffer << k.inspect << " " << self.class.heading.domain_of(k).to_literal(v)
           first = false
         }
         buffer << ")"

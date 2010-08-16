@@ -22,7 +22,7 @@ SByC::R::GlobalOperators.define{
     op.aliases     = [:'scalar-domain']
   }
   def scalar_domain(name, heading)
-    SByC::R::builder.Scalar(name, R::Heading.new(Hash[*heading]))
+    SByC::R::builder.Scalar(name, R::Heading.new(Hash[*heading.flatten]))
   end
  
   operator{|op|
