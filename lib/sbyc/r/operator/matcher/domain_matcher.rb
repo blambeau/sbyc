@@ -1,7 +1,7 @@
 module SByC
   module R
     class Operator
-      class SingleMatcher < Matcher
+      class DomainMatcher < Matcher
         
         # Creates a single matcher
         def initialize(domain)
@@ -32,7 +32,7 @@ module SByC
           end
         end
         
-      end # class SingleMatcher
+      end # class DomainMatcher
     end # class Operator
   end # module R
 end # module SByC

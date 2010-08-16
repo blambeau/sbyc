@@ -26,7 +26,7 @@ module SByC
           }
         end
         
-      end # class SingleMatcher
+      end # class SeqMatcher
     end # class Operator
   end # module R
 end # module SByC

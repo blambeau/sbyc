@@ -7,7 +7,7 @@ module SByC
         def self.coerce(domain_or_matcher)
           case domain_or_matcher
             when Class
-              SingleMatcher.new(domain_or_matcher)
+              DomainMatcher.new(domain_or_matcher)
             when Matcher
               domain_or_matcher
             else
@@ -28,7 +28,7 @@ module SByC
                 if (n = node.literal).nil?
                   EmptyMatcher.new
                 else
-                  SingleMatcher.new(node.literal)
+                  DomainMatcher.new(node.literal)
                 end
               when :seq
                 SeqMatcher.new(collected)
@@ -81,7 +81,7 @@ module SByC
   end # module R
 end # module SByC
 require 'sbyc/r/operator/matcher/empty_matcher'
-require 'sbyc/r/operator/matcher/single_matcher'
+require 'sbyc/r/operator/matcher/domain_matcher'
 require 'sbyc/r/operator/matcher/plus_matcher'
 require 'sbyc/r/operator/matcher/star_matcher'
 require 'sbyc/r/operator/matcher/seq_matcher'
