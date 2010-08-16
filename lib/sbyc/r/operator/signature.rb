@@ -9,6 +9,10 @@ module SByC
         # Matcher
         attr_reader :matcher
         
+        def self.coerce(x)
+          Signature.new(Matcher.coerce(x))
+        end
+        
         # Creates a regular signature
         def initialize(matcher)
           @matcher = matcher
@@ -38,6 +42,10 @@ module SByC
         
         def +(other)
           Signature.new(SeqMatcher.new([matcher, other.matcher]))
+        end
+
+        def to_s
+          "(Signature #{matcher.to_s})"
         end
 
       end # class Signature

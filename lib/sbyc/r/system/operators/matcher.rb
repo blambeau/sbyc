@@ -18,4 +18,13 @@ SByC::R.operators.define{
   }
   def star_matcher(operand) SByC::R::Operator::StarMatcher.new(operand); end
   
+  operator{|op|
+    op.description = %Q{ Checks if the matcher matches some arguments }
+    op.signature   = s(system::Matcher, system::Array)
+    op.argnames    = [:operand, :args]
+    op.returns     = system::Matcher
+    op.aliases     = [:matches?, :===]
+  }
+  def matches?(operand, args) operand.args_matches?(args) end
+  
 }
