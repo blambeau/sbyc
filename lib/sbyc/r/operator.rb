@@ -1,6 +1,5 @@
 require 'sbyc/r/operator/matcher'
 require 'sbyc/r/operator/signature'
-require 'sbyc/r/operator/regular_signature'
 require 'sbyc/r/operator/set'
 module SByC
   module R
@@ -41,7 +40,8 @@ module SByC
       
       # Sets operator signature
       def signature=(sign)
-        @signature = Signature::coerce(sign)
+        raise ArgumentError, "Invalid signature #{sign.inspect}" unless sign.kind_of?(Signature)
+        @signature = sign
       end
       
       # Sets operator argument names

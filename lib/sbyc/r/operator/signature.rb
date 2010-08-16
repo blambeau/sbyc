@@ -1,54 +1,45 @@
-require 'sbyc/r/operator/signature/factory'
+require "enumerator"
+require "sbyc/r/operator/signature/factory"
 module SByC
   module R
     class Operator
       class Signature
-        extend(Factory)
+        extend(Signature::Factory)
         
-        # Object used for unbounded signatures
-        MATCHING_TERM = nil
+        # Matcher
+        attr_reader :matcher
         
-        # Array of domains
-        attr_reader :domains
-        
-        # Creates a signature instance
-        def initialize(domains)
-          @domains = domains
+        # Creates a regular signature
+        def initialize(matcher)
+          @matcher = matcher
         end
-        
-        # Coerces some arguments to a signature
-        def self.coerce(sign)
-          case sign
-            when Signature
-              sign
-            when ::Array
-              Signature.new(sign)
-            else
-              raise ArgumentError, "Unable to coerce #{sign.inspect} #{sign.class} to a signature"
-          end
+
+        # Prepars arguments for a call
+        def prepare_args_for_call(args, requester = nil)
+          matcher.prepare_args_for_call(args, requester)
         end
         
         # Checks if this signature matches a list of
         # domains
         def domain_matches?(domains, requester = nil)
-          (self.domains.size == domains.size) &&
-          self.domains.zip(domains).all?{|pair| 
-            declared, actual = (pair[0] || requester), pair[1]
-            actual.has_super_domain?(declared)
-          }
+          matcher.domain_matches?(domains, requester)
         end
 
         # Does the signature matches some arguments?
         def arg_matches?(args, requester = nil)
-          (self.domains.size == args.size) &&
-          self.domains.zip(args).all?{|pair| (pair[0] || requester).is_value?(pair[1])}
+          matcher.args_matches?(args, requester)
         end
         
         # Makes an operator call on some arguments
         def make_operator_call(callable, args, &block)
-          callable.call(*args, &block)
+          call_args = prepare_args_for_call(args, nil)
+          matcher.call_with_star? ? callable.call(*call_args) : callable.call(call_args)
         end
         
+        def +(other)
+          Signature.new(SeqMatcher.new([matcher, other.matcher]))
+        end
+
       end # class Signature
     end # class Operator
   end # module R

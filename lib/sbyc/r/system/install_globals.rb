@@ -27,7 +27,7 @@ SByC::R::operators.define{
  
   operator{|op|
     op.description = %Q{ Returns date of today }
-    op.signature   = []
+    op.signature   = s()
     op.argnames    = []
     op.returns     = system::Date
     op.aliases     = [:today]
@@ -36,7 +36,7 @@ SByC::R::operators.define{
  
   operator{|op|
     op.description = %Q{ Returns time of now }
-    op.signature   = []
+    op.signature   = s()
     op.argnames    = []
     op.returns     = system::Time
     op.aliases     = [:now]

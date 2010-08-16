@@ -18,11 +18,6 @@ module SByC
           # The system
           attr_accessor :system
 
-          # Returns unbound
-          def _
-            R::Operator::Signature::MATCHING_TERM
-          end
-
           # Returns installed operators
           def operators
             @operators ||= Hash.new{|h,k| h[k] = []}

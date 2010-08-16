@@ -5,33 +5,36 @@ module SByC
         module Factory
           
           def matcher(*args)
-            if args.size == 1
-              Operator::Matcher.coerce(args[0])
-            else
-              SeqMatcher.new(args.collect{|s| matcher(s)})
+            case args.size
+              when 0
+                Operator::EmptyMatcher.new
+              when 1
+                Operator::Matcher.coerce(args[0])
+              else
+                SeqMatcher.new(args.collect{|s| matcher(s)})
             end
           end
           
           def regular(*args, &block)
             if block 
-              RegularSignature.new(Matcher.compile(&block))
+              Signature.new(Matcher.compile(&block))
             else
               seq(*args)
             end
           end
         
           def s(*args)
-            RegularSignature.new(matcher(*args))
+            Signature.new(matcher(*args))
           end
           alias :seq :s
           alias :single :s
         
           def star(*args)
-            RegularSignature.new(StarMatcher.new(matcher(*args)))
+            Signature.new(StarMatcher.new(matcher(*args)))
           end
         
           def plus(*args)
-            RegularSignature.new(PlusMatcher.new(matcher(*args)))
+            Signature.new(PlusMatcher.new(matcher(*args)))
           end
         
         end # module Factory

@@ -3,7 +3,7 @@ describe "R::Operator::Signature.domain_matches?" do
   
   describe "on an empty signature" do
 
-    let(:sign){ R::Operator::Signature.coerce([]) }
+    let(:sign){ R::Operator::Signature::regular{ } }
     
     it "should match on correct signature" do
       sign.domain_matches?([]).should == true
@@ -16,8 +16,8 @@ describe "R::Operator::Signature.domain_matches?" do
   end
   
   describe "on a monadic signature" do
-
-    let(:sign){ R::Operator::Signature.coerce([R::Boolean]) }
+  
+    let(:sign){ R::Operator::Signature::regular{ R::Boolean } }
     
     it "should match on correct signature" do
       sign.domain_matches?([R::Boolean]).should == true
@@ -36,10 +36,10 @@ describe "R::Operator::Signature.domain_matches?" do
     end
     
   end
-
+  
   describe "on a dyadic signature" do
   
-    let(:sign){ R::Operator::Signature.new([R::String, R::Integer]) }
+    let(:sign){ R::Operator::Signature::regular{ (seq R::String, R::Integer) } }
     
     it "should match on valid args" do
       sign.domain_matches?([R::String, R::Integer]).should == true
@@ -59,18 +59,56 @@ describe "R::Operator::Signature.domain_matches?" do
     
   end
   
-  describe 'on an incomplete signature' do
+  describe "on a star signature" do
 
-    let(:sign){ R::Operator::Signature.new([R::String, R::Operator::Signature::MATCHING_TERM]) }
-    
-    it 'should match on correct signature if good requester' do
-      sign.domain_matches?([R::String, R::String], R::String).should be_true
+    let(:sign){ R::Operator::Signature::regular{ (star R::Numeric) } }
+  
+    it "should match on empty signature" do
+      sign.domain_matches?([]).should == true
     end
-    
-    it 'should not match on correct signature if not good requester' do
-      sign.domain_matches?([R::String, R::String], R::Integer).should be_false
+  
+    it "should match on correct singleton signature with exact domain" do
+      sign.domain_matches?([R::Numeric]).should == true
     end
-    
+  
+    it "should match on correct singleton signature with sub domain" do
+      sign.domain_matches?([R::Integer]).should == true
+    end
+
+    it "should match on correct signature" do
+      sign.domain_matches?([R::Numeric, R::Integer, R::Float]).should == true
+    end
+
+    it "should not match on correct signature" do
+      sign.domain_matches?([R::Numeric, R::Boolean, R::Float]).should == false
+    end
+
+  end
+  
+  describe "on a plus signature" do
+
+    let(:sign){ R::Operator::Signature::regular{ (plus R::Numeric) } }
+  
+    it "should not match on empty signature" do
+      sign.domain_matches?([]).should == false
+    end
+  
+    it "should match on correct singleton signature with exact domain" do
+      sign.domain_matches?([R::Numeric]).should == true
+    end
+  
+    it "should match on correct singleton signature with sub domain" do
+      sign.domain_matches?([R::Integer]).should == true
+    end
+
+    it "should match on correct signature" do
+      sign.domain_matches?([R::Numeric, R::Integer, R::Float]).should == true
+    end
+
+    it "should not match on correct signature" do
+      sign.domain_matches?([R::Numeric, R::Boolean, R::Float]).should == false
+    end
+
   end
 
 end
