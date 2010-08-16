@@ -8,6 +8,10 @@ module SByC
           @delegate = delegate
         end
         
+        def call_with_star?
+          false
+        end
+      
         # Eats arguments
         def eat_args(args)
           r = []

@@ -20,7 +20,7 @@ module SByC
         # Eats on a signature
         def eat_signature(sign)
           @delegates.collect{|d| 
-            matched = d.eat_signature(args)
+            matched = d.eat_signature(sign)
             return nil if matched.nil?
             matched
           }

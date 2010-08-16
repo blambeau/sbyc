@@ -1,6 +1,19 @@
 require File.expand_path('../../../fixtures', __FILE__)
 describe "R::Operator::Matcher.prepare_args_for_call" do
   
+  describe "on an empty matcher" do
+    let(:m){ R::Operator::Matcher.compile{ } }
+    
+    it "should match empty arguments" do
+      m.prepare_args_for_call([ ]).should == [ ]
+    end
+    
+    it "should not match too many arguments" do
+      m.prepare_args_for_call([ true ]).should be_nil
+    end
+
+  end
+  
   describe "on a single matcher" do
     let(:m){ R::Operator::Matcher.compile{ R::Boolean } }
     

@@ -34,6 +34,10 @@ module SByC
           PairedSignature.new(key_domain, value_domain)
         end
         
+        def self.regular(&block)
+          RegularSignature.new(Matcher.compile(&block))
+        end
+        
         # Checks if this signature matches a list of
         # domains
         def domain_matches?(domains, requester = nil)

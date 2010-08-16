@@ -3,8 +3,12 @@ module SByC
     module Factory
       
       # Factors a signature instance
-      def signature(*domains)
-        R::Operator::Signature.new(domains)
+      def signature(*domains, &block)
+        if block
+          R::Operator::Signature::regular(&block)
+        else
+          R::Operator::Signature.new(domains)
+        end
       end
       
       # Factors a signature instance
