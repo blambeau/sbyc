@@ -6,9 +6,9 @@ module SByC
         # Creates a builder instance
         def initialize(system, &block)
           @system = system
-          @builtin = DomainGenerator::Builtin.new
-          @array   = DomainGenerator::Array.new
-          @scalar  = DomainGenerator::Scalar.new
+          @builtin = DomainGenerator::Builtin.new(system)
+          @array   = DomainGenerator::Array.new(system)
+          @scalar  = DomainGenerator::Scalar.new(system)
           @stack   = []
           @alpha   = Builtin(:Alpha)
           run(&block) if block

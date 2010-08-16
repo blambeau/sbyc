@@ -26,6 +26,13 @@ module SByC
           @domain_generator
         end
         
+        # 
+        # Returns the system under which this domain runs
+        #
+        def system
+          @domain_generator.system
+        end
+        
         #
         # Returns the signature to use for the selector.
         #

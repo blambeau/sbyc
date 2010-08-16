@@ -3,7 +3,8 @@ module SByC
     class DomainGenerator
       class Array < DomainGenerator
         
-        def initialize
+        def initialize(system)
+          super(system)
           @generated_by_subdomain = {}
         end
         

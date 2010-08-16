@@ -2,6 +2,14 @@ module SByC
   module R
     class DomainGenerator
       
+      # System under which this generator is installed
+      attr_reader :system
+      
+      # Creates a generator for a given system
+      def initialize(system)
+        @system = system
+      end
+      
       # Factors a class with class methods and instance methods
       def factor_class(class_methods = [], instance_methods = [])
         clazz = Class.new
