@@ -7,10 +7,9 @@ module SByC
       attr_reader :system
       
       # Creates an evaluator instance
-      def initialize(ast, system, global_operators)
+      def initialize(ast, system)
         @ast = ast
         @system = system
-        @global_operators = global_operators
       end
       
       def __undefined__(var_name, node)
@@ -29,7 +28,7 @@ module SByC
       
       # Checks if a special function exists
       def global_operator(func, args)
-        @global_operators.find_operator_by_args(func, args)
+        system.operators.find_operator_by_args(func, args)
       end
       
       # Finds an operator by name and specific arguments

@@ -35,7 +35,7 @@ module SByC
     
     # Returns an evaluator
     def evaluator(ast)
-      R::Evaluator.new(ast, self, self.operators)
+      R::Evaluator.new(ast, self)
     end
     
     def domains_hash
