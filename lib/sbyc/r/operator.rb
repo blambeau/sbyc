@@ -1,3 +1,4 @@
+require 'sbyc/r/operator/matcher'
 require 'sbyc/r/operator/signature'
 require 'sbyc/r/operator/aggregate_signature'
 require 'sbyc/r/operator/paired_signature'
