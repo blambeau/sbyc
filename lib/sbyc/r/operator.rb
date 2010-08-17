@@ -11,9 +11,6 @@ module SByC
       # Operator's signature
       attr_reader :signature
       
-      # Operator's argument names
-      attr_reader :argnames
-      
       # Operator's returned domain
       attr_reader :returns
       
@@ -47,7 +44,7 @@ module SByC
       # Sets operator argument names
       def argnames=(names)
         raise ArgumentError, "Invalid operator argnames" unless names.kind_of?(::Array)
-        @argnames = names
+        @signature.arg_names = names
       end
       
       # Sets operator return type

@@ -9,6 +9,9 @@ module SByC
         # Matcher
         attr_reader :matcher
         
+        # Argument names
+        attr_reader :arg_names
+        
         def self.coerce(x)
           Signature.new(Matcher.coerce(x))
         end
@@ -16,6 +19,11 @@ module SByC
         # Creates a regular signature
         def initialize(matcher)
           @matcher = matcher
+        end
+        
+        # Set names of the arguments
+        def arg_names=(names)
+          @arg_names = names
         end
 
         # Prepars arguments for a call
