@@ -51,6 +51,18 @@ module SByC
           when :_
             node.literal
             
+          # Installs something behind a name
+          when :def
+            name, what = node.children.collect{|c| evaluate(context, c)}
+            case what
+              when R::Operator
+                what.aliases = [name]
+                system.operators.add_operator(what)
+                what
+              else
+                raise "Unable to define #{name}, only operators are supported for now"
+            end
+            
           when :Expression
             system::Expression.coerce(node.children[0])
             
