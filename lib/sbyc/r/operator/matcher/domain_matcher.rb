@@ -38,8 +38,8 @@ module SByC
           end
         end
         
-        def to_s
-          "(Matcher #{@domain.domain_name})"
+        def to_s(enclosed = false)
+          enclosed ? @domain.domain_name : "(Matcher #{@domain.domain_name})"
         end
         
         def ==(other)

@@ -32,8 +32,8 @@ module SByC
           }
         end
         
-        def to_s
-          "(Matcher #{@delegates.join(', ')})"
+        def to_s(enclosed = false)
+          "(Matcher #{@delegates.collect{|d| d.to_s(true)}.join(' ')})"
         end
         
         def ==(other)

@@ -13,9 +13,10 @@ module SByC::R::DomainGenerator::Tools
 
     def parse_literal(str)
       str = str.to_s.strip
-      if str =~ /^\(/
-        system::evaluate({}, str)
-      else
+      begin
+        obj = system::evaluate({}, str)
+        is_value?(obj) ? obj : __not_a_literal__!(self, str)
+      rescue 
         __not_a_literal__!(self, str)
       end
     end

@@ -148,12 +148,32 @@ module SByC
             parse_operator_call
           elsif char >= 'A' and char <= 'Z'
             begin
-              parse_domain_generation
+              parse_domain_matcher
             rescue ParseError
-              parse_literal
+              begin
+                parse_domain_generation
+              rescue ParseError
+                parse_literal
+              end
             end
           else
             parse_literal
+          end
+        end
+        
+        ### domain matching
+        def parse_domain_matcher
+          index_backup = @index
+          domain = parse_domain_literal
+          if current_char == '+'
+            @index += 1
+            node(:+, [ node(:Matcher, [ domain ]) ])
+          elsif current_char == '*'
+            @index += 1
+            node(:*, [ node(:Matcher, [ domain ]) ])
+          else
+            @index = index_backup
+            parse_failure!('+ or *')
           end
         end
         

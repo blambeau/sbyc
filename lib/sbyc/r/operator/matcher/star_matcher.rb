@@ -36,8 +36,13 @@ module SByC
           r
         end
         
-        def to_s
-          "(* #{@delegate.to_s})"
+        def to_s(enclosed = false)
+          case delegate
+            when DomainMatcher
+              "#{@delegate.to_s(true)}*" 
+            else
+              "(* #{@delegate.to_s(true)})"
+          end
         end
         
         def ==(other)
