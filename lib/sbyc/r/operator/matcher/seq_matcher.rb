@@ -14,6 +14,10 @@ module SByC
           @delegates = delegates
         end
         
+        def at(index)
+          delegates[index]
+        end
+        
         # Eats arguments
         def eat_args(args, requester)
           @delegates.collect{|d| 

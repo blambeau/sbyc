@@ -14,6 +14,10 @@ module SByC
           @domain = domain
         end
         
+        def at(index)
+          self
+        end
+        
         # Rewrites arguments for a method call
         def prepare_args_for_call(args, requester = nil)
           x = eat_args(args, requester)
@@ -39,7 +43,7 @@ module SByC
         end
         
         def to_s(enclosed = false)
-          enclosed ? @domain.domain_name : "(Matcher #{@domain.domain_name})"
+          enclosed ? @domain.domain_name.to_s : "(Matcher #{@domain.domain_name})"
         end
         
         def ==(other)

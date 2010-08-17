@@ -13,17 +13,29 @@ module SByC
         attr_reader :arg_names
         
         def self.coerce(x)
-          Signature.new(Matcher.coerce(x))
+          arg_names, matchers = [], []
+          x.each_slice(2){|name, matcher|
+            arg_names << name
+            matchers  << matcher 
+          }
+          Signature.new(Matcher.coerce(matchers), arg_names)
         end
         
         # Creates a regular signature
-        def initialize(matcher)
+        def initialize(matcher, arg_names = nil)
           @matcher = matcher
+          @arg_names = arg_names
         end
         
         # Set names of the arguments
         def arg_names=(names)
           @arg_names = names
+        end
+        
+        # Returns the matcher for a given name
+        def matcher_for(name)
+          index = arg_names.index(name)
+          matcher.at(index)
         end
 
         # Prepars arguments for a call
@@ -53,7 +65,17 @@ module SByC
         end
 
         def to_s
-          "(Signature #{matcher.to_s})"
+          unless arg_names
+            "(Signature #{matcher.to_s})"
+          else
+            buffer = "(Signature"
+            arg_names.each_with_index{|name, i|
+              buffer << " " << name.inspect 
+              buffer << " " << matcher.at(i).to_s(true)
+            }
+            buffer << ")"
+            buffer
+          end
         end
 
       end # class Signature

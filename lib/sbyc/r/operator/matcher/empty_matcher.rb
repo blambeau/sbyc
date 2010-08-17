@@ -8,6 +8,10 @@ module SByC
           args.empty? ? [] : nil
         end
       
+        def at(index)
+          self
+        end
+        
         # Eats arguments
         def eat_args(args, requester)
           []

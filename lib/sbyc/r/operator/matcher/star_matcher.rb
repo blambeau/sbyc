@@ -14,6 +14,10 @@ module SByC
           @delegate = delegate
         end
         
+        def at(index)
+          self
+        end
+        
         def call_with_star?
           false
         end
