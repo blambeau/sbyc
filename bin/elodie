@@ -3,8 +3,25 @@ $LOAD_PATH.unshift(File.expand_path('../../lib', __FILE__))
 require 'sbyc'
 require 'sbyc/shortspaces'
 
+def read(str)
+  ::SByC::R::parse(str)
+end
+
+def evaluate(ast, context = {})
+  ::SByC::R::evaluate(context, ast)
+end
+
+def print(value)
+  R::Alpha::domain_of(value).to_literal(value)
+end
+
 if ARGV.size == 1
-  puts ::SByC::R::evaluate(File.read(ARGV[0]))
+  exprs = ::SByC::R::parse(File.read(ARGV[0]), :multiline => true)
+  value = nil
+  exprs.each{|expr|
+    value = evaluate(expr)
+  }
+  puts print(value)
 else
   require 'readline'
   stop = false
@@ -15,12 +32,7 @@ else
         stop = true
       else
         begin
-          ast   = ::SByC::R::parse(str)
-          puts ast.inspect
-          value = ::SByC::R::evaluate({}, ast)
-          dom   = R::Alpha::domain_of(value)
-          lit   = dom.to_literal(value)
-          puts lit
+          puts print(evaluate(read(str)))
         rescue Exception => ex
           puts ex.message
           puts ex.backtrace.join("\n")

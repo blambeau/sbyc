@@ -45,6 +45,7 @@ module SByC
         def to_s(enclosed = false)
           enclosed ? @domain.domain_name.to_s : "(Matcher #{@domain.domain_name})"
         end
+        alias :inspect :to_s
         
         def ==(other)
           other.kind_of?(DomainMatcher) && other.domain == @domain

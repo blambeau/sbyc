@@ -87,6 +87,7 @@ module SByC
         def +(other)
           SeqMatcher.new([self, other])
         end
+        alias :inspect :to_s
       
       end # class Matcher
     end # class Operator

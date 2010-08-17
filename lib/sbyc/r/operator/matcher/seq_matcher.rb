@@ -39,6 +39,7 @@ module SByC
         def to_s(enclosed = false)
           "(Matcher #{@delegates.collect{|d| d.to_s(true)}.join(' ')})"
         end
+        alias :inspect :to_s
         
         def ==(other)
           other.kind_of?(SeqMatcher) && other.delegates == @delegates

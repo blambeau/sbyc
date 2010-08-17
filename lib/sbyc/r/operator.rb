@@ -39,7 +39,9 @@ module SByC
               op.returns   = returns
               op.expr      = expr
               op.method    = lambda{|*args| 
-                expr.evaluate(Hash[*sign.arg_names.zip(args).flatten])
+                context = {}
+                sign.arg_names.zip(args).each{|name, value| context[name] = value}
+                expr.evaluate(context)
               }
             }
           else

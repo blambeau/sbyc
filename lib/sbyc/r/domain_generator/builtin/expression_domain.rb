@@ -62,6 +62,7 @@ class SByC::R::DomainGenerator::Builtin
       def to_s
         "(Expression #{ast.to_s})"
       end
+      alias :inspect :to_s
       
       def ==(other)
         other.kind_of?(self.class) and other.ast == self.ast

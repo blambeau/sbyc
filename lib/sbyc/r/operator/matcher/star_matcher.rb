@@ -48,6 +48,7 @@ module SByC
               "(* #{@delegate.to_s(true)})"
           end
         end
+        alias :inspect :to_s
         
         def ==(other)
           other.kind_of?(StarMatcher) && other.delegate == @delegate

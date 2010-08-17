@@ -18,7 +18,7 @@ module SByC
               x
             when ::Array
               arg_names, matchers = [], []
-              x.each_slice(2){|name, matcher|
+              x.flatten.each_slice(2){|name, matcher|
                 arg_names << name
                 matchers  << matcher 
               }
@@ -63,7 +63,7 @@ module SByC
         
         # Makes an operator call on some arguments
         def make_operator_call(callable, args, &block)
-          call_args = prepare_args_for_call(args, nil)
+          call_args = prepare_args_for_call(args.dup, nil)
           matcher.call_with_star? ? callable.call(*call_args) : callable.call(call_args)
         end
         
@@ -84,6 +84,7 @@ module SByC
             buffer
           end
         end
+        alias :inspect :to_s
 
       end # class Signature
     end # class Operator

@@ -160,6 +160,11 @@ module SByC
           end
         end
         
+        # Inspects
+        def inspect
+          to_s
+        end
+        
       end # module Contract
     end # module AbstractDomain
   end # module R
