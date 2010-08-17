@@ -51,6 +51,9 @@ module SByC
           when :_
             node.literal
             
+          when :Expression
+            system::Expression.coerce(node.children[0])
+            
           # Resolving other functions
           else
             # evaluate the children and come back

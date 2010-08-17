@@ -10,6 +10,7 @@ SByC::R::builder.run{
   Builtin(:Regexp)
   Builtin(:Date)
   Builtin(:Time)
+  Builtin(:Expression)
   Builtin(:Heading)
   Reuse(:Matcher, SByC::R::Operator::Matcher){
     Reuse(:DomainMatcher, SByC::R::Operator::DomainMatcher)
