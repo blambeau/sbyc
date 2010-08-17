@@ -19,6 +19,7 @@ SByC::R::builder.run{
     Reuse(:SeqMatcher, SByC::R::Operator::SeqMatcher)
   }
   Reuse(:Signature, SByC::R::Operator::Signature)
+  Reuse(:Operator,  SByC::R::Operator)
   Builtin(:Module)
   ArrayOf(:Alpha)
 }

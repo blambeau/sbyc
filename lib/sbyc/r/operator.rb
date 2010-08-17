@@ -17,12 +17,34 @@ module SByC
       # Operator's aliases
       attr_reader :aliases
       
+      # Expression
+      attr_accessor :expr
+      
       # Ruby method implementing the operator
       attr_reader :method
 
       # Creates an operator instance      
       def initialize
         yield(self) if block_given?
+      end
+      
+      def self.coerce(x)
+        case x
+          when Operator
+            x
+          when ::Array
+            sign, returns, expr = x
+            Operator.new{|op|
+              op.signature = sign
+              op.returns   = returns
+              op.expr      = expr
+              op.method    = lambda{|*args| 
+                expr.evaluate(Hash[*sign.arg_names.zip(args).flatten])
+              }
+            }
+          else
+            raise ArgumentError, "Unable to coerce #{x} to an operator"
+        end
       end
       
       #########################################################################
@@ -105,6 +127,10 @@ module SByC
         else
           result
         end
+      end
+      
+      def to_s
+        "(Operator #{signature}, #{returns.domain_name}, #{expr})"
       end
       
     end # class Operator

@@ -52,7 +52,7 @@ module SByC
       
       # Install constants and global selectors
       if name.to_s =~ /^[A-Z][a-z]*$/
-        const_set(name, domain)
+        const_set(name, domain) unless const_defined?(name)
       end
 
       unless name == :Alpha

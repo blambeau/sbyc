@@ -13,12 +13,19 @@ module SByC
         attr_reader :arg_names
         
         def self.coerce(x)
-          arg_names, matchers = [], []
-          x.each_slice(2){|name, matcher|
-            arg_names << name
-            matchers  << matcher 
-          }
-          Signature.new(Matcher.coerce(matchers), arg_names)
+          case x
+            when Signature
+              x
+            when ::Array
+              arg_names, matchers = [], []
+              x.each_slice(2){|name, matcher|
+                arg_names << name
+                matchers  << matcher 
+              }
+              Signature.new(Matcher.coerce(matchers), arg_names)
+            else
+              Signature.new(Matcher.coerce(x))
+          end
         end
         
         # Creates a regular signature
