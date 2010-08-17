@@ -144,7 +144,9 @@ module SByC
         def parse_statement
           eat_spaces
           char = current_char
-          if char == '('
+          if char == "&"
+            parse_special_expression_form
+          elsif char == '('
             parse_operator_call
           elsif char >= 'A' and char <= 'Z'
             begin
@@ -158,6 +160,19 @@ module SByC
             end
           else
             parse_literal
+          end
+        end
+        
+        # Parses a special Expression form
+        def parse_special_expression_form
+          begin
+            idx_backup = @index
+            parse_string("&", false)
+            ast = parse_operator_call
+            node(:Expression, [ ast ])
+          rescue ParseError
+            @index = idx_backup
+            raise
           end
         end
         
