@@ -11,6 +11,13 @@ describe "CodeTree::Parsing::TextParser#parse_variable_literal" do
     }
   end
   
+  describe "with $0" do
+    let(:text){ "$0" }
+    specify{ 
+      subject.should == CodeTree::AstNode.new(:'?', [CodeTree::AstNode.new(:_, [:'$0'])])
+    }
+  end
+  
   describe "with $1" do
     let(:text){ "$1" }
     specify{ 

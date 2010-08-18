@@ -39,7 +39,7 @@ module SByC
         OPERATOR_NAME_REGEXP = /[^\s:\(\),]+/
         
         # Regular expression for variable name
-        VARIABLE_NAME_REGEXP = /[$][^\s\(\),:]*|[a-z][^\s\(\),:]*/
+        VARIABLE_NAME_REGEXP = /[$][a-zA-Z0-9-]*|[a-z][a-zA-Z0-9-]*/
         
         extend(Utils)
       end # module Utils
