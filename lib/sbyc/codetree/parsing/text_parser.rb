@@ -213,7 +213,6 @@ module SByC
           parse_string('(', true)
           name = parse_operator_name
           eat_spaces
-          #puts "Starting operator call #{name} on #{current_char}"
           args = parse_operator_args
           eat_spaces
           parse_string(')', true)
@@ -242,6 +241,7 @@ module SByC
         LITERALS_LOOKUP = {}
         ['+', '-'].each{|x| LITERALS_LOOKUP[x]      = :parse_numeric_literal   }
             (0..9).each{|x| LITERALS_LOOKUP[x.to_s] = :parse_numeric_literal   }
+             ['$'].each{|x| LITERALS_LOOKUP[x.to_s] = :parse_variable_literal  }
         ('a'..'z').each{|x| LITERALS_LOOKUP[x]      = :parse_ambiguous_literal }
         ('A'..'Z').each{|x| LITERALS_LOOKUP[x]      = :parse_domain_literal    }
              [':'].each{|x| LITERALS_LOOKUP[x]      = :parse_symbol_literal    }
