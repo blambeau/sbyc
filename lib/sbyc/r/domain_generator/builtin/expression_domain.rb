@@ -54,9 +54,22 @@ class SByC::R::DomainGenerator::Builtin
         @ast = ast
       end
       
+      def to_hash(arg)
+        case arg
+          when Hash
+            arg
+          when Array
+            context = {}
+            arg.each_with_index{|a,i| context[:"$#{i}"] = a}
+            context
+          else
+            raise "Unable to convert #{arg} to a context"
+        end
+      end
+      
       # Evaluates this expression on a given context
       def evaluate(context = {})
-        self.class.system.evaluator(ast).evaluate(context)
+        self.class.system.evaluator(ast).evaluate(to_hash(context))
       end
       
       def to_s

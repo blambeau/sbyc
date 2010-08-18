@@ -27,9 +27,9 @@ module SByC
       end
       
       # Finds an operator by name and specific arguments
-      def find_operator_by_args(name, args)
-        system.operators.find_operator_by_args(name, args) ||
-        __no_such_operator_for_args__(name, args)
+      def find_operator_by_args(name, args, raise_on_unfound = true)
+        op = system.operators.find_operator_by_args(name, args)
+        op ? op : (raise_on_unfound ? __no_such_operator_for_args__(name, args) : nil)
       end
       
       # Lauches evaluation
@@ -41,7 +41,7 @@ module SByC
             var_name = node.literal
             if context.has_key?(var_name)
               context[var_name]
-            elsif f = find_operator_by_args(var_name, [])
+            elsif f = find_operator_by_args(var_name, [], false)
               f.call([])
             else
               __undefined__(var_name, node)
@@ -62,6 +62,10 @@ module SByC
               else
                 raise "Unable to define #{name}, only operators are supported for now"
             end
+
+          when :eval
+            expr, args = node.children.collect{|c| evaluate(context, c)}
+            expr.evaluate(args || {})
             
           when :Expression
             system::Expression.coerce(node.children[0])

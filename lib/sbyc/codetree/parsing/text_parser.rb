@@ -168,7 +168,7 @@ module SByC
           begin
             idx_backup = @index
             parse_string("&", false)
-            ast = parse_operator_call
+            ast = parse_statement
             node(:Expression, [ ast ])
           rescue ParseError
             @index = idx_backup
