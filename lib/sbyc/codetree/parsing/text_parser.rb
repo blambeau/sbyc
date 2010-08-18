@@ -248,15 +248,14 @@ module SByC
         ['"', "'"].each{|x| LITERALS_LOOKUP[x]      = :parse_string_literal    }
              ['/'].each{|x| LITERALS_LOOKUP[x]      = :parse_regexp_literal    }
              ['{'].each{|x| LITERALS_LOOKUP[x]      = :parse_args_literal      }
+             ['['].each{|x| LITERALS_LOOKUP[x]      = :parse_array_literal     }
+             
         
         
         def parse_literal
           method = LITERALS_LOOKUP[current_char]
           if method
-            #puts "Starting reading a #{method} on #{current_char}"
-            x = self.send(method)
-            #puts "Read a #{x} now #{current_char} "
-            x
+            self.send(method)
           else
             parse_failure!("literal")
           end
@@ -371,6 +370,25 @@ module SByC
             parse_failure!("variable") 
           end
           variable_node(str.to_sym)
+        end
+        
+        # Parses an array literal
+        def parse_array_literal
+          backup_index = @index
+          parse_string('[', true)
+          args = []
+          while true
+            begin
+              args << parse_statement
+              eat_spaces_or_comma
+            rescue ParseError
+              break
+            end
+          end
+          parse_string(']', true)
+          node(:Array, args)
+        rescue ParseError
+          @index = backup_index
         end
 
         def parse_args_literal
