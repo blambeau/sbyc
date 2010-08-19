@@ -32,5 +32,17 @@ class SByC::R::DomainGenerator::Builtin
       value.inspect
     end
     
+    def sbyc_call(runner, args, binding)
+      runner.__selector_invocation_error__!(self, args) unless args.size == 1
+      case f = args.first
+        when CodeTree::AstNode
+          sbyc_call(runner, [ runner.evaluate(f, binding) ], binding)
+        when ::String
+          f
+        else
+          f.to_s
+      end
+    end
+    
   end # module StringDomain
 end # class SByC::R::DomainGenerator::Builtin

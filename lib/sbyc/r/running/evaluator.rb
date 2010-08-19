@@ -62,6 +62,10 @@ module SByC
               else
                 raise "Unable to define #{name}, only operators are supported for now"
             end
+          
+          when :fed
+            name, = node.children.collect{|c| evaluate(context, c)}
+            system.fed(name)
 
           when :eval
             expr, args = node.children.collect{|c| evaluate(context, c)}

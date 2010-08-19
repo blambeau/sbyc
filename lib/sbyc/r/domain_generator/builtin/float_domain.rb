@@ -40,5 +40,21 @@ class SByC::R::DomainGenerator::Builtin
       end
     end
     
+    def sbyc_call(runner, args, binding)
+      runner.__selector_invocation_error__!(self, args) unless args.size == 1
+      case f = args.first
+        when CodeTree::AstNode
+          sbyc_call(runner, [ runner.evaluate(f, binding) ], binding)
+        when ::Float
+          f
+        when ::Integer
+          f.to_f
+        when /^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/
+          f.to_s.to_f
+        else
+          runner.__selector_invocation_error__!(self, args)
+      end
+    end
+    
   end # module FloatDomain
 end # class SByC::R::DomainGenerator::Builtin

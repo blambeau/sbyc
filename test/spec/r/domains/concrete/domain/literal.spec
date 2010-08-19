@@ -9,6 +9,7 @@ describe "R::Domain.parse_literal" do
     decoded = R::Domain.parse_literal('Array<Boolean>')
     decoded.should_not be_nil
     decoded.sbyc_domain.should == R::Domain
+    decoded.of_domain.domain_name.should == :Boolean
     decoded.domain_generator.class.should == SByC::R::DomainGenerator::Array
   end
   

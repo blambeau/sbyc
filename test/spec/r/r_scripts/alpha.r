@@ -16,18 +16,18 @@
 
 # domain
 (should (domain-of true),
-        (eq R::Boolean))
-(should (domain-of R::Alpha),
-        (eq R::Domain))
-(should (domain-of R::Boolean),
-        (eq R::Domain))
-(should (domain-of R::Domain),
-        (eq R::Domain))
+        (eq Boolean))
+(should (domain-of Alpha),
+        (eq Domain))
+(should (domain-of Boolean),
+        (eq Domain))
+(should (domain-of Domain),
+        (eq Domain))
 (should (domain-of "hello"),
-        (eq R::String))
+        (eq String))
         
 # is-a?
-(should (is-a? R::Domain R::Integer)
+(should (is-a? Domain Integer)
         (eq true))
-(should (is-a? R::Boolean true),
+(should (is-a? Boolean true),
         (eq true))

@@ -52,8 +52,8 @@ class SByC::R::DomainGenerator::Builtin
           f
         when ::String
           begin 
-            ::Date::parse(x)
-          rescue 
+            ::Date::parse(f)
+          rescue => ex 
             runner.__selector_invocation_error__!(self, args)
           end
         else

@@ -21,11 +21,15 @@ class SByC::R::DomainGenerator::Builtin
           when :'generate-domain'
             generator = collected.shift
             generator.domain_generator.generate(str, *collected)
+          when :fed
+            system.fed(collected[0])
           else
             __not_a_literal__!(self, str)
         end
       }
-    rescue
+    rescue => ex
+      puts ex.message
+      puts ex.backtrace.join("\n")
       __not_a_literal__!(self, str)
     end
 

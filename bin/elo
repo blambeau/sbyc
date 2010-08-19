@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift(File.expand_path('../../lib', __FILE__))
+require 'sbyc'
+require 'sbyc/shortspaces'
+
+$runner = ::SByC::R::Runner.new
+
+def read(str)
+  ::SByC::R::parse(str)
+end
+
+def evaluate(ast, context = {})
+  $runner.evaluate(ast, context)
+end
+
+def print(value)
+  if value.respond_to?(:sbyc_domain)
+    value.sbyc_domain.to_literal(value)
+  else
+    value.inspect
+  end
+end
+
+if ARGV.size == 1
+  exprs = ::SByC::R::parse(File.read(ARGV[0]), :multiline => true)
+  value = nil
+  exprs.each{|expr| value = evaluate(expr) }
+  puts print(value)
+else
+  require 'readline'
+  stop = false
+  while !stop
+    str = Readline.readline("elodie# ", true)
+    case str 
+      when /^q(uit)?$/
+        stop = true
+      else
+        begin
+          puts print(evaluate(read(str)))
+        rescue Exception => ex
+          puts ex.message
+          puts ex.backtrace.join("\n")
+        end
+    end
+  end
+end

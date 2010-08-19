@@ -1,3 +1,5 @@
+(should (fed :Boolean)
+        (eq Boolean))
 (should (domain-of (generate-domain Array String))
         (eq Domain))
 (should (name-of (generate-domain Array String)) 

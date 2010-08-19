@@ -69,7 +69,8 @@ module SByC
   
       # Rauses a TypeCheckError with a specific message
       def __selector_invocation_error__!(domain, args, cal = caller)
-        raise ::SByC::SelectorInvocationError, "Invalid selector invocation #{domain.domain_name}", cal
+        raise ::SByC::SelectorInvocationError, \
+          "Invalid selector invocation (#{domain.domain_name} #{args.join(' ')})", cal
       end
       
       # Raises an InvalidDomainGenerationError

@@ -4,7 +4,7 @@ module SByC
 
       # Resolves a given domain
       def resolve_domain(str)
-        literal_node(R::Domain.parse_literal(str))
+        CodeTree::AstNode.new(:fed, [literal_node(str.to_sym)])
       end
       
     end # class Parser
