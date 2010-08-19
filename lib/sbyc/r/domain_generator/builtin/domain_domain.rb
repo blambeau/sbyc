@@ -69,5 +69,25 @@ class SByC::R::DomainGenerator::Builtin
       end
     end
       
+    def sbyc_call(runner, args, binding)
+      runner.__selector_invocation_error__!(self, args) unless args.size == 1
+      case f = args.first
+        when CodeTree::AstNode
+          sbyc_call(runner, [ runner.evaluate(f, binding) ], binding)
+        when ::Class
+          if f.respond_to?(:sbyc_domain) && f.sbyc_domain == runner.fed(:Domain)
+            f
+          else
+            sbyc_call(runner, [ RUBY_TO_R[x.name.to_s] || x.name ], binding)
+          end
+        when ::String
+          sbyc_call(runner, [ f.to_sym ], binding)
+        when ::Symbol
+          sbyc_call(runner, [ runner.fed(f) ], binding)
+        else
+          runner.__selector_invocation_error__!(self, args)
+      end
+    end
+    
   end # module DomainDomain
 end # class SByC::R::DomainGenerator::Builtin

@@ -46,6 +46,10 @@ module SByC
       domains_hash.values
     end
     
+    def fed(name)
+      self.const_get(name)
+    end
+    
     # Callback of a builder when domains are created
     def domain_created(name, domain)
       domains_hash[name] = domain
@@ -69,9 +73,15 @@ module SByC
 
       domain
     end
+    
+    def scalar_domain(args)
+      heading = Hash[*args]
+      builder.Scalar(:unnamed, heading)
+    end
         
     extend(R)
   end # module R
 end # module SByC
 require 'sbyc/r/system'
 require 'sbyc/r/running'
+require 'sbyc/r/runner'

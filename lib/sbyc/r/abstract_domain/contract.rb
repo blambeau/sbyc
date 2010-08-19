@@ -48,7 +48,7 @@ module SByC
         # @return [String] domain's name
         #
         def domain_name
-          @domain_generator.domain_name_of(self)
+          @sbyc_name ||= @domain_generator.domain_name_of(self)
         end
         
         #
@@ -76,7 +76,7 @@ module SByC
         #       is true
         #
         def sbyc_domain
-          system::Domain
+          system.fed(:Domain)
         end
         
         #
@@ -160,10 +160,10 @@ module SByC
           end
         end
         
-        # Inspects
-        def inspect
-          to_s
-        end
+        #
+        # Inspects this domain, returning a valid R expression.
+        #
+        def inspect; to_s end
         
       end # module Contract
     end # module AbstractDomain

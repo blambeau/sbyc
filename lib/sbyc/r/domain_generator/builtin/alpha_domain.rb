@@ -14,6 +14,6 @@ class SByC::R::DomainGenerator::Builtin
         end
       end
     end
-    
+        
   end # module AlphaDomain
 end # class SByC::R::DomainGenerator::Builtin

@@ -10,6 +10,21 @@ module SByC
   
       # Raised when a type checking error occurs
       class ::SByC::TypeCheckError < ::SByC::Error; end
+      
+      # Raised when an error occurs inside a selector
+      class ::SByC::SelectorInvocationError < ::SByC::Error; end
+      
+      # Raised when an invalid domain generation occurs
+      class ::SByC::InvalidDomainGenerationError < ::SByC::Error; end
+      
+      # Raised when someone does not look a callable
+      class ::SByC::NotACallableError < ::SByC::Error; end
+      
+      # Raised when a signature mistmatch occurs
+      class ::SByC::SignatureError < ::SByC::Error; end
+      
+      # Raised when an operator cannot be found
+      class ::SByC::UndefinedOperatorError < ::SByC::Error; end
   
       # Finds a ruby module by name or returns nil
       def __find_ruby_module__(name, start = ::Kernel)
@@ -47,6 +62,29 @@ module SByC
       # Rauses a TypeCheckError with a specific message
       def __type_check_error__!(msg, cal = caller)
         raise ::SByC::TypeCheckError, msg, cal
+      end
+  
+      # Rauses a TypeCheckError with a specific message
+      def __selector_invocation_error__!(domain, args, cal = caller)
+        raise ::SByC::SelectorInvocationError, "Invalid selector invocation #{domain.domain_name}", cal
+      end
+      
+      # Raises an InvalidDomainGenerationError
+      def __domain_generation_error__!(generator, args, cal = caller)
+        raise ::SByC::InvalidDomainGenerationError, "Invalid domain generation (#{generator} #{args.join(' ')})", cal
+      end
+      
+      def __not_a_callable_error__!(who, cal = caller)
+        raise ::SByC::NotACallableError, "#{who} does not look a callable", cal
+      end
+      
+      def __undefined_operator__!(operator, args, cal = caller)
+        raise ::SByC::UndefinedOperatorError, "Undefined operator (#{operator} #{args.join(', ')})", cal
+      end
+      
+      def __args_have_arity__!(function, args, arity, cal = caller)
+        raise ::SByC::SignatureError, "Signature mistmatch for (#{function} #{args.join(' ')})", cal\
+          unless args.size == arity
       end
   
       extend(Robustness)

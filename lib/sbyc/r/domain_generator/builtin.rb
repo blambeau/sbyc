@@ -3,12 +3,6 @@ module SByC
     class DomainGenerator
       class Builtin < DomainGenerator
         
-        #
-        # Returns the signature to use for the selector of a given
-        # domain.
-        #
-        # @returns [Signature] a signature.
-        #
         def selector_signature(domain)
           R::Operator::Signature.single(system::Alpha)
         end
@@ -21,6 +15,31 @@ module SByC
         def generate(name, modules = [])
           modules = [ self.class.const_get(:"#{name}Domain") ] + modules
           factor_domain_class(modules)
+        end
+        
+        def sbyc_call(runner, args, binding)
+          if args.empty? or args.size > 2
+            runner.__domain_generation_error__!(self, args)
+          end
+
+          # Make required coercions
+          name, super_domain = args
+          name = runner.coerce(name, ::Symbol, binding)
+          unless super_domain.nil?
+            super_domain = runner.coerce(super_domain, ::Class, binding)
+          end
+          
+          # Build the domain
+          modules = [ self.class.const_get(:"#{name}Domain") ]
+          domain = factor_domain_class(modules)
+          
+          # Applies refinement is required
+          unless super_domain.nil?
+            super_domain.refine(domain)
+          end
+          
+          # Return created domain
+          domain
         end
         
       end # class Builtin

@@ -41,6 +41,24 @@ module SByC::R::DomainGenerator::Tools
         __not_a_literal__!(self, x)
       end
 
+    
+      #######################################################################
+      ### About call
+      #######################################################################
+    
+      # 
+      # Acts as a Callable
+      #
+      def sbyc_call(runner, args, binding, &block)
+        immediate_sub_domains.each{|sub|
+          begin
+            return sub.sbyc_call(*args, &block)
+          rescue SByC::SelectorInvocationError
+          end
+        }
+        __selector_invocation_error__!(self, args)
+      end
+
     end # module BasicContract
   end # module UnionDomain
 end # module SByC::R::DomainGenerator::Tools
