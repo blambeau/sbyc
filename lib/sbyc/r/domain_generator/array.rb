@@ -12,12 +12,6 @@ module SByC
           :"Array<#{domain.of_domain.domain_name}>"
         end
         
-        #
-        # Returns the signature to use for the selector of a given
-        # domain.
-        #
-        # @returns [Signature] a signature.
-        #
         def selector_signature(domain)
           R::Operator::Signature::star(system::Alpha)
         end

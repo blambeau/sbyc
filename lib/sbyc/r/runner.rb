@@ -33,27 +33,6 @@ module SByC
         @definitions.key?(name)
       end
       
-      # Collects evaluations on a node
-      def collect(node, binding)
-        node.children.collect{|child| evaluate(child, binding)}
-      end
-      
-      # Applies major coercions 
-      def coerce(arg, clazz, binding)
-        case arg
-          when clazz
-            arg
-          when ::CodeTree::AstNode
-            coerce(evaluate(arg, binding), clazz, binding)
-          else
-            if clazz.nil?
-              arg
-            else
-              __undefined_operator__!(clazz.name.to_sym, [ arg ])
-            end
-        end
-      end
-      
       # Makes an evaluation
       def evaluate(node, binding = {})
         if node.kind_of?(CodeTree::AstNode)
@@ -98,6 +77,8 @@ module SByC
           arg
         elsif arg.kind_of?(CodeTree::AstNode)
           ensure_arg(evaluate(arg, binding), accepted_domains, binding, &error_handler)
+        elsif accepted_domains.empty?
+          arg
         else
           error_handler.call
         end
@@ -116,29 +97,23 @@ module SByC
       
       # Making a self call
       def self_call(function, args, binding)
+        error_handler = lambda{ __signature_mistmatch__!(function, args) }
         case function
           when :self
             self
             
           when :def
-            __args_have_arity__!(:def, args, 2)
-            name = coerce(args[0], ::Symbol, binding)
-            what = args[1]
-            if what.kind_of?(::CodeTree::AstNode)
-              what = evaluate(what, binding) 
-            end
-            self.def(name, what)
+            name, value = ensure_args(args, [ [::Symbol], [] ], binding, &error_handler)
+            self.def(name, value)
             
           when :fed
-            __args_have_arity__!(:fed, args, 1)
-            name = coerce(args[0], ::Symbol, binding)
+            name, = ensure_args(args, [ [ ::Symbol ] ], binding, &error_handler)
             self.fed(name)
             
           when :'ruby-send'
-            method   = coerce(args.shift, ::Symbol, binding)
-            receiver = coerce(args.shift, nil, binding)
-            args     = args.collect{|arg| coerce(arg, nil, binding)}
-            receiver.send(method, *args)
+            method, receiver = ensure_args(args[0..1], [ [::Symbol ], [ ] ], binding, &error_handler)
+            call_args = args[2..-1].collect{|arg| ensure_arg(arg, [], binding)}
+            receiver.send(method, *call_args)
             
           else
             __undefined_operator__!(function, args)

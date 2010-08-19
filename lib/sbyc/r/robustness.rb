@@ -86,6 +86,10 @@ module SByC
         raise ::SByC::UndefinedOperatorError, "Undefined operator (#{operator} #{args.join(', ')})", cal
       end
       
+      def __signature_mistmatch__!(function, args, cal = caller)
+        raise ::SByC::SignatureError, "Signature mistmatch for (#{function} #{args.join(' ')})", cal
+      end
+      
       def __args_have_arity__!(function, args, arity, cal = caller)
         raise ::SByC::SignatureError, "Signature mistmatch for (#{function} #{args.join(' ')})", cal\
           unless args.size == arity

@@ -18,17 +18,12 @@ module SByC
         end
         
         def sbyc_call(runner, args, binding)
-          if args.empty? or args.size > 2
+          signature = args.size == 1 ? [ [ ::Symbol ] ] : [ [ ::Symbol ], [ ::Class ] ]
+          args = runner.ensure_args(args, signature, binding){
             runner.__domain_generation_error__!(self, args)
-          end
-
-          # Make required coercions
+          }
           name, super_domain = args
-          name = runner.coerce(name, ::Symbol, binding)
-          unless super_domain.nil?
-            super_domain = runner.coerce(super_domain, ::Class, binding)
-          end
-          
+
           # Build the domain
           modules = [ self.class.const_get(:"#{name}Domain") ]
           domain = factor_domain_class(modules)
