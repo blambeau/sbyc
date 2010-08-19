@@ -46,14 +46,23 @@ class SByC::R::DomainGenerator::Builtin
         end
       end
     
-      def sbyc_call(runner, args, binding)
-        error_handler = lambda{ __selector_invocation_error__!(self, args) }
+      def to_names_and_domains(runner, args, binding, &error_handler)
         names, domains = [], []
         args.each_slice(2){|name, type|
           names   << runner.ensure_arg(name, [ runner.fed(:Symbol) ], binding, &error_handler)
           domains << runner.ensure_arg(type, [ runner.fed(:Domain) ], binding, &error_handler)
         }
-        self.new(names, domains)
+        [names, domains]
+      end
+    
+      def sbyc_call(runner, args, binding)
+        error_handler = lambda{ __selector_invocation_error__!(self, args) }
+        if args.size == 1
+          args = runner.ensure_arg(args.first, [ ::Array ], binding, &error_handler)
+          self.new(*to_names_and_domains(runner, args, binding, &error_handler))
+        else
+          self.new(*to_names_and_domains(runner, args, binding, &error_handler))
+        end
       end
     
     end
