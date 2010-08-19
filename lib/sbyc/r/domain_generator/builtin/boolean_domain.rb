@@ -24,7 +24,7 @@ class SByC::R::DomainGenerator::Builtin
       value == true ? "true" : "false"
     end
     
-    def call_signature
+    def call_signature(runner)
       @call_signature ||= [ [::TrueClass, ::FalseClass, ::String] ]
     end
     

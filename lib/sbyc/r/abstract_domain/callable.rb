@@ -8,7 +8,7 @@ module SByC
         end
         
         def ensure_call_args(runner, args, binding)
-          args = runner.ensure_args(args, call_signature, binding){
+          args = runner.ensure_args(args, call_signature(runner), binding){
             call_error(runner, args, binding)
           }
           yield(args)

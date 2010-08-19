@@ -32,7 +32,7 @@ class SByC::R::DomainGenerator::Builtin
       value.inspect
     end
     
-    def call_signature
+    def call_signature(runner)
       @call_signature ||= [[]]
     end
     

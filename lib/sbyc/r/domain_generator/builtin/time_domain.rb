@@ -22,7 +22,7 @@ class SByC::R::DomainGenerator::Builtin
       "(Time #{value.inspect.inspect})"
     end
     
-    def call_signature
+    def call_signature(runner)
       @call_signature ||= [ [ ::Date, ::String ] ]
     end
     

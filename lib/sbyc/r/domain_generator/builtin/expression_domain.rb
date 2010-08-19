@@ -31,7 +31,7 @@ class SByC::R::DomainGenerator::Builtin
         value.to_s
       end
     
-      def call_signature
+      def call_signature(runner)
         [ [ CodeTree::AstNode ] ]
       end
       
