@@ -37,10 +37,10 @@ class SByC::R::DomainGenerator::Builtin
     end
     
     def sbyc_call(runner, args, binding)
-      runner.__selector_invocation_error__!(self, args) unless args.size == 1
+      args = runner.ensure_args(args, [ [ ::Date, ::String ] ], binding){
+        runner.__selector_invocation_error__!(self, args)
+      }
       case f = args.first
-        when CodeTree::AstNode
-          sbyc_call(runner, [ runner.evaluate(f, binding) ], binding)
         when ::Time
           f
         when ::String
@@ -49,8 +49,6 @@ class SByC::R::DomainGenerator::Builtin
           rescue => ex 
             runner.__selector_invocation_error__!(self, args)
           end
-        else
-          runner.__selector_invocation_error__!(self, args)
       end
     end
     

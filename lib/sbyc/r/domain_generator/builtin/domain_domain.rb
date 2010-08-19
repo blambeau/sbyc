@@ -74,10 +74,10 @@ class SByC::R::DomainGenerator::Builtin
     end
       
     def sbyc_call(runner, args, binding)
-      runner.__selector_invocation_error__!(self, args) unless args.size == 1
+      args = runner.ensure_args(args, [ [::Class, ::String, ::Symbol] ], binding){
+        runner.__selector_invocation_error__!(self, args)
+      }
       case f = args.first
-        when CodeTree::AstNode
-          sbyc_call(runner, [ runner.evaluate(f, binding) ], binding)
         when ::Class
           if f.respond_to?(:sbyc_domain) && f.sbyc_domain == runner.fed(:Domain)
             f
@@ -88,8 +88,6 @@ class SByC::R::DomainGenerator::Builtin
           sbyc_call(runner, [ f.to_sym ], binding)
         when ::Symbol
           sbyc_call(runner, [ runner.fed(f) ], binding)
-        else
-          runner.__selector_invocation_error__!(self, args)
       end
     end
     

@@ -56,35 +56,61 @@ module SByC
       
       # Makes an evaluation
       def evaluate(node, binding = {})
-        case f = node.function
+        if node.kind_of?(CodeTree::AstNode)
+          case f = node.function
 
-          # Resolving a true literal
-          when :_
-            node.literal
+            # Resolving a true literal
+            when :_
+              node.literal
           
-          # Resolving a variable name
-          when :'?'  
-            var_name = node.literal
-            if binding.has_key?(var_name)
-              binding[var_name]
-            elsif knows?(var_name)
-              fed(var_name)
-            else
-              self_call(var_name, [], binding)
-            end
-            
-          # Making a private call
-          else
-            if knows?(f)
-              got = fed(f)
-              if got.respond_to?(:sbyc_call)
-                got.sbyc_call(self, node.children.dup, binding)
+            # Resolving a variable name
+            when :'?'  
+              var_name = node.literal
+              if binding.has_key?(var_name)
+                binding[var_name]
+              elsif knows?(var_name)
+                fed(var_name)
               else
-                __not_a_callable_error__!(got)
+                self_call(var_name, [], binding)
               end
+            
+            # Making a private call
             else
-              self_call(f, node.children.dup, binding)
-            end
+              if knows?(f)
+                got = fed(f)
+                if got.respond_to?(:sbyc_call)
+                  got.sbyc_call(self, node.children.dup, binding)
+                else
+                  __not_a_callable_error__!(got)
+                end
+              else
+                self_call(f, node.children.dup, binding)
+              end
+          end
+        else
+          node
+        end
+      end
+      
+      # Ensures that a given argument is of specified accepted domains
+      def ensure_arg(arg, accepted_domains, binding, &error_handler)
+        if accepted_domains.include?(arg.class)
+          arg
+        elsif arg.kind_of?(CodeTree::AstNode)
+          ensure_arg(evaluate(arg, binding), accepted_domains, binding, &error_handler)
+        else
+          error_handler.call
+        end
+      end
+      
+      # Ensures that some arguments are of specific domain
+      def ensure_args(args, accepted_domains, binding, &error_handler)
+        unless args.size == accepted_domains.size
+          error_handler.call 
+        else
+          args.zip(accepted_domains).collect{|arg, domains|
+            ensure_arg(arg, domains, binding, &error_handler)
+          }
         end
       end
       

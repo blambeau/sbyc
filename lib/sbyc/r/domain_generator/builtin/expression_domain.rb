@@ -44,12 +44,12 @@ class SByC::R::DomainGenerator::Builtin
       end
       
       def sbyc_call(runner, args, binding)
-        runner.__selector_invocation_error__!(self, args) unless args.size == 1
+        args = runner.ensure_args(args, [ [ CodeTree::AstNode ] ], binding){
+          runner.__selector_invocation_error__!(self, args)
+        }
         case f = args.first
           when CodeTree::AstNode
             self.new(f)
-          else
-            runner.__selector_invocation_error__!(self, args)
         end
       end
       

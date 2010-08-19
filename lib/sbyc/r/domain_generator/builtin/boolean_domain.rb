@@ -25,18 +25,16 @@ class SByC::R::DomainGenerator::Builtin
     end
     
     def sbyc_call(runner, args, binding)
-      runner.__selector_invocation_error__!(self, args) unless args.size == 1
+      args = runner.ensure_args(args, [ [::TrueClass, ::FalseClass, ::String] ], binding){
+        runner.__selector_invocation_error__!(self, args)
+      }
       case f = args.first
-        when CodeTree::AstNode
-          sbyc_call(runner, [ runner.evaluate(f, binding) ], binding)
         when ::TrueClass, ::FalseClass
           f
         when 'true'
           true
         when 'false'
           false
-        else
-          runner.__selector_invocation_error__!(self, args)
       end
     end
     
