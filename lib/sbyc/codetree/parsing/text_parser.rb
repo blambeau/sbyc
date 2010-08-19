@@ -196,11 +196,11 @@ module SByC
         def parse_domain_generation
           index_backup = @index
           begin
-            generator = parse_domain_literal
+            generator = parse_regexp(DOMAIN_REGEXP, "domain")
             parse_string('<', true)
             args = parse_operator_args
             parse_string('>', true)
-            node(:'generate-domain', [ generator ] + args)
+            node(:"#{generator}Domain", args)
           rescue ParseError
             @index = index_backup
             raise
@@ -284,14 +284,14 @@ module SByC
         def parse_domain_generation_literal
           index_backup = @index
           begin
-            generator = resolve_domain(parse_regexp(DOMAIN_REGEXP, "domain"))
+            generator = parse_regexp(DOMAIN_REGEXP, "domain")
             if current_char != '<'
-              generator
+              resolve_domain(generator)
             else
               parse_string('<', true)
               args = parse_domain_generation_commalist
               parse_string('>', true)
-              node(:'generate-domain', [ generator ] + args)
+              node(:"#{generator}Domain", args)
             end
           rescue ParseError
             @index = index_backup

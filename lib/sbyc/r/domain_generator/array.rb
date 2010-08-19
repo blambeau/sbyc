@@ -34,7 +34,10 @@ module SByC
           of_domain, = runner.ensure_args(args, [ [ runner.fed(:Domain) ] ], binding){
             runner.__domain_generation_error__!(self, args)
           }
-          
+          @generated_by_domain ||= make_generation(of_domain, runner)
+        end
+        
+        def make_generation(of_domain, runner)
           # Build the domain
           domain = factor_domain_class([Array::ArrayDomain, Array::ArrayHierarchy])
           domain.of_domain = of_domain

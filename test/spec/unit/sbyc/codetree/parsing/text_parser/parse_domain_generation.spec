@@ -7,21 +7,21 @@ describe "CodeTree::Parsing::TextParser#parse_domain_generation" do
   describe "with SByC<Integer>" do
     let(:text){ "SByC<Integer>" }
     specify{ 
-      subject.to_s.should == "(generate-domain SByC, Integer)"
+      subject.to_s.should == "(SByCDomain Integer)"
     }
   end
   
   describe "with SByC<Integer, String>" do
     let(:text){ "SByC<Integer, String>" }
     specify{ 
-      subject.to_s.should == "(generate-domain SByC, Integer, String)"
+      subject.to_s.should == "(SByCDomain Integer, String)"
     }
   end
   
   describe "with SByC::CodeTree::AstNode<SByC::CodeTree>" do
     let(:text){ "SByC::CodeTree::AstNode<SByC::CodeTree>" }
     specify{ 
-      subject.to_s.should == "(generate-domain SByC::CodeTree::AstNode, SByC::CodeTree)"
+      subject.to_s.should == "(SByC::CodeTree::AstNodeDomain SByC::CodeTree)"
     }
   end
   

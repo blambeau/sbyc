@@ -18,18 +18,13 @@ class SByC::R::DomainGenerator::Builtin
         case f = node.function
           when :'_'
             node.literal
-          when :'generate-domain'
-            generator = collected.shift
-            generator.domain_generator.generate(str, *collected)
           when :fed
             system.fed(collected[0])
           else
-            __not_a_literal__!(self, str)
+            system.fed(f).sbyc_call(system, collected, {})
         end
       }
     rescue => ex
-      puts ex.message
-      puts ex.backtrace.join("\n")
       __not_a_literal__!(self, str)
     end
 

@@ -17,28 +17,28 @@ describe "CodeTree::Parsing::TextParser#parse_domain_generation_literal" do
   describe "when called on Array<String>" do
     let(:text){ "Array<String>" }
     specify{
-      subject.to_s.should == "(generate-domain Array, String)"
+      subject.to_s.should == "(ArrayDomain String)"
     }
   end
   
   describe "when called on Array<String>" do
     let(:text){ "Array<String, Integer>" }
     specify{
-      subject.to_s.should == "(generate-domain Array, String, Integer)"
+      subject.to_s.should == "(ArrayDomain String, Integer)"
     }
   end
   
   describe "when called on Array<SByC<Integer>>" do
     let(:text){ "Array<SByC<Integer>>" }
     specify{
-      subject.to_s.should == "(generate-domain Array, (generate-domain SByC, Integer))"
+      subject.to_s.should == "(ArrayDomain (SByCDomain Integer))"
     }
   end
   
   describe "when called on Array<SByC<Integer>, Array<Symbol>>" do
     let(:text){ "Array<SByC<Integer>, Array<Symbol>>" }
     specify{
-      subject.to_s.should == "(generate-domain Array, (generate-domain SByC, Integer), (generate-domain Array, Symbol))"
+      subject.to_s.should == "(ArrayDomain (SByCDomain Integer), (ArrayDomain Symbol))"
     }
   end
   
