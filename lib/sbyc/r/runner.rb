@@ -78,7 +78,7 @@ module SByC
       
       # Ensures that a given argument is of specified accepted domains
       def ensure_arg(arg, accepted_domains, binding, &error_handler)
-        if accepted_domains.include?(arg.class)
+        result = if accepted_domains.include?(arg.class)
           arg
         elsif arg.kind_of?(CodeTree::AstNode)
           ensure_arg(evaluate(arg, binding), accepted_domains, binding, &error_handler)
@@ -94,6 +94,11 @@ module SByC
         else
           error_handler.call
         end
+        if result.nil?
+          raise "Unexpected nil value when converting #{arg.inspect} with #{accepted_domains.inspect}"
+        else
+          result
+        end
       end
       
       # Ensures that some arguments are of specific domain
@@ -105,6 +110,11 @@ module SByC
             ensure_arg(arg, domains, binding, &error_handler)
           }
         end
+      end
+      
+      # Makes a direct call to a callable
+      def call(callable, args, binding = {})
+        evaluate(callable, binding).sbyc_call(self, args, binding)
       end
       
       # Making a self call
@@ -121,6 +131,11 @@ module SByC
           when :fed
             name, = ensure_args(args, [ [ ::Symbol ] ], binding, &error_handler)
             self.fed(name)
+            
+          when :call
+            who, arguments = ensure_args(args, [ [ ], [ ::Array ] ], binding, &error_handler)
+            who = who.kind_of?(::Symbol) ? fed(who) : who 
+            __assert_callable__!(who).sbyc_call(self, arguments, {})
             
           when :'ruby-send'
             method, receiver = ensure_args(args[0..1], [ [::Symbol ], [ ] ], binding, &error_handler)

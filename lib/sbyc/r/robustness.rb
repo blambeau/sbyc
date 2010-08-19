@@ -106,6 +106,11 @@ module SByC
           if arg1 == arg2
         true
       end
+      
+      def __assert_callable__!(who, cal = caller)
+        __not_a_callable_error__!(who, cal) unless who.respond_to?(:sbyc_call)
+        who
+      end
   
       extend(Robustness)
     end # module Robustness

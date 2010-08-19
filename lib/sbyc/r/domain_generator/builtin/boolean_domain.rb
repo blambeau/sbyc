@@ -35,6 +35,8 @@ class SByC::R::DomainGenerator::Builtin
           true
         when 'false'
           false
+        else
+          runner.__selector_invocation_error__!(self, args)
       end
     end
     

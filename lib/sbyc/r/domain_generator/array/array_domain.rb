@@ -44,9 +44,11 @@ class SByC::R::DomainGenerator::Array
     end
     
     def sbyc_call(runner, args, binding)
-      args = args.collect{|arg| runner.ensure_arg(arg, [ of_domain ], binding){
-        runner.__selector_invocation_error__!(self, args)
-      }}
+      args = args.collect{|arg| 
+        runner.ensure_arg(arg, [ of_domain ], binding){
+          runner.__selector_invocation_error__!(self, args)
+        }
+      }
       args
     end
     
