@@ -46,21 +46,37 @@ class SByC::R::DomainGenerator::Builtin
         end
       end
     
+      def sbyc_call(runner, args, binding)
+        error_handler = lambda{ __selector_invocation_error__!(self, args) }
+        names, domains = [], []
+        args.each_slice(2){|name, type|
+          names   << runner.ensure_arg(name, [ runner.fed(:Symbol) ], binding, &error_handler)
+          domains << runner.ensure_arg(type, [ runner.fed(:Domain) ], binding, &error_handler)
+        }
+        self.new(names, domains)
+      end
+    
     end
     module InstanceMethods
       
-      # Used hash
-      attr_reader :hash
+      # Names
+      attr_reader :names
+      
+      # Domains
+      attr_reader :domains
       
       # Creates a heading instance
-      def initialize(hash)
-        raise ArgumentError, "Hash expected git #{hash.inspect}" unless hash.kind_of?(::Hash)
-        @hash = hash
+      def initialize(names, domains)
+        @names, @domains = names, domains
+      end
+      
+      def sbyc_domain
+        self.class
       end
       
       def to_s
         buffer, first = "(Heading ", true
-        hash.each_pair{|k,v|
+        names.zip(domains).each{|k,v|
           buffer << ", " unless first 
           buffer << k.inspect << " " << v.sbyc_domain.to_literal(v)
           first = false
@@ -68,8 +84,8 @@ class SByC::R::DomainGenerator::Builtin
         buffer << ")"
         buffer
       end
+      alias :inspect :to_s
       
-      # Returns the domain of a given attribute 
       def domain_of(name, default = nil)
         res = (hash[name] || default)
         if res.nil?
@@ -79,8 +95,12 @@ class SByC::R::DomainGenerator::Builtin
         end
       end
       
+      def to_hash
+        Hash[*names.zip(domains).flatten]
+      end
+      
       def ==(other)
-        other.kind_of?(self.class) and other.hash == self.hash
+        other.kind_of?(self.class) && to_hash == other.to_hash
       end
       
     end
