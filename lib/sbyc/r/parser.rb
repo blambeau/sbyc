@@ -4,7 +4,7 @@ module SByC
 
       # Resolves a given domain
       def resolve_domain(str)
-        R::Domain.parse_literal(str)
+        literal_node(R::Domain.parse_literal(str))
       end
       
     end # class Parser

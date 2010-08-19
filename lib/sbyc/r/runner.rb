@@ -46,7 +46,11 @@ module SByC
           when ::CodeTree::AstNode
             coerce(evaluate(arg, binding), clazz, binding)
           else
-            __type_error__!("Unable to coerce #{arg.inspect} to a #{clazz}")
+            if clazz.nil?
+              arg
+            else
+              __undefined_operator__!(clazz.name.to_sym, [ arg ])
+            end
         end
       end
       
@@ -74,12 +78,12 @@ module SByC
             if knows?(f)
               got = fed(f)
               if got.respond_to?(:sbyc_call)
-                got.sbyc_call(self, node.children, binding)
+                got.sbyc_call(self, node.children.dup, binding)
               else
                 __not_a_callable_error__!(got)
               end
             else
-              self_call(f, node.children, binding)
+              self_call(f, node.children.dup, binding)
             end
         end
       end
@@ -87,6 +91,9 @@ module SByC
       # Making a self call
       def self_call(function, args, binding)
         case function
+          when :self
+            self
+            
           when :def
             __args_have_arity__!(:def, args, 2)
             name = coerce(args[0], ::Symbol, binding)
@@ -95,10 +102,18 @@ module SByC
               what = evaluate(what, binding) 
             end
             self.def(name, what)
+            
           when :fed
             __args_have_arity__!(:fed, args, 1)
             name = coerce(args[0], ::Symbol, binding)
             self.fed(name)
+            
+          when :'ruby-send'
+            method   = coerce(args.shift, ::Symbol, binding)
+            receiver = coerce(args.shift, nil, binding)
+            args     = args.collect{|arg| coerce(arg, nil, binding)}
+            receiver.send(method, *args)
+            
           else
             __undefined_operator__!(function, args)
         end

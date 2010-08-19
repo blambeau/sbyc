@@ -43,6 +43,16 @@ class SByC::R::DomainGenerator::Builtin
         end
       end
       
+      def sbyc_call(runner, args, binding)
+        runner.__selector_invocation_error__!(self, args) unless args.size == 1
+        case f = args.first
+          when CodeTree::AstNode
+            self.new(f)
+          else
+            runner.__selector_invocation_error__!(self, args)
+        end
+      end
+      
     end
     module InstanceMethods
       
@@ -54,22 +64,28 @@ class SByC::R::DomainGenerator::Builtin
         @ast = ast
       end
       
-      def to_hash(arg)
+      def to_binding(arg)
         case arg
-          when Hash
+          when NilClass
+            {}
+          when ::Hash
             arg
-          when Array
+          when ::Array
             context = {}
             arg.each_with_index{|a,i| context[:"$#{i}"] = a}
             context
           else
-            raise "Unable to convert #{arg} to a context"
+            raise "Unable to convert #{arg.inspect} to a context"
         end
       end
       
       # Evaluates this expression on a given context
       def evaluate(context = {})
-        self.class.system.evaluator(ast).evaluate(to_hash(context))
+        self.class.system.evaluator(ast).evaluate(to_binding(context))
+      end
+      
+      def sbyc_call(runner, args, binding)
+        runner.evaluate(ast, to_binding(args))
       end
       
       def to_s

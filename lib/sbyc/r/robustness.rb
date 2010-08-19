@@ -26,6 +26,9 @@ module SByC
       # Raised when an operator cannot be found
       class ::SByC::UndefinedOperatorError < ::SByC::Error; end
   
+      # Raised when an assertion fails
+      class ::SByC::AssertionError < ::SByC::Error; end
+  
       # Finds a ruby module by name or returns nil
       def __find_ruby_module__(name, start = ::Kernel)
         name = name.to_s.strip
@@ -85,6 +88,18 @@ module SByC
       def __args_have_arity__!(function, args, arity, cal = caller)
         raise ::SByC::SignatureError, "Signature mistmatch for (#{function} #{args.join(' ')})", cal\
           unless args.size == arity
+      end
+      
+      def __equal__!(arg1, arg2, cal = caller)
+        raise ::SByC::AssertionError, "Expected #{arg1.inspect}, got #{arg2.inspect}", cal\
+          unless arg1 == arg2
+        true
+      end
+  
+      def __not_equal__!(arg1, arg2, cal = caller)
+        raise ::SByC::AssertionError, "Expected #{arg1.inspect}, got #{arg2.inspect}", cal\
+          if arg1 == arg2
+        true
       end
   
       extend(Robustness)

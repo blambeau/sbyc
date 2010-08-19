@@ -91,7 +91,7 @@ module SByC
         # Resolves a given domain
         def resolve_domain(str)
           begin
-            Kernel.eval(str)
+            literal_node(Kernel.eval(str))
           rescue Exception 
             str.to_sym
           end
@@ -278,7 +278,7 @@ module SByC
         end
         
         def parse_domain_literal
-          literal_node(resolve_domain(parse_regexp(DOMAIN_REGEXP, "domain")))
+          resolve_domain(parse_regexp(DOMAIN_REGEXP, "domain"))
         end
         
         def parse_domain_generation_literal
@@ -286,12 +286,12 @@ module SByC
           begin
             generator = resolve_domain(parse_regexp(DOMAIN_REGEXP, "domain"))
             if current_char != '<'
-              literal_node(generator)
+              generator
             else
               parse_string('<', true)
               args = parse_domain_generation_commalist
               parse_string('>', true)
-              node(:'generate-domain', [ literal_node(generator) ] + args)
+              node(:'generate-domain', [ generator ] + args)
             end
           rescue ParseError
             @index = index_backup
