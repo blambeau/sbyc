@@ -28,29 +28,11 @@ class SByC::R::DomainGenerator::Builtin
       "(Date #{value.to_s.inspect})"
     end
     
-    # Coerces a string to a time
-    def coerce(x)
-      if is_value?(x)
-        x
-      elsif x.kind_of?(::String)
-        begin 
-          ::Date::parse(x)
-        rescue 
-          parse_literal(x)
-        end
-      else
-        super
-      end
-    end
-    
     def call_signature
       @call_signature ||= [ [ ::Date, ::String ] ]
     end
     
-    def sbyc_call(runner, args, binding)
-      args = runner.ensure_args(args, call_signature, binding){
-        runner.__selector_invocation_error__!(self, args)
-      }
+    def coerce(runner, args, binding)
       case f = args.first
         when ::Date
           f
@@ -58,10 +40,10 @@ class SByC::R::DomainGenerator::Builtin
           begin 
             ::Date::parse(f)
           rescue => ex 
-            runner.__selector_invocation_error__!(self, args)
+            call_error(runner, args, binding)
           end
         else
-          runner.__selector_invocation_error__!(self, args)
+          call_error(runner, args, binding)
       end
     end
     

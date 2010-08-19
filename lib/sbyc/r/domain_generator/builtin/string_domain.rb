@@ -36,10 +36,7 @@ class SByC::R::DomainGenerator::Builtin
       @call_signature ||= [[]]
     end
     
-    def sbyc_call(runner, args, binding)
-      args = runner.ensure_args(args, call_signature, binding){
-        __selector_invocation_error__!(self, args)
-      }
+    def coerce(runner, args, binding)
       args.first.to_s
     end
     

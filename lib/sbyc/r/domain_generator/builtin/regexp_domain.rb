@@ -26,28 +26,11 @@ class SByC::R::DomainGenerator::Builtin
       value.inspect
     end
     
-    def coerce(x)
-      if is_value?(x)
-        x
-      elsif x.kind_of?(::String)
-        begin
-          ::Regexp::compile(x)
-        rescue
-          parse_literal(x)
-        end
-      else
-        super
-      end
-    end
-    
     def call_signature
       @call_signature ||= [ [::Regexp, ::String] ]
     end
     
-    def sbyc_call(runner, args, binding)
-      args = runner.ensure_args(args, call_signature, binding){
-        runner.__selector_invocation_error__!(self, args)
-      }
+    def coerce(runner, args, binding)
       case f = args.first
         when ::Regexp
           f
@@ -55,10 +38,10 @@ class SByC::R::DomainGenerator::Builtin
           begin
             ::Regexp::compile(f)
           rescue
-            runner.__selector_invocation_error__!(self, args)
+            call_error(runner, args, binding)
           end
         else
-          runner.__selector_invocation_error__!(self, args)
+          call_error(runner, args, binding)
       end
     end
     

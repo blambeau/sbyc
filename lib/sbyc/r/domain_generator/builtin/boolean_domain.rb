@@ -24,15 +24,11 @@ class SByC::R::DomainGenerator::Builtin
       value == true ? "true" : "false"
     end
     
-    # Returns signature for this call
     def call_signature
       @call_signature ||= [ [::TrueClass, ::FalseClass, ::String] ]
     end
     
-    def sbyc_call(runner, args, binding)
-      args = runner.ensure_args(args, call_signature, binding){
-        runner.__selector_invocation_error__!(self, args)
-      }
+    def coerce(runner, args, binding)
       case f = args.first
         when ::TrueClass, ::FalseClass
           f
@@ -41,7 +37,7 @@ class SByC::R::DomainGenerator::Builtin
         when 'false'
           false
         else
-          runner.__selector_invocation_error__!(self, args)
+          call_error(runner, args, binding)
       end
     end
     

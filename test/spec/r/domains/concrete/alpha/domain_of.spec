@@ -40,7 +40,7 @@ describe "R::Alpha::domain_of" do
   }
   
   it "should raise a TypeError when the value is unknown" do
-    lambda{ R::Alpha::domain_of(Object.new) }.should raise_error(SByC::TypeError)
+    lambda{ R::Alpha::domain_of(Object.new) }.should raise_error(SByC::SelectorInvocationError)
   end
     
 end

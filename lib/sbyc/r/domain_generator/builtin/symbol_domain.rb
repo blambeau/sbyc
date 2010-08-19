@@ -26,28 +26,11 @@ class SByC::R::DomainGenerator::Builtin
       value.inspect
     end
     
-    def coerce(x)
-      if is_value?(x)
-        x
-      elsif x.kind_of?(::String)
-        if x[0, 1] == ':'
-          parse_literal(x)
-        else
-          x.to_sym
-        end
-      else
-        super
-      end
-    end
-    
     def call_signature
       @call_signature ||= [ [::Symbol, ::String] ]
     end
     
-    def sbyc_call(runner, args, binding)
-      args = runner.ensure_args(args, call_signature, binding){
-        runner.__selector_invocation_error__!(self, args)
-      }
+    def coerce(runner, args, binding)
       case f = args.first
         when ::Symbol
           f
@@ -55,10 +38,10 @@ class SByC::R::DomainGenerator::Builtin
           unless f.strip.empty?
             f.strip.to_sym
           else
-            runner.__selector_invocation_error__!(self, args)
+            call_error(runner, args, binding)
           end
         else
-          runner.__selector_invocation_error__!(self, args)
+          call_error(runner, args, binding)
       end
     end
     

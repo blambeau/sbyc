@@ -49,7 +49,11 @@ class SByC::R::DomainGenerator::Builtin
       name = value.domain_name.to_s
       (name =~ /^SByC::R::(.*)$/) ? $1 : name
     end
-
+      
+    def call_signature
+      @call_signature ||= [ [::Class, ::String, ::Symbol] ]
+    end
+    
     RUBY_TO_R = {
       'Fixnum'     => :Integer,
       'Bignum'     => :Integer,
@@ -57,39 +61,20 @@ class SByC::R::DomainGenerator::Builtin
       'TrueClass'  => :Boolean,
       'Array'      => :Array
     }
-    def coerce(x)
-      if is_value?(x)
-        return x 
-      elsif x.kind_of?(::Class)
-        parse_literal(RUBY_TO_R[x.name.to_s] || x.name)
-      elsif x.kind_of?(::String)
-        parse_literal(RUBY_TO_R[x] || x)
-      else 
-        super
-      end
-    end
-      
-    def call_signature
-      @call_signature ||= [ [::Class, ::String, ::Symbol] ]
-    end
-    
-    def sbyc_call(runner, args, binding)
-      args = runner.ensure_args(args, call_signature, binding){
-        runner.__selector_invocation_error__!(self, args)
-      }
+    def coerce(runner, args, binding)
       case f = args.first
         when ::Class
           if f.respond_to?(:sbyc_domain) && f.sbyc_domain == runner.fed(:Domain)
             f
           else
-            sbyc_call(runner, [ RUBY_TO_R[x.name.to_s] || x.name ], binding)
+            coerce(runner, [ RUBY_TO_R[f.name.to_s] || f.name ], binding)
           end
         when ::String
-          sbyc_call(runner, [ f.to_sym ], binding)
+          coerce(runner, [ f.to_sym ], binding)
         when ::Symbol
-          sbyc_call(runner, [ runner.fed(f) ], binding)
+          coerce(runner, [ runner.fed(f) ], binding)
         else
-          runner.__selector_invocation_error__!(self, args)
+          call_error(runner, args, binding)
       end
     end
     

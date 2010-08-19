@@ -33,17 +33,14 @@ class SByC::R::DomainGenerator::Builtin
       @call_signature ||= [ [::Fixnum, ::Bignum, ::String] ]
     end
       
-    def sbyc_call(runner, args, binding)
-      args = runner.ensure_args(args, call_signature, binding){
-        runner.__selector_invocation_error__!(self, args)
-      }
+    def coerce(runner, args, binding)
       case f = args.first
         when ::Integer
           f
         when /^[-+]?[0-9]+$/
           f.to_s.to_i
         else
-          runner.__selector_invocation_error__!(self, args)
+          call_error(runner, args, binding)
       end
     end
     
