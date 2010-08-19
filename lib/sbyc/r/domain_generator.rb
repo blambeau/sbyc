@@ -1,6 +1,7 @@
 module SByC
   module R
     class DomainGenerator
+      include R::Callable
       
       # System under which this generator is installed
       attr_reader :system
@@ -48,17 +49,6 @@ module SByC
         domain.add_immediate_sub_domain(sub_domain)
         sub_domain.add_immediate_super_domain(domain)
         sub_domain
-      end
-        
-      def call_error(runner, args, binding)
-        runner.__domain_generation_error__!(self, args)
-      end
-        
-      def sbyc_call(runner, args, binding)
-        args = runner.ensure_args(args, call_signature(runner, args, binding), binding){
-          runner.__domain_generation_error__!(self, args)
-        }
-        coerce(runner, args, binding)
       end
         
     end # class DomainGenerator

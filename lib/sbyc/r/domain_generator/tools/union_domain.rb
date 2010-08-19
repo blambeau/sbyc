@@ -37,7 +37,7 @@ module SByC::R::DomainGenerator::Tools
       immediate_sub_domains.each{|sub|
         begin
           return sub.sbyc_call(runner, args, binding, &block)
-        rescue SByC::SelectorInvocationError
+        rescue SByC::Error
         end
       }
       __selector_invocation_error__!(self, args)
