@@ -12,12 +12,17 @@ module SByC
       # Installs the runner
       def __install__
         self.def(:BuiltinDomain, R::DomainGenerator::Builtin.new(self))
+        self.def(:ArrayDomain,   R::DomainGenerator::Array.new(self))
+      end
+      
+      def looks_a_domain?(d)
+        d.kind_of?(::Class) && d.respond_to?(:sbyc_domain)
       end
       
       # Makes a definition
       def def(name, what)
         @definitions[name] = what
-        if what.kind_of?(::Class) and what.respond_to?(:sbyc_domain)
+        if looks_a_domain?(what)
           what.instance_eval{ @sbyc_name = name }
         end
         what
@@ -79,6 +84,13 @@ module SByC
           ensure_arg(evaluate(arg, binding), accepted_domains, binding, &error_handler)
         elsif accepted_domains.empty?
           arg
+        elsif accepted_domains.size == 1
+          requested_domain = accepted_domains.first
+          if looks_a_domain?(requested_domain)
+            requested_domain.sbyc_call(self, [ arg ], binding)
+          else
+            error_handler.call
+          end
         else
           error_handler.call
         end
