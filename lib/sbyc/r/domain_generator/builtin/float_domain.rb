@@ -51,6 +51,8 @@ class SByC::R::DomainGenerator::Builtin
           f.to_f
         when /^[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/
           f.to_s.to_f
+        else
+          runner.__selector_invocation_error__!(self, args)
       end
     end
     

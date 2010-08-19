@@ -88,6 +88,8 @@ class SByC::R::DomainGenerator::Builtin
           sbyc_call(runner, [ f.to_sym ], binding)
         when ::Symbol
           sbyc_call(runner, [ runner.fed(f) ], binding)
+        else
+          runner.__selector_invocation_error__!(self, args)
       end
     end
     

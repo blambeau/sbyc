@@ -56,6 +56,8 @@ class SByC::R::DomainGenerator::Builtin
           rescue => ex 
             runner.__selector_invocation_error__!(self, args)
           end
+        else
+          runner.__selector_invocation_error__!(self, args)
       end
     end
     

@@ -38,6 +38,8 @@ class SByC::R::DomainGenerator::Builtin
           f
         when /^[-+]?[0-9]+$/
           f.to_s.to_i
+        else
+          runner.__selector_invocation_error__!(self, args)
       end
     end
     

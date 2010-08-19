@@ -53,6 +53,8 @@ class SByC::R::DomainGenerator::Builtin
           else
             runner.__selector_invocation_error__!(self, args)
           end
+        else
+          runner.__selector_invocation_error__!(self, args)
       end
     end
     
