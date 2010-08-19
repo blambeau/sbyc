@@ -31,25 +31,16 @@ class SByC::R::DomainGenerator::Builtin
         value.to_s
       end
     
-      def coerce(x)
-        if is_value?(x)
-          x
-        elsif x.kind_of?(::String)
-          parse_literal(x)
-        elsif x.kind_of?(CodeTree::AstNode)
-          self.new(x)
-        else
-          super
-        end
+      def call_signature
+        [ [ CodeTree::AstNode ] ]
       end
       
-      def sbyc_call(runner, args, binding)
-        args = runner.ensure_args(args, [ [ CodeTree::AstNode ] ], binding){
-          runner.__selector_invocation_error__!(self, args)
-        }
+      def coerce(runner, args, binding)
         case f = args.first
           when CodeTree::AstNode
             self.new(f)
+          else
+            call_error(runner, args, binding)
         end
       end
       
