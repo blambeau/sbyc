@@ -24,8 +24,13 @@ class SByC::R::DomainGenerator::Builtin
       value == true ? "true" : "false"
     end
     
+    # Returns signature for this call
+    def call_signature
+      @call_signature ||= [ [::TrueClass, ::FalseClass, ::String] ]
+    end
+    
     def sbyc_call(runner, args, binding)
-      args = runner.ensure_args(args, [ [::TrueClass, ::FalseClass, ::String] ], binding){
+      args = runner.ensure_args(args, call_signature, binding){
         runner.__selector_invocation_error__!(self, args)
       }
       case f = args.first

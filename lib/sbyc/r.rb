@@ -1,5 +1,6 @@
 require 'time'
 require 'date'
+require 'enumerator'
 require 'sbyc/r/robustness'
 require 'sbyc/r/parser'
 require 'sbyc/r/abstract_domain'

@@ -29,8 +29,12 @@ class SByC::R::DomainGenerator::Builtin
       value.inspect
     end
   
+    def call_signature
+      @call_signature ||= [ [::Fixnum, ::Bignum, ::String] ]
+    end
+      
     def sbyc_call(runner, args, binding)
-      args = runner.ensure_args(args, [ [::Fixnum, ::Bignum, ::String] ], binding){
+      args = runner.ensure_args(args, call_signature, binding){
         runner.__selector_invocation_error__!(self, args)
       }
       case f = args.first
