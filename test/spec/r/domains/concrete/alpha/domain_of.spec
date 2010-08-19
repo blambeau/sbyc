@@ -3,12 +3,6 @@ describe "R::Alpha::domain_of" do
   
   let(:R){ SByC::Fixtures::R }
   
-  SByC::Fixtures::R::DOMAINS.each{|i|
-    it "should recognize #{i}" do
-      R::Alpha::domain_of(i).should == R::Domain
-    end
-  }
-  
   SByC::Fixtures::R::BOOLEANS.each{|i|
     it "should recognize #{i}" do
       R::Alpha::domain_of(i).should == R::Boolean

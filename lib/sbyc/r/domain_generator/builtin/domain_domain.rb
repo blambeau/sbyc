@@ -2,17 +2,13 @@ class SByC::R::DomainGenerator::Builtin
   module DomainDomain
     
     def exemplars
-      [ system::Alpha, system::Domain, system::Boolean ]
+      [ system.fed(:Alpha), system.fed(:Domain), system.fed(:Boolean) ]
     end
     
     def is_value?(value)
       value.respond_to?(:sbyc_domain) and value.sbyc_domain == self
     end
     
-    def values
-      system::domains
-    end
-
     def decode_domain_generation(str)
       R::parse(str, :parse_method => :parse_domain_generation_literal).visit{|node, collected|
         case f = node.function
@@ -31,8 +27,13 @@ class SByC::R::DomainGenerator::Builtin
     def parse_literal(str)
       if str.to_s[-1, 1] == ">"
         decode_domain_generation(str)
-      elsif str.kind_of?(::String) && !str.empty? && system.domains_hash.key?(str.to_sym)
-        system.domains_hash[str.to_sym]
+      elsif str.kind_of?(::String) && !str.empty?
+        got = system.fed(str.to_sym)
+        if got.nil?
+          __not_a_literal__!(self, str)
+        else
+          got
+        end
       else
         found = __find_ruby_module__(str, SByC::R)
         found = __find_ruby_module__(str) unless found

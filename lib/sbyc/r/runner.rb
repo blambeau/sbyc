@@ -9,6 +9,10 @@ module SByC
         __install__
       end
       
+      def each_global(&block)
+        @definitions.each_pair(&block)
+      end
+      
       # Installs the runner
       def __install__
         self.def(:BuiltinDomain, R::DomainGenerator::Builtin.new(self))

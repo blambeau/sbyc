@@ -15,20 +15,4 @@ describe "R" do
     R.domains.include?(R::Boolean).should be_true
   end
   
-  R::domains.each{|i|
-    describe "Domain #{i}" do
-      let(:subject){ i }
-      it_should_behave_like("A domain")
-    end
-  }
-  
-  Dir[File.expand_path('../r_scripts/**/*.r', __FILE__)].each{|f|
-    it "should run #{f} without errors" do
-      runner = R::SpecRunner.new
-      runner.run(File.read(f))
-      puts "\n#{runner}"
-      runner.should_not have_failure
-    end
-  }
-  
 end

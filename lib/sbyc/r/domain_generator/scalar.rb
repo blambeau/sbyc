@@ -3,14 +3,6 @@ module SByC
     class DomainGenerator
       class Scalar < DomainGenerator
         
-        def domain_name_of(domain)
-          domain.domain_name
-        end
-        
-        def selector_signature(domain)
-          R::Operator::Signature::plus(system::Symbol, system::Alpha)
-        end
-        
         def generate(name, heading)
           domain = factor_domain_class([Scalar::ScalarDomain])
           domain.heading = heading

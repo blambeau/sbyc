@@ -34,15 +34,6 @@ module SByC
         end
         
         #
-        # Returns the signature to use for the selector.
-        #
-        # @returns [Signature] a signature.
-        #
-        def selector_signature
-          @domain_generator.selector_signature(self)
-        end
- 
-        #
         # Returns the domain name.
         #
         # @return [String] domain's name
@@ -140,26 +131,6 @@ module SByC
           raise NotImplementedError, "Class #{self} should implement to_literal"
         end
       
-        # 
-        # Coerces an object _x_ to a value of the domain. 
-        #
-        # @param [Object] x any object. 
-        # @return [Object] a value of the domain.
-        # @raise TypeError if _x_ cannot be coerced to this domain.
-        #
-        # @post Returned value is such that <code>is_value?(returned)</code> 
-        #       is true
-        #
-        def coerce(x)
-          if is_value?(x)
-            x
-          elsif x.kind_of?(::String)
-            parse_literal(x)
-          else
-            __not_a_literal__!(self, x)
-          end
-        end
-        
         #
         # Inspects this domain, returning a valid R expression.
         #

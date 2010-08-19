@@ -3,6 +3,8 @@ module SByC
   module Fixtures
     module R
       
+      SByC::R::install_on_self
+      
       BOOLEANS = [true, false]
       FIXNUMS  = [ -(2**(0.size * 8 - 2)), -1, 0, 1, 10, (2**(0.size * 8 - 2) - 1)]
       BIGNUMS  = [ -(2**(0.size * 8 - 2)) - 1, (2**(0.size * 8 - 2)) ]
@@ -13,9 +15,9 @@ module SByC
       DATES    = [ Date.today ]
       SYMBOLS  = [ :var, :something_with_underscores, :'s#', :hello, :"s-b-y-c", :"12" ]
       REGEXPS  = [ /a-z/, /^$/, /\s*/, /[a-z]{15}/ ]
-      MODULES  = [ SByC, SByC::R, SByC::R::Boolean ]
-      DOMAINS  = SByC::R.domains
-      DOMAIN_NAMES = [ 'Boolean', 'Domain', 'SByC::R::Integer' ]
+      MODULES  = [ SByC, SByC::R, SByC::R::Robustness ]
+      DOMAINS  = SByC::R::domains
+      DOMAIN_NAMES = DOMAINS.collect{|d| d.domain_name}
       
       # Yields each value
       def self.each_value(&block)

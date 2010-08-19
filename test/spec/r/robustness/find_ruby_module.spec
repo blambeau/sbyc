@@ -12,7 +12,7 @@ describe "SByC::R::Robustness.find_ruby_module" do
   end
   
   describe 'with a specifc start (SByC)' do
-    ['R::Robustness', 'R::Boolean'].each{|i|
+    ['R::Robustness'].each{|i|
       it("should correctly resolve #{i.inspect}") do 
         real = Kernel.eval("SByC::#{i}")
         got  = r.__find_ruby_module__(i, SByC)

@@ -5,20 +5,6 @@ describe "R::Domain.parse_literal" do
     R::Domain.parse_literal('Boolean').should == R::Boolean
   end
   
-  it "should support resolving R generated domains" do
-    decoded = R::Domain.parse_literal('Array<Boolean>')
-    decoded.should_not be_nil
-    decoded.sbyc_domain.should == R::Domain
-    decoded.of_domain.domain_name.should == :Boolean
-    decoded.domain_generator.class.should == SByC::R::DomainGenerator::Array
-  end
-  
-  SByC::Fixtures::R::DOMAINS.each{|i|
-    it "should not raise error on #{i.inspect}" do
-      R::Domain.parse_literal(R::Domain.to_literal(i)).should == i
-    end
-  }
-  
   SByC::Fixtures::R::DOMAIN_NAMES.each{|i|
     it "should correctly resolve #{i.inspect}" do
       got = R::Domain.parse_literal(i)
@@ -27,6 +13,19 @@ describe "R::Domain.parse_literal" do
     end
   }
 
+  SByC::Fixtures::R::DOMAINS.each{|i|
+    it "should not raise error on #{i.inspect}" do
+      R::Domain.parse_literal(R::Domain.to_literal(i)).should == i
+    end
+  }
+
+  it "should support resolving R generated domains" do
+    decoded = R::Domain.parse_literal('Array<Boolean>')
+    decoded.should_not be_nil
+    decoded.sbyc_domain.should == R::Domain
+    decoded.of_domain.domain_name.should == :Boolean
+    decoded.domain_generator.class.should == SByC::R::DomainGenerator::Array
+  end
   
   [nil, '', "10lqsh", 0.0, -1.0].each{|bad|
     it "should reject #{bad.inspect}" do

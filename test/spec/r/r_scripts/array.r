@@ -1,6 +1,0 @@
-(should (is-a? Array<Alpha> (Array "blambeau", 12))
-        (eq true))
-(should (is-a? Array<Numeric> (Array "blambeau", 12))
-        (eq false))
-(should (is-a? Array<Numeric> (Array 1.0, 12))
-        (eq true))

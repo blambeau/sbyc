@@ -3,20 +3,6 @@ module SByC
     class DomainGenerator
       class Builtin < DomainGenerator
         
-        def selector_signature(domain)
-          R::Operator::Signature.single(system::Alpha)
-        end
-        
-        def domain_name_of(domain)
-          # TODO: remove this R 
-          (domain.name.to_s =~ /^SByC::R::(.*)$/) ? $1.to_sym : domain.name.to_s.to_sym
-        end
-        
-        def generate(name, modules = [])
-          modules = [ self.class.const_get(:"#{name}Domain") ] + modules
-          factor_domain_class(modules)
-        end
-        
         def sbyc_call(runner, args, binding)
           signature = args.size == 1 ? [ [ ::Symbol ] ] : [ [ ::Symbol ], [ ::Class ] ]
           args = runner.ensure_args(args, signature, binding){
