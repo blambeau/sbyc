@@ -3,11 +3,11 @@ module SByC
     class DomainGenerator
       class Builtin < DomainGenerator
         
-        def sbyc_call(runner, args, binding)
-          signature = args.size == 1 ? [ [ ::Symbol ] ] : [ [ ::Symbol ], [ ::Class ] ]
-          args = runner.ensure_args(args, signature, binding){
-            runner.__domain_generation_error__!(self, args)
-          }
+        def call_signature(runner, args, binding)
+          args.size == 1 ? [ [ ::Symbol ] ] : [ [ ::Symbol ], [ ::Class ] ]
+        end
+        
+        def coerce(runner, args, binding)
           name, super_domain = args
 
           # Build the domain

@@ -12,14 +12,12 @@ module SByC
           raise NotImplementedError, "Unable to refine array domains"
         end
         
-        def call_signature(runner)
+        def call_signature(runner, args, binding)
           @call_signature ||= [ [ runner.fed(:Domain) ] ]
         end
 
-        def sbyc_call(runner, args, binding)
-          of_domain, = runner.ensure_args(args, call_signature(runner), binding){
-            runner.__domain_generation_error__!(self, args)
-          }
+        def coerce(runner, args, binding)
+          of_domain = args.first
           @generated_by_subdomain[of_domain] ||= make_generation(of_domain, runner)
         end
         

@@ -5,7 +5,6 @@ module SByC
       # System under which this generator is installed
       attr_reader :system
       
-      # Creates a generator for a given system
       def initialize(system)
         @system = system
       end
@@ -20,15 +19,11 @@ module SByC
         clazz
       end
       
-      # Factors a class with class methods and instance methods
       def factor_class(class_methods = [], instance_methods = [])
         populate_class(Class.new, class_methods, instance_methods)
       end
       
-      # Split domain modules against ClassMethods/InstanceMethods
-      # separation.
       def split_domain_modules(modules)
-        # split against ClassMethods/InstanceMethods distinction
         class_modules, instance_modules = [], []
         modules.flatten.each{|mod|
           if mod.const_defined?(:ClassMethods)
@@ -43,7 +38,6 @@ module SByC
         [class_modules, instance_modules]
       end
       
-      # Factors a domain class
       def factor_domain_class(modules)
         clazz = factor_class(*split_domain_modules([R::AbstractDomain]+modules))
         clazz.domain_generator = self
@@ -54,6 +48,17 @@ module SByC
         domain.add_immediate_sub_domain(sub_domain)
         sub_domain.add_immediate_super_domain(domain)
         sub_domain
+      end
+        
+      def call_error(runner, args, binding)
+        runner.__domain_generation_error__!(self, args)
+      end
+        
+      def sbyc_call(runner, args, binding)
+        args = runner.ensure_args(args, call_signature(runner, args, binding), binding){
+          runner.__domain_generation_error__!(self, args)
+        }
+        coerce(runner, args, binding)
       end
         
     end # class DomainGenerator

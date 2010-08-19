@@ -26,7 +26,7 @@ class SByC::R::DomainGenerator::Builtin
       value.inspect
     end
     
-    def call_signature(runner)
+    def call_signature(runner, args, binding)
       @call_signature ||= [ [::Regexp, ::String] ]
     end
     

@@ -50,7 +50,7 @@ class SByC::R::DomainGenerator::Builtin
       (name =~ /^SByC::R::(.*)$/) ? $1 : name
     end
       
-    def call_signature(runner)
+    def call_signature(runner, args, binding)
       @call_signature ||= [ [::Class, ::String, ::Symbol] ]
     end
     
