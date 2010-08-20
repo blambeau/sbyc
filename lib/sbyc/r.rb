@@ -1,6 +1,7 @@
 require 'time'
 require 'date'
 require 'enumerator'
+require 'sbyc/r/core_ext'
 require 'sbyc/r/robustness'
 require 'sbyc/r/callable'
 require 'sbyc/r/parser'
@@ -16,20 +17,24 @@ module SByC
     
     def install_on_self
       runner = self_runner
-      runner.each_global{|name, global|
-        if name.to_s =~ /^[A-Z]/
-          const_set(name, global)
-        end
+      runner.with_namespace(:Core){|n|
+        n.each_pair{|name, global|
+          if name.to_s =~ /^[A-Z]/
+            const_set(name, global)
+          end
+        }
       }
     end
     
     def domains
       runner = self_runner
       domains = []
-      runner.each_global{|name, global|
-        if runner.looks_a_domain?(global)
-          domains << global
-        end
+      runner.with_namespace(:Core){|n|
+        n.each_pair{|name, global|
+          if runner.looks_a_domain?(global)
+            domains << global
+          end
+        }
       }
       domains
     end

@@ -17,11 +17,12 @@ def print(value)
   $runner.fed(:Alpha).domain_of(value).to_literal(value)
 end
 
-if ARGV.size == 1
-  exprs = ::SByC::R::parse(File.read(ARGV[0]), :multiline => true)
-  value = nil
-  exprs.each{|expr| value = evaluate(expr) }
-  puts print(value)
+if ARGV.size >= 1
+  ARGV.each{|file|
+    puts "Running #{file}"
+    $runner.file_execute(ARGV[0])
+  }
+  puts "All seems ok"
 else
   require 'readline'
   stop = false

@@ -1,0 +1,49 @@
+(namespace :String)
+
+(wrap-ruby-unary-operator String :capitalize)
+(wrap-ruby-unary-operator String :downcase)
+(wrap-ruby-unary-operator String :reverse)
+(wrap-ruby-unary-operator String :rstrip)
+(wrap-ruby-unary-operator String :strip)
+(wrap-ruby-unary-operator String :upcase)
+
+# TODO: this one could return a nil value
+(defop :at 
+  (Heading :operand String :index Integer)
+  String
+  (ruby-send :[] operand index 1))
+  
+(defop :center
+  (Heading :operand String :length Integer)
+  String
+  (ruby-send :center operand length))
+
+(defop :concat
+  (Heading :strings Array<String>)
+  String
+  (ruby-send :join strings))
+  
+(defop :empty?
+  (Heading :operand String)
+  Boolean
+  (ruby-send :empty? operand))
+  
+(defop :include?
+  (Heading :operand String :substring String)
+  Boolean
+  (ruby-send :include? operand substring))
+  
+(defop :length
+  (Heading :operand String)
+  Integer
+  (ruby-send :length operand))
+
+(defop :matches?
+  (Heading :operand String, :regexp Regexp)
+  Boolean
+  (ruby-send :=== regexp operand))
+  
+(defop :times
+  (Heading :operand String :nb Integer)
+  String
+  (ruby-send :* operand nb))

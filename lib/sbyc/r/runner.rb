@@ -15,6 +15,9 @@ module SByC
         @namespaces = {:core => R::System::Core.new(self)}
         @opened_namespaces = [ @namespaces[:core] ]
         file_execute(File.expand_path('../system/core.elo', __FILE__))
+        file_execute(File.expand_path('../system/boolean.elo', __FILE__))
+        file_execute(File.expand_path('../system/numeric.elo', __FILE__))
+        file_execute(File.expand_path('../system/string.elo', __FILE__))
       end
       
       ### About namespaces ####################################################
@@ -91,7 +94,9 @@ module SByC
       # Executes a whole file
       def file_execute(file)
         exprs = parse(File.read(file), {:multiline => true})
-        exprs.each{|expr| value = evaluate(expr) }
+        result = nil
+        exprs.each{|expr| result = evaluate(expr)}
+        result
       end
     
       # Makes an evaluation

@@ -1,0 +1,16 @@
+(namespace :Boolean)
+
+(defop :complement
+       (Heading :operand Boolean)
+       Boolean
+       (ruby-send :sbyc_complement operand))
+       
+(defop :or
+       (Heading :left Boolean :right Boolean)
+       Boolean
+       (ruby-send :| left right))
+
+(defop :and
+       (Heading :left Boolean :right Boolean)
+       Boolean
+       (ruby-send :& left right))
