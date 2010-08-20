@@ -73,14 +73,13 @@ class SByC::R::DomainGenerator::Builtin
         end
       end
       
-      # Evaluates this expression on a given context
-      def evaluate(context = {})
-        self.class.system.evaluator(ast).evaluate(to_binding(context))
+      # Builds a ruby proc object
+      def to_ruby_proc(runner)
+        lambda{|*args| runner.evaluate(ast, to_binding(args)) }
       end
       
       def sbyc_call(runner, args, binding)
-        b = binding.merge(to_binding(args))
-        runner.evaluate(ast, b)
+        runner.evaluate(ast, binding.merge(to_binding(args)))
       end
       
       def to_s

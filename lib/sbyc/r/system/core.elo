@@ -32,3 +32,9 @@
           (defop $1 (Heading :operand $0) $0 (ruby-send $1 operand)))
 (defmacro :"wrap-ruby-dyadic-operator"
           (defop $1 (Heading :left $0 :right $0) $0 (ruby-send $1 left right)))
+
+# Master operators on Alpha
+(defop :equals? 
+       (Heading :left Alpha :right Alpha)
+       Boolean
+       (ruby-send :== left right))

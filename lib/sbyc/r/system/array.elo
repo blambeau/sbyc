@@ -1,0 +1,6 @@
+(namespace :Array)
+
+(defop :collect
+       (Heading :operand Array :fn Expression)
+       Array
+       (ruby-send :collect operand fn))

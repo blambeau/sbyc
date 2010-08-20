@@ -14,7 +14,12 @@ module SByC
               call_error(runner, args, binding)
             }
             call_args = args[2..-1].collect{|arg| runner.ensure_arg(arg, [], binding)}
-            receiver.send(method, *call_args)
+            if call_args.last.class == runner.fed(:Expression)
+              proc = call_args.last.to_ruby_proc(runner)
+              receiver.send(method, *call_args[0...-1], &proc)
+            else
+              receiver.send(method, *call_args)
+            end
           end
           
         end # class RubySendCallable

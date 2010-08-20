@@ -19,6 +19,7 @@ module SByC
         file_execute(File.expand_path('../system/boolean.elo', __FILE__))
         file_execute(File.expand_path('../system/numeric.elo', __FILE__))
         file_execute(File.expand_path('../system/string.elo', __FILE__))
+        file_execute(File.expand_path('../system/array.elo', __FILE__))
       end
       
       ### About namespaces ####################################################
