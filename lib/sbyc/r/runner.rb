@@ -39,9 +39,13 @@ module SByC
       def with_namespace(name, create = true, &block)
         if namespaces.key?(name)
           n = namespaces[name]
-          push_namespace(n)
-          block.call(n)
-          pop_namespace
+          if block
+            push_namespace(n)
+            block.call(n)
+            pop_namespace
+          else
+            push_namespace(n)
+          end
         elsif create
           namespaces[name] = Namespace.new(self, name)
           with_namespace(name, false, &block)
@@ -92,7 +96,9 @@ module SByC
     
       # Makes an evaluation
       def evaluate(node, binding = {})
-        if node.kind_of?(CodeTree::AstNode)
+        unless node.kind_of?(CodeTree::AstNode)
+          node
+        else
           case f = node.function
 
             # Resolving a true literal
@@ -125,8 +131,6 @@ module SByC
                 __undefined_operator__!(f, node.children)
               end
           end
-        else
-          node
         end
       end
       

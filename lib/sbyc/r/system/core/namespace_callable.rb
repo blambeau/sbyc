@@ -13,11 +13,15 @@ module SByC
             name, = runner.ensure_args(args[0..0], call_signature(runner, args, binding), binding){
               call_error(runner, args, binding)
             }
-            runner.with_namespace(name, true){
-              args.each{|arg|
-                runner.evaluate(arg, binding)
+            if args.size == 1
+              runner.with_namespace(name, true)
+            else
+              runner.with_namespace(name, true){
+                args.each{|arg|
+                  runner.evaluate(arg, binding)
+                }
               }
-            }
+            end
           end
           
         end # class NamespaceCallable

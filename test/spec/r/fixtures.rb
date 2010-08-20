@@ -29,7 +29,6 @@ module SByC
         DATES.each(&block)
         SYMBOLS.each(&block)
         REGEXPS.each(&block)
-        MODULES.each(&block)
         DOMAINS.each(&block)
       end
       

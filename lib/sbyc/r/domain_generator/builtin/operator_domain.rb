@@ -11,7 +11,7 @@ class SByC::R::DomainGenerator::Builtin
       end
 
       def parse_literal(str)
-        raise NotImplementedError
+        __not_a_literal__!(self, str)
       end
 
       def to_literal(value)
