@@ -46,8 +46,7 @@ class SByC::R::DomainGenerator::Builtin
     end
 
     def to_literal(value)
-      name = value.domain_name.to_s
-      (name =~ /^SByC::R::(.*)$/) ? $1 : name
+      value.domain_name.to_s
     end
       
     def call_signature(runner, args, binding)

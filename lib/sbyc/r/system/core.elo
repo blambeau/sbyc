@@ -1,0 +1,22 @@
+(namespace "core"
+
+  (def :Alpha,      (BuiltinDomain :Alpha))
+  (def :Domain,     (BuiltinDomain :Domain     Alpha))
+  (def :Expression, (BuiltinDomain :Expression Alpha))
+  (def :Boolean,    (BuiltinDomain :Boolean    Alpha))
+  (def :Symbol,     (BuiltinDomain :Symbol     Alpha))
+  (def :Numeric,    (BuiltinDomain :Numeric    Alpha))
+  (def :Integer,    (BuiltinDomain :Integer    Numeric))
+  (def :Float,      (BuiltinDomain :Float      Numeric))
+  (def :Regexp,     (BuiltinDomain :Regexp     Alpha))
+  (def :Date,       (BuiltinDomain :Date       Alpha))
+  (def :Time,       (BuiltinDomain :Time       Alpha))
+  (def :Heading,    (BuiltinDomain :Heading    Alpha))
+  (def :Operator,   (BuiltinDomain :Operator   Alpha))
+  (def :Array,      (ArrayDomain   Alpha))
+  (def :String,     (BuiltinDomain :String     Alpha))
+
+  (def :operator    &(def $0 (Operator $1 $2 $3)))
+
+)
+

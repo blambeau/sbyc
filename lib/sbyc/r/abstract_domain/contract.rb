@@ -3,6 +3,9 @@ module SByC
     module AbstractDomain
       module Contract
 
+        # Name of this domain inside a runner
+        attr_accessor :sbyc_name
+
         #######################################################################
         ### About the domain generator and delegation to it
         #######################################################################
@@ -131,11 +134,6 @@ module SByC
           raise NotImplementedError, "Class #{self} should implement to_literal"
         end
       
-        #
-        # Inspects this domain, returning a valid R expression.
-        #
-        def inspect; to_s end
-        
       end # module Contract
     end # module AbstractDomain
   end # module R

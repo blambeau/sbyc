@@ -46,6 +46,17 @@ class SByC::R::DomainGenerator::Builtin
         end
       end
     
+      def call_signature(runner, args, binding)
+        if args.size == 1
+          [ [ ::Array ] ]
+        elsif args.size % 2 == 0
+          name, domain = runner.fed(:Symbol), runner.fed(:Domain)
+          Array.new(args.size).fill{|index| index%2 == 0 ? [ symbol ] : [ domain ]}
+        else
+          call_error(runner, args, binding)
+        end
+      end
+    
       def to_names_and_domains(runner, args, binding, &error_handler)
         names, domains = [], []
         args.each_slice(2){|name, type|
@@ -102,6 +113,15 @@ class SByC::R::DomainGenerator::Builtin
         else
           res
         end
+      end
+      
+      def to_binding(runner, args, binding)
+        args = runner.ensure_args(args, domains.collect{|c| [c]}, binding){
+          runner.__signature_mistmatch__!(self, args)
+        }
+        b = {}
+        names.zip(args).each{|name, arg| b[name] = arg}
+        b
       end
       
       def to_hash

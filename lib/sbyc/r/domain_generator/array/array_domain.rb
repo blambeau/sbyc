@@ -26,8 +26,8 @@ class SByC::R::DomainGenerator::Array
     end
   
     def to_literal(value)
-      literals = value.collect{|x| system::Alpha.domain_of(x).to_literal(x)}
-      "(Array " + literals.join(', ') + ")"
+      literals = value.collect{|x| system.fed(:Alpha).domain_of(x).to_literal(x)}
+      "[" + literals.join(', ') + "]"
     end
   
     def coerce(x)

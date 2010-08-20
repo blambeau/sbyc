@@ -76,7 +76,8 @@ class SByC::R::DomainGenerator::Builtin
       end
       
       def sbyc_call(runner, args, binding)
-        runner.evaluate(ast, to_binding(args))
+        b = binding.merge(to_binding(args))
+        runner.evaluate(ast, b)
       end
       
       def to_s

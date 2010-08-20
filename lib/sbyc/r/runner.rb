@@ -1,22 +1,34 @@
+require 'sbyc/r/system/core'
 module SByC
   module R
     class Runner
       include R::Robustness
       
+      # Opened namespaces
+      attr_reader :opened_namespaces
+      
       # Creates a runner instance
       def initialize
-        @definitions = {}
-        __install__
+        @opened_namespaces = [ R::System::Core.new(self) ]
+      end
+
+      # Pushes a namespace
+      def push_namespace(namespace)
+        opened_namespaces.push(namespace)
+      end
+      
+      # Pops the last namespace
+      def pop_namespace
+        opened_namespaces.pop
+      end
+      
+      # Peeks the namespace at top
+      def peek_namespace
+        opened_namespaces.last
       end
       
       def each_global(&block)
-        @definitions.each_pair(&block)
-      end
-      
-      # Installs the runner
-      def __install__
-        self.def(:BuiltinDomain, R::DomainGenerator::Builtin.new(self))
-        self.def(:ArrayDomain,   R::DomainGenerator::Array.new(self))
+        peek_namespace.each_pair(&block)
       end
       
       def looks_a_domain?(d)
@@ -25,21 +37,20 @@ module SByC
       
       # Makes a definition
       def def(name, what)
-        @definitions[name] = what
-        if looks_a_domain?(what)
-          what.instance_eval{ @sbyc_name = name }
-        end
-        what
+        peek_namespace.def(name, what)
       end
       
       # Gets a definition
       def fed(name)
-        @definitions[name]
+        opened_namespaces.reverse.each{|n|
+          return n.fed(name) if n.knows?(name)
+        }
+        nil
       end
       
       # Checks if a definition is known
       def knows?(name)
-        @definitions.key?(name)
+        opened_namespaces.any?{|n| n.knows?(name)}
       end
       
       # Makes an evaluation
@@ -54,12 +65,14 @@ module SByC
             # Resolving a variable name
             when :'?'  
               var_name = node.literal
-              if binding.has_key?(var_name)
+              if var_name == :self
+                self
+              elsif binding.has_key?(var_name)
                 binding[var_name]
               elsif knows?(var_name)
                 fed(var_name)
               else
-                self_call(var_name, [], binding)
+                __undefined_operator__!(var_name, [])
               end
             
             # Making a private call
@@ -72,7 +85,7 @@ module SByC
                   __not_a_callable_error__!(got)
                 end
               else
-                self_call(f, node.children.dup, binding)
+                __undefined_operator__!(f, node.children)
               end
           end
         else
@@ -91,7 +104,11 @@ module SByC
         elsif accepted_domains.size == 1
           requested_domain = accepted_domains.first
           if looks_a_domain?(requested_domain)
-            requested_domain.sbyc_call(self, [ arg ], binding)
+            if requested_domain.is_value?(arg)
+              arg
+            else
+              requested_domain.sbyc_call(self, [ arg ], binding)
+            end
           else
             error_handler.call
           end
@@ -115,42 +132,7 @@ module SByC
           }
         end
       end
-      
-      # Makes a direct call to a callable
-      def call(callable, args, binding = {})
-        evaluate(callable, binding).sbyc_call(self, args, binding)
-      end
-      
-      # Making a self call
-      def self_call(function, args, binding)
-        error_handler = lambda{ __signature_mistmatch__!(function, args) }
-        case function
-          when :self
-            self
             
-          when :def
-            name, value = ensure_args(args, [ [::Symbol], [] ], binding, &error_handler)
-            self.def(name, value)
-            
-          when :fed
-            name, = ensure_args(args, [ [ ::Symbol ] ], binding, &error_handler)
-            self.fed(name)
-            
-          when :call
-            who, arguments = ensure_args(args, [ [ ], [ ::Array ] ], binding, &error_handler)
-            who = who.kind_of?(::Symbol) ? fed(who) : who 
-            __assert_callable__!(who).sbyc_call(self, arguments, {})
-            
-          when :'ruby-send'
-            method, receiver = ensure_args(args[0..1], [ [::Symbol ], [ ] ], binding, &error_handler)
-            call_args = args[2..-1].collect{|arg| ensure_arg(arg, [], binding)}
-            receiver.send(method, *call_args)
-            
-          else
-            __undefined_operator__!(function, args)
-        end
-      end
-      
     end # class Runner
   end # module R
 end # module SByC

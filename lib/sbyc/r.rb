@@ -19,7 +19,9 @@ module SByC
       exprs  = parse(File.read(File.expand_path('../r/core.el', __FILE__)), :multiline => true)
       exprs.each{|expr| value = runner.evaluate(expr) }
       runner.each_global{|name, global|
-        const_set(name, global)
+        if name.to_s =~ /^[A-Z]/
+          const_set(name, global)
+        end
       }
     end
     
@@ -49,4 +51,5 @@ module SByC
     extend(R)
   end # module R
 end # module SByC
+require 'sbyc/r/namespace'
 require 'sbyc/r/runner'
