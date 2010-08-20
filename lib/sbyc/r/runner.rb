@@ -107,13 +107,12 @@ module SByC
       # Makes a call
       def make_call(callable, args, binding)
         callable = __assert_callable__!(callable)
-        unless callable.respond_to?(:call_signature)
-          puts "WARNING #{callable.to_s} does not have call signature"
+        if callable.works_on_ast?
+          callable.sbyc_call(self, args, binding)
+        else
+          args = args.collect{|arg| evaluate(arg, binding)}
+          callable.sbyc_call(self, args, binding)
         end
-        unless callable.kind_of?(R::Callable)
-          puts "WARNING #{callable.to_s} does not have Callable"
-        end
-        callable.sbyc_call(self, args, binding)
       end
     
       # Makes an evaluation

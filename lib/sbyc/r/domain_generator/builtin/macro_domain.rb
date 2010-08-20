@@ -20,6 +20,10 @@ class SByC::R::DomainGenerator::Builtin
         value.to_s
       end
     
+      def works_on_ast?
+        true
+      end
+      
       def call_signature(runner, args, binding)
         @call_signature ||= [ [ CodeTree::AstNode ] ]
       end
@@ -64,6 +68,10 @@ class SByC::R::DomainGenerator::Builtin
           end
         }
         runner.fed(:Expression).new(result)
+      end
+      
+      def works_on_ast?
+        true
       end
       
       def sbyc_call(runner, args, binding)

@@ -51,7 +51,7 @@ class SByC::R::DomainGenerator::Builtin
       end
       
       def to_s
-        "(Operator #{heading} #{expression})"
+        "(Operator #{heading} #{returns.to_s} #{expression})"
       end
       
     end # module InstanceMethods

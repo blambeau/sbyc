@@ -2,6 +2,10 @@ module SByC
   module R
     module Callable
       
+      def works_on_ast?
+        false
+      end
+      
       def call_error(runner, args, binding)
         runner.__signature_mistmatch__!(self, args)
       end

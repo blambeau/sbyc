@@ -11,6 +11,7 @@ module SByC
           
           def coerce(runner, args, binding)
             puts runner.fed(:Alpha).domain_of(args.first).to_literal(args.first)
+            args.first
           end
           
         end # class PutsCallable
