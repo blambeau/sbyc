@@ -20,7 +20,7 @@ end
 if ARGV.size >= 1
   ARGV.each{|file|
     puts "Running #{file}"
-    $runner.file_execute(ARGV[0])
+    $runner.file_execute(file)
   }
   puts "All seems ok"
 else

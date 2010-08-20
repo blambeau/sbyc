@@ -2,13 +2,11 @@ class SByC::R::DomainGenerator::Builtin
   module HeadingDomain
     module ClassMethods
     
-      def selector_signature
-        s = SByC::R::Operator::Signature
-        @selector_signature ||= s::star(s::matcher(system::Symbol, system::Domain))
-      end
- 
       def exemplars
-        [ self.new(:name => system::String, :age => system::Integer) ]
+        [ "(Heading)",
+          "(Heading :name String)"].collect{|src|
+          system.evaluate(system.parse(src))
+        }
       end
     
       def is_value?(value)

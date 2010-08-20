@@ -62,7 +62,7 @@ module SByC
         alias :is_super_domain_of? :has_sub_domain?
       
         def has_proper_sub_domain?(sub_domain)
-          (self != sub_domain) && has_sub_domain?(super_domain)
+          (self != sub_domain) && has_sub_domain?(sub_domain)
         end
         alias :is_proper_super_domain_of? :has_proper_sub_domain?
         

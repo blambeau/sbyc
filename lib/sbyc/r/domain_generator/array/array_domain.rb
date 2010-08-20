@@ -4,8 +4,16 @@ class SByC::R::DomainGenerator::Array
     # Array of what?
     attr_accessor :of_domain
     
+    def domain_name
+      @sbyc_name ||= :"Array<#{of_domain.domain_name}>"
+    end
+    
     def exemplars
-      [ coerce( [ 12 ] ) ]
+      if of_domain == system.fed(:Alpha)
+        [ [ true, 12, [ "hello" "world" ] ] ]
+      else
+        [ of_domain.exemplars ]
+      end
     end
 
     def is_value?(value)

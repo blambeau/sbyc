@@ -15,6 +15,7 @@ module SByC
         @namespaces = {:core => R::System::Core.new(self)}
         @opened_namespaces = [ @namespaces[:core] ]
         file_execute(File.expand_path('../system/core.elo', __FILE__))
+        file_execute(File.expand_path('../system/domain.elo', __FILE__))
         file_execute(File.expand_path('../system/boolean.elo', __FILE__))
         file_execute(File.expand_path('../system/numeric.elo', __FILE__))
         file_execute(File.expand_path('../system/string.elo', __FILE__))

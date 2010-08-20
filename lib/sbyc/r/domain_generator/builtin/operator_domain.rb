@@ -3,7 +3,9 @@ class SByC::R::DomainGenerator::Builtin
     module ClassMethods
       
       def exemplars
-        [  ]
+        [ '(Operator (Heading :who String) String &(concat ["hello " who]))' ].collect{|src|
+          system.evaluate(system.parse(src))
+        }
       end
     
       def is_value?(value)

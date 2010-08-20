@@ -3,7 +3,9 @@ class SByC::R::DomainGenerator::Builtin
     module ClassMethods
     
       def exemplars
-        []
+        [ '(Macro (Array $0 $1))' ].collect{|src|
+          system.evaluate(system.parse(src))
+        }
       end
     
       def is_value?(value)

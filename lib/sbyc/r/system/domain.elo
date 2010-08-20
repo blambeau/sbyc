@@ -1,0 +1,41 @@
+(namespace :Domain)
+
+(defop :"domain-exemplars"
+       (Heading :operand Domain)
+       Array
+       (ruby-send :exemplars operand))
+
+(defop :"domain-of"
+       (Heading :operand Alpha)
+       Domain
+       (ruby-send :domain_of Alpha operand))
+
+(defop :"domain-name"
+       (Heading :operand Domain)
+       Symbol
+       (ruby-send :domain_name operand))
+       
+(defop :"is-a?" 
+       (Heading :domain Domain :operand Alpha)
+       Boolean
+       (ruby-send :is_value? domain operand))
+
+(defop :"is-sub-domain-of?"
+       (Heading :subdomain Domain :domain Domain)
+       Boolean
+       (ruby-send :is_sub_domain_of? subdomain domain))
+
+(defop :"is-proper-sub-domain-of?"
+       (Heading :subdomain Domain :domain Domain)
+       Boolean
+       (ruby-send :is_proper_sub_domain_of? subdomain domain))
+
+(defop :"is-super-domain-of?"
+       (Heading :superdomain Domain :domain Domain)
+       Boolean
+       (ruby-send :is_super_domain_of? superdomain domain))
+
+(defop :"is-proper-super-domain-of?"
+       (Heading :superdomain Domain :domain Domain)
+       Boolean
+       (ruby-send :is_proper_super_domain_of? superdomain domain))

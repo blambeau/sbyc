@@ -2,12 +2,15 @@ class SByC::R::DomainGenerator::Builtin
   module ExpressionDomain
     module ClassMethods
     
-      EXAMPLAR_CODES = [
-        "(Expression (Boolean true))"
+      EXEMPLAR_SOURCES = [
+        "&'hello'",
+        '&(puts "hello world")'
       ]
     
       def exemplars
-        EXAMPLAR_CODES.collect{|str| parse_literal(str)}
+        EXEMPLAR_SOURCES.collect{|source|
+          system.evaluate(system.parse(source))
+        }
       end
     
       def is_value?(value)
@@ -81,7 +84,7 @@ class SByC::R::DomainGenerator::Builtin
       end
       
       def to_s
-        "(Expression #{ast.to_s})"
+        "&#{ast.to_s}"
       end
       alias :inspect :to_s
       

@@ -25,6 +25,20 @@ describe "CodeTree::Parsing::TextParser#parse_variable_literal" do
     }
   end
   
+  describe "with $1" do
+    let(:text){ "is-a!" }
+    specify{ 
+      subject.should == CodeTree::AstNode.new(:'?', [CodeTree::AstNode.new(:_, [:'is-a!'])])
+    }
+  end
+  
+  describe "with $1" do
+    let(:text){ "is-a?" }
+    specify{ 
+      subject.should == CodeTree::AstNode.new(:'?', [CodeTree::AstNode.new(:_, [:'is-a?'])])
+    }
+  end
+  
   ["true", 'false', "12", "(a"].each{|t|
     describe "on current index and #{t}" do
       let(:text){ t }
