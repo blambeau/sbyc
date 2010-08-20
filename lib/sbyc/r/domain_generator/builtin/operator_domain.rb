@@ -32,6 +32,7 @@ class SByC::R::DomainGenerator::Builtin
 
     end # module ClassMethods
     module InstanceMethods
+      include SByC::R::Callable::SignatureBased
       
       attr_reader :heading
       attr_reader :returns
@@ -41,9 +42,12 @@ class SByC::R::DomainGenerator::Builtin
         @heading, @returns, @expression = heading, returns, expression
       end
       
-      def sbyc_call(runner, args, binding)
-        b = heading.to_binding(runner, args, binding)
-        expression.sbyc_call(runner, [], b)
+      def call_signature(runner, args, binding)
+        @call_signature ||= heading.to_call_signature(runner, args, binding)
+      end
+      
+      def coerce(runner, args, binding)
+        runner.make_call(expression, [], heading.to_binding(runner, args, binding))
       end
       
       def to_s

@@ -21,7 +21,7 @@ class SByC::R::DomainGenerator::Builtin
       end
     
       def call_signature(runner, args, binding)
-        [ [ CodeTree::AstNode ] ]
+        @call_signature ||= [ [ CodeTree::AstNode ] ]
       end
       
       def coerce(runner, args, binding)
@@ -35,9 +35,7 @@ class SByC::R::DomainGenerator::Builtin
       
     end
     module InstanceMethods
-      
-      # The asbtract syntax tree
-      attr_reader :ast
+      include SByC::R::Callable::AstBased
       
       # Creates a macro instance
       def initialize(ast)
@@ -50,7 +48,8 @@ class SByC::R::DomainGenerator::Builtin
             when :_
               node
             when :'?'
-              if node.literal.to_s =~ /^\$(\d+)$/
+              if looks_an_unbounded_variable?(node.literal)
+                node.literal.to_s =~ /^\$(\d+)$/
                 arg = args[$1.to_i]
                 if arg.kind_of?(CodeTree::AstNode)
                   arg
@@ -68,7 +67,7 @@ class SByC::R::DomainGenerator::Builtin
       end
       
       def sbyc_call(runner, args, binding)
-        expand(args, runner).sbyc_call(runner, [], binding)
+        runner.make_call(expand(args, runner), [], binding)
       end
       
       def to_s

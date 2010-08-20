@@ -17,7 +17,7 @@ class SByC::R::DomainGenerator::Builtin
           when :fed
             system.fed(collected[0])
           else
-            system.fed(f).sbyc_call(system, collected, {})
+            system.make_call(system.fed(f), collected, {})
         end
       }
     rescue => ex
@@ -58,7 +58,8 @@ class SByC::R::DomainGenerator::Builtin
       'Bignum'     => :Integer,
       'FalseClass' => :Boolean,
       'TrueClass'  => :Boolean,
-      'Array'      => :Array
+      'Array'      => :Array,
+      'SByC::CodeTree::AstNode' => :Ast
     }
     def coerce(runner, args, binding)
       case f = args.first

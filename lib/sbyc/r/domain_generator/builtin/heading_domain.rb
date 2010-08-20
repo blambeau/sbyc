@@ -113,6 +113,10 @@ class SByC::R::DomainGenerator::Builtin
         end
       end
       
+      def to_call_signature(runner, args, binding)
+        domains.collect{|c| [ c ]}
+      end
+      
       def to_binding(runner, args, binding)
         args = runner.ensure_args(args, domains.collect{|c| [c]}, binding){
           runner.__signature_mistmatch__!(self, args)

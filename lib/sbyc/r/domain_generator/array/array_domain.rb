@@ -7,6 +7,8 @@ class SByC::R::DomainGenerator::Array
     def domain_name
       @sbyc_name ||= :"Array<#{of_domain.domain_name}>"
     end
+    alias :name :domain_name
+    alias :to_s :domain_name
     
     def exemplars
       if of_domain == system.fed(:Alpha)

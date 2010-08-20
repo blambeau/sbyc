@@ -3,10 +3,10 @@ module SByC
     module System
       class Core
         class DefCallable
-          include R::Callable
+          include R::Callable::SignatureBased
           
           def call_signature(runner, args, binding)
-            @call_signature ||= [ [::Symbol], [] ]
+            @call_signature ||= [ [::Symbol], [ ] ]
           end
           
           def coerce(runner, args, binding)

@@ -3,6 +3,7 @@
 # Core domains
 (def :Alpha,      (BuiltinDomain :Alpha))
 (def :Domain,     (BuiltinDomain :Domain     Alpha))
+(def :Ast,        (BuiltinDomain :Ast        Alpha))
 (def :Expression, (BuiltinDomain :Expression Alpha))
 (def :Macro,      (BuiltinDomain :Macro      Alpha))
 (def :Boolean,    (BuiltinDomain :Boolean    Alpha))
@@ -19,13 +20,12 @@
 (def :String,     (BuiltinDomain :String     Alpha))
 
 # Macros
-(def :defmacro    
-     (Macro (def $0 (Macro $1))))
-(def :macroexpand 
-     &(ruby-send :expand $0 $1))
+(def :defmacro (Macro (def $0 (Macro $1))))
 
 # Operators
 (defmacro :defop (def $0 (Operator $1 $2 (Expression $3))))
+
+(def :macroexpand &(ruby-send :expand $0 $1))
 
 # Ruby wrapping
 (defmacro :"wrap-ruby-unary-operator"

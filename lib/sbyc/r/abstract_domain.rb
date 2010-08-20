@@ -6,7 +6,7 @@ module SByC
       include R::Robustness
       include R::AbstractDomain::Contract
       include R::AbstractDomain::Hierarchy
-      include R::Callable
+      include R::Callable::SignatureBased
     end
   end
 end

@@ -4,13 +4,14 @@ module SByC
       class Core < R::Namespace
         
         def initialize(runner)
-          super(runner, :core)
+          super(runner, :Core)
           
           # Domain generators
           self.def(:BuiltinDomain, R::DomainGenerator::Builtin.new(runner))
           self.def(:ArrayDomain,   R::DomainGenerator::Array.new(runner))
           
           # Special ops
+          self.def(:parse,       Core::ParseCallable.new)
           self.def(:def,         Core::DefCallable.new)
           self.def(:fed,         Core::FedCallable.new)
           self.def(:call,        Core::CallCallable.new)
@@ -23,6 +24,7 @@ module SByC
     end # module System
   end # module R
 end # module SByC
+require "sbyc/r/system/core/parse_callable"
 require "sbyc/r/system/core/def_callable"
 require "sbyc/r/system/core/fed_callable"
 require "sbyc/r/system/core/call_callable"

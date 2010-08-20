@@ -2,18 +2,18 @@ module SByC
   module R
     module System
       class Core
-        class PutsCallable
+        class ParseCallable
           include R::Callable::SignatureBased
           
           def call_signature(runner, args, binding)
-            @call_signature ||= [ [ ] ]
+            @call_signature ||= [ [ CodeTree::AstNode ] ]
           end
           
           def coerce(runner, args, binding)
-            puts runner.fed(:Alpha).domain_of(args.first).to_literal(args.first)
+            args.first
           end
           
-        end # class PutsCallable
+        end # class ParseCallable
       end # class Core
     end # module System
   end # module R

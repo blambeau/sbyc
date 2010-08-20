@@ -12,9 +12,10 @@ module SByC
       
       # Creates a runner instance
       def initialize
-        @namespaces = {:core => R::System::Core.new(self)}
-        @opened_namespaces = [ @namespaces[:core] ]
+        @namespaces = {:Core => R::System::Core.new(self)}
+        @opened_namespaces = [ @namespaces[:Core] ]
         file_execute(File.expand_path('../system/core.elo', __FILE__))
+        file_execute(File.expand_path('../system/macro.elo', __FILE__))
         file_execute(File.expand_path('../system/domain.elo', __FILE__))
         file_execute(File.expand_path('../system/boolean.elo', __FILE__))
         file_execute(File.expand_path('../system/numeric.elo', __FILE__))
@@ -76,7 +77,9 @@ module SByC
       
       # Checks if a definition is known
       def knows?(name)
-        opened_namespaces.any?{|n| n.knows?(name)}
+        opened_namespaces.any?{|n| 
+          n.knows?(name)
+        }
       end
       
       ### Parsing and execution
@@ -100,12 +103,26 @@ module SByC
         exprs.each{|expr| result = evaluate(expr)}
         result
       end
+      
+      # Makes a call
+      def make_call(callable, args, binding)
+        callable = __assert_callable__!(callable)
+        unless callable.respond_to?(:call_signature)
+          puts "WARNING #{callable.to_s} does not have call signature"
+        end
+        unless callable.kind_of?(R::Callable)
+          puts "WARNING #{callable.to_s} does not have Callable"
+        end
+        callable.sbyc_call(self, args, binding)
+      end
     
       # Makes an evaluation
       def evaluate(node, binding = {})
         unless node.kind_of?(CodeTree::AstNode)
           node
         else
+          #puts "Evaluating #{node.function} with #{@opened_namespaces.join(', ')}"
+          #puts knows?(node.function)
           case f = node.function
 
             # Resolving a true literal
@@ -128,12 +145,7 @@ module SByC
             # Making a private call
             else
               if knows?(f)
-                got = fed(f)
-                if got.respond_to?(:sbyc_call)
-                  got.sbyc_call(self, node.children.dup, binding)
-                else
-                  __not_a_callable_error__!(got)
-                end
+                make_call(fed(f), node.children.dup, binding)
               else
                 __undefined_operator__!(f, node.children)
               end
@@ -165,7 +177,7 @@ module SByC
             if requested_domain.is_value?(arg)
               arg
             else
-              requested_domain.sbyc_call(self, [ arg ], binding)
+              make_call(requested_domain, [ arg ], binding)
             end
           else
             error_handler.call

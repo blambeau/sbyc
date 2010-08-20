@@ -1,7 +1,7 @@
 module SByC
   module R
     class DomainGenerator
-      include R::Callable
+      include R::Callable::SignatureBased
       
       # System under which this generator is installed
       attr_reader :system

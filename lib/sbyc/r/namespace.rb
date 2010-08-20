@@ -32,6 +32,10 @@ module SByC
         @defs[name]
       end
       
+      def to_s
+        "(Namespace #{name.inspect})"
+      end
+      
     end # class Namespace
   end # module R
 end # module SByC

@@ -114,7 +114,9 @@ module SByC
       end
       
       def __assert_callable__!(who, cal = caller)
-        __not_a_callable_error__!(who, cal) unless who.respond_to?(:sbyc_call)
+        unless who.kind_of?(R::Callable) && who.respond_to?(:sbyc_call)
+          __not_a_callable_error__!(who, cal) 
+        end
         who
       end
   

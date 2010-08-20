@@ -27,6 +27,7 @@ module SByC
     end # class DomainGenerator
   end # module R
 end # module SByC
+require 'sbyc/r/domain_generator/builtin/ast_domain'
 require 'sbyc/r/domain_generator/builtin/alpha_domain'
 require 'sbyc/r/domain_generator/builtin/domain_domain'
 require 'sbyc/r/domain_generator/builtin/boolean_domain'

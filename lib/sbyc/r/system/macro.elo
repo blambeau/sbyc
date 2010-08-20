@@ -1,0 +1,6 @@
+(namespace :Macro)
+
+(defop :macroarity  
+       (Heading :macro Macro)
+       Integer
+       (ruby-send :arity macro))

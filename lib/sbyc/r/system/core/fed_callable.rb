@@ -3,7 +3,7 @@ module SByC
     module System
       class Core
         class FedCallable
-          include R::Callable
+          include R::Callable::SignatureBased
           
           def call_signature(runner, args, binding)
             @call_signature ||= [ [::Symbol] ]
