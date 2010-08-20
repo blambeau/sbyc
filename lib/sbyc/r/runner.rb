@@ -4,13 +4,20 @@ module SByC
     class Runner
       include R::Robustness
       
+      # All loaded namespaces
+      attr_reader :namespaces
+      
       # Opened namespaces
       attr_reader :opened_namespaces
       
       # Creates a runner instance
       def initialize
-        @opened_namespaces = [ R::System::Core.new(self) ]
+        @namespaces = {:core => R::System::Core.new(self)}
+        @opened_namespaces = [ @namespaces[:core] ]
+        file_execute(File.expand_path('../system/core.elo', __FILE__))
       end
+      
+      ### About namespaces ####################################################
 
       # Pushes a namespace
       def push_namespace(namespace)
@@ -27,14 +34,24 @@ module SByC
         opened_namespaces.last
       end
       
-      def each_global(&block)
-        peek_namespace.each_pair(&block)
+      # Yields a block ensuring that a given namespace is on top of 
+      # the stack
+      def with_namespace(name, create = true, &block)
+        if namespaces.key?(name)
+          n = namespaces[name]
+          push_namespace(n)
+          block.call(n)
+          pop_namespace
+        elsif create
+          namespaces[name] = Namespace.new(self, name)
+          with_namespace(name, false, &block)
+        else
+          __no_such_namespace__!(name)
+        end
       end
       
-      def looks_a_domain?(d)
-        d.kind_of?(::Class) && d.respond_to?(:sbyc_domain)
-      end
-      
+      ### Namespace delegation ################################################
+
       # Makes a definition
       def def(name, what)
         peek_namespace.def(name, what)
@@ -53,6 +70,26 @@ module SByC
         opened_namespaces.any?{|n| n.knows?(name)}
       end
       
+      ### Parsing and execution
+      
+      # Parses some code and returns an Ast
+      def parse(code, options = nil, &block)
+        code = code || block
+        if code.kind_of?(CodeTree::AstNode)
+          code
+        elsif code.kind_of?(Proc)
+          CodeTree::parse(code, options)
+        else
+          R::Parser.new(code).parse(options || {})
+        end
+      end
+      
+      # Executes a whole file
+      def file_execute(file)
+        exprs = parse(File.read(file), {:multiline => true})
+        exprs.each{|expr| value = evaluate(expr) }
+      end
+    
       # Makes an evaluation
       def evaluate(node, binding = {})
         if node.kind_of?(CodeTree::AstNode)
@@ -91,6 +128,16 @@ module SByC
         else
           node
         end
+      end
+      
+      ### Tools
+      
+      def each_global(&block)
+        peek_namespace.each_pair(&block)
+      end
+      
+      def looks_a_domain?(d)
+        d.kind_of?(::Class) && d.respond_to?(:sbyc_domain)
       end
       
       # Ensures that a given argument is of specified accepted domains

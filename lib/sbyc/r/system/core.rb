@@ -14,6 +14,7 @@ module SByC
           self.def(:def,         Core::DefCallable.new)
           self.def(:fed,         Core::FedCallable.new)
           self.def(:call,        Core::CallCallable.new)
+          self.def(:namespace,   Core::NamespaceCallable.new)
           self.def(:'ruby-send', Core::RubySendCallable.new)
         end
         
@@ -25,3 +26,4 @@ require "sbyc/r/system/core/def_callable"
 require "sbyc/r/system/core/fed_callable"
 require "sbyc/r/system/core/call_callable"
 require "sbyc/r/system/core/ruby_send_callable"
+require "sbyc/r/system/core/namespace_callable"

@@ -25,6 +25,8 @@ module SByC
       
       # Raised when an operator cannot be found
       class ::SByC::UndefinedOperatorError < ::SByC::Error; end
+      
+      class ::SByC::NoSuchNamespaceError < ::SByC::Error; end
   
       # Raised when an assertion fails
       class ::SByC::AssertionError < ::SByC::Error; end
@@ -84,6 +86,10 @@ module SByC
       
       def __undefined_operator__!(operator, args, cal = caller)
         raise ::SByC::UndefinedOperatorError, "Undefined operator (#{operator} #{args.join(', ')})", cal
+      end
+      
+      def __no_such_namespace__!(name)
+        raise ::SByC::NoSuchNamespaceError, "Undefined namespaces #{name}"
       end
       
       def __signature_mistmatch__!(function, args, cal = caller)

@@ -1,4 +1,4 @@
-(namespace "core"
+(namespace :core
 
   (def :Alpha,      (BuiltinDomain :Alpha))
   (def :Domain,     (BuiltinDomain :Domain     Alpha))
@@ -19,4 +19,3 @@
   (def :operator    &(def $0 (Operator $1 $2 $3)))
 
 )
-
