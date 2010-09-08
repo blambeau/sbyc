@@ -1,0 +1,19 @@
+# Create an assertion operator
+(defmacro :eq!     (ruby-send :__equal__!     self $0 $1))
+(defmacro :neq!    (ruby-send :__not_equal__! self $0 $1))
+(defmacro :'is-a!' (eq! true (is-a? $0 $1)))
+
+# (+ Numeric Numeric)
+(eq! 3 (+ 1 2))
+(eq! 3.0 (+ 1.0 2))
+(eq! 3.0 (+ 1 2.0))
+
+# (- Numeric Numeric)
+(eq! 1 (- 3 2))
+(eq! 1.0 (- 3.0 2))
+(eq! 1.0 (- 3 2.0))
+
+# (* Numeric Numeric)
+(eq! 6 (* 2 3))
+(eq! 6.0 (* 2.0 3))
+(eq! 6.0 (* 2 3.0))

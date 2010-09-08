@@ -1,0 +1,58 @@
+# Create an assertion operator
+(defmacro :eq!     (ruby-send :__equal__!     self $0 $1))
+(defmacro :neq!    (ruby-send :__not_equal__! self $0 $1))
+(defmacro :'is-a!' (eq! true (is-a? $0 $1)))
+
+# Check the string domain
+(eq! "hello" (String "hello"))
+(eq! "12"    (String 12))
+
+# (at String Integer)
+(eq! "h", (at "hello" 0))
+(eq! "e", (at "hello" 1))
+
+# (capitalize String)
+(eq! "Hello" (capitalize "hello"))
+
+# (downcase String)
+(eq! "hello" (downcase "HELLO"))
+
+# (center String Integer)
+(eq! "  hello  " (center "hello" 9))
+(eq! "hello" (center "hello" 1))
+
+# (concat Array<String>)
+(eq! "hello world" (concat ["hello", " ", "world"]))
+
+# (empty? String)
+(eq! true (empty? ""))
+(eq! false (empty? "hello"))
+
+# (include? String String)
+(eq! true (include? "hello" "ll"))
+(eq! false (include? "hello" "a"))
+
+# (length String)
+(eq! 0, (length ""))
+(eq! 5, (length "hello"))
+
+# (matches? String Regexp)
+(eq! true (matches? "hello" /ll/))
+(eq! false (matches? "hello" /a/))
+
+# (reverse String)
+(eq! "olleh" (reverse "hello"))
+
+# (rstrip String)
+(eq! "  hello" (rstrip "  hello     "))
+
+# (strip String)
+(eq! "hello" (strip "  hello     "))
+
+# (times String Integer)
+(eq! "hhh" (times "h" 3))
+(eq! "" (times "h" 0))
+
+# (upcase String)
+(eq! "HELLO" (upcase "HELLO"))
+

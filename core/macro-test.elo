@@ -1,0 +1,12 @@
+# Create an assertion operator
+(defmacro :eq!     (ruby-send :__equal__!     self $0 $1))
+(defmacro :neq!    (ruby-send :__not_equal__! self $0 $1))
+(defmacro :'is-a!' (eq! true (is-a? $0 $1)))
+
+# Checks macro
+(eq! 0 (macroarity (Macro "hello")))
+(eq! 1 (macroarity (Macro $0)))
+(eq! 1 (macroarity (Macro (Array $0 $0))))
+(eq! 2 (macroarity (Macro (Array $0 $1))))
+(eq! 2 (macroarity (Macro (Array $0 name $1))))
+

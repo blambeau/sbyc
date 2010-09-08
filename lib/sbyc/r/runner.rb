@@ -120,8 +120,6 @@ module SByC
         unless node.kind_of?(CodeTree::AstNode)
           node
         else
-          #puts "Evaluating #{node.function} with #{@opened_namespaces.join(', ')}"
-          #puts knows?(node.function)
           case f = node.function
 
             # Resolving a true literal

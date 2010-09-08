@@ -1,0 +1,20 @@
+# Create an assertion operator
+(defmacro :eq!     (ruby-send :__equal__!     self $0 $1))
+(defmacro :neq!    (ruby-send :__not_equal__! self $0 $1))
+(defmacro :'is-a!' (eq! true (is-a? $0 $1)))
+
+# (complement Boolean)
+(eq! false (complement true))
+(eq! true  (complement false))
+
+# (or Boolean Boolean)
+(eq! true (or true false))
+(eq! true (or false true))
+(eq! false (or false false))
+(eq! true (or true true))
+
+# (and Boolean Boolean)
+(eq! false (and true false))
+(eq! false (and false true))
+(eq! false (and false false))
+(eq! true (and true true))

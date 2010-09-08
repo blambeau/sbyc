@@ -1,0 +1,70 @@
+# Create an assertion operator
+(defmacro :eq!     (ruby-send :__equal__!     self $0 $1))
+(defmacro :neq!    (ruby-send :__not_equal__! self $0 $1))
+(defmacro :'is-a!' (eq! true (is-a? $0 $1)))
+
+# Checks the call operator
+(eq! (call Boolean [ 'true' ]) true)
+
+# Check the domain domain
+(eq! Boolean (Domain :Boolean))
+(eq! Boolean (Domain Boolean))
+(eq! Boolean (Domain "Boolean"))
+
+# Check the boolean domain
+(eq! true   (Boolean true))
+(eq! true   (Boolean 'true'))
+(eq! true   (Boolean (Boolean "true")))
+(eq! false  (Boolean false))
+(eq! false  (Boolean 'false'))
+(eq! false  (Boolean (Boolean "false")))
+
+# Check the symbol domain
+(eq! :symbol (Symbol :symbol))
+(eq! :symbol (Symbol (Symbol "symbol")))
+
+# Check the integer domain
+(eq! 0       (Integer 0))
+(eq! 0       (Integer "0"))
+(eq! 12      (Integer 12))
+(eq! -12     (Integer -12))
+(eq! 12      (Integer "12"))
+(eq! -12     (Integer "-12"))
+
+# Check the float domain
+(eq! 0.0     (Float 0.0))
+(eq! 0.0     (Float "0.0"))
+(eq! 12.0    (Float 12.0))
+(eq! 12.0    (Float "12.0"))
+(eq! 12.0    (Float 12))
+(eq! 12.0    (Float "12"))
+(eq! -12.0   (Float -12.0))
+(eq! -12.0   (Float "-12.0"))
+(eq! -12.0   (Float -12))
+(eq! -12.0   (Float "-12"))
+
+# Check the regexp domain
+(eq! /[a-z]/ (Regexp /[a-z]/))
+(eq! /[a-z]/ (Regexp "[a-z]"))
+
+# Check the date domain
+(eq! (Date "2008-08-19") (Date "2008-08-19"))
+
+# Check the time domain
+(eq! (Time "Thu Aug 19 11:48:52 +0200 2010") (Time "Thu Aug 19 11:48:52 +0200 2010"))
+
+# Check the heading domain
+(eq!  (Heading) (Heading))
+(neq! (Heading :name String)  (Heading))
+(eq!  (Heading :name String)  (Heading :name String))
+(neq! (Heading :name String)  (Heading :name Integer))
+(neq! (Heading :name Numeric) (Heading :name Integer))
+(eq!  (Heading :name String)  (Heading (Array :name String)))
+
+# Check the array domain
+(eq! [ 12, 13 ], (Array 12, 13))
+(eq! (ArrayDomain Integer) Array<Integer>)
+
+# Check the equality operator
+# (eq! true  (equals? true true))
+# (eq! false (equals? true false))

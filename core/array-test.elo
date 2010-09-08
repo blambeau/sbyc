@@ -1,0 +1,6 @@
+(defmacro :eq!     (ruby-send :__equal__!     self $0 $1))
+(defmacro :neq!    (ruby-send :__not_equal__! self $0 $1))
+(defmacro :'is-a!' (eq! true (is-a? $0 $1)))
+
+(is-a! Array [ 12 ])
+(eq! ["HELLO", "WORLD"] (collect [ "hello", "world" ] &(upcase $0)))
